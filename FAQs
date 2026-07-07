@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>uPull.ai — Frequently Asked Questions</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
+    :root {
+      --primary-navy: #0A192F;
+      --nhs-blue: #005EB8;
+      --accent-orange: #E65F2B;
+      --bg-light: #F8FAFC;
+      --card-bg: #ffffff;
+      --text-dark: #1E293B;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --clinical: #0d9488;
+      --operational: #ea580c;
+    }
+    body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+    header {
+      background-color: var(--primary-navy);
+      padding: 1rem 5%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--nhs-blue);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    .nav-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 0.5rem 1rem;
+    }
+    .logo { color: #fff; font-size: 1.6rem; font-weight: 800; text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent-orange); }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+    nav a {
+      color: #fff; text-decoration: none; font-weight: 500; font-size: 0.95rem;
+      transition: color 0.2s; cursor: pointer; padding: 0.25rem 0;
+    }
+    nav a:hover, nav a.active-tab { color: var(--accent-orange); }
+    .cta-btn {
+      background-color: var(--accent-orange); color: #fff; padding: 0.6rem 1.2rem; border-radius: 4px;
+      font-weight: 600; border: none; cursor: pointer; transition: background 0.2s, transform 0.1s;
+      text-decoration: none; display: inline-block; font-size: 0.9rem;
+    }
+    .cta-btn:hover { background-color: #c54f20; transform: translateY(-1px); }
+    main { max-width: 1100px; margin: 0 auto; padding: 0 5%; }
+    section { padding: 3rem 0; border-bottom: 1px solid var(--border-color); }
+    .hero {
+      background: linear-gradient(rgba(10, 25, 47, 0.92), rgba(10, 25, 47, 0.98));
+      color: #fff; border-radius: 12px; padding: 3rem 2rem; margin-top: 1rem;
+      box-shadow: 0 10px 20px -3px rgba(0,0,0,0.08);
+    }
+    .hero h1 { font-size: 2.3rem; line-height: 1.15; margin-bottom: 1rem; font-weight: 800; letter-spacing: -0.5px; }
+    .hero p { max-width: 760px; opacity: 0.92; font-size: 1.05rem; }
+    .toc {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem;
+    }
+    .toc a {
+      background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.18);
+      padding: 0.55rem 0.95rem; border-radius: 999px; font-size: 0.88rem; font-weight: 600;
+    }
+    .section-title { text-align: center; font-size: 2rem; color: var(--primary-navy); margin-bottom: 0.5rem; font-weight: 800; letter-spacing: -0.5px; }
+    .section-subtitle { text-align: center; color: var(--text-muted); font-size: 1rem; max-width: 760px; margin: 0 auto 2rem auto; }
+    .faq-layout { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; align-items: start; }
+    .faq-sidebar {
+      position: sticky; top: 92px; background: #fff; border: 1px solid var(--border-color);
+      border-radius: 10px; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+    }
+    .faq-sidebar h3 { color: var(--primary-navy); font-size: 0.95rem; margin-bottom: 0.8rem; }
+    .faq-sidebar a {
+      display: block; color: var(--text-dark); text-decoration: none; padding: 0.65rem 0.75rem;
+      border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+    }
+    .faq-sidebar a:hover { background: var(--bg-light); color: var(--nhs-blue); }
+    .faq-group { margin-bottom: 2rem; }
+    .faq-group h2 {
+      font-size: 1.35rem; color: var(--primary-navy); margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border-color);
+    }
+    .faq-item {
+      background: #fff; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 0.9rem;
+      overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    }
+    .faq-question {
+      width: 100%; text-align: left; background: #fff; border: none; cursor: pointer; padding: 1rem 1.1rem;
+      font-size: 1rem; font-weight: 700; color: var(--primary-navy); display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-question:hover { background: #fdfefe; }
+    .faq-question span:last-child {
+      color: var(--accent-orange); font-size: 1.25rem; line-height: 1; margin-left: 1rem; flex-shrink: 0;
+    }
+    .faq-answer {
+      display: none; padding: 0 1.1rem 1.1rem; color: var(--text-dark); font-size: 0.96rem;
+      border-top: 1px solid var(--border-color); background: #fff;
+    }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-question span:last-child { transform: rotate(45deg); }
+    .faq-answer p + p { margin-top: 0.8rem; }
+    .faq-answer ul { margin: 0.7rem 0 0 1.1rem; }
+    .faq-answer li { margin-bottom: 0.45rem; }
+    .contact-box {
+      background: linear-gradient(135deg, var(--nhs-blue), var(--primary-navy)); color: #fff; text-align: center;
+      border-radius: 12px; padding: 2.2rem 1.5rem;
+    }
+    .contact-box h2 { font-size: 1.7rem; margin-bottom: 0.7rem; }
+    .contact-box p { max-width: 700px; margin: 0 auto 1.2rem; opacity: 0.92; }
+    .contact-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+    .secondary-btn {
+      background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.35); padding: 0.6rem 1.1rem;
+      border-radius: 4px; text-decoration: none; font-weight: 600;
+    }
+    footer { background: #09111e; color: #94a3b8; padding: 2rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
+    @media (max-width: 900px) {
+      .faq-layout { grid-template-columns: 1fr; }
+      .faq-sidebar { position: static; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.85rem; }
+      .section-title { font-size: 1.7rem; }
+      .nav-container { flex-direction: column; align-items: stretch; }
+      nav { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">uPull<span>.ai</span></a>
+      <nav>
+        <a href="#overview">Overview</a>
+        <a href="#pilot">Pilot & ROI</a>
+        <a href="#governance">Governance</a>
+        <a href="#cases">Case Studies</a>
+        <a href="#contact">Contact</a>
+        <a href="mailto:info@upull.ai?subject=Proof%20of%20Value" class="cta-btn">Proof of Value</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="overview">
+      <h1>Frequently Asked Questions</h1>
+      <p>This FAQ is designed as a clear support hub for NHS and health and care leaders evaluating workflow redesign, proof-of-value pilots, intrapreneur development, ROI, governance, and case-study submission through uPull.ai.</p>
+      <div class="toc">
+        <a href="#about">About uPull.ai</a>
+        <a href="#pilot">Pilot & ROI</a>
+        <a href="#workflows">Workflow Delivery</a>
+        <a href="#governance">Safety & Governance</a>
+        <a href="#cases">Case Studies</a>
+        <a href="#commercial">Commercial</a>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">FAQ Library</h2>
+      <p class="section-subtitle">Organised by the real questions prospects, sponsors, operational leaders, and frontline teams typically ask before starting a pilot.</p>
+      <div class="faq-layout">
+        <aside class="faq-sidebar">
+          <h3>Jump to a section</h3>
+          <a href="#about">About uPull.ai</a>
+          <a href="#pilot">Pilot & ROI</a>
+          <a href="#workflows">Workflow Delivery</a>
+          <a href="#governance">Safety & Governance</a>
+          <a href="#cases">Case Studies & Evidence</a>
+          <a href="#commercial">Commercial & Next Steps</a>
+        </aside>
+
+        <div>
+          <div class="faq-group" id="about">
+            <h2>About uPull.ai</h2>
+
+            <div class="faq-item open">
+              <button class="faq-question"><span>What is uPull.ai?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>uPull.ai is a workflow-led approach to healthcare AI adoption that focuses on helping organisations redesign a specific operational or clinical pathway first, then pull the right AI capability into that workflow where it can create measurable value.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What does “pull” mean in practice?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>“Pull” means the workflow defines the requirement, not the other way around. Instead of pushing a generic tool into the organisation and hoping staff adapt, uPull.ai starts with a real bottleneck, defines the safety envelope, maps the people and process changes, and then introduces the AI capability needed for that job.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Who is this for?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>This is designed for NHS trusts, ICS leaders, operational executives, digital transformation teams, frontline service leads, and clinical or operational intrapreneurs who need measurable change rather than another abstract AI strategy discussion.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Is uPull.ai a software platform, a delivery model, or both?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>It should be understood first as a delivery model. The primary value comes from selecting the right workflow, creating a governed pilot, building local capability, and proving ROI with real measurements. Software and AI tooling support that process, but they are not the starting point.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-group" id="pilot">
+            <h2>Pilot & ROI</h2>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Why start with a proof-of-value pilot?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>A proof-of-value pilot reduces risk. It allows an organisation to test a narrow workflow, baseline the current state, introduce controlled change, and replace assumptions with measured evidence before discussing wider rollout.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>How long should a pilot run?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Most pilots should be short enough to maintain focus and sponsorship but long enough to generate meaningful evidence. In practice, many organisations use a 4–6 week proof-of-value window to establish baseline, workflow change, measurement, and early outcomes.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What should we measure in the ROI calculator?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>The most useful inputs are workflow-specific and operationally observable. These usually include staff time per task, number of workflow instances per week, failure or inefficiency rate, cost per failure event, expected time reduction, expected failure reduction, and year-one delivery cost.</p>
+                <ul>
+                  <li>Use actual local assumptions where possible.</li>
+                  <li>Document what is estimated versus what is measured.</li>
+                  <li>Recalculate with real pilot data before making scale decisions.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What makes an ROI case credible?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>A credible ROI case is narrow, transparent, and measurable. It identifies one workflow, one set of baseline assumptions, one accountable sponsor, and a limited number of outcome metrics that can be tracked before and after implementation.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What if the pilot does not achieve the expected return?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>That is still valuable. A disciplined pilot is meant to reveal whether the workflow, staffing model, governance design, or tooling choice needs adjustment. A negative or mixed result is often better than a large-scale rollout based on untested optimism.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-group" id="workflows">
+            <h2>Workflow Delivery</h2>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>How do we choose the right workflow to start with?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Start with a workflow that is important, repetitive, measurable, and currently painful. Good candidates usually have clear bottlenecks, visible waste, staff frustration, or financially meaningful failure events such as delays, DNAs, unnecessary admin burden, or handoff gaps.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Should we begin with clinical or operational workflows?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Either can work, but the best starting point is the one with the clearest measurable problem and the safest route to validation. Many organisations begin with operational workflows because measurement is simpler, while others start with tightly bounded clinical admin or documentation tasks with strong oversight.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What role do intrapreneurs play?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Intrapreneurs are the local change agents who understand the workflow, can translate between frontline reality and leadership objectives, and help the organisation sustain capability after the initial pilot. They are essential to long-term scaling because they make change locally meaningful and operationally grounded.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Do staff need technical expertise to participate?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>No. The key requirement is workflow knowledge, operational honesty, and willingness to test and improve. Technical specialists may support the implementation, but frontline staff and pathway owners are critical because they understand what actually happens in practice.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-group" id="governance">
+            <h2>Safety & Governance</h2>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>How is safety handled in an AI-enabled workflow?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Safety should be designed into the workflow from the start. That normally includes clearly defined human review points, escalation rules, exception handling, role accountability, and explicit boundaries around what the AI can and cannot do.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What is a safety envelope?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>A safety envelope is the set of rules, checks, approvals, and workflow controls that determine how the system is used safely in context. It should cover data handling, human oversight, decision boundaries, failure modes, and governance sign-off.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Do we need governance before starting a pilot?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Yes, but it should be proportionate. A pilot still needs clear ownership, approval routes, data handling decisions, and review checkpoints. Good governance should make safe testing possible rather than delaying every practical next step.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>How do we avoid buying technology before we understand the workflow?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>By treating workflow mapping as the first design activity. If the team cannot explain the current path, failure points, decision moments, and staffing effort, it is too early to commit to a vendor or platform choice.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-group" id="cases">
+            <h2>Case Studies & Evidence</h2>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What makes a strong case study submission?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>The strongest case studies are specific, measured, and honest. They explain the exact workflow, the baseline problem, the redesign approach, the governance model, and the observed impact without overselling.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What should a case study include?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>A useful case study usually includes:</p>
+                <ul>
+                  <li>The workflow and service context.</li>
+                  <li>The operational or clinical problem.</li>
+                  <li>The redesigned process.</li>
+                  <li>The safety and governance controls.</li>
+                  <li>The measurable result or headline impact.</li>
+                  <li>The submitter’s organisation and contact details for follow-up.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Can we submit a case study even if it is early-stage?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Yes, as long as it is clearly described as early-stage or in pilot. Early submissions can still be valuable if they explain the workflow change, the assumptions being tested, and the metrics that are being tracked.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Can case studies include both clinical and operational examples?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>Yes. The case library should show the full spectrum, including clinical productivity, operational productivity, administrative redesign, safety-focused interventions, and workflow changes that improve service resilience.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-group" id="commercial">
+            <h2>Commercial & Next Steps</h2>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>What happens after we complete the FAQ review and want to talk?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>The next step is usually a focused conversation on one priority workflow, not a broad transformation workshop. That discussion should clarify the problem, the sponsor, the measurable outcomes, and whether a proof-of-value pilot is the right next step.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>Should we contact uPull.ai before using the ROI calculator?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>You can do either. The ROI calculator is useful for structuring your internal thinking first, while an early conversation can help refine the assumptions so the numbers are more realistic and workflow-specific.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question"><span>How do we submit a question that is not covered here?</span><span>+</span></button>
+              <div class="faq-answer">
+                <p>You can send unanswered questions directly to the uPull.ai team so the FAQ can evolve over time. A strong FAQ should stay current with the real concerns people are raising, not remain static.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-box">
+        <h2>Still need help?</h2>
+        <p>If your question is specific to a workflow, pilot, case study, or governance review, contact uPull.ai directly so the team can route it to the right discussion.</p>
+        <div class="contact-actions">
+          <a href="mailto:info@upull.ai?subject=FAQ%20Enquiry" class="cta-btn">Email uPull.ai</a>
+          <a href="mailto:info@upull.ai?subject=Submit%20a%20Case%20Study" class="secondary-btn">Submit a Case Study</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>uPull.ai Ltd.</strong> • info@upull.ai</p>
+    <p style="margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.7;">Built in the same visual language as the main uPull.ai website.</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
