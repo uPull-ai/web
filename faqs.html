@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>uPull.ai — Frequently Asked Questions</title>
-  <style>
+    <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
     :root {
       --primary-navy: #0A192F;
@@ -29,6 +29,93 @@
       border-bottom: 3px solid var(--nhs-blue);
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
     }
+    .nav-container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 0.5rem 1rem; }
+    .nav-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 0.45rem; min-width: 0; }
+    .logo { color: #ffffff; font-size: 1.6rem; font-weight: 800; text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent-orange); }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+    .main-nav { justify-content: flex-end; }
+    .sub-nav { justify-content: flex-end; gap: 0.35rem 0.8rem; padding-top: 0.25rem; border-top: 1px solid rgba(255,255,255,0.14); }
+    nav a { color: #ffffff; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; cursor: pointer; padding: 0.25rem 0; }
+    nav a:hover, nav a.active-tab { color: var(--accent-orange); }
+    .sub-nav a { color: #cbd5e1; font-size: 0.82rem; }
+    .sub-nav a:hover, .sub-nav a.active-tab { color: var(--accent-orange); }
+    .cta-btn { background-color: var(--accent-orange); color: #ffffff; padding: 0.6rem 1.2rem; border-radius: 4px; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s, transform 0.1s; text-decoration: none; display: inline-block; font-size: 0.9rem; }
+    .cta-btn:hover { background-color: #c54f20; transform: translateY(-1px); }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 0 5% 4rem; }
+    section { padding: 3rem 0; border-bottom: 1px solid var(--border-color); }
+
+    .hero {
+      background: linear-gradient(rgba(10, 25, 47, 0.92), rgba(10, 25, 47, 0.98)), url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+      color: #fff; border-radius: 12px; padding: 3rem 2rem; margin-top: 1rem;
+      box-shadow: 0 10px 20px -3px rgba(0,0,0,0.08);
+    }
+    .hero h1 { font-size: 2.3rem; line-height: 1.15; margin-bottom: 1rem; font-weight: 800; letter-spacing: -0.5px; }
+    .hero p { max-width: 760px; opacity: 0.92; font-size: 1.05rem; }
+    .toc { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+    .toc a { background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.18); padding: 0.55rem 0.95rem; border-radius: 999px; font-size: 0.88rem; font-weight: 600; }
+    .toc a:hover { background: rgba(255,255,255,0.16); }
+
+    .section-title { text-align: center; font-size: 2rem; color: var(--primary-navy); margin-bottom: 0.5rem; font-weight: 800; letter-spacing: -0.5px; }
+    .section-subtitle { text-align: center; color: var(--text-muted); font-size: 1rem; max-width: 760px; margin: 0 auto 2rem auto; padding: 0 1rem; }
+
+    .faq-layout { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
+    @media (min-width: 900px) { .faq-layout { grid-template-columns: 280px 1fr; } }
+    .faq-sidebar { position: sticky; top: 110px; background: #fff; border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); }
+    .faq-sidebar h3 { color: var(--text-muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+    .faq-sidebar a { display: block; color: var(--text-dark); text-decoration: none; padding: 0.65rem 0.75rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; }
+    .faq-sidebar a:hover { background: var(--bg-light); color: var(--nhs-blue); }
+
+    .faq-group { margin-bottom: 2rem; }
+    .faq-group h2 { font-size: 1.35rem; color: var(--primary-navy); margin-bottom: 0.3rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color); }
+    .faq-group > p { color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1rem; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 0.9rem; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+    .faq-question { width: 100%; text-align: left; background: #fff; border: none; cursor: pointer; padding: 1rem 1.1rem; font-size: 1rem; font-weight: 700; color: var(--primary-navy); display: flex; justify-content: space-between; align-items: center; }
+    .faq-question:hover { background: #fdfefe; }
+    .faq-icon { color: var(--accent-orange); font-size: 1.25rem; line-height: 1; margin-left: 1rem; flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer { display: none; padding: 0 1.1rem 1.1rem; color: var(--text-dark); font-size: 0.96rem; border-top: 1px solid var(--border-color); background: #fff; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-answer p + p { margin-top: 0.8rem; }
+    .faq-answer ul { margin: 0.7rem 0 0 1.1rem; }
+    .faq-answer li { margin-bottom: 0.45rem; }
+
+    .contact-box { background: linear-gradient(135deg, var(--nhs-blue), var(--primary-navy)); color: #fff; text-align: center; border-radius: 12px; padding: 2.2rem 1.5rem; }
+    .contact-box h2 { font-size: 1.7rem; margin-bottom: 0.7rem; }
+    .contact-box p { max-width: 700px; margin: 0 auto 1.2rem; opacity: 0.92; }
+    .contact-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.8rem; }
+    .secondary-btn { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.35); padding: 0.6rem 1.1rem; border-radius: 4px; text-decoration: none; font-weight: 600; }
+    .secondary-btn:hover { background: rgba(255,255,255,0.1); }
+
+    .ask-box { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.16); border-radius: 10px; padding: 1.5rem; text-align: left; max-width: 720px; margin: 0 auto; }
+    .ask-box h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .ask-box > p { font-size: 0.9rem; opacity: 0.88; margin-bottom: 1rem; }
+    .prompt-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .prompt-chip { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 0.78rem; padding: 0.4rem 0.8rem; border-radius: 999px; cursor: pointer; }
+    .prompt-chip:hover { background: rgba(255,255,255,0.2); }
+    .ask-form textarea, .ask-form input { width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: #fff; padding: 0.7rem 0.85rem; font-family: inherit; font-size: 0.92rem; margin-bottom: 0.7rem; }
+    .ask-form textarea { min-height: 90px; resize: vertical; }
+    .ask-form textarea::placeholder, .ask-form input::placeholder { color: #cbd5e1; }
+    .ask-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .ask-submit { background: var(--accent-orange); color: #fff; border: none; padding: 0.65rem 1.3rem; border-radius: 4px; font-weight: 700; cursor: pointer; }
+    .ask-submit:hover { background: #c54f20; }
+    .ask-note { font-size: 0.8rem; opacity: 0.85; }
+
+    footer { background: #09111e; color: #94a3b8; padding: 2rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.85rem; }
+      .section-title { font-size: 1.7rem; }
+      .nav-container { flex-direction: column; align-items: stretch; min-width: 0; }
+      .logo { align-self: flex-start; }
+      .nav-stack { width: 100%; align-items: stretch; }
+      nav { width: 100%; max-width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 0.2rem; row-gap: 0.7rem; }
+      nav a { white-space: nowrap; font-size: 0.86rem; }
+      .sub-nav { padding-top: 0.45rem; }
+      .sub-nav a { white-space: nowrap; font-size: 0.8rem; }
+  
     .nav-container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 0.5rem 1rem; }
     .nav-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 0.45rem; min-width: 0; }
     .logo { color: #ffffff; font-size: 1.6rem; font-weight: 800; text-decoration: none; letter-spacing: -0.5px; }
