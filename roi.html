@@ -1,373 +1,384 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <script type='text/javascript' src='https://upull.ai/wsN03mNl0UPUBAQhmx62XEraUbPviWdZKa9Hh0Esto9GNfgHLVkATo2eZ71n9lJv-PqmGPLdn8L05ksPAdAVQPCdiXnzlO0V03ompq4mu1klZGtEoYyVEr03kqlID6bZWcZtSH3f0m9VMpxiAeKnW378WoR3CXlsvJ6t4DAIhsAxw7SkPjYF3TrBPHOUYwZP5ICXtYtyD1KqWZW9nTMzZPp-ndz05arTe605PBiLvGXBi8AtPrbYsJZepQavampAVxoyiZyWEsZwuXr2dfE5fXwMYtkUycrRVqNFnD42Fu1sYCKFAbpyWep-xE1jJS4ds6KdxEn5R2_D_SiCv2vupIdid8shG-oERDv0UZC1rhWFkX03BCwJydYLMyICyjhSpDY2wufUshrFYfpiefHYE0lpgTYnr4UpTH7C1Z72al4ahUXj2cU5PPfSLhRQFt30bw'></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>uPull.ai — Workflow ROI Calculator</title>
-  <style>
-    :root {
-      --primary-navy: #0A192F;
-      --nhs-blue: #005EB8;
-      --accent-orange: #E65F2B;
-      --bg: #F8FAFC;
-      --panel: #FFFFFF;
-      --ink: #1E293B;
-      --ink-soft: #64748B;
-      --line: #E2E8F0;
-      --clinical: #0d9488;
-      --operational: #ea580c;
-      --clinical-soft: #ccfbf1;
-      --orange-soft: #fff1e9;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 24px 60px; }
-    h1, h2, h3 { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; font-weight: 800; letter-spacing: -0.3px; margin: 0; }
-    
-    /* Redesigned Header Style (Matching Index1) */
-    header {
-      background-color: var(--primary-navy);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 3px solid var(--nhs-blue);
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    }
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0.8rem 2rem;
-      flex-wrap: wrap;
-      gap: 0.6rem 1rem;
-    }
-    .logo { color: #fff; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; flex-shrink: 0; }
-    .logo span { color: var(--accent-orange); }
-    
-    /* Menu Shifted to the Right Side */
-    nav { display: flex; align-items: center; gap: 1.5rem; justify-content: flex-end; }
-    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
-    
-    .nav-item { position: relative; }
-    .nav-links a {
-      color: #fff; text-decoration: none; font-weight: 500; font-size: 0.95rem;
-      transition: color 0.2s; cursor: pointer; padding: 0.5rem 0;
-      display: flex; align-items: center; gap: 0.25rem;
-    }
-    .nav-links a:hover, .nav-links a.current-page { color: var(--accent-orange); }
-    
-    /* Sub Menu Dropdowns for Right-Hand Functions */
-    .dropdown-menu {
-      position: absolute; top: 100%; right: 0; background-color: #ffffff;
-      min-width: 180px; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-      border: 1px solid var(--border-color); padding: 0.4rem 0; display: none; z-index: 1010;
-    }
-    .dropdown-menu button, .dropdown-menu a {
-      background: transparent; color: var(--ink); padding: 0.6rem 1.2rem; font-size: 0.9rem; 
-      display: block; width: 100%; text-align: left; border: none; font-weight: 500; border-radius: 0;
-      cursor: pointer; transition: background-color 0.2s;
-    }
-    .dropdown-menu button:hover, .dropdown-menu a:hover { background-color: var(--bg); color: var(--nhs-blue); transform: none; }
-    .nav-item:hover .dropdown-menu { display: block; }
-    
-    .cta-btn {
-      background-color: var(--accent-orange); color: #fff; padding: 0.6rem 1.2rem; border-radius: 4px;
-      font-weight: 600; border: none; cursor: pointer; transition: background 0.2s, transform 0.1s;
-      text-decoration: none; display: inline-block; font-size: 0.9rem;
-    }
-    .cta-btn:hover { background-color: #c54f20; transform: translateY(-1px); }
-    
-    .intro { text-align: center; margin-bottom: 1.8rem; }
-    .intro h1 { font-size: 1.7rem; color: var(--primary-navy); font-weight: 800; letter-spacing: -0.5px; margin-bottom: .4rem; }
-    .intro p { color: var(--ink-soft); max-width: 560px; margin: 0 auto; font-size: .9rem; }
-    
-    .meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 22px; }
-    .meta label { display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); margin-bottom: 5px; }
-    .meta input { width: 100%; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; font-size: 14px; font-family: inherit; background: #fff; }
-    
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media(max-width:820px) { .grid { grid-template-columns: 1fr; } }
-    
-    .card { background: var(--panel); border: 1px solid var(--line); border-top: 4px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); }
-    .card.before { border-top-color: var(--nhs-blue); }
-    .card.after { border-top-color: var(--accent-orange); background: #fffcf9; }
-    .card h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .06em; color: var(--primary-navy); margin-bottom: 2px; font-weight: 700; }
-    .card h2 em { color: var(--nhs-blue); font-style: normal; }
-    .card.after h2 em { color: var(--accent-orange); }
-    .card .sub { font-size: 11.5px; color: var(--ink-soft); margin-bottom: 14px; }
-    
-    .field { margin-bottom: 13px; }
-    .field label { display: block; font-size: 12.5px; color: var(--ink-soft); margin-bottom: 4px; }
-    .field .inputrow { display: flex; align-items: center; gap: 6px; }
-    .field input { width: 100%; border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; font-size: 14px; font-family: 'Consolas','Segoe UI',monospace; background: #fff; color: var(--ink); }
-    .field input:focus { outline: none; border-color: var(--nhs-blue); box-shadow: 0 0 0 3px rgba(0,94,184,0.12); }
-    .field .unit { font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
-    
-    .results { background: linear-gradient(135deg, var(--nhs-blue), var(--primary-navy)); color: #fff; border-radius: 10px; padding: 22px 24px; margin-top: 4px; }
-    .results h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .07em; color: #cbd9ea; margin-bottom: 16px; }
-    .resgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    @media(max-width:820px) { .resgrid { grid-template-columns: repeat(2, 1fr); } }
-    .stat .num { font-family: 'Consolas','Segoe UI',monospace; font-size: 26px; font-weight: 800; color: var(--accent-orange); }
-    .stat .lbl { font-size: 11px; color: #cbd9ea; text-transform: uppercase; letter-spacing: .05em; margin-top: 3px; }
-    .stat.hero .num { color: #ffffff; font-size: 30px; }
-    .footnote { font-size: 11px; color: var(--ink-soft); margin-top: 18px; line-height: 1.5; }
-    
-    @media(max-width:900px) {
-      .nav-links { gap: 1rem; }
-    }
-    @media(max-width:768px) {
-      .nav-container { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      nav { width: 100%; justify-content: space-between; }
-    }
-    @media(max-width:640px) {
-      .logo { align-self: flex-start; }
-      nav { width: 100%; max-width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: .2rem; row-gap: .7rem; }
-      .nav-links { flex-wrap: wrap; }
-      nav a { white-space: nowrap; font-size: .86rem; }
-      .wrap { padding: 24px 16px 48px; }
-      .meta { grid-template-columns: 1fr; }
-      .resgrid { grid-template-columns: 1fr; }
-      .stat .num { font-size: 24px; }
-    }
-    @media print {
-      body { background: #fff; }
-      header, footer.printnote { display: none; }
-      .card, .results { break-inside: avoid; border: 1px solid #ccc; }
-      .wrap { max-width: 100%; padding: 0; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>uPull.ai — Workflow ROI Calculator</title>
+<style>
+  :root{
+    --primary-navy:#0A192F;
+    --nhs-blue:#005EB8;
+    --accent-orange:#E65F2B;
+    --bg:#F8FAFC;
+    --panel:#FFFFFF;
+    --ink:#1E293B;
+    --ink-soft:#64748B;
+    --line:#E2E8F0;
+    --clinical:#0d9488;
+    --operational:#ea580c;
+    --clinical-soft:#ccfbf1;
+    --orange-soft:#fff1e9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:28px 24px 60px;}
+  h1,h2,h3{font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;font-weight:800;letter-spacing:-0.3px;margin:0;}
+
+  header{
+    background-color:var(--primary-navy);
+    padding:1rem 5%;
+    border-bottom:3px solid var(--nhs-blue);
+  }
+  .nav-container{
+    display:flex;align-items:center;justify-content:space-between;
+    max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.6rem 1rem;
+  }
+  .logo{color:#fff;font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;text-decoration:none;}
+  .logo span{color:var(--accent-orange);}
+  .nav-stack{display:flex;flex-direction:column;align-items:flex-end;gap:.45rem;min-width:0;}
+  nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.5rem 1rem;}
+  .main-nav{justify-content:flex-end;}
+  .sub-nav{justify-content:flex-end;gap:.35rem .8rem;padding-top:.25rem;border-top:1px solid rgba(255,255,255,0.14);align-items:center;}
+  nav a{color:#fff;text-decoration:none;font-weight:500;font-size:.95rem;transition:color .2s;}
+  nav a:hover, nav a.current-page{color:var(--accent-orange);}
+  .sub-nav .header-sub{color:#cbd5e1;font-size:.82rem;}
+  .sub-nav button{font-size:11.5px;padding:6px 12px;}
+  .header-right{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;}
+  .header-sub{color:#94a3b8;font-size:.85rem;}
+  .actions{display:flex;gap:8px;}
+  button{
+    font-family:inherit;font-weight:600;font-size:12.5px;
+    background:var(--accent-orange);color:#fff;border:none;border-radius:4px;padding:8px 14px;cursor:pointer;
+    transition:background .2s, transform .1s;
+  }
+  button:hover{background:#c54f20;transform:translateY(-1px);}
+  button.ghost{background:transparent;color:var(--primary-navy);border:1px solid var(--line);}
+  button.ghost:hover{background:var(--bg);transform:none;}
+  .sub-nav button.ghost{color:#fff;border-color:rgba(255,255,255,0.35);}
+  .sub-nav button.ghost:hover{background:rgba(255,255,255,0.1);}
+
+  .intro{text-align:center;margin-bottom:1.8rem;}
+  .intro h1{font-size:1.7rem;color:var(--primary-navy);font-weight:800;letter-spacing:-0.5px;margin-bottom:.4rem;}
+  .intro p{color:var(--ink-soft);max-width:560px;margin:0 auto;font-size:.9rem;}
+
+  .meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:22px;}
+  .meta label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:5px;}
+  .meta input{width:100%;border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:14px;font-family:inherit;background:#fff;}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:820px){.grid{grid-template-columns:1fr;}}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-top:4px solid #cbd5e1;border-radius:8px;padding:20px;margin-bottom:20px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.03);}
+  .card.before{border-top-color:var(--nhs-blue);}
+  .card.after{border-top-color:var(--accent-orange);background:#fffcf9;}
+  .card h2{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--primary-navy);margin-bottom:2px;font-weight:700;}
+  .card h2 em{color:var(--nhs-blue);font-style:normal;}
+  .card.after h2 em{color:var(--accent-orange);}
+  .card .sub{font-size:11.5px;color:var(--ink-soft);margin-bottom:14px;}
+
+  .field{margin-bottom:13px;}
+  .field label{display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:4px;}
+  .field .inputrow{display:flex;align-items:center;gap:6px;}
+  .field input{
+    width:100%;border:1px solid var(--line);border-radius:6px;padding:7px 9px;font-size:14px;
+    font-family:'Consolas','Segoe UI',monospace;background:#fff;color:var(--ink);
+  }
+  .field input:focus{outline:none;border-color:var(--nhs-blue);box-shadow:0 0 0 3px rgba(0,94,184,0.12);}
+  .field .unit{font-size:12px;color:var(--ink-soft);white-space:nowrap;}
+
+  .results{
+    background:linear-gradient(135deg, var(--nhs-blue), var(--primary-navy));color:#fff;border-radius:10px;padding:22px 24px;margin-top:4px;
+  }
+  .results h2{font-size:14px;text-transform:uppercase;letter-spacing:.07em;color:#cbd9ea;margin-bottom:16px;}
+  .resgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media(max-width:820px){.resgrid{grid-template-columns:repeat(2,1fr);}}
+  .stat .num{font-family:'Consolas','Segoe UI',monospace;font-size:26px;font-weight:800;color:var(--accent-orange);}
+  .stat .lbl{font-size:11px;color:#cbd9ea;text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
+  .stat.hero .num{color:#ffffff;font-size:30px;}
+
+  .footnote{font-size:11px;color:var(--ink-soft);margin-top:18px;line-height:1.5;}
+
+  @media(max-width:640px){
+    .nav-container{flex-direction:column;align-items:stretch;min-width:0;}
+    .logo{align-self:flex-start;}
+    .nav-stack{width:100%;align-items:stretch;}
+    nav{width:100%;max-width:100%;min-width:0;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;padding-bottom:.2rem;row-gap:.7rem;}
+    nav a{white-space:nowrap;}
+    nav a{font-size:.86rem;}
+    .sub-nav{justify-content:flex-start;}
+    .wrap{padding:24px 16px 48px;}
+    .meta{grid-template-columns:1fr;}
+    .resgrid{grid-template-columns:1fr;}
+    .stat .num{font-size:24px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    header, footer.printnote{display:none;}
+    .card, .results{break-inside:avoid;border:1px solid #ccc;}
+    .wrap{max-width:100%;padding:0;}
+  }
+</style>
 </head>
 <body>
-
-  <!-- Aligned Template Header -->
-  <header>
-    <div class="nav-container">
-      <a href="index.html" class="logo">uPull<span>.ai</span></a>
-      <nav>
-        <ul class="nav-links">
-          <li class="nav-item"><a href="index.html">Strategic Core</a></li>
-          <li class="nav-item"><a href="community.html">Community</a></li>
-          <li class="nav-item"><a href="case-studies.html">Submit Case</a></li>
-          <li class="nav-item">
-            <a href="roi.html" class="current-page">ROI Calculator ▾</a>
-            <div class="dropdown-menu">
-              <button onclick="resetAll()">Clear Form</button>
-              <button onclick="window.print()">Save / Submit PDF</button>
-            </div>
-          </li>
-          <li class="nav-item"><a href="faqs.html">FAQs</a></li>
-        </ul>
-        <a href="mailto:info@upull.ai?subject=Proof%20of%20Value" class="cta-btn">Proof of Value</a>
+<header>
+  <div class="nav-container">
+    <a href="index.html" class="logo">uPull<span>.ai</span></a>
+    <div class="nav-stack">
+      <nav class="main-nav">
+        <a href="index.html">Strategic Core</a>
+        <a href="community.html">Community</a>
+        <a href="case-studies.html">Submit Case</a>
+        <a href="roi.html" class="current-page">ROI Calculator</a>
+        <a href="faq.html">FAQs</a>
+      </nav>
+      <nav class="sub-nav" aria-label="Calculator tools">
+        <span class="header-sub">Workflow ROI Calculator</span>
+        <button class="ghost" onclick="resetAll()">Reset</button>
+        <button onclick="handlePrint()">Print / Save PDF</button>
       </nav>
     </div>
-  </header>
+  </div>
+</header>
 
-  <div class="wrap">
-    <div class="intro">
-      <h1>Before / after workflow ROI</h1>
-      <p>Fill this in with a trust contact to turn a conversation into a business case — before, after, and the numbers in between.</p>
-    </div>
-    
-    <div class="meta">
-      <div>
-        <label>Trust / organization</label>
-        <input id="trustName" placeholder="e.g. Riverside NHS Foundation Trust">
-      </div>
-      <div>
-        <label>Workflow being piloted</label>
-        <input id="workflowName" placeholder="e.g. Outpatient DNA reduction">
-      </div>
-      <div>
-        <label>Date</label>
-        <input id="dateField" type="date">
-      </div>
-    </div>
-    
-    <div class="grid">
-      <!-- BEFORE -->
-      <div class="card before">
-        <h2><em>Before</em> — current state</h2>
-        <div class="sub">What the workflow costs today, unassisted</div>
-        <div class="field">
-          <label>Staff involved in this workflow</label>
-          <div class="inputrow">
-            <input id="staffCount" type="number" value="6"><span class="unit">people</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>Fully-loaded hourly cost per staff member</label>
-          <div class="inputrow">
-            <span class="unit">£</span><input id="hourlyCost" type="number" value="32"><span class="unit">/ hour</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>Time spent per instance of this task</label>
-          <div class="inputrow">
-            <input id="minsPerInstance" type="number" value="12"><span class="unit">minutes</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>Instances per week (calls, notes, checks, etc.)</label>
-          <div class="inputrow">
-            <input id="instancesPerWeek" type="number" value="250"><span class="unit">/ week</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>Current failure / inefficiency rate</label>
-          <div class="inputrow">
-            <input id="failRate" type="number" value="12"><span class="unit">%</span>
-          </div>
-          <div class="sub" style="margin:2px 0 0;">e.g. DNA rate, delayed discharge rate, missed escalation rate</div>
-        </div>
-        <div class="field">
-          <label>Cost per failure event</label>
-          <div class="inputrow">
-            <span class="unit">£</span><input id="costPerFailure" type="number" value="160">
-          </div>
-          <div class="sub" style="margin:2px 0 0;">e.g. cost of one empty clinic slot, one extra bed day</div>
-        </div>
-      </div>
-      
-      <!-- AFTER -->
-      <div class="card after">
-        <h2><em>After</em> — with uPull.ai pulled in</h2>
-        <div class="sub">Expected change once AI is pulled into this workflow</div>
-        <div class="field">
-          <label>Expected reduction in time per instance</label>
-          <div class="inputrow">
-            <input id="timeReduction" type="number" value="60"><span class="unit">%</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>Expected reduction in failure rate</label>
-          <div class="inputrow">
-            <input id="failReduction" type="number" value="40"><span class="unit">%</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>One-off pilot cost</label>
-          <div class="inputrow">
-            <span class="unit">£</span><input id="pilotCost" type="number" value="4500">
-          </div>
-        </div>
-        <div class="field">
-          <label>Ongoing monthly run cost (if any)</label>
-          <div class="inputrow">
-            <span class="unit">£</span><input id="monthlyCost" type="number" value="300">
-          </div>
-        </div>
-        <div class="footnote" style="margin-top:22px;">These are pilot planning assumptions, not guarantees — the point of a 4–6 week proof-of-value pilot is to replace these estimates with real, measured numbers before any wider rollout decision.</div>
-      </div>
-    </div>
-    
-    <div class="results">
-      <h2>12-month impact</h2>
-      <div class="resgrid">
-        <div class="stat"><div class="num" id="hoursSaved">–</div><div class="lbl">Staff hours saved / week</div></div>
-        <div class="stat"><div class="num" id="staffCostSaved">–</div><div class="lbl">Staff time value saved / yr</div></div>
-        <div class="stat"><div class="num" id="failuresAvoided">–</div><div class="lbl">Failure events avoided / yr</div></div>
-        <div class="stat"><div class="num" id="failureCostSaved">–</div><div class="lbl">Failure cost avoided / yr</div></div>
-        <div class="stat hero"><div class="num" id="totalValue">–</div><div class="lbl">Total annual value</div></div>
-        <div class="stat"><div class="num" id="totalCost">–</div><div class="lbl">Total cost, year 1</div></div>
-        <div class="stat hero"><div class="num" id="roi">–</div><div class="lbl">Year 1 ROI</div></div>
-        <div class="stat"><div class="num" id="payback">–</div><div class="lbl">Payback period</div></div>
-      </div>
-    </div>
-    
-    <footer class="printnote" style="text-align:center;font-size:11px;color:var(--ink-soft);margin-top:16px;">Values save automatically on this device — reopen the file to pick up where you left off.</footer>
+<div class="wrap">
+
+  <div class="intro">
+    <h1>Before / after workflow ROI</h1>
+    <p>Fill this in with a trust contact to turn a conversation into a business case — before, after, and the numbers in between.</p>
   </div>
 
-  <script>
-    const ids = ['staffCount','hourlyCost','minsPerInstance','instancesPerWeek','failRate','costPerFailure','timeReduction','failReduction','pilotCost','monthlyCost','trustName','workflowName','dateField'];
-    function gv(id){ const v = document.getElementById(id).value; return v; }
-    function num(id){ return parseFloat(document.getElementById(id).value) || 0; }
-    function gbp(n){ return '£' + Math.round(n).toLocaleString('en-US'); }
-    
-    function calculate(){
-      const staff = num('staffCount');
-      const hourly = num('hourlyCost');
-      const mins = num('minsPerInstance');
-      const instances = num('instancesPerWeek');
-      const failRate = num('failRate')/100;
-      const costPerFail = num('costPerFailure');
-      const timeReduction = num('timeReduction')/100;
-      const failReduction = num('failReduction')/100;
-      const pilotCost = num('pilotCost');
-      const monthlyCost = num('monthlyCost');
-      
-      const hoursPerWeekBefore = (mins/60) * instances;
-      const hoursSavedPerWeek = hoursPerWeekBefore * timeReduction;
-      const annualStaffCostSaved = hoursSavedPerWeek * hourly * 52;
-      
-      const failuresPerWeekBefore = instances * failRate;
-      const failuresAvoidedPerWeek = failuresPerWeekBefore * failReduction;
-      const failuresAvoidedYear = failuresAvoidedPerWeek * 52;
-      const failureCostSavedYear = failuresAvoidedYear * costPerFail;
-      
-      const totalValue = annualStaffCostSaved + failureCostSavedYear;
-      const totalCostYear1 = pilotCost + (monthlyCost*12);
-      const netValue = totalValue - totalCostYear1;
-      const roiPct = totalCostYear1 > 0 ? (netValue/totalCostYear1*100) : 0;
-      const weeklyValue = totalValue/52;
-      const paybackWeeks = weeklyValue > 0 ? (pilotCost/weeklyValue) : 0;
-      
-      document.getElementById('hoursSaved').textContent = hoursSavedPerWeek.toFixed(1);
-      document.getElementById('staffCostSaved').textContent = gbp(annualStaffCostSaved);
-      document.getElementById('failuresAvoided').textContent = Math.round(failuresAvoidedYear).toLocaleString('en-US');
-      document.getElementById('failureCostSaved').textContent = gbp(failureCostSavedYear);
-      document.getElementById('totalValue').textContent = gbp(totalValue);
-      document.getElementById('totalCost').textContent = gbp(totalCostYear1);
-      document.getElementById('roi').textContent = Math.round(roiPct) + '%';
-      document.getElementById('payback').textContent = paybackWeeks>0 ? Math.round(paybackWeeks)+' wks' : '—';
-      saveState();
+  <div class="meta">
+    <div><label>Trust / organization</label><input id="trustName" placeholder="e.g. Riverside NHS Foundation Trust"></div>
+    <div><label>Workflow being piloted</label><input id="workflowName" placeholder="e.g. Outpatient DNA reduction"></div>
+    <div><label>Date</label><input id="dateField" type="date"></div>
+  </div>
+
+  <div class="grid">
+
+    <!-- BEFORE -->
+    <div class="card before">
+      <h2><em>Before</em> — current state</h2>
+      <div class="sub">What the workflow costs today, unassisted</div>
+
+      <div class="field">
+        <label>Staff involved in this workflow</label>
+        <div class="inputrow"><input id="staffCount" type="number" value="6"><span class="unit">people</span></div>
+      </div>
+      <div class="field">
+        <label>Fully-loaded hourly cost per staff member</label>
+        <div class="inputrow"><span class="unit">£</span><input id="hourlyCost" type="number" value="32"><span class="unit">/ hour</span></div>
+      </div>
+      <div class="field">
+        <label>Time spent per instance of this task</label>
+        <div class="inputrow"><input id="minsPerInstance" type="number" value="12"><span class="unit">minutes</span></div>
+      </div>
+      <div class="field">
+        <label>Instances per week (calls, notes, checks, etc.)</label>
+        <div class="inputrow"><input id="instancesPerWeek" type="number" value="250"><span class="unit">/ week</span></div>
+      </div>
+      <div class="field">
+        <label>Current failure / inefficiency rate</label>
+        <div class="inputrow"><input id="failRate" type="number" value="12"><span class="unit">%</span></div>
+        <div class="sub" style="margin:2px 0 0;">e.g. DNA rate, delayed discharge rate, missed escalation rate</div>
+      </div>
+      <div class="field">
+        <label>Cost per failure event</label>
+        <div class="inputrow"><span class="unit">£</span><input id="costPerFailure" type="number" value="160"></div>
+        <div class="sub" style="margin:2px 0 0;">e.g. cost of one empty clinic slot, one extra bed day</div>
+      </div>
+    </div>
+
+    <!-- AFTER -->
+    <div class="card after">
+      <h2><em>After</em> — with uPull.ai pulled in</h2>
+      <div class="sub">Expected change once AI is pulled into this workflow</div>
+
+      <div class="field">
+        <label>Expected reduction in time per instance</label>
+        <div class="inputrow"><input id="timeReduction" type="number" value="60"><span class="unit">%</span></div>
+      </div>
+      <div class="field">
+        <label>Expected reduction in failure rate</label>
+        <div class="inputrow"><input id="failReduction" type="number" value="40"><span class="unit">%</span></div>
+      </div>
+      <div class="field">
+        <label>One-off pilot cost</label>
+        <div class="inputrow"><span class="unit">£</span><input id="pilotCost" type="number" value="4500"></div>
+      </div>
+      <div class="field">
+        <label>Ongoing monthly run cost (if any)</label>
+        <div class="inputrow"><span class="unit">£</span><input id="monthlyCost" type="number" value="300"></div>
+      </div>
+
+      <div class="footnote" style="margin-top:22px;">
+        These are pilot planning assumptions, not guarantees — the point of a 4–6 week proof-of-value pilot is to replace these estimates with real, measured numbers before any wider rollout decision.
+      </div>
+    </div>
+  </div>
+
+  <div class="results">
+    <h2>12-month impact</h2>
+    <div class="resgrid">
+      <div class="stat">
+        <div class="num" id="hoursSaved">–</div>
+        <div class="lbl">Staff hours saved / week</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="staffCostSaved">–</div>
+        <div class="lbl">Staff time value saved / yr</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="failuresAvoided">–</div>
+        <div class="lbl">Failure events avoided / yr</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="failureCostSaved">–</div>
+        <div class="lbl">Failure cost avoided / yr</div>
+      </div>
+      <div class="stat hero">
+        <div class="num" id="totalValue">–</div>
+        <div class="lbl">Total annual value</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="totalCost">–</div>
+        <div class="lbl">Total cost, year 1</div>
+      </div>
+      <div class="stat hero">
+        <div class="num" id="roi">–</div>
+        <div class="lbl">Year 1 ROI</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="payback">–</div>
+        <div class="lbl">Payback period</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="printnote" style="text-align:center;font-size:11px;color:var(--ink-soft);margin-top:16px;">
+    Values save automatically on this device — reopen the file to pick up where you left off.
+  </footer>
+</div>
+
+<script>
+const ids = ['staffCount','hourlyCost','minsPerInstance','instancesPerWeek','failRate','costPerFailure',
+             'timeReduction','failReduction','pilotCost','monthlyCost','trustName','workflowName','dateField'];
+
+function handlePrint(){
+  const wantsContact = confirm('Would you like a uPull.ai representative to contact you about this workflow?');
+  if(wantsContact){
+    const trust = gv('trustName') || 'Not provided';
+    const workflow = gv('workflowName') || 'Not provided';
+    const subject = encodeURIComponent('Representative contact request — ' + (gv('workflowName') || 'ROI Calculator'));
+    const body = encodeURIComponent(
+      'A trust used the Workflow ROI Calculator and would like a representative to get in touch.\n\n' +
+      'Trust / organisation: ' + trust + '\n' +
+      'Workflow: ' + workflow + '\n' +
+      'Total annual value (calculated): ' + (document.getElementById('totalValue').textContent || '—') + '\n' +
+      'Year 1 ROI (calculated): ' + (document.getElementById('roi').textContent || '—') + '\n\n' +
+      'Please reply to arrange a call.'
+    );
+    window.location.href = `mailto:info@upull.ai?subject=${subject}&body=${body}`;
+  }
+  window.print();
+}
+
+function gv(id){ const v = document.getElementById(id).value; return v; }
+function num(id){ return parseFloat(document.getElementById(id).value) || 0; }
+function gbp(n){ return '£' + Math.round(n).toLocaleString('en-US'); }
+
+function calculate(){
+  const staff = num('staffCount');
+  const hourly = num('hourlyCost');
+  const mins = num('minsPerInstance');
+  const instances = num('instancesPerWeek');
+  const failRate = num('failRate')/100;
+  const costPerFail = num('costPerFailure');
+  const timeReduction = num('timeReduction')/100;
+  const failReduction = num('failReduction')/100;
+  const pilotCost = num('pilotCost');
+  const monthlyCost = num('monthlyCost');
+
+  // Time / cost saved
+  const hoursPerWeekBefore = (mins/60) * instances;
+  const hoursSavedPerWeek = hoursPerWeekBefore * timeReduction;
+  const annualStaffCostSaved = hoursSavedPerWeek * hourly * 52;
+
+  // Failures avoided
+  const failuresPerWeekBefore = instances * failRate;
+  const failuresAvoidedPerWeek = failuresPerWeekBefore * failReduction;
+  const failuresAvoidedYear = failuresAvoidedPerWeek * 52;
+  const failureCostSavedYear = failuresAvoidedYear * costPerFail;
+
+  const totalValue = annualStaffCostSaved + failureCostSavedYear;
+  const totalCostYear1 = pilotCost + (monthlyCost*12);
+  const netValue = totalValue - totalCostYear1;
+  const roiPct = totalCostYear1 > 0 ? (netValue/totalCostYear1*100) : 0;
+  const weeklyValue = totalValue/52;
+  const paybackWeeks = weeklyValue > 0 ? (pilotCost/weeklyValue) : 0;
+
+  document.getElementById('hoursSaved').textContent = hoursSavedPerWeek.toFixed(1);
+  document.getElementById('staffCostSaved').textContent = gbp(annualStaffCostSaved);
+  document.getElementById('failuresAvoided').textContent = Math.round(failuresAvoidedYear).toLocaleString('en-US');
+  document.getElementById('failureCostSaved').textContent = gbp(failureCostSavedYear);
+  document.getElementById('totalValue').textContent = gbp(totalValue);
+  document.getElementById('totalCost').textContent = gbp(totalCostYear1);
+  document.getElementById('roi').textContent = Math.round(roiPct) + '%';
+  document.getElementById('payback').textContent = paybackWeeks>0 ? Math.round(paybackWeeks)+' wks' : '—';
+
+  saveState();
+}
+
+let saveTimer;
+function saveState(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    const state = {};
+    ids.forEach(id=> state[id] = gv(id));
+    try{ localStorage.setItem('roi-calc-last', JSON.stringify(state)); }catch(e){}
+  }, 400);
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem('roi-calc-last');
+    if(raw){
+      const state = JSON.parse(raw);
+      ids.forEach(id=>{ if(state[id]!==undefined) document.getElementById(id).value = state[id]; });
     }
-    
-    let saveTimer;
-    function saveState(){
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(async ()=>{
-        const state = {};
-        ids.forEach(id=> state[id] = gv(id));
-        try{ await window.storage.set('roi-calc:last', JSON.stringify(state), false); }catch(e){}
-      }, 400);
-    }
-    
-    async function loadState(){
-      try{
-        const r = await window.storage.get('roi-calc:last', false);
-        if(r && r.value){
-          const state = JSON.parse(r.value);
-          ids.forEach(id=>{ if(state[id]!==undefined) document.getElementById(id).value = state[id]; });
-        }
-      }catch(e){}
-      if(!document.getElementById('dateField').value){
-        document.getElementById('dateField').value = new Date().toISOString().slice(0,10);
-      }
-      calculate();
-    }
-    
-    function resetAll(){
-      document.getElementById('trustName').value='';
-      document.getElementById('workflowName').value='';
-      document.getElementById('dateField').value = new Date().toISOString().slice(0,10);
-      document.getElementById('staffCount').value=6;
-      document.getElementById('hourlyCost').value=32;
-      document.getElementById('minsPerInstance').value=12;
-      document.getElementById('instancesPerWeek').value=250;
-      document.getElementById('failRate').value=12;
-      document.getElementById('costPerFailure').value=160;
-      document.getElementById('timeReduction').value=60;
-      document.getElementById('failReduction').value=40;
-      document.getElementById('pilotCost').value=4500;
-      document.getElementById('monthlyCost').value=300;
-      calculate();
-    }
-    
-    ids.forEach(id=>{ document.getElementById(id).addEventListener('input', calculate); });
-    loadState();
-  </script>
+  }catch(e){}
+  if(!document.getElementById('dateField').value){
+    document.getElementById('dateField').value = new Date().toISOString().slice(0,10);
+  }
+  calculate();
+}
+
+function resetAll(){
+  document.getElementById('trustName').value='';
+  document.getElementById('workflowName').value='';
+  document.getElementById('dateField').value = new Date().toISOString().slice(0,10);
+  document.getElementById('staffCount').value=6;
+  document.getElementById('hourlyCost').value=32;
+  document.getElementById('minsPerInstance').value=12;
+  document.getElementById('instancesPerWeek').value=250;
+  document.getElementById('failRate').value=12;
+  document.getElementById('costPerFailure').value=160;
+  document.getElementById('timeReduction').value=60;
+  document.getElementById('failReduction').value=40;
+  document.getElementById('pilotCost').value=4500;
+  document.getElementById('monthlyCost').value=300;
+  calculate();
+}
+
+ids.forEach(id=>{
+  document.getElementById(id).addEventListener('input', calculate);
+});
+
+loadState();
+</script>
 </body>
 </html>
