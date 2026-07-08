@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -51,13 +49,6 @@
       margin: 0 auto;
       gap: 0.5rem 1rem;
     }
-    .nav-stack {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.45rem;
-      min-width: 0;
-    }
     .logo {
       color: #ffffff;
       font-size: 1.6rem;
@@ -73,12 +64,6 @@
       gap: 0.5rem 1rem;
     }
     .main-nav { justify-content: flex-end; }
-    .sub-nav {
-      justify-content: flex-end;
-      gap: 0.35rem 0.8rem;
-      padding-top: 0.25rem;
-      border-top: 1px solid rgba(255,255,255,0.14);
-    }
     nav a {
       color: #ffffff;
       text-decoration: none;
@@ -89,20 +74,6 @@
       padding: 0.25rem 0;
     }
     nav a:hover, nav a.active-tab { color: var(--accent-orange); }
-    .sub-nav a, .sub-nav button {
-      color: #cbd5e1;
-      font-size: 0.82rem;
-    }
-    .sub-nav button {
-      background: transparent;
-      border: 0;
-      font-family: inherit;
-      font-weight: 500;
-      cursor: pointer;
-      padding: 0.25rem 0;
-      transition: color 0.2s;
-    }
-    .sub-nav button:hover, .sub-nav button.active-filter { color: var(--accent-orange); }
     nav a.page-link {
       opacity: 0.85;
     }
@@ -345,41 +316,6 @@
       text-transform: uppercase;
     }
     /* library */
-    .filter-shelf {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.6rem;
-      margin: -0.5rem auto 2rem;
-    }
-    .filter-btn {
-      padding: 0.4rem 1.2rem;
-      border: 1px solid var(--border-color);
-      background: white;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .filter-btn.active-filter[data-target="all"] { background: var(--primary-navy); color: white; }
-    .filter-btn.active-filter[data-target="clinical"] { background: var(--clinical); color: white; }
-    .filter-btn.active-filter[data-target="operational"] { background: var(--operational); color: white; }
-    .sub-nav .filter-btn {
-      background: transparent;
-      border: 0;
-      border-radius: 0;
-      color: #cbd5e1;
-      padding: 0.25rem 0;
-      font-size: 0.82rem;
-    }
-    .sub-nav .filter-btn.active-filter,
-    .sub-nav .filter-btn.active-filter[data-target="all"],
-    .sub-nav .filter-btn.active-filter[data-target="clinical"],
-    .sub-nav .filter-btn.active-filter[data-target="operational"] {
-      background: transparent;
-      color: var(--accent-orange);
-    }
     .library-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -547,12 +483,9 @@
       .section-title { font-size: 1.7rem; }
       .nav-container { flex-direction: column; align-items: stretch; min-width: 0; }
       .logo { align-self: flex-start; }
-      .nav-stack { width: 100%; align-items: stretch; }
       nav { width: 100%; max-width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 0.2rem; row-gap: 0.7rem; }
       nav a { white-space: nowrap; }
       nav a { font-size: 0.86rem; }
-      .sub-nav { padding-top: 0.45rem; }
-      .sub-nav a, .sub-nav button { white-space: nowrap; font-size: 0.8rem; }
       .cta-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
       .waitlist-row { flex-direction: column; align-items: flex-start; }
     }
@@ -562,23 +495,14 @@
 <header>
   <div class="nav-container">
     <a href="#" class="logo" onclick="routeTab('landing')">uPull<span>.ai</span></a>
-    <div class="nav-stack">
     <nav class="main-nav">
       <a id="tab-landing" class="active-tab" onclick="routeTab('landing')">Strategic Core</a>
       <a href="community.html" class="page-link">Community</a>
       <a href="case-studies.html" class="page-link">Submit Case</a>
       <a href="roi.html" class="page-link">ROI Calculator</a>
-     <a href="faqs.html" class="page-link">FAQs</a>
+      <a href="faqs.html" class="page-link">FAQs</a>
       <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
     </nav>
-    <nav class="sub-nav" aria-label="Cases tools">
-      <a id="tab-library" onclick="routeTab('library')">Cases (30)</a>
-      <button class="filter-btn active-filter" data-target="all">Full Spectrum</button>
-      <button class="filter-btn" data-target="clinical">Clinical</button>
-      <button class="filter-btn" data-target="operational">Operational</button>
-      <a href="case-studies.html">Submit Case</a>
-    </nav>
-    </div>
   </div>
 </header>
 
@@ -1156,6 +1080,7 @@
   // init library
   function initLibrary() {
     const container = document.getElementById('library-injector');
+    if (!container) return;
     container.innerHTML = '';
     expandedCases.forEach(c => {
       container.innerHTML += `
@@ -1169,20 +1094,6 @@
       `;
     });
   }
-
-  // filter
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      routeTab('library');
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
-      this.classList.add('active-filter');
-      const target = this.dataset.target;
-      document.querySelectorAll('.lib-card').forEach(card => {
-        if (target === 'all' || card.dataset.category === target) card.classList.remove('hidden');
-        else card.classList.add('hidden');
-      });
-    });
-  });
 
   // popup
   function openPopup(id) {
@@ -1205,11 +1116,13 @@
   const slider = document.getElementById('investmentSlider');
   const label = document.getElementById('investmentLabel');
   const metric = document.getElementById('returnMetric');
-  slider.addEventListener('input', function() {
-    const val = parseInt(this.value);
-    label.textContent = '£' + val.toLocaleString('en-US');
-    metric.textContent = '£' + (val * 5).toLocaleString('en-US');
-  });
+  if (slider) {
+    slider.addEventListener('input', function() {
+      const val = parseInt(this.value);
+      label.textContent = '£' + val.toLocaleString('en-US');
+      metric.textContent = '£' + (val * 5).toLocaleString('en-US');
+    });
+  }
 
   window.onload = function() {
     initLibrary();
