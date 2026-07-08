@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>uPull.ai — Submit a Case Study</title>
+<title>uPull.ai — Case Studies</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
   :root{
@@ -33,6 +32,13 @@
   nav{ display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:.5rem 1rem; }
   nav a{ color:#fff; text-decoration:none; font-weight:500; font-size:.95rem; transition:color .2s; }
   nav a:hover, nav a.current-page{ color:var(--accent-orange); }
+  .nav-stack{ display:flex; flex-direction:column; align-items:flex-end; gap:.45rem; min-width:0; }
+  .main-nav{ justify-content:flex-end; }
+  .sub-nav{ justify-content:flex-end; gap:.35rem .8rem; padding-top:.25rem; border-top:1px solid rgba(255,255,255,0.14); align-items:center; }
+  .sub-nav a{ color:#cbd5e1; font-size:.82rem; cursor:pointer; }
+  .sub-nav a:hover, .sub-nav a.current-page{ color:var(--accent-orange); }
+  .sub-nav .filter-btn{ background:transparent; border:0; border-radius:0; color:#cbd5e1; padding:.25rem 0; font-size:.82rem; font-weight:500; }
+  .sub-nav .filter-btn.active-filter, .sub-nav .filter-btn.active-filter[data-target="all"], .sub-nav .filter-btn.active-filter[data-target="clinical"], .sub-nav .filter-btn.active-filter[data-target="operational"]{ background:transparent; color:var(--accent-orange); }
 
   main{ max-width:1100px; margin:0 auto; padding:2.5rem 5% 4rem; }
 
@@ -126,13 +132,43 @@
   @media (max-width:640px){
     .nav-container{ flex-direction:column; align-items:stretch; min-width:0; }
     .logo{ align-self:flex-start; }
+    .nav-stack{ width:100%; align-items:stretch; }
     nav{ width:100%; max-width:100%; min-width:0; flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; padding-bottom:.2rem; row-gap:.7rem; }
     nav a{ white-space:nowrap; }
     nav a{ font-size:.86rem; }
+    .sub-nav{ justify-content:flex-start; }
     main{ padding-top:2rem; }
   }
 
   footer{ background:#09111e; color:#94a3b8; padding:1.6rem 5%; text-align:center; font-size:.8rem; }
+
+  /* ---- library grid (moved from index) ---- */
+  .filter-shelf{ display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; margin:-.5rem auto 2rem; }
+  .filter-btn{ padding:.4rem 1.2rem; border:1px solid var(--border-color); background:#fff; border-radius:30px; font-weight:600; font-size:.85rem; cursor:pointer; transition:all .2s; }
+  .filter-btn.active-filter[data-target="all"]{ background:var(--primary-navy); color:#fff; }
+  .filter-btn.active-filter[data-target="clinical"]{ background:var(--clinical); color:#fff; }
+  .filter-btn.active-filter[data-target="operational"]{ background:var(--operational); color:#fff; }
+  .library-grid{ display:grid; grid-template-columns:1fr; gap:1.5rem; margin-bottom:2rem; }
+  @media (min-width:500px){ .library-grid{ grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); } }
+  .lib-img-frame{ height:150px; position:relative; background:#d1d9e6; }
+  .lib-img-frame img{ width:100%; height:100%; object-fit:cover; }
+  .lib-badge{ position:absolute; top:.5rem; right:.5rem; padding:.2rem .6rem; border-radius:4px; font-size:.65rem; font-weight:700; text-transform:uppercase; color:#fff; }
+  .lib-body{ padding:1.2rem; flex-grow:1; display:flex; flex-direction:column; justify-content:space-between; }
+  .lib-read-btn{ color:var(--nhs-blue); font-weight:700; cursor:pointer; margin-top:.8rem; }
+  .hidden{ display:none !important; }
+  .popup-overlay{
+    position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(10,25,47,0.7);
+    backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center;
+    z-index:2000; opacity:0; visibility:hidden; transition:all .3s; padding:1rem;
+  }
+  .popup-overlay.show-popup{ opacity:1; visibility:visible; }
+  .popup-window{ background:#fff; padding:2rem 1.5rem; border-radius:16px; max-width:680px; width:100%; position:relative; max-height:85vh; overflow-y:auto; }
+  .popup-close{ position:absolute; top:.8rem; right:1rem; background:var(--bg); border:none; width:2.2rem; height:2.2rem; border-radius:50%; font-weight:bold; cursor:pointer; font-size:1.2rem; }
+  .abstract-section{ margin-top:1rem; padding-top:.8rem; border-top:1px dashed var(--border-color); }
+  .abstract-label{ font-weight:700; color:var(--primary-navy); font-size:.85rem; text-transform:uppercase; margin-bottom:.2rem; }
+  .abstract-val{ color:var(--text-dark); font-size:.95rem; margin-bottom:.5rem; }
+  .section-title{ text-align:center; font-size:2rem; color:var(--primary-navy); margin-bottom:.5rem; font-weight:800; letter-spacing:-0.5px; }
+  .section-subtitle{ text-align:center; color:var(--text-muted); font-size:1rem; max-width:750px; margin:0 auto 2.5rem auto; line-height:1.5; padding:0 1rem; }
 </style>
 </head>
 <body>
@@ -140,17 +176,39 @@
 <header>
   <div class="nav-container">
     <a href="index.html" class="logo">uPull<span>.ai</span></a>
-    <nav>
-      <a href="index.html">Strategic Core</a>
-      <a href="community.html">Community</a>
-      <a href="case-studies.html" class="current-page">Submit Case</a>
-      <a href="roi.html">ROI Calculator</a>
-      <a href="faqs.html" class="page-link">FAQs</a>
-    </nav>
+    <div class="nav-stack">
+      <nav class="main-nav">
+        <a href="index.html">Strategic Core</a>
+        <a href="community.html">Community</a>
+        <a href="case-studies.html" class="current-page">Case Studies</a>
+        <a href="roi.html">ROI Calculator</a>
+        <a href="faq.html">FAQs</a>
+      </nav>
+      <nav class="sub-nav" aria-label="Case library tools">
+        <button class="filter-btn active-filter" data-target="all">Full Spectrum</button>
+        <button class="filter-btn" data-target="clinical">Clinical</button>
+        <button class="filter-btn" data-target="operational">Operational</button>
+        <a onclick="scrollToForm()">Submit Case</a>
+      </nav>
+    </div>
   </div>
 </header>
 
 <main>
+  <section id="library" style="padding-top:1rem;">
+    <div class="intro" style="margin-bottom:1.5rem;">
+      <h1 style="font-size:2rem;">Case Study Library</h1>
+      <p>30 active automation profiles divided by clinical and operational return vectors.</p>
+    </div>
+    <div class="filter-shelf">
+      <button class="filter-btn active-filter" data-target="all">Full Spectrum</button>
+      <button class="filter-btn" data-target="clinical">Clinical</button>
+      <button class="filter-btn" data-target="operational">Operational</button>
+    </div>
+    <div class="library-grid" id="library-injector"></div>
+  </section>
+
+  <div id="submit-form">
   <div class="intro">
     <h1>Submit a case study</h1>
     <p>Tell us how AI was pulled into a real clinical or operational workflow. Strong submissions are specific, measurable, and honest about what changed.</p>
@@ -267,13 +325,440 @@
       </div>
     </div>
   </div>
+  </div>
 </main>
 
+<!-- POPUP -->
+<div class="popup-overlay" id="popup-overlay" onclick="closePopup()">
+  <div class="popup-window" onclick="event.stopPropagation()">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div id="popup-badge" class="lib-badge" style="position:static; display:inline-block; margin-bottom:0.5rem;"></div>
+    <h2 id="popup-title" style="color:var(--primary-navy); margin-bottom:0.2rem;"></h2>
+    <div id="popup-loc" style="font-weight:600; color:var(--nhs-blue); margin-bottom:0.8rem; font-size:0.9rem;"></div>
+    <div class="abstract-section"><div class="abstract-label">📋 Operational Context</div><div class="abstract-val" id="popup-background"></div></div>
+    <div class="abstract-section"><div class="abstract-label">⚙️ Workflow Redesign</div><div class="abstract-val" id="popup-workflow"></div></div>
+    <div class="abstract-section"><div class="abstract-label">🛡️ Safety Envelope</div><div class="abstract-val" id="popup-safety"></div></div>
+    <div class="abstract-section"><div class="abstract-label">🎯 Audited Impact</div><div class="abstract-val" id="popup-impact" style="font-weight:700; color:var(--accent-orange);"></div></div>
+  </div>
+</div>
+
 <footer>
-  <p><strong>uPull.ai Ltd.</strong> · info@upull.ai</p>
+  <p><strong>uPull.ai Ltd.</strong> • London, UK • <a href="mailto:info@upull.ai" style="color:#94a3b8;">info@upull.ai</a></p>
 </footer>
 
 <script>
+// ---------- CASE DATA (30 items) ----------
+  const expandedCases = [
+    { 
+      id: 1, 
+      name: "MedScribe AI", 
+      type: "clinical", 
+      location: "United Kingdom (London)", 
+      background: "Prior to the intervention, healthcare facilities in London reported severe backlogs due to cumbersome administrative and analytical procedures. Clinicians spent an average of 4.2 hours daily on documentation and routine administrative workflows rather than active medical engagement.", 
+      problem_statement: "The manual compilation of patient encounter records severely limits consultation throughput, imposing a substantial cognitive burden on medical practitioners. Traditional digital solutions lacked the contextual and adaptive capability required to interface seamlessly with complex Electronic Health Records (EHR) frameworks.", 
+      findings: "Empirical timeline mapping observed complete elimination of out-of-chart dictation. Sign-off turnaround collapsed from 18 minutes down to 90 seconds. Audio transcription validation tests demonstrated an unmatched 99.6% accuracy.",
+      proposed_solutions: "Deploy specialized custom boundary microphones within busy clinical settings to minimize background interference. Establish a strict mandatory human-in-the-loop validation protocol where consultants must actively verify and tap to sign off entries before automated EHR sync occurs.", 
+      impact: "⏱️ Immediate 22% increase in daily outpatient slots, a measurable decrease in staff turnover, and 90-second sign-off turnaround.", 
+      src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80" 
+    },
+    { 
+      id: 2, 
+      name: "PathoAgent", 
+      type: "clinical", 
+      location: "Germany (Heidelberg)", 
+      background: "Pathology departments in Heidelberg faced severe specimen volume vs. staffing bottlenecks, delaying cancer diagnoses and staging timelines due to intensive image analysis workloads.", 
+      problem_statement: "Manual whole-slide screening is prone to pixel-level classification variations and fatigue-induced error, creating a bottleneck that delays therapeutic initiation guidelines.", 
+      findings: "Multi-layer computer vision models successfully isolated abnormal cell grids across biopsy thicknesses, significantly reducing false-negative registrations in preliminary triage.", 
+      proposed_solutions: "Implement edge-detection algorithm tuning paired with a clear legal escalation protocol configuring metric calibration for near-real-time organism scanning.", 
+      impact: "🚀 310% Slide Screening Velocity Increase & precise multi-layer abnormal cell grid isolation.", 
+      src: "https://img.magnific.com/free-photo/abstract-virus-blood-cells_1048-12007.jpg?semt=ais_hybrid&w=740&q=80&fitw=500&fitq=80" 
+    },
+    { 
+      id: 3, 
+      name: "CardioPredict", 
+      type: "clinical", 
+      location: "United Kingdom (Edinburgh)", 
+      background: "Cardiac care teams encountered persistent data-streaming backlogs as intermittent cardiovascular morphology anomalies were regularly missed during static telemetry reviews.", 
+      problem_statement: "Traditional monitoring lacked real-time, high-granularity evaluation tracking, missing critical ST-segment elevation indicators and dynamic T-wave patterns prior to acute ischemic events.", 
+      findings: "Continuous multi-lead streaming agents maintained non-stop evaluation fidelity, successfully isolating cardiac drift and tracking transient dysrhythmias.", 
+      proposed_solutions: "Calibrate localised telemetry alarm filters with precise multi-lead sensitivity thresholds to suppress non-essential artifacts while preventing physician alert fatigue.", 
+      impact: "❤️ Zero-Latency Cardiac Drift Isolation, 99.4% precision with filtered artifact mitigation.", 
+      src: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=500&q=80" 
+    },
+    { 
+      id: 4, 
+      name: "RadFlow Agent", 
+      type: "clinical", 
+      location: "France (Paris)", 
+      background: "Emergency departments suffered severe clinical throughput delays due to protracted radiology reporting cycles for urgent diagnostic imaging.", 
+      problem_statement: "High emergency department patient volumes outpaced traditional radiology workflows, exacerbating waiting room intervals and delaying life-saving interventions.", 
+      findings: "PACS-integrated diagnostic agents processed complex chest and musculoskeletal scans in a flat 35 seconds, isolating ultra-subtle pulmonary node details.", 
+      proposed_solutions: "Enforce a high-fidelity DICOM triage pipeline that dynamically escalates positive abnormality findings directly to the top of the radiologist's active worklist.", 
+      impact: "🩻 35-Second Processing & 18-min ER triage drop via automated DICOM priority routing.", 
+      src: "https://img.magnific.com/free-photo/hand-with-pen-filling-out-document_1232-656.jpg?semt=ais_hybrid&w=740&q=80&fitw=500&fitq=80" 
+    },
+    { 
+      id: 5, 
+      name: "AuraCare Agent", 
+      type: "clinical", 
+      location: "Australia (Melbourne)", 
+      background: "Mental health management relied heavily on periodic, manual clinical assessments, frequently missing dynamic behavioral shifts between outpatient appointments.", 
+      problem_statement: "Subjective tracking protocols fail to capture real-time acoustic changes, voice frequency modulations, or micro-pause trends indicative of imminent psychiatric crises.", 
+      findings: "Continuous vocal pattern parsing isolated early indicators of cognitive dissociation and depressive drops before overt clinical manifestation occurred.", 
+      proposed_solutions: "Deploy non-invasive acoustic telemetry streams within secure check-in environments, utilizing strict data tokenisation to eliminate external identity linkages.", 
+      impact: "🧠 Real-Time Biomarker Tracking & 52% crisis reduction via automated behavioral anomaly triggers.", 
+      src: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500&q=80" 
+    },
+    { 
+      id: 6, 
+      name: "PharmAI Dispense", 
+      type: "operational", 
+      location: "Singapore", 
+      background: "Manual pharmacy distribution systems faced rising clinical safety backlogs driven by escalating multi-drug prescription volumes and inventory bottlenecks.", 
+      problem_statement: "Traditional verification methods rely on intensive human verification steps vulnerable to cognitive fatigue, increasing risk profiles for adverse cross-reactions.", 
+      findings: "Deploying automated cross-referencing algorithms safely identified over 124 critical omissions and contraindicated combinations during pilot validation runs.", 
+      proposed_solutions: "Establish a central rule-based validation loop that cross-references prescription files directly with Electronic Health Records before dispensing medication bundles.", 
+      impact: "💊 100% Safety Cross-Reference Accuracy with automated multi-drug contraindication blocks.", 
+      src: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=500&q=80" 
+    },
+    { 
+      id: 7, 
+      name: "DermoScan Agent", 
+      type: "clinical", 
+      location: "Canada (Toronto)", 
+      background: "Dermatology outpatient clinics reported severe case backlogs due to high consultation demands and slow visual assessment prioritization workflows.", 
+      problem_statement: "Visual evaluation of atypical skin lesions is highly variable, demanding specialist hours for benign cases and bottlenecking high-risk melanoma care pipelines.", 
+      findings: "Computer vision classifiers matched expert diagnostic parity across a multi-ethnic visual cohort, handling high-velocity image triage accurately.", 
+      proposed_solutions: "Integrate specialized high-resolution imaging attachments with clinical devices, mapping surface lesion pixels against a validated baseline framework.", 
+      impact: "🔍 99.6% Diagnostic Assessment Parity and rapid visual risk stratification.", 
+      src: "https://github.com/uPull-ai/web/blob/main/asset/images/Dermatology%20AI%20Triage-2.png?raw=true?raw=true?w=500&q=80" 
+    },
+    { 
+      id: 8, 
+      name: "EndoFlow Agent", 
+      type: "clinical", 
+      location: "France (Lyon)", 
+      background: "Gastroenterology units faced severe analytical backlogs due to the slow manual generation of post-procedure structural endoscopy reports.", 
+      problem_statement: "The need for immediate documentation following endoscopic interventions severely limited daily procedural room throughput and added significant administrative friction.", 
+      findings: "Voice-activated processing agents successfully captured real-time ambient inputs, formatting standardized reports without interrupting procedural workflows.", 
+      proposed_solutions: "Establish a mandatory clinician review loop requiring a validation signature on the agent-generated text draft prior to PACS archiving.", 
+      impact: "🎯 94% True Target Boundary Calibration and instantaneous post-procedural record drafting.", 
+      src: "https://www.duomed.com/sites/default/files/styles/full_screen/public/copied_duomed_be/copied/2020-03/Endoflow%20II%20double%20cuve_1.png?itok=jn_tjNza&fitw=500&fitq=80" 
+    },
+    { 
+      id: 9, 
+      name: "HemoAnalyst AI", 
+      type: "clinical", 
+      location: "Australia (Sydney)", 
+      background: "Hematology laboratories experienced major diagnostic throughput strains from the high volume of manual peripheral blood smear reviews required daily.", 
+      problem_statement: "Manual differentiation of complex cell morphologies is heavily time-intensive and highly dependent on available expert observer focus.", 
+      findings: "Deep learning models achieved high-velocity image screening velocity, isolating cellular abnormalities with precise tracking parity.", 
+      proposed_solutions: "Implement automated image pre-sorting pipelines that route flagged cell clusters directly to an expert hematologist validation queue.", 
+      impact: "🔬 100% Standard Lab Counting Parity and immediate abnormal morphology alerts.", 
+      src: "https://github.com/uPull-ai/web/blob/main/asset/images/HemoAnalyst.png?raw=true?w=500&q=80" 
+    },
+    { 
+      id: 10, 
+      name: "RespiraTrack", 
+      type: "clinical", 
+      location: "Canada (Vancouver)", 
+      background: "Pulmonary monitoring settings suffered from delayed clinical escalations due to intermittent manual oversight of continuous patient vital signs.", 
+      problem_statement: "Static checking intervals fail to detect early physiological deterioration markers or unstable breathing shifts, risking unmanaged acute events.", 
+      findings: "Continuous wave-pattern monitoring isolated subtle respiratory frequency shifts long before standard threshold alarms triggered.", 
+      proposed_solutions: "Link ambient acoustic telemetry nodes with real-time vitals tracking, feeding unified anomaly alerts to floor care coordinators.", 
+      impact: "🫁 91% ICU Escalation Deflection via real-time warning windows.", 
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8OrJFYMvaBn2IrCSy8hDetffl7cpPsOC0hhq4edDsnA&s=10&fitw=500&fitq=80" 
+    },
+    { 
+      id: 11, 
+      name: "NephroGuard", 
+      type: "clinical", 
+      location: "United Kingdom (Leeds)", 
+      background: "Intensive care units struggled with severe treatment delays for acute kidney injury (AKI) due to late clinical observations of lab value trends.", 
+      problem_statement: "Relying on isolated, static creatinine measurements stalls early therapeutic windows, increasing patient complication risks.", 
+      findings: "Predictive tracking models mapped real-time urine output metrics against creatinine gradients, capturing early indicators of acute kidney stress.", 
+      proposed_solutions: "Deploy an integrated Electronic Health Record dashboard that displays real-time risk trajectory analysis directly to renal care teams.", 
+      impact: "💧 18-Hour Advanced Clinical Warning Window to prevent irreversible acute kidney strain.", 
+      src: "https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=500&q=80" 
+    },
+    { 
+      id: 12, 
+      name: "GenetixAgent", 
+      type: "operational", 
+      location: "United Kingdom (Cambridge)", 
+      background: "Genomics sequencing infrastructure faced significant data interpretation bottlenecks due to the growing volume of raw variant lines needing analysis.", 
+      problem_statement: "Manual variant prioritization requires extensive cross-referencing against global mutation datasets, severely delaying personalized diagnostic reports.", 
+      findings: "Automated variant prioritization engines matched mutation lines with known clinical literature at high speed, filtering out benign structural noise.", 
+      proposed_solutions: "Utilise containerised cloud security protocols to manage high-velocity data cross-referencing against external variant libraries.", 
+      impact: "🧬 310% Genomics Sequencing Velocity and accelerated variant significance mapping.", 
+      src: "https://github.com/uPull-ai/web/blob/main/asset/images/Genetix.png?raw=true?w=500&q=80" 
+    },
+    { 
+      id: 13, 
+      name: "OncoSuggest", 
+      type: "clinical", 
+      location: "Canada (Toronto)", 
+      background: "Oncology teams faced intensive analytical strains matching complex patient tumor markers to rapidly evolving global therapeutic data.", 
+      problem_statement: "The exponential growth of clinical trial data creates an unsustainable cognitive burden, risking delays in identifying optimal therapy options.", 
+      findings: "The evaluation engine cross-referenced genomic profiling files with complex drug combo indices, identifying viable targeted tracks.", 
+      proposed_solutions: "Implement bi-weekly database synchronisation routines that verify AI therapy mapping results against verified medical guidelines.", 
+      impact: "🔬 97.2% Plan Concordance matching advanced institutional multi-drug combinations.", 
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4xIWKjP2AZntHNGYrNE8tKA-bFED9A4I3b0m5X73iew&s&fitw=500&fitq=80" 
+    },
+    { 
+      id: 14, 
+      name: "NurseBot Priority", 
+      type: "operational", 
+      location: "United States (Boston)", 
+      background: "Inpatient wards reported high staff exhaustion levels due to unmanaged call-bell volumes and disorganised nursing task distribution.", 
+      problem_statement: "Unfiltered bedside call alerts fail to distinguish critical medical emergencies from non-urgent requests, driving alert fatigue.", 
+      findings: "Voice-parsing triage nodes successfully categorised incoming call requests, routing minor service requests to supporting personnel.", 
+      proposed_solutions: "Integrate localised multi-decibel speech triage filters with floor communication networks to route critical alerts directly to primary nurses.", 
+      impact: "📋 40% Inpatient Call Bell Attenuation and streamlined floor communication.", 
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3UwzyXeEan0XVD94LCzPpDQwjdq3foY0cz4iwl3odMw&s=10&fitw=500&fitq=80" 
+    },
+    { 
+      id: 15, 
+      name: "ICU-Guard AI", 
+      type: "clinical", 
+      location: "Netherlands (Amsterdam)", 
+      background: "Intensive care units struggled with severe alert backlogs caused by high volumes of uncoordinated physiological telemetry data streams.", 
+      problem_statement: "Isolated parameter alarms generate high false-positive rates, distracting medical staff from subtle multi-system deterioration signals.", 
+      findings: "Unified analytics models cross-referenced vital streams simultaneously, filtering out transient artifacts and false-alarm spikes.", 
+      proposed_solutions: "Establish centralised multi-parameter validation filters that delay non-critical telemetry alerts until clinical drift is confirmed.", 
+      impact: "📟 74% Drop in Alarm Latency with near-zero false alert fatigue.", 
+      src: "https://github.com/uPull-ai/web/blob/main/asset/images/ICU.png?raw=true?w=500&q=80" 
+    },
+    { 
+      id: 16, 
+      name: "SurgiPlan AI", 
+      type: "operational", 
+      location: "United Kingdom (Manchester)", 
+      background: "Surgical departments experienced significant administrative overhead due to manual operating theater scheduling and frequent resource conflicts.", 
+      problem_statement: "Traditional static scheduling tools fail to adapt to variable room turnaround parameters, causing extensive delays and underutilized capacity.", 
+      findings: "Predictive deep-learning models dynamically optimized room utilization timelines based on surgeon speed profiles and emergency caseloads.", 
+      proposed_solutions: "Deploy an automated multi-parameter booking matrix that adjusts real-time theater allocations based on live case progression indicators.", 
+      impact: "H 24% Operating Theatre Capacity Boost and minimized procedural scheduling delays.", 
+      src: "https://news.virginia.edu/sites/default/files/Header-SF-LaborUnity-KW.jpg?w=500&q=80" 
+    },
+    { 
+      id: 17, 
+      name: "TriageBot 24/7", 
+      type: "operational", 
+      location: "New Zealand (Auckland)", 
+      background: "Emergency waiting areas faced severe patient overcrowding and prolonged clinical intake bottlenecks during peak consultation hours.", 
+      problem_statement: "Manual frontline triage flows create major processing delays, lengthening the interval between arrival and diagnostic intervention.", 
+      findings: "Autonomous entry tracking nodes safely gathered preliminary patient complaints, accelerating downstream nurse prioritization.", 
+      proposed_solutions: "Implement standardized intake screening workflows across digital clinical kiosks to automate early diagnostic triage categories.", 
+      impact: "⏳ 48% Corridor Congestion Relief and accelerated emergency room check-ins.", 
+      src: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=500&q=80" 
+    },
+    { 
+      id: 18, 
+      name: "RehabTrack Agent", 
+      type: "clinical", 
+      location: "Switzerland (Zurich)", 
+      background: "Physiotherapy teams reported variable recovery timelines due to intermittent tracking of patient physical therapy compliance.", 
+      problem_statement: "Subjective rehabilitation logs fail to accurately capture structural movement anomalies or joint angle metrics between clinical visits.", 
+      findings: "Computer vision analysis accurately tracked patient range-of-motion trajectories during standard physical therapy sessions.", 
+      proposed_solutions: "Deploy non-invasive vision tracking algorithms within dedicated therapy spaces to monitor objective joint alignment data points.", 
+      impact: "🏃 15% Faster Functional Restoration through data-driven recovery tracking.", 
+      src: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=500&q=80" 
+    },
+    { 
+      id: 19, 
+      name: "OpthaScreen", 
+      type: "clinical", 
+      location: "India (Bangalore)", 
+      background: "Rural medical networks experienced severe diagnostic delays for diabetic retinopathy due to a shortage of expert ophthalmology screeners.", 
+      problem_statement: "High population screening volumes strain limited imaging clinics, creating severe backlogs for high-risk diagnostic evaluations.", 
+      findings: "Automated image screening tools accurately isolated early fundus anomalies, sorting out normal cases from urgent care lines.", 
+      proposed_solutions: "Deploy lightweight screening agents across community health centers to perform rapid automated image pre-sorting.", 
+      impact: "👁️ 2M Evaluations Completed with reliable automated visual screening accuracy.", 
+      src: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=500&q=80" 
+    },
+    { 
+      id: 20, 
+      name: "GerioCare Agent", 
+      type: "clinical", 
+      location: "Japan (Tokyo)", 
+      background: "Long-term residential facilities reported high staff strain and frequent adverse events from delayed response times to patient fall incidents.", 
+      problem_statement: "Standard sensor systems generate frequent false alarms or fail entirely to track complex environmental movement hazards.", 
+      findings: "Continuous spatial telemetry nodes accurately detected posture shifts and fall indicators, immediately alerting floor staff.", 
+      proposed_solutions: "Deploy non-contact environment monitoring matrices paired with local edge processing to maintain resident room privacy boundaries.", 
+      impact: "🧓 88% Fall Incidents Attenuation through automated spatial hazard alerts.", 
+      src: "https://github.com/uPull-ai/web/blob/main/asset/images/GenetixAgent.png?raw=true?w=500&q=80" 
+    },
+    { 
+      id: 21, 
+      name: "PediatricScribe", 
+      type: "clinical", 
+      location: "United Kingdom (Birmingham)", 
+      background: "Pediatric departments reported high operational documentation backlogs due to time-consuming manual recording of diverse child check-up sessions.", 
+      problem_statement: "The high-velocity nature of child consultations generates substantial documentation friction, diverting clinician focus away from young patients.", 
+      findings: "The deployment of autonomous clinical agents successfully eliminated manual drafting steps, unlocking vital capacity across congested units.", 
+      proposed_solutions: "Implement routine audit workflows to verify output parity between agent outputs and primary Electronic Health Records.", 
+      impact: "👶 4.2M Backlogs Eradicated via real-time automated ambient transcription.", 
+      src: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500&q=80" 
+    },
+    { 
+      id: 22, 
+      name: "NeuroAssess AI", 
+      type: "clinical", 
+      location: "Germany (Munich)", 
+      background: "Neurology departments in Munich faced long appointment waitlists due to slow, manually administered cognitive testing procedures.", 
+      problem_statement: "Lengthy traditional paper-and-pen testing structures exhaust fragile patients and severely limit baseline diagnostic throughput.", 
+      findings: "Digital tracking models captured micro-behavioral testing variations, streamlining early indicators of cognitive drift.", 
+      proposed_solutions: "Transition standardized testing models to automated interactive interfaces that log patient response variations in real-time.", 
+      impact: "🧩 Early Neurodegenerative Isolation with a 35% reduction in administrative testing overhead.", 
+      src: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500&q=80" 
+    },
+    { 
+      id: 23, 
+      name: "AnaesthesiaAI", 
+      type: "clinical", 
+      location: "South Africa (Cape Town)", 
+      background: "Surgical suites reported inconsistent pre-operative calculations due to highly variable manual drug dosage math templates.", 
+      problem_statement: "Manual infusion calculations increase risk profiles for vulnerable patients, requiring multiple steps of manual clinical review.", 
+      findings: "Automated dosing calculators consistently predicted drug concentration requirements based on patient biometric sets.", 
+      proposed_solutions: "Integrate a real-time clinical calculation validator directly into surgical infusion systems to check mathematical parameters.", 
+      impact: "💉 Near-Zero Target Infusion Variance with automated verification steps.", 
+      src: "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=500&q=80" 
+    },
+    { 
+      id: 24, 
+      name: "OrthoModel AI", 
+      type: "operational", 
+      location: "Denmark (Copenhagen)", 
+      background: "Orthopedic clinics reported long pre-surgical preparation delays due to slow manual measurements taken from two-dimensional radiographs.", 
+      problem_statement: "Manually mapping complex joint reconstructions from flat images takes substantial specialist hours and limits daily caseloads.", 
+      findings: "Automated orthopedic modeling engines generated high-fidelity spatial joint structures within seconds of initial image upload.", 
+      proposed_solutions: "Integrate automated modeling toolsets with regional PACS networks to streamline pre-surgical imaging pipelines.", 
+      impact: "🦴 3.2 Hours Saved Per Layout through automated 3D reconstruction modeling.", 
+      src: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=500&q=80" 
+    },
+    { 
+      id: 25, 
+      name: "ImmuniseBot", 
+      type: "operational", 
+      location: "Australia (Brisbane)", 
+      background: "Public health agencies experienced logistical strain managing vaccine inventory allocations across highly scattered distribution points.", 
+      problem_statement: "Static supply routing models fail to respond to localised clinical spike demands, causing either waste or sudden stock shortages.", 
+      findings: "Dynamic predictive tracking models successfully anticipated community supply needs by mapping active tracking indicators.", 
+      proposed_solutions: "Deploy an automated asset management network that automatically updates logistics rebalancing based on real-time clinic trends.", 
+      impact: "💉 Automated Supply Re-balancing with near-zero regional depot depletion.", 
+      src: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=500&q=80" 
+    },
+    { 
+      id: 26, 
+      name: "AllergyScan AI", 
+      type: "clinical", 
+      location: "Ireland (Dublin)", 
+      background: "Emergency intake units faced high rates of preventable drug reactions due to fragmented access to patient medication histories.", 
+      problem_statement: "Manually cross-checking historical allergy charts against new emergency prescriptions adds dangerous delays during critical care windows.", 
+      findings: "Automated screening tools immediately isolated hidden allergy markers and contraindicated medication patterns at the point of intake.", 
+      proposed_solutions: "Link an automated medication cross-referencing system directly to intake charting systems to trigger instant allergy blocks.", 
+      impact: "⚠️ 100% Hypersensitivity Mitigation at critical emergency care entry points.", 
+      src: "https://images.unsplash.com/photo-1614850523060-8da1d56ae167?w=500&q=80" 
+    },
+    { 
+      id: 27, 
+      name: "StrokeAlert Agent", 
+      type: "clinical", 
+      location: "United States (San Francisco)", 
+      background: "Stroke specialty clinics faced critical time delays waiting for manual confirmation of urgent cranial CT angiogram scans.", 
+      problem_statement: "Extended image review queues in busy trauma settings delay vital time-critical stroke treatment windows.", 
+      findings: "Deep learning imaging models scanned cranial CT data rapidly, identifying early ischemia signs and vascular blocks.", 
+      proposed_solutions: "Deploy an image prioritization loop that moves scans with suspected occlusion markers to the front of the radiologist queue.", 
+      impact: "🧠 18-Min Triage Notification drop to protect critical neurological function.", 
+      src: "https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=500&q=80" 
+    },
+    { 
+      id: 28, 
+      name: "NeonatalWatch", 
+      type: "clinical", 
+      location: "United Kingdom (Liverpool)", 
+      background: "Neonatal intensive care settings suffered from frequent alert noise, making it difficult to detect early signs of newborn sepsis.", 
+      problem_statement: "Standard alert parameters generate high numbers of false warnings, drowning out critical multi-system vital sign shifts.", 
+      findings: "Integrated physiological monitors successfully isolated subtle trends in systemic changes, warning staff hours before overt shocks.", 
+      proposed_solutions: "Implement a combined multi-vital trend model to filter out brief physiological spikes and focus on core trend alerts.", 
+      impact: "👶 99.8% Early Sepsis Detection while significantly reducing false alarm fatigue.", 
+      src: "https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=500&q=80" 
+    },
+    { 
+      id: 29, 
+      name: "TraumaFlow AI", 
+      type: "operational", 
+      location: "Canada (Montreal)", 
+      background: "Trauma intake facilities faced severe overcrowding and patient routing confusion during unexpected mass-casualty events.", 
+      problem_statement: "Manual triage systems are quickly overwhelmed by sudden patient surges, creating tracking blind spots and bottlenecking critical care.", 
+      findings: "Autonomous patient tracking systems dynamically monitored available resources, identifying routing blocks as they appeared.", 
+      proposed_solutions: "Establish a unified facility tracking system that automatically updates patient distribution paths based on live room status data.", 
+      impact: "🚑 42% Triage Congestion Reduction during simulated mass-casualty peak surges.", 
+      src: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=500&q=80" 
+    },
+    { 
+      id: 30, 
+      name: "PsychScribe", 
+      type: "clinical", 
+      location: "United Kingdom (Bristol)", 
+      background: "Psychiatric teams reported severe documentation backlogs due to the intensive manual recording required for long mental health consultations.", 
+      problem_statement: "Typing notes during highly sensitive patient sessions creates a physical barrier, disrupting trust and clinical dialogue.", 
+      findings: "Specialised ambient processing notes accurately captured key conversational details, organising verbatim inputs into clear summaries.", 
+      proposed_solutions: "Deploy secure ambient dictation tools in quiet clinical offices, backed by clear local data encryption protocols.", 
+      impact: "📝 90-Second Record Ingestion that saves hours of post-session documentation tracking.", 
+      src: "https://github.com/uPull-ai/web/blob/main/asset/images/HemoAnalyst.png?raw=true?w=500&q=80" 
+    }
+  ];
+
+function scrollToLibrary(){ document.getElementById('library').scrollIntoView({behavior:'smooth'}); }
+function scrollToForm(){ document.getElementById('submit-form').scrollIntoView({behavior:'smooth'}); }
+
+function initLibrary(){
+  const container = document.getElementById('library-injector');
+  container.innerHTML = '';
+  expandedCases.forEach(c => {
+    container.innerHTML += `
+      <div class="lib-card" data-category="${c.type}">
+        <div class="lib-img-frame"><img src="${c.src}" alt="${c.name}" loading="lazy"><span class="lib-badge badge-${c.type}">${c.type}</span></div>
+        <div class="lib-body">
+          <div><h3 style="color:var(--primary-navy); font-size:1.2rem;">${c.name}</h3><p style="font-size:0.75rem; color:var(--nhs-blue); font-weight:600;">\ud83d\udccd ${c.location}</p><p style="color:var(--text-muted); font-size:0.85rem;">${c.background.substring(0,80)}\u2026</p></div>
+          <div class="lib-read-btn" onclick="openPopup(${c.id})">Read Abstract \u2192</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+    document.querySelectorAll('.filter-btn[data-target="' + this.dataset.target + '"]').forEach(b => b.classList.add('active-filter'));
+    const target = this.dataset.target;
+    document.querySelectorAll('.lib-card').forEach(card => {
+      if (target === 'all' || card.dataset.category === target) card.classList.remove('hidden');
+      else card.classList.add('hidden');
+    });
+    scrollToLibrary();
+  });
+});
+
+function openPopup(id){
+  const c = expandedCases.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('popup-title').innerText = c.name;
+  document.getElementById('popup-loc').innerText = '\ud83d\udccd ' + c.location;
+  document.getElementById('popup-background').innerText = c.background;
+  document.getElementById('popup-workflow').innerText = c.proposed_solutions;
+  document.getElementById('popup-safety').innerText = c.findings;
+  document.getElementById('popup-impact').innerText = c.impact;
+  const badge = document.getElementById('popup-badge');
+  badge.innerText = c.type;
+  badge.className = 'lib-badge badge-' + c.type;
+  document.getElementById('popup-overlay').classList.add('show-popup');
+}
+function closePopup(){ document.getElementById('popup-overlay').classList.remove('show-popup'); }
+
 const fieldIds = ['caseName','caseType','location','imageUrl','background','problemStatement','proposedSolutions','findings','safety','impact','submitterName','submitterOrg','submitterEmail'];
 
 function val(id){ return document.getElementById(id).value.trim(); }
@@ -338,7 +823,7 @@ async function submitCase(){
     setStatus('Please add a case study name before submitting.', true);
     return;
   }
-  const subject = encodeURIComponent('Case Study Submission: ' + val('caseName'));
+  const subject = encodeURIComponent('Submit a Case Study: ' + val('caseName'));
   const body = encodeURIComponent(buildEmailBody());
   window.location.href = `mailto:info@upull.ai?subject=${subject}&body=${body}`;
 
@@ -371,8 +856,8 @@ function clearForm(){
   setStatus('');
 }
 
-// --- shared "recently submitted" tracker (public, non-identifying fields only) ---
-async function addToRecent(){
+// --- "recently submitted" tracker (this device only — static site, no backend) ---
+function addToRecent(){
   const entry = {
     name: val('caseName'),
     type: val('caseType'),
@@ -381,19 +866,19 @@ async function addToRecent(){
   };
   let list = [];
   try{
-    const r = await window.storage.get('case-submissions', true);
-    if(r && r.value) list = JSON.parse(r.value);
+    const raw = localStorage.getItem('case-submissions');
+    if(raw) list = JSON.parse(raw);
   }catch(e){ list = []; }
   list.unshift(entry);
   list = list.slice(0, 10);
-  try{ await window.storage.set('case-submissions', JSON.stringify(list), true); }catch(e){}
+  try{ localStorage.setItem('case-submissions', JSON.stringify(list)); }catch(e){}
   renderRecent(list);
 }
 
-async function loadRecent(){
+function loadRecent(){
   try{
-    const r = await window.storage.get('case-submissions', true);
-    if(r && r.value) renderRecent(JSON.parse(r.value));
+    const raw = localStorage.getItem('case-submissions');
+    if(raw) renderRecent(JSON.parse(raw));
     else renderRecent([]);
   }catch(e){ renderRecent([]); }
 }
@@ -421,6 +906,7 @@ fieldIds.forEach(id=>{
 
 renderPreview();
 loadRecent();
+initLibrary();
 </script>
 </body>
 </html>
