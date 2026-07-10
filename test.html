@@ -1,60 +1,756 @@
-<!-- ══════════════════════════════════════ FOUNDERS ══ -->
-<section id="founders" class="section">
-  <div class="section-inner">
-    <div class="section-label">Our Team</div>
-    <h2 class="section-title" style="text-align:center;">Our Visionaries &amp; <span>Leaders</span></h2>
-    <p style="text-align:center; color:var(--text-muted); max-width:600px; margin:0 auto 3rem; line-height:1.7;">Dedicated to frontline-led digital capability and safety.</p>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>uPull.ai — Frontline-Led AI Adoption for the NHS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ──────────────────────────────────────────────── */
+:root {
+  --navy:    #0a0e1a;
+  --navy2:   #0d1221;
+  --navy3:   #111827;
+  --border:  rgba(255,255,255,0.07);
+  --orange:  #e8700a;
+  --orange2: #f08533;
+  --text:    #e2e4ea;
+  --muted:   #8b93a8;
+  --faint:   #4a5168;
+  --font-h:  'Rajdhani', sans-serif;
+  --font-b:  'Inter', sans-serif;
+  --r:       6px;
+  --trans:   180ms cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-b);font-size:1rem;line-height:1.65;color:var(--text);background:var(--navy);overflow-x:hidden;}
+img,svg{display:block;max-width:100%;}
+button,input{font:inherit;cursor:pointer;}
+h1,h2,h3,h4{font-family:var(--font-h);line-height:1.15;text-wrap:balance;}
+p{text-wrap:pretty;max-width:68ch;}
+a{color:var(--orange);text-decoration:none;transition:color var(--trans);}
+a:hover{color:var(--orange2);}
+::selection{background:rgba(232,112,10,0.25);}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:var(--r);}
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2rem; margin-bottom:3rem;">
+/* ── NAV ──────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1rem,4vw,2.5rem);
+  height:60px;
+  background:rgba(10,14,26,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-h);font-size:1.4rem;font-weight:700;color:#fff;
+}
+.nav-logo svg{flex-shrink:0;}
+.nav-links{display:flex;gap:clamp(1rem,2.5vw,2rem);list-style:none;}
+.nav-links a{color:var(--muted);font-size:0.875rem;font-weight:500;letter-spacing:0.03em;transition:color var(--trans);}
+.nav-links a:hover{color:#fff;}
+.nav-cta{
+  background:var(--orange);color:#fff!important;
+  padding:0.45rem 1.1rem;border-radius:var(--r);
+  font-weight:600;letter-spacing:0.04em;
+  transition:background var(--trans)!important;
+}
+.nav-cta:hover{background:var(--orange2)!important;}
+.burger{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none;}
+.burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:var(--trans);}
+.mob-menu{
+  display:none;position:fixed;top:60px;left:0;right:0;
+  background:rgba(10,14,26,0.97);backdrop-filter:blur(12px);
+  padding:1.5rem clamp(1rem,4vw,2.5rem);
+  border-bottom:1px solid var(--border);flex-direction:column;gap:1rem;z-index:99;
+}
+.mob-menu.open{display:flex;}
+.mob-menu a{color:var(--muted);font-size:1rem;font-weight:500;padding:0.5rem 0;border-bottom:1px solid var(--border);}
+.mob-menu a:last-child{border:none;}
+.mob-menu a:hover{color:#fff;}
 
-      <!-- Alex Cheung -->
-      <div class="reveal" style="background:rgba(255,255,255,0.04); border:1px solid rgba(232,112,10,0.25); border-radius:6px; padding:2rem;">
-        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
-          <div style="width:56px; height:56px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.3rem; color:#fff;">AC</span>
+/* ── LAYOUT ───────────────────────────────────────────────── */
+.wrap{max-width:1100px;margin:0 auto;padding-inline:clamp(1rem,4vw,2.5rem);}
+section{padding-block:clamp(4rem,7vw,7rem);}
+
+/* ── HERO ─────────────────────────────────────────────────── */
+#hero{
+  min-height:100svh;display:flex;align-items:center;
+  padding-top:80px;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(232,112,10,0.08) 0%, transparent 70%),
+    var(--navy);
+}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--orange);background:rgba(232,112,10,0.1);
+  padding:0.4rem 0.85rem;border-radius:var(--r);border:1px solid rgba(232,112,10,0.25);
+  margin-bottom:1.4rem;
+}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+h1.hero-title{
+  font-size:clamp(2.2rem,5vw,4rem);font-weight:700;color:#fff;
+  margin-bottom:1.2rem;
+}
+h1.hero-title span{color:var(--orange);}
+.hero-sub{
+  font-size:clamp(0.95rem,1.5vw,1.1rem);color:var(--muted);
+  margin-bottom:2rem;max-width:48ch;
+}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0.7rem 1.5rem;border-radius:var(--r);
+  font-weight:600;font-size:0.9rem;letter-spacing:0.04em;
+  transition:background var(--trans),transform var(--trans);
+  border:none;
+}
+.btn:active{transform:scale(0.98);}
+.btn-primary{background:var(--orange);color:#fff;}
+.btn-primary:hover{background:var(--orange2);color:#fff;}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.2);color:#fff;}
+.hero-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:2rem;
+}
+.stat-item{text-align:center;}
+.stat-num{font-family:var(--font-h);font-size:2.2rem;font-weight:700;color:var(--orange);display:block;}
+.stat-label{font-size:0.78rem;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;}
+
+/* ── SECTION LABELS ───────────────────────────────────────── */
+.label{
+  font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:0.7rem;
+}
+.section-title{
+  font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;color:#fff;
+  margin-bottom:0.8rem;
+}
+.section-title span{color:var(--orange);}
+.section-sub{font-size:0.95rem;color:var(--muted);margin-bottom:2.5rem;max-width:52ch;}
+.divider{height:1px;background:var(--border);margin-block:0;}
+
+/* ── THE PROBLEM ──────────────────────────────────────────── */
+#problem{background:var(--navy2);}
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;}
+.prob-card{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.5rem;
+}
+.prob-card h4{font-family:var(--font-h);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.5rem;}
+.prob-card p{font-size:0.875rem;color:var(--muted);max-width:none;}
+
+/* ── PUSH vs PULL ─────────────────────────────────────────── */
+#approach{background:var(--navy);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+.approach-card{
+  border:1px solid var(--border);border-radius:var(--r);padding:2rem;
+}
+.approach-card.old{border-color:rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);}
+.approach-card.new{border-color:rgba(232,112,10,0.3);background:rgba(232,112,10,0.04);}
+.approach-tag{
+  display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;padding:0.3rem 0.7rem;border-radius:3px;margin-bottom:1rem;
+}
+.approach-tag.bad{background:rgba(255,255,255,0.06);color:var(--muted);}
+.approach-tag.good{background:rgba(232,112,10,0.15);color:var(--orange);}
+.approach-card h3{font-family:var(--font-h);font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:0.8rem;}
+.approach-card p{font-size:0.9rem;color:var(--muted);max-width:none;margin-bottom:1rem;}
+.result-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.78rem;font-weight:600;padding:0.35rem 0.75rem;border-radius:3px;
+}
+.result-badge.bad{background:rgba(255,70,70,0.08);color:#f08080;}
+.result-badge.good{background:rgba(100,200,100,0.1);color:#7dce7d;}
+
+/* ── ROADMAP ──────────────────────────────────────────────── */
+#roadmap{background:var(--navy2);}
+.roadmap-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.step{
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:1.8rem;position:relative;
+  background:rgba(255,255,255,0.02);
+}
+.step-num{
+  font-family:var(--font-h);font-size:2.5rem;font-weight:700;
+  color:rgba(232,112,10,0.18);line-height:1;margin-bottom:0.8rem;
+}
+.step h3{font-family:var(--font-h);font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:0.5rem;}
+.step p{font-size:0.875rem;color:var(--muted);max-width:none;}
+.step-detail{
+  margin-top:0.8rem;font-size:0.78rem;color:var(--orange);
+  font-weight:600;letter-spacing:0.05em;
+}
+.connector{
+  display:flex;align-items:center;
+  color:var(--faint);font-size:1.2rem;
+  justify-content:center;margin-top:2rem;
+}
+
+/* ── RESULTS ──────────────────────────────────────────────── */
+#results{background:var(--navy);}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.result-card{
+  border:1px solid var(--border);border-radius:var(--r);padding:2rem;
+  background:rgba(255,255,255,0.02);
+}
+.result-card .big{
+  font-family:var(--font-h);font-size:2.8rem;font-weight:700;color:var(--orange);
+  display:block;line-height:1;margin-bottom:0.5rem;
+}
+.result-card h3{font-family:var(--font-h);font-size:1.1rem;color:#fff;margin-bottom:0.5rem;}
+.result-card p{font-size:0.875rem;color:var(--muted);max-width:none;}
+
+/* ── FAQ (grouped) ────────────────────────────────────────── */
+#faq{background:var(--navy2);}
+.faq-groups{display:flex;flex-direction:column;gap:0.7rem;max-width:760px;}
+.faq-group-card{
+  border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;background:rgba(255,255,255,0.02);
+  transition:border-color var(--trans);
+}
+.faq-group-head{
+  width:100%;text-align:left;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.15rem 1.35rem;
+  background:none;border:none;cursor:pointer;gap:1rem;
+  transition:background var(--trans);
+}
+.faq-group-head:hover{background:rgba(255,255,255,0.03);}
+.faq-group-head[aria-expanded="true"]{background:rgba(232,112,10,0.05);}
+.faq-group-title{display:flex;align-items:center;gap:0.9rem;min-width:0;}
+.faq-group-num{
+  font-family:var(--font-h);font-size:0.8rem;font-weight:700;color:var(--orange);
+  background:rgba(232,112,10,0.12);width:2.1rem;height:2.1rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.faq-group-name{font-family:var(--font-h);font-size:1.05rem;font-weight:700;color:#fff;}
+.faq-group-count{font-size:0.75rem;color:var(--muted);margin-top:2px;}
+.faq-group-icon{
+  flex-shrink:0;width:22px;height:22px;
+  border:1px solid var(--faint);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:var(--muted);
+  transition:transform var(--trans),border-color var(--trans);
+}
+.faq-group-head[aria-expanded="true"] .faq-group-icon{
+  transform:rotate(45deg);border-color:var(--orange);color:var(--orange);
+}
+.faq-group-body{display:none;padding:0 1.35rem 1.3rem;border-top:1px solid var(--border);}
+.faq-group-body.open{display:block;padding-top:1.1rem;}
+.faq-entry{margin-bottom:1.3rem;}
+.faq-entry:last-child{margin-bottom:0;}
+.faq-q-text{font-family:var(--font-h);font-weight:700;color:#fff;font-size:0.95rem;margin-bottom:0.4rem;}
+.faq-a-text{font-size:0.875rem;color:var(--muted);line-height:1.75;max-width:none;}
+
+/* ── TEAM ─────────────────────────────────────────────────── */
+#team{background:var(--navy);}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.team-card{
+  border:1px solid var(--border);border-radius:var(--r);padding:1.8rem;
+  background:rgba(255,255,255,0.02);
+}
+.team-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--orange);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:1.15rem;font-weight:700;color:#fff;
+  margin-bottom:1rem;
+}
+.team-card h3{font-family:var(--font-h);font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:3px;}
+.team-role{font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;}
+.team-card p{font-size:0.875rem;color:var(--muted);max-width:none;}
+
+/* Photo card */
+.team-photo-card{
+  border:1px solid rgba(232,112,10,0.3);border-radius:var(--r);
+  overflow:hidden;background:rgba(232,112,10,0.04);
+}
+.team-photo{width:100%;aspect-ratio:1;object-fit:cover;object-position:top;display:block;}
+.team-photo-info{padding:1.2rem 1.5rem;}
+
+/* ── CTA ──────────────────────────────────────────────────── */
+#cta{
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 50%, rgba(232,112,10,0.1) 0%, transparent 70%),
+    var(--navy2);
+  text-align:center;
+}
+#cta .section-title{font-size:clamp(1.8rem,3.5vw,3rem);}
+#cta .section-sub{margin-inline:auto;}
+.cta-form{
+  display:flex;gap:0.75rem;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center;
+}
+.cta-input{
+  flex:1;min-width:200px;
+  background:rgba(255,255,255,0.06);border:1px solid var(--border);
+  border-radius:var(--r);padding:0.7rem 1rem;color:var(--text);
+  font-size:0.9rem;transition:border-color var(--trans);outline:none;
+}
+.cta-input::placeholder{color:var(--faint);}
+.cta-input:focus{border-color:var(--orange);}
+.cta-note{font-size:0.75rem;color:var(--faint);margin-top:0.8rem;}
+
+/* ── FOOTER ───────────────────────────────────────────────── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem clamp(1rem,4vw,2.5rem);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-brand{font-family:var(--font-h);font-size:1.1rem;font-weight:700;color:#fff;}
+.footer-links{display:flex;gap:1.5rem;list-style:none;}
+.footer-links a{font-size:0.8rem;color:var(--muted);}
+.footer-links a:hover{color:#fff;}
+.footer-legal{font-size:0.75rem;color:var(--faint);}
+
+/* ── REVEAL ANIMATION ─────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .burger{display:flex;}
+  .hero-inner,.two-col,.results-grid,.team-grid{grid-template-columns:1fr;}
+  .roadmap-steps{grid-template-columns:1fr;}
+  .hero-stats{grid-template-columns:1fr 1fr;}
+  .team-photo-card{order:-1;}
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;}
+  *{animation:none!important;transition:none!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#hero" class="nav-logo" style="text-decoration:none;">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="uPull.ai logo">
+      <circle cx="14" cy="14" r="13" stroke="#e8700a" stroke-width="1.5"/>
+      <path d="M8 10 L14 18 L20 10" stroke="#e8700a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="14" cy="18" r="2.5" fill="#e8700a"/>
+    </svg>
+    uPull<span style="color:var(--orange);">.ai</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#faq">FAQs</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#cta" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#problem" onclick="closeMob()">Problem</a>
+  <a href="#approach" onclick="closeMob()">Approach</a>
+  <a href="#roadmap" onclick="closeMob()">Roadmap</a>
+  <a href="#results" onclick="closeMob()">Results</a>
+  <a href="#faq" onclick="closeMob()">FAQs</a>
+  <a href="#team" onclick="closeMob()">Team</a>
+  <a href="#cta" onclick="closeMob()" style="color:var(--orange);font-weight:600;">Join Waitlist →</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">
+          <span></span> NHS AI Adoption
+        </div>
+        <h1 class="hero-title">Stop Pushing.<br>Start <span>Pulling</span> AI.</h1>
+        <p class="hero-sub">A frontline-led delivery model that redesigns one workflow, builds internal capability, and proves measurable value — in six weeks.</p>
+        <div class="hero-btns">
+          <a href="#cta" class="btn btn-primary">Join the Waitlist →</a>
+          <a href="#approach" class="btn btn-ghost">How it works</a>
+        </div>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat-item">
+          <span class="stat-num">45%</span>
+          <span class="stat-label">Documentation time saved</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">85%</span>
+          <span class="stat-label">Referral pathways automated</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">5:1</span>
+          <span class="stat-label">Target ROI ratio</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">6 wks</span>
+          <span class="stat-label">Proof of value timeline</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PROBLEM ══ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="label">The Challenge</div>
+    <h2 class="section-title">Why NHS AI Deployments <span>Stall</span></h2>
+    <p class="section-sub">Four systemic barriers prevent digital transformation from delivering real value.</p>
+    <div class="problem-grid reveal">
+      <div class="prob-card">
+        <h4>Productivity Imperative</h4>
+        <p>Digital transformation is no longer optional — it is required for NHS sustainability.</p>
+      </div>
+      <div class="prob-card">
+        <h4>Capacity Deficit</h4>
+        <p>Existing IT systems are overloaded, restricting any meaningful internal development.</p>
+      </div>
+      <div class="prob-card">
+        <h4>Financial Barrier</h4>
+        <p>Traditional external delivery teams have become prohibitively expensive to commission.</p>
+      </div>
+      <div class="prob-card">
+        <h4>Talent Stagnation</h4>
+        <p>Outsourcing expertise leaves workforces unable to grow, maintain, or scale on their own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ APPROACH ══ -->
+<section id="approach">
+  <div class="wrap">
+    <div class="label">The Approach</div>
+    <h2 class="section-title">The <span>Pull</span> Principle</h2>
+    <p class="section-sub">Workflow defines the requirement — not the other way around.</p>
+    <div class="two-col reveal">
+      <div class="approach-card old">
+        <div class="approach-tag bad">The Old Way — Push</div>
+        <h3>Deploy a tool. Hope staff adapt.</h3>
+        <p>Organisations deploy generic AI tools globally and expect frontline staff to change behaviour around the software. The workflow is never redesigned.</p>
+        <div class="result-badge bad">✕ Low adoption &amp; poor ROI</div>
+      </div>
+      <div class="approach-card new">
+        <div class="approach-tag good">The New Way — Pull</div>
+        <h3>Target a bottleneck. Build from within.</h3>
+        <p>Start with a real operational pain point. Define the safety envelope, redesign the pathway, upskill frontline staff, then pull in exactly the right AI capability.</p>
+        <div class="result-badge good">✓ Immediate adoption &amp; self-sustaining growth</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ ROADMAP ══ -->
+<section id="roadmap">
+  <div class="wrap">
+    <div class="label">Delivery Model</div>
+    <h2 class="section-title">Three Stages. <span>Controlled</span> Results.</h2>
+    <p class="section-sub">A structured framework that minimises risk and captures real metrics at every stage.</p>
+    <div class="roadmap-steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Prove</h3>
+        <p>Target one workflow with two frontline staff to demonstrate rapid proof of value.</p>
+        <div class="step-detail">1 workflow · 2 staff · 6 weeks</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Build</h3>
+        <p>Engage an executive sponsor and empower 2–3 internal intrapreneurs to scale the model.</p>
+        <div class="step-detail">Executive sponsor · internal capability</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Scale</h3>
+        <p>Execute organisation-wide rollout with central platforms, dashboards, and AI governance.</p>
+        <div class="step-detail">Organisation-wide · self-sustaining</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ RESULTS ══ -->
+<section id="results">
+  <div class="wrap">
+    <div class="label">Proven Value</div>
+    <h2 class="section-title">Real <span>Outcomes</span> in the NHS</h2>
+    <p class="section-sub">Active operational optimisations across clinical efficiency tracks.</p>
+    <div class="results-grid reveal">
+      <div class="result-card">
+        <span class="big">45%</span>
+        <h3>Ambient Voice &amp; Medical Scribing</h3>
+        <p>Transitioning from retrospective typing to real-time ambient validation. Documentation time reduced by 45% across pilot sites.</p>
+      </div>
+      <div class="result-card">
+        <span class="big">85%</span>
+        <h3>Intelligent Care Triage Automation</h3>
+        <p>Automated classification engines extract clinical histories directly into EHR — 85% of referral pathways now fully automated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ FAQ ══ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="label">Frequently Asked</div>
+    <h2 class="section-title">Your Questions, <span>Answered</span></h2>
+    <p class="section-sub">Grouped by topic — open a category to see its questions.</p>
+    <div class="faq-groups reveal">
+
+      <div class="faq-group-card">
+        <button class="faq-group-head" aria-expanded="false">
+          <div class="faq-group-title">
+            <span class="faq-group-num">01</span>
+            <div>
+              <div class="faq-group-name">About &amp; Approach</div>
+              <div class="faq-group-count">4 questions</div>
+            </div>
           </div>
-          <div>
-            <div style="font-family:'Rajdhani',sans-serif; font-size:1.2rem; font-weight:700; color:#fff;">Alex Cheung</div>
-            <div style="font-size:0.8rem; color:var(--orange); font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Co-Founder</div>
+          <div class="faq-group-icon">+</div>
+        </button>
+        <div class="faq-group-body">
+          <div class="faq-entry">
+            <div class="faq-q-text">What is uPull.ai?</div>
+            <div class="faq-a-text">A workflow-led approach to healthcare AI adoption. We help NHS organisations redesign a specific pathway first, then pull the right AI capability into that workflow where it creates measurable value — not the other way around.</div>
+          </div>
+          <div class="faq-entry">
+            <div class="faq-q-text">What does "Pull" actually mean?</div>
+            <div class="faq-a-text">Pull means the workflow defines the requirement. We start with a real operational bottleneck, define the safety envelope, map the people and process changes, then introduce the AI capability needed for that specific job.</div>
+          </div>
+          <div class="faq-entry">
+            <div class="faq-q-text">Who is this designed for?</div>
+            <div class="faq-a-text">NHS trusts, ICS leaders, operational executives, digital transformation teams, frontline service leads, and clinical or operational intrapreneurs who need measurable change — not another abstract AI strategy discussion.</div>
+          </div>
+          <div class="faq-entry">
+            <div class="faq-q-text">Is this a software product?</div>
+            <div class="faq-a-text">It should be understood first as a delivery model. The value comes from selecting the right workflow, creating a governed pilot, building local capability, and proving ROI. Software and AI tools support that process — they are not the starting point.</div>
           </div>
         </div>
-        <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.7;">
-          Alex Cheung is an accomplished community builder and technology visionary dedicated to leading sustainable digital transformation initiatives. With an extensive background in orchestrating digital community frameworks and executing complex technology strategies within the healthcare sector, Alex specialises in moving organisations away from rigid IT procurement toward frontline-led capability building. His work focuses heavily on the governance, technical auditing, and maturity scoring of AI agents to ensure autonomous systems remain safe, compliant, and deeply embedded into operational workflows.
-        </p>
       </div>
 
-      <!-- Hassan Chaudry -->
-      <div class="reveal" style="background:rgba(255,255,255,0.04); border:1px solid rgba(232,112,10,0.25); border-radius:6px; padding:2rem;">
-        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
-          <div style="width:56px; height:56px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.3rem; color:#fff;">HC</span>
+      <div class="faq-group-card">
+        <button class="faq-group-head" aria-expanded="false">
+          <div class="faq-group-title">
+            <span class="faq-group-num">02</span>
+            <div>
+              <div class="faq-group-name">Proof of Value</div>
+              <div class="faq-group-count">4 questions</div>
+            </div>
           </div>
-          <div>
-            <div style="font-family:'Rajdhani',sans-serif; font-size:1.2rem; font-weight:700; color:#fff;">Hassan Chaudry</div>
-            <div style="font-size:0.8rem; color:var(--orange); font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Co-Founder</div>
+          <div class="faq-group-icon">+</div>
+        </button>
+        <div class="faq-group-body">
+          <div class="faq-entry">
+            <div class="faq-q-text">How long does a Proof of Value take?</div>
+            <div class="faq-a-text">The initial Proof of Value runs for six weeks, focused on one workflow with two frontline staff. It is designed to be low-risk, fast, and to generate enough real data to inform whether and how to scale.</div>
+          </div>
+          <div class="faq-entry">
+            <div class="faq-q-text">What does the Proof of Value involve?</div>
+            <div class="faq-a-text">One workflow selected with your team, two frontline staff who are supported and upskilled, a governed AI capability introduced with a defined safety envelope, and measurable outcomes tracked from day one.</div>
+          </div>
+          <div class="faq-entry">
+            <div class="faq-q-text">How does self-funding work?</div>
+            <div class="faq-a-text">The model is built around a 5:1 return framework. The efficiencies captured from the Prove stage generate enough measurable value to fund the Build stage. If the numbers don't stack up, we say so before you proceed.</div>
+          </div>
+          <div class="faq-entry">
+            <div class="faq-q-text">What happens to staff capability?</div>
+            <div class="faq-a-text">Building internal capability is the whole point. By the end of the programme, your team should be able to identify, design, and deliver the next workflow improvement themselves — without needing to re-engage external consultants.</div>
           </div>
         </div>
-        <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.7;">
-          Healthcare innovation and commercial strategy leader with extensive experience in digital health, data, and life sciences. Hassan brings deep expertise in translating complex clinical and operational challenges into scalable AI-driven solutions that deliver measurable outcomes across healthcare systems.
-        </p>
       </div>
 
-      <!-- Suki Panesar -->
-      <div class="reveal" style="background:rgba(255,255,255,0.04); border:1px solid rgba(232,112,10,0.25); border-radius:6px; padding:2rem;">
-        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
-          <div style="width:56px; height:56px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.3rem; color:#fff;">SP</span>
+      <div class="faq-group-card">
+        <button class="faq-group-head" aria-expanded="false">
+          <div class="faq-group-title">
+            <span class="faq-group-num">03</span>
+            <div>
+              <div class="faq-group-name">Governance &amp; Safety</div>
+              <div class="faq-group-count">1 question</div>
+            </div>
           </div>
-          <div>
-            <div style="font-family:'Rajdhani',sans-serif; font-size:1.2rem; font-weight:700; color:#fff;">Suki Panesar</div>
-            <div style="font-size:0.8rem; color:var(--orange); font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Co-Founder</div>
+          <div class="faq-group-icon">+</div>
+        </button>
+        <div class="faq-group-body">
+          <div class="faq-entry">
+            <div class="faq-q-text">How is AI governance handled?</div>
+            <div class="faq-a-text">Every AI capability introduced has a defined safety envelope — the conditions under which it operates, what it cannot do, and how human oversight is maintained. This is defined before deployment, not after.</div>
           </div>
         </div>
-        <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.7;">
-          Healthcare strategist and innovation leader with years of experience in technology, data, and AI to improve patient care. Suki bridges the gap between clinical frontline realities and enterprise-level digital transformation, championing people-centred AI adoption across NHS organisations.
-        </p>
+      </div>
+
+      <div class="faq-group-card">
+        <button class="faq-group-head" aria-expanded="false">
+          <div class="faq-group-title">
+            <span class="faq-group-num">04</span>
+            <div>
+              <div class="faq-group-name">Getting Started</div>
+              <div class="faq-group-count">1 question</div>
+            </div>
+          </div>
+          <div class="faq-group-icon">+</div>
+        </button>
+        <div class="faq-group-body">
+          <div class="faq-entry">
+            <div class="faq-q-text">How do we get started?</div>
+            <div class="faq-a-text">Register your organisation's interest on the waitlist. We will review your context and invite you to an initial conversation to assess fit. The first cohort is limited — we work with a small number of organisations at a time to ensure quality.</div>
+          </div>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
+
+<div class="divider"></div>
+
+<!-- ══ TEAM ══ -->
+<section id="team">
+  <div class="wrap">
+    <div class="label">The Team</div>
+    <h2 class="section-title">Built by NHS <span>Insiders</span></h2>
+    <p class="section-sub">Dedicated to frontline-led digital capability, AI assurance, and transforming the NHS from within.</p>
+    <div class="team-grid reveal">
+      <div class="team-photo-card">
+        <img src="https://picsum.photos/seed/alex-founder/400/400" alt="Alex Cheung" width="400" height="400" loading="lazy" class="team-photo" id="alexPhoto">
+        <div class="team-photo-info">
+          <h3 style="font-family:var(--font-h);font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:3px;">Alex Cheung</h3>
+          <div class="team-role">Co-Founder</div>
+          <p style="font-size:0.875rem;color:var(--muted);max-width:none;">Community builder and technology visionary specialising in frontline-led capability building, AI governance, and maturity scoring of autonomous systems.</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">HC</div>
+        <h3>Hassan Chaudry</h3>
+        <div class="team-role">Co-Founder</div>
+        <p>Healthcare innovation and commercial strategy leader with extensive experience in digital health, data, and life sciences across NHS systems.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">SP</div>
+        <h3>Suki Panesar</h3>
+        <div class="team-role">Co-Founder</div>
+        <p>Healthcare strategist and innovation leader with years of experience applying technology, data, and AI to improve patient care and operational flow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ CTA ══ -->
+<section id="cta">
+  <div class="wrap">
+    <div class="label">Join the Cohort</div>
+    <h2 class="section-title">One Workflow. Two Staff. <span>Six Weeks.</span></h2>
+    <p class="section-sub" style="margin-inline:auto;">Register your organisation's interest and be considered for the next Proof of Value cohort.</p>
+    <div class="cta-form reveal">
+      <input class="cta-input" type="email" placeholder="Work email address" aria-label="Work email address"/>
+      <button class="btn btn-primary" onclick="handleWaitlist(event)">Join the Waitlist</button>
+    </div>
+    <p class="cta-note">NHS organisations only. Cohort places are limited — we assess fit before onboarding.</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-brand">uPull<span style="color:var(--orange);">.ai</span></div>
+  <ul class="footer-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#faq">FAQs</a></li>
+    <li><a href="#team">Team</a></li>
+  </ul>
+  <span class="footer-legal">© 2026 uPull.ai. All rights reserved.</span>
+</footer>
+
+<script>
+// Mobile nav
+const burger=document.getElementById('burger');
+const mob=document.getElementById('mobMenu');
+burger.addEventListener('click',()=>{
+  const open=mob.classList.toggle('open');
+  burger.setAttribute('aria-expanded',open);
+});
+function closeMob(){mob.classList.remove('open');burger.setAttribute('aria-expanded',false);}
+document.addEventListener('click',e=>{if(!mob.contains(e.target)&&!burger.contains(e.target))closeMob();});
+
+// FAQ group accordion
+document.querySelectorAll('.faq-group-head').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const open=btn.getAttribute('aria-expanded')==='true';
+    document.querySelectorAll('.faq-group-head').forEach(b=>{
+      b.setAttribute('aria-expanded','false');
+      b.nextElementSibling.classList.remove('open');
+    });
+    if(!open){
+      btn.setAttribute('aria-expanded','true');
+      btn.nextElementSibling.classList.add('open');
+    }
+  });
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Active nav link
+const sections=[...document.querySelectorAll('section[id]')];
+const links=[...document.querySelectorAll('.nav-links a[href^="#"]')];
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      links.forEach(l=>{
+        l.style.color=l.getAttribute('href')==='#'+id?'var(--orange)':'';
+      });
+    }
+  });
+},{rootMargin:'-40% 0px -50% 0px'});
+sections.forEach(s=>io.observe(s));
+
+// Photo swap — use the attached user photo
+const alexImg = document.getElementById('alexPhoto');
+alexImg.onerror = function(){this.style.background='var(--navy3)';};
+
+// Waitlist form
+function handleWaitlist(e){
+  e.preventDefault();
+  const input=document.querySelector('.cta-input');
+  const btn=e.target;
+  if(!input.value||!input.value.includes('@')){input.focus();input.style.borderColor='var(--orange)';return;}
+  btn.textContent='✓ Registered!';
+  btn.style.background='#2a7a2a';
+  input.value='';
+  setTimeout(()=>{btn.textContent='Join the Waitlist';btn.style.background='';},3000);
+}
+</script>
+</body>
+</html>
