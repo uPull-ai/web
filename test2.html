@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,22 +17,32 @@
     nav{
       position:fixed;top:0;left:0;right:0;z-index:100;
       display:flex;align-items:center;justify-content:space-between;
-      padding:18px 48px;
-      background:rgba(14,14,14,0);
+      padding:18px 48px;gap:24px;
+      background:linear-gradient(to bottom, rgba(10,10,10,.55) 0%, rgba(10,10,10,0) 100%);
       transition:background .4s;
     }
-    .nav-right{display:flex;align-items:center;gap:10px}
+    .nav-right{display:flex;align-items:center;gap:28px;flex-shrink:0}
     nav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
-    .brand{font-weight:900;font-size:1.25rem;letter-spacing:-.02em}
+    .brand{font-weight:900;font-size:1.25rem;letter-spacing:-.02em;white-space:nowrap;flex-shrink:0;text-shadow:0 1px 8px rgba(0,0,0,.5)}
     .brand span{color:#3ddc84}
     .nav-links{display:flex;gap:32px;list-style:none}
-    .nav-links a{font-size:.95rem;color:rgba(255,255,255,.72);transition:.2s}
+    .nav-links a{font-size:.95rem;color:rgba(255,255,255,.72);transition:.2s;white-space:nowrap;text-shadow:0 1px 8px rgba(0,0,0,.5)}
     .nav-links a:hover{color:#fff}
     .nav-btn{
       padding:11px 22px;border-radius:999px;background:#3ddc84;color:#0e0e0e;
-      font-weight:800;font-size:.9rem;transition:.2s
+      font-weight:800;font-size:.9rem;transition:.2s;white-space:nowrap;flex-shrink:0
     }
     .nav-btn:hover{background:#5ee89a}
+
+    /* Hamburger (mobile menu toggle) */
+    .hamburger{
+      display:none;flex-direction:column;justify-content:center;gap:5px;
+      width:32px;height:32px;background:none;border:none;cursor:pointer;padding:4px;z-index:101;
+    }
+    .hamburger span{display:block;height:2px;width:100%;background:#fff;border-radius:2px;transition:.3s}
+    .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.active span:nth-child(2){opacity:0}
+    .hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
     /* HERO — full viewport image */
     #hero{
@@ -42,8 +51,15 @@
     }
     .hero-img{
       position:absolute;inset:0;z-index:0;
+      background:
+        radial-gradient(circle at 25% 15%, rgba(61,220,132,.20) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(61,220,132,.10) 0%, transparent 50%),
+        linear-gradient(160deg, #16221c 0%, #0e0e0e 65%);
     }
-    .hero-img img{filter:brightness(.55)}
+    .hero-img::after{
+      content:'';position:absolute;inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0v48' fill='none' stroke='%23ffffff' stroke-opacity='0.04'/%3E%3C/svg%3E");
+    }
     .hero-overlay{
       position:absolute;inset:0;z-index:1;
       background:linear-gradient(to top, rgba(14,14,14,.95) 0%, rgba(14,14,14,.3) 50%, transparent 100%)
@@ -98,9 +114,18 @@
     }
     .split.flip{direction:rtl}
     .split.flip > *{direction:ltr}
-    .split-img{position:relative;overflow:hidden;min-height:500px}
-    .split-img img{transition:.6s}
-    .split-img:hover img{transform:scale(1.03)}
+    .split-img{
+      position:relative;overflow:hidden;min-height:500px;
+      background:
+        radial-gradient(circle at 75% 25%, rgba(61,220,132,.14) 0%, transparent 50%),
+        linear-gradient(150deg, #141d18 0%, #0b0b0b 70%);
+      transition:.6s;
+    }
+    .split-img::after{
+      content:'';position:absolute;inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0v48' fill='none' stroke='%23ffffff' stroke-opacity='0.04'/%3E%3C/svg%3E");
+    }
+    .split-img:hover{background-size:110%}
     .split-text{
       display:flex;flex-direction:column;justify-content:center;
       padding:72px 64px;background:#111;
@@ -116,18 +141,25 @@
     .approach-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:32px;flex-wrap:wrap}
     #approach h2{font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;letter-spacing:-.03em;max-width:16ch;line-height:1.0}
     .approach-sub{max-width:38ch;color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
-    .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:380px 220px;gap:3px}
+    .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;gap:16px}
     .step-tile{
-      position:relative;overflow:hidden;
+      position:relative;overflow:hidden;border-radius:20px;
       background:#111;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
+      min-height:300px;aspect-ratio:1.15/1;
     }
-    .step-tile:nth-child(1){border-radius:28px 4px 4px 4px}
-    .step-tile:nth-child(2){border-radius:4px 28px 4px 4px}
-    .step-tile:nth-child(3){border-radius:4px 4px 4px 28px}
-    .step-tile:nth-child(4){border-radius:4px 4px 28px 4px}
-    .step-tile-img{position:absolute;inset:0;z-index:0}
-    .step-tile-img img{filter:brightness(.28);transition:.5s}
-    .step-tile:hover .step-tile-img img{filter:brightness(.38);transform:scale(1.04)}
+    .step-tile-img{
+      position:absolute;inset:0;z-index:0;transition:.5s;
+      background:linear-gradient(160deg, #182a20 0%, #0d0d0d 70%);
+    }
+    .step-tile-img::after{
+      content:'';position:absolute;inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M40 0H0v40' fill='none' stroke='%23ffffff' stroke-opacity='0.05'/%3E%3C/svg%3E");
+    }
+    .step-tile:nth-child(1) .step-tile-img{background:radial-gradient(circle at 30% 25%, rgba(61,220,132,.22) 0%, transparent 55%), linear-gradient(160deg,#16221c,#0d0d0d)}
+    .step-tile:nth-child(2) .step-tile-img{background:radial-gradient(circle at 70% 30%, rgba(61,220,132,.16) 0%, transparent 55%), linear-gradient(150deg,#122019,#0d0d0d)}
+    .step-tile:nth-child(3) .step-tile-img{background:radial-gradient(circle at 30% 70%, rgba(61,220,132,.16) 0%, transparent 55%), linear-gradient(150deg,#101c16,#0d0d0d)}
+    .step-tile:nth-child(4) .step-tile-img{background:radial-gradient(circle at 70% 75%, rgba(61,220,132,.22) 0%, transparent 55%), linear-gradient(150deg,#152219,#0d0d0d)}
+    .step-tile:hover .step-tile-img{filter:brightness(1.25);transform:scale(1.04)}
     .step-tile-overlay{
       position:absolute;inset:0;z-index:1;
       background:linear-gradient(to top,rgba(14,14,14,.96) 0%,rgba(14,14,14,.1) 70%,transparent 100%)
@@ -143,6 +175,7 @@
     @media(max-width:900px){
       #approach{padding:64px 24px}
       .steps-grid{grid-template-columns:1fr}
+      .step-tile{aspect-ratio:auto;min-height:220px}
       .approach-top{flex-direction:column}
     }
 
@@ -154,9 +187,18 @@
       grid-template-rows:500px 380px;
       gap:3px;
     }
-    .mosaic-tile{position:relative;overflow:hidden}
-    .mosaic-tile img{transition:.5s}
-    .mosaic-tile:hover img{transform:scale(1.04)}
+    .mosaic-tile{
+      position:relative;overflow:hidden;transition:.5s;
+      background:linear-gradient(160deg, #16221c 0%, #0d0d0d 70%);
+    }
+    .mosaic-tile::before{
+      content:'';position:absolute;inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0v48' fill='none' stroke='%23ffffff' stroke-opacity='0.04'/%3E%3C/svg%3E");
+    }
+    .mosaic-tile:nth-of-type(1){background:radial-gradient(circle at 30% 30%, rgba(61,220,132,.20) 0%, transparent 55%), linear-gradient(160deg,#16221c,#0d0d0d)}
+    .mosaic-tile:nth-of-type(2){background:radial-gradient(circle at 70% 35%, rgba(61,220,132,.16) 0%, transparent 55%), linear-gradient(150deg,#122019,#0d0d0d)}
+    .mosaic-tile:nth-of-type(3){background:radial-gradient(circle at 40% 70%, rgba(61,220,132,.18) 0%, transparent 55%), linear-gradient(150deg,#101c16,#0d0d0d)}
+    .mosaic-tile:hover{filter:brightness(1.12)}
     .mosaic-tile.tall{grid-row:1 / 3}
     .tile-overlay{
       position:absolute;inset:0;
@@ -190,8 +232,10 @@
 
     /* CTA — image with overlay form */
     #cta{position:relative;min-height:540px;display:flex;align-items:center}
-    #cta .bg-img{position:absolute;inset:0;z-index:0}
-    #cta .bg-img img{filter:brightness(.28)}
+    #cta .bg-img{
+      position:absolute;inset:0;z-index:0;
+      background:radial-gradient(circle at 50% 40%, rgba(61,220,132,.14) 0%, transparent 60%), linear-gradient(180deg, #131313 0%, #0a0a0a 100%);
+    }
     #cta .bg-overlay{
       position:absolute;inset:0;z-index:1;
       background:radial-gradient(ellipse at center, rgba(61,220,132,.06) 0%, transparent 70%)
@@ -239,7 +283,15 @@
 
     @media(max-width:900px){
       nav{padding:16px 24px}
-      .nav-links{display:none}
+      .hamburger{display:flex}
+      .nav-links{
+        position:fixed;inset:0;z-index:99;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;
+        background:rgba(10,10,10,.98);backdrop-filter:blur(16px);
+        opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease;
+      }
+      .nav-links.open{opacity:1;visibility:visible;pointer-events:auto}
+      .nav-links a{font-size:1.5rem}
       #hero{padding-top:0}
     #hero h1{font-size:2.8rem}
       .hero-content,.split-text,#approach .approach-content,#cta .cta-inner,.team-header{padding:48px 24px}
@@ -252,6 +304,37 @@
       .stat-item:nth-child(2){border-right:none}
       footer{flex-direction:column;gap:20px;align-items:flex-start;padding:32px 24px}
       #hero .hero-content{padding-bottom:60px}
+      .split-img{min-height:320px}
+      .mosaic-grid{grid-auto-rows:320px}
+      .mosaic-tile.tall{height:320px}
+      .person-card{height:420px}
+      #cta{min-height:auto}
+      #cta .cta-inner{padding:56px 24px}
+      footer nav ul{flex-wrap:wrap;gap:16px}
+    }
+
+    @media(max-width:480px){
+      .hero-content{padding:80px 20px 56px}
+      #hero h1{font-size:2.1rem}
+      #hero p{font-size:1rem}
+      .hero-btns{flex-direction:column;align-items:stretch}
+      .hero-btns a{text-align:center}
+      .stat-strip{grid-template-columns:1fr 1fr}
+      .stat-item{padding:24px 16px}
+      .stat-num{font-size:2.2rem}
+      .split-text,.team-header,.hero-content,#cta .cta-inner{padding:40px 20px}
+      .split-text h2,#approach h2,.team-header h2,#cta h2{font-size:1.9rem}
+      .split-img{min-height:240px}
+      .step-tile{min-height:180px;padding:20px}
+      .step-tile h3{font-size:1rem}
+      .mosaic-grid{grid-auto-rows:240px}
+      .mosaic-tile.tall{height:240px}
+      .tile-metric{font-size:2.4rem}
+      .person-card{height:360px}
+      .signup{padding:22px}
+      nav{padding:14px 16px}
+      .brand{font-size:1.1rem}
+      .nav-btn{padding:9px 16px;font-size:.82rem}
     }
   </style>
 </head>
@@ -259,19 +342,23 @@
 
 <nav id="topnav">
   <a href="#hero" class="brand">uPull<span>.ai</span></a>
-  <ul class="nav-links">
-    <li><a href="#problem">Challenge</a></li>
-    <li><a href="#approach">Model</a></li>
-    <li><a href="#results">Results</a></li>
-    
-  </ul>
-  <a href="#cta" class="nav-btn">Book a Demo</a>
+  <div class="nav-right">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#problem">Challenge</a></li>
+      <li><a href="#approach">Model</a></li>
+      <li><a href="#results">Results</a></li>
+    </ul>
+    <a href="#cta" class="nav-btn">Book a Demo</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-img">
-    <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1800&q=80&auto=format&fit=crop" alt="NHS hospital corridor">
+    <!-- decorative background: NHS hospital corridor -->
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -297,7 +384,7 @@
 <section id="problem">
   <div class="split">
     <div class="split-img">
-      <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&auto=format&fit=crop" alt="NHS clinician under pressure">
+      <!-- decorative background: NHS clinician under pressure -->
     </div>
     <div class="split-text reveal">
       <div class="tag">The challenge</div>
@@ -325,7 +412,7 @@
   <div class="steps-grid reveal">
     <div class="step-tile">
       <div class="step-tile-img">
-        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80&auto=format&fit=crop" alt="Finding bottleneck">
+        <!-- decorative background: Finding bottleneck -->
       </div>
       <div class="step-tile-overlay"></div>
       <div class="step-tile-content">
@@ -336,7 +423,7 @@
     </div>
     <div class="step-tile">
       <div class="step-tile-img">
-        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=900&q=80&auto=format&fit=crop" alt="Redesign workflow">
+        <!-- decorative background: Redesign workflow -->
       </div>
       <div class="step-tile-overlay"></div>
       <div class="step-tile-content">
@@ -347,7 +434,7 @@
     </div>
     <div class="step-tile">
       <div class="step-tile-img">
-        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&auto=format&fit=crop" alt="AI layer">
+        <!-- decorative background: AI layer -->
       </div>
       <div class="step-tile-overlay"></div>
       <div class="step-tile-content">
@@ -358,7 +445,7 @@
     </div>
     <div class="step-tile">
       <div class="step-tile-img">
-        <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="Prove ROI">
+        <!-- decorative background: Prove ROI -->
       </div>
       <div class="step-tile-overlay"></div>
       <div class="step-tile-content">
@@ -374,7 +461,7 @@
 <section id="results">
   <div class="mosaic-grid">
     <div class="mosaic-tile tall">
-      <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=80&auto=format&fit=crop" alt="Clinical documentation">
+      <!-- decorative background: Clinical documentation -->
       <div class="tile-overlay reveal">
         <div class="tile-metric">45%</div>
         <div class="tile-title">Ambient Voice &amp; Medical Scribing</div>
@@ -382,7 +469,7 @@
       </div>
     </div>
     <div class="mosaic-tile">
-      <img src="https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=900&q=80&auto=format&fit=crop" alt="Triage automation">
+      <!-- decorative background: Triage automation -->
       <div class="tile-overlay reveal">
         <div class="tile-metric">85%</div>
         <div class="tile-title">Care Triage Automation</div>
@@ -390,7 +477,7 @@
       </div>
     </div>
     <div class="mosaic-tile">
-      <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="ROI and proof of value">
+      <!-- decorative background: ROI and proof of value -->
       <div class="tile-overlay reveal">
         <div class="tile-metric">5:1</div>
         <div class="tile-title">Target ROI · 6-Week Proof</div>
@@ -405,7 +492,7 @@
 <!-- CTA -->
 <section id="cta">
   <div class="bg-img">
-    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1800&q=80&auto=format&fit=crop" alt="Technology and healthcare">
+    <!-- decorative background: Technology and healthcare -->
   </div>
   <div class="bg-overlay"></div>
   <div class="cta-inner">
@@ -439,6 +526,22 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 60);
   });
+
+  // Mobile menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', false);
+    document.body.style.overflow = '';
+  }));
 
   // Reveal on scroll
   const obs = new IntersectionObserver(entries => {
