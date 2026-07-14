@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>uPull.ai — Collaborator Preview (test3)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary-navy: #0A192F;
+      --nhs-blue: #005EB8;
+      --accent-orange: #E65F2B;
+      --accent-teal: #0d9488;
+      --accent-purple: #6366f1;
+      --bg-light: #F8FAFC;
+      --card-bg: #ffffff;
+      --text-dark: #1E293B;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --clinical: #0d9488;
+      --operational: #ea580c;
+      --robotic: #7c3aed;
+      --agentic: #0284c7;
+      --ambient: #0d9488;
+      --font: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg-light); color: var(--text-dark); font-family: var(--font); line-height: 1.6; }
+
+    /* ══════════════════ PREVIEW BANNER ══════════════════ */
+    .preview-banner {
+      background: linear-gradient(90deg, #7c3aed, #005EB8);
+      color: #fff;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .preview-banner a { color: #ffd700; text-decoration: none; }
+
+    /* ══════════════════ ANIMATED LOGO SVG ══════════════════ */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .logo-svg {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+    }
+    /* Orbit ring animation */
+    .orbit-ring {
+      transform-origin: 21px 21px;
+      animation: spinOrbit 6s linear infinite;
+    }
+    @keyframes spinOrbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    /* Pulse core */
+    .core-pulse {
+      transform-origin: 21px 21px;
+      animation: pulseCore 2s ease-in-out infinite;
+    }
+    @keyframes pulseCore {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.12); }
+    }
+    /* Arrow pull animation */
+    .arrow-pull {
+      animation: arrowSlide 1.8s ease-in-out infinite;
+    }
+    @keyframes arrowSlide {
+      0% { transform: translateX(-3px); opacity: 0.4; }
+      50% { transform: translateX(2px); opacity: 1; }
+      100% { transform: translateX(-3px); opacity: 0.4; }
+    }
+    .logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+    .logo-wordmark {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -1px;
+    }
+    .logo-wordmark .dot-ai { color: var(--accent-orange); }
+    .logo-tagline {
+      font-size: 0.6rem;
+      color: #94a3b8;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 0.1rem;
+    }
+
+    /* ══════════════════ HEADER ══════════════════ */
+    header {
+      background: var(--primary-navy);
+      padding: 0.9rem 5%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--nhs-blue);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .nav-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; }
+    nav a, nav button {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.88rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 0.25rem 0;
+      font-family: var(--font);
+    }
+    nav a:hover, nav button:hover, nav a.active-tab { color: var(--accent-orange); }
+    .sub-nav { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 0.25rem; }
+    .sub-nav a, .sub-nav button { color: #94a3b8; font-size: 0.82rem; }
+    .sub-nav a:hover, .sub-nav button:hover, .sub-nav .active-tab { color: var(--accent-orange); }
+    .cta-btn {
+      background: var(--accent-orange);
+      color: #fff;
+      padding: 0.55rem 1.2rem;
+      border-radius: 5px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.1s;
+      font-family: var(--font);
+    }
+    .cta-btn:hover { background: #c54f20; transform: translateY(-1px); }
+    .cta-btn.outline { background: transparent; border: 2px solid #fff; color: #fff; }
+    .cta-btn.outline:hover { background: rgba(255,255,255,0.1); }
+
+    /* ══════════════════ MAIN LAYOUT ══════════════════ */
+    main { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+    section { padding: 3rem 0; border-bottom: 1px solid var(--border-color); }
+    .section-title { text-align: center; font-size: 2rem; color: var(--primary-navy); margin-bottom: 0.4rem; font-weight: 900; letter-spacing: -0.5px; }
+    .section-subtitle { text-align: center; color: var(--text-muted); font-size: 1rem; max-width: 720px; margin: 0 auto 2.5rem; }
+    .page-view { display: none; }
+    .page-view.active-view { display: block; }
+
+    /* ══════════════════ ANIMATED HERO ══════════════════ */
+    .hero-section {
+      background: linear-gradient(135deg, #0A192F 0%, #05122a 60%, #0a1e3d 100%);
+      border-radius: 14px;
+      padding: 3.5rem 2rem;
+      color: #fff;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      margin-top: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 768px) { .hero-section { grid-template-columns: 1.3fr 0.7fr; padding: 4.5rem; } }
+    /* animated grid background */
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,94,184,0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+      animation: gridFloat 8s ease-in-out infinite;
+    }
+    @keyframes gridFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(230,95,43,0.15);
+      border: 1px solid rgba(230,95,43,0.4);
+      color: var(--accent-orange);
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1.2rem;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: livePulse 2s infinite;
+    }
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+      70% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+    .hero-h1 { font-size: 2.6rem; line-height: 1.15; font-weight: 900; margin-bottom: 1.2rem; letter-spacing: -1px; }
+    .hero-h1 .highlight { color: var(--accent-orange); }
+    .hero-sub { opacity: 0.88; font-size: 1.1rem; margin-bottom: 2rem; max-width: 560px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .stats-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-left: 5px solid var(--accent-orange);
+      border-radius: 10px;
+      padding: 1.8rem;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1rem; }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 900; color: var(--accent-orange); }
+    .stat-label { font-size: 0.75rem; color: #94a3b8; }
+    /* Animated counter */
+    .count-up { animation: countReveal 1s ease-out forwards; }
+    @keyframes countReveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ══════════════════ ANIMATED LOGO SHOWCASE ══════════════════ */
+    .logo-showcase {
+      background: var(--primary-navy);
+      border-radius: 14px;
+      padding: 3rem;
+      text-align: center;
+      color: #fff;
+    }
+    .logo-showcase-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; align-items: center; margin-top: 2rem; }
+    .logo-variant { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+    .logo-variant span { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+    /* Large hero logo */
+    .logo-hero-svg { width: 80px; height: 80px; }
+    /* Spinning gradient ring animation */
+    .spin-fast { animation: spinOrbit 3s linear infinite; transform-origin: center; }
+    .spin-slow { animation: spinOrbit 8s linear infinite; transform-origin: center; }
+    .spin-reverse { animation: spinOrbit 5s linear infinite reverse; transform-origin: center; }
+    /* Floating animation */
+    .float-anim {
+      animation: floatLogo 3s ease-in-out infinite;
+    }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    /* Glow effect */
+    .logo-glow { filter: drop-shadow(0 0 10px rgba(230,95,43,0.6)); }
+
+    /* ══════════════════ GIF-LIKE ANIMATION STRIP ══════════════════ */
+    .gif-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .gif-card {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    .gif-anim-box {
+      width: 100%;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    /* Pull arrow animation */
+    .pull-chain { display: flex; align-items: center; gap: 6px; }
+    .chain-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent-orange);
+      animation: chainMove 1.5s ease-in-out infinite;
+    }
+    .chain-dot:nth-child(2) { animation-delay: 0.2s; background: var(--nhs-blue); }
+    .chain-dot:nth-child(3) { animation-delay: 0.4s; background: var(--accent-teal); }
+    .chain-dot:nth-child(4) { animation-delay: 0.6s; background: var(--accent-orange); }
+    @keyframes chainMove {
+      0%, 100% { transform: translateX(0) scale(1); }
+      50% { transform: translateX(8px) scale(1.3); }
+    }
+    /* Workflow circles */
+    .workflow-circles { position: relative; width: 90px; height: 90px; }
+    .wc { position: absolute; border-radius: 50%; border: 3px solid; }
+    .wc-1 { width: 90px; height: 90px; top: 0; left: 0; border-color: var(--nhs-blue); animation: expandRing 2s ease-in-out infinite; }
+    .wc-2 { width: 65px; height: 65px; top: 12px; left: 12px; border-color: var(--accent-orange); animation: expandRing 2s ease-in-out infinite 0.4s; }
+    .wc-3 { width: 40px; height: 40px; top: 25px; left: 25px; border-color: var(--accent-teal); animation: expandRing 2s ease-in-out infinite 0.8s; }
+    @keyframes expandRing {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.6; }
+    }
+    /* Data flow bars */
+    .data-bars { display: flex; align-items: flex-end; gap: 5px; height: 70px; }
+    .db {
+      width: 16px;
+      background: var(--nhs-blue);
+      border-radius: 3px 3px 0 0;
+      animation: barGrow 1.5s ease-in-out infinite;
+    }
+    .db:nth-child(1) { height: 30%; animation-delay: 0s; }
+    .db:nth-child(2) { height: 55%; animation-delay: 0.15s; background: var(--accent-orange); }
+    .db:nth-child(3) { height: 80%; animation-delay: 0.3s; }
+    .db:nth-child(4) { height: 45%; animation-delay: 0.45s; background: var(--accent-teal); }
+    .db:nth-child(5) { height: 95%; animation-delay: 0.6s; }
+    @keyframes barGrow {
+      0%, 100% { opacity: 0.6; transform: scaleY(0.8); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+    /* AI brain pulse */
+    .brain-pulse-svg { animation: brainPulse 1.8s ease-in-out infinite; }
+    @keyframes brainPulse {
+      0%, 100% { filter: drop-shadow(0 0 4px rgba(99,102,241,0.4)); }
+      50% { filter: drop-shadow(0 0 14px rgba(99,102,241,0.9)); }
+    }
+
+    /* ══════════════════ FORUM / COMMUNITY HUB ══════════════════ */
+    .hub-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 900px) { .hub-layout { grid-template-columns: 260px 1fr; } }
+    /* Sidebar */
+    .hub-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .sidebar-panel {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+    .sidebar-panel h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 0.8rem; }
+    .channel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      transition: background 0.15s;
+      gap: 0.5rem;
+    }
+    .channel-item:hover, .channel-item.active-channel { background: var(--bg-light); color: var(--nhs-blue); }
+    .ch-badge {
+      background: var(--bg-light);
+      color: var(--text-muted);
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      min-width: 22px;
+      text-align: center;
+    }
+    .active-channel .ch-badge { background: var(--nhs-blue); color: #fff; }
+    .trending-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .trending-item {
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 0.3rem 0;
+      border-bottom: 1px dashed var(--border-color);
+    }
+    .trending-item:hover { color: var(--nhs-blue); }
+    .trending-num { color: var(--accent-orange); font-weight: 700; margin-right: 0.4rem; }
+    .vendor-chip {
+      display: inline-block;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin: 0.2rem;
+      transition: transform 0.15s;
+    }
+    .vendor-chip:hover { transform: scale(1.05); }
+    /* Feed */
+    .feed-area { display: flex; flex-direction: column; gap: 0.8rem; }
+    .search-bar-wrap {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .search-bar {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: var(--font);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-bar:focus { border-color: var(--nhs-blue); }
+    .filter-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
+    .ftab {
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1.5px solid var(--border-color);
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .ftab:hover { border-color: var(--nhs-blue); color: var(--nhs-blue); }
+    .ftab.ftab-active { background: var(--primary-navy); color: #fff; border-color: var(--primary-navy); }
+    /* Composer */
+    .composer {
+      background: #fff;
+      border: 2px dashed var(--nhs-blue);
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .composer-top { display: flex; gap: 0.8rem; align-items: flex-start; }
+    .composer-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--nhs-blue), var(--accent-orange));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .composer-input {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      resize: vertical;
+      font-family: var(--font);
+      outline: none;
+      min-height: 72px;
+    }
+    .composer-input:focus { border-color: var(--nhs-blue); }
+    .composer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .composer-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .meta-sel {
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      font-family: var(--font);
+      font-weight: 600;
+      background: var(--bg-light);
+      outline: none;
+    }
+    /* Post card */
+    .post-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .post-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+    .post-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+    .post-user { display: flex; align-items: center; gap: 0.7rem; }
+    .post-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 1rem;
+    }
+    .post-name { font-weight: 700; font-size: 0.92rem; color: var(--primary-navy); }
+    .post-role { font-size: 0.72rem; color: var(--accent-orange); font-weight: 600; text-transform: uppercase; }
+    .post-type-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 0.2rem 0.65rem;
+      border-radius: 12px;
+    }
+    .post-body { font-size: 0.92rem; color: var(--text-dark); margin-bottom: 0.8rem; line-height: 1.55; }
+    .post-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.8rem; }
+    .ptag {
+      background: #f1f5f9;
+      color: var(--nhs-blue);
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+    }
+    .post-actions { display: flex; gap: 1.2rem; color: var(--text-muted); font-size: 0.82rem; flex-wrap: wrap; align-items: center; }
+    .paction {
+      display: flex; align-items: center; gap: 0.3rem;
+      cursor: pointer;
+      transition: color 0.15s;
+      background: none; border: none; font-family: var(--font); font-size: 0.82rem; color: var(--text-muted); padding: 0;
+    }
+    .paction:hover { color: var(--nhs-blue); }
+    .paction.liked { color: var(--accent-orange); }
+    .post-time { margin-left: auto; font-size: 0.75rem; opacity: 0.6; }
+    /* Reply thread */
+    .reply-box {
+      display: none;
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .reply-box.open { display: block; }
+    .reply-input {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.85rem;
+      font-family: var(--font);
+      resize: none;
+      outline: none;
+    }
+    .reply-input:focus { border-color: var(--nhs-blue); }
+
+    /* ══════════════════ LEARNING HUB ══════════════════ */
+    .learning-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; }
+    .lf-btn {
+      padding: 0.4rem 1.1rem;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 2px solid;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .lf-btn.all { border-color: var(--primary-navy); color: var(--primary-navy); background: #fff; }
+    .lf-btn.all.lf-active { background: var(--primary-navy); color: #fff; }
+    .lf-btn.agentic { border-color: var(--agentic); color: var(--agentic); background: #fff; }
+    .lf-btn.agentic.lf-active { background: var(--agentic); color: #fff; }
+    .lf-btn.ambient { border-color: var(--ambient); color: var(--ambient); background: #fff; }
+    .lf-btn.ambient.lf-active { background: var(--ambient); color: #fff; }
+    .lf-btn.clinical { border-color: var(--clinical); color: var(--clinical); background: #fff; }
+    .lf-btn.clinical.lf-active { background: var(--clinical); color: #fff; }
+    .lf-btn.robotic { border-color: var(--robotic); color: var(--robotic); background: #fff; }
+    .lf-btn.robotic.lf-active { background: var(--robotic); color: #fff; }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .course-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .course-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .course-top {
+      height: 6px;
+    }
+    .course-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+    .course-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.4rem; }
+    .course-cat-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+    .cost-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+    }
+    .cost-free { background: #dcfce7; color: #16a34a; }
+    .cost-paid { background: #fff7ed; color: #c2410c; }
+    .course-title { font-size: 1rem; font-weight: 800; color: var(--primary-navy); margin-bottom: 0.5rem; }
+    .course-provider { font-size: 0.8rem; color: var(--nhs-blue); font-weight: 600; margin-bottom: 0.6rem; }
+    .course-desc { font-size: 0.85rem; color: var(--text-muted); flex: 1; margin-bottom: 1rem; }
+    .course-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .cm-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cm-item strong { color: var(--text-dark); }
+    .course-footer { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .btn-sm {
+      padding: 0.4rem 0.9rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s;
+      font-family: var(--font);
+    }
+    .btn-primary { background: var(--nhs-blue); color: #fff; }
+    .btn-primary:hover { background: #004a9a; }
+    .btn-ghost { background: var(--bg-light); color: var(--text-dark); border: 1px solid var(--border-color); }
+    .btn-ghost:hover { background: var(--border-color); }
+
+    /* ══════════════════ VENDOR DIRECTORY ══════════════════ */
+    .vendor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .vendor-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: transform 0.15s;
+    }
+    .vendor-card:hover { transform: translateY(-2px); }
+    .vendor-name { font-weight: 800; font-size: 1rem; color: var(--primary-navy); }
+    .vendor-cat { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #fff; padding: 0.15rem 0.5rem; border-radius: 4px; display: inline-block; width: fit-content; }
+    .vendor-desc { font-size: 0.83rem; color: var(--text-muted); }
+    .vendor-meta { font-size: 0.78rem; color: var(--text-muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ══════════════════ STOCK IMAGE GRID ══════════════════ */
+    .stock-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .stock-card { border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; }
+    .stock-card img { width: 100%; height: 160px; object-fit: cover; display: block; transition: transform 0.3s; }
+    .stock-card:hover img { transform: scale(1.05); }
+    .stock-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,25,47,0.8), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 0.8rem;
+    }
+    .stock-card:hover .stock-overlay { opacity: 1; }
+    .stock-label { color: #fff; font-size: 0.75rem; font-weight: 600; }
+
+    /* ══════════════════ PODCAST SECTION ══════════════════ */
+    .podcast-grid { display: flex; flex-direction: column; gap: 1rem; }
+    .podcast-row {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+    .play-btn {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--nhs-blue);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+      border: none;
+      transition: background 0.2s, transform 0.1s;
+      animation: playPulse 3s ease-in-out infinite;
+    }
+    @keyframes playPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,94,184,0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(0,94,184,0); }
+    }
+    .play-btn:hover { background: var(--primary-navy); transform: scale(1.08); }
+    .podcast-info { flex: 1; }
+    .podcast-title { font-weight: 700; font-size: 0.95rem; color: var(--primary-navy); margin-bottom: 0.25rem; }
+    .podcast-desc { font-size: 0.83rem; color: var(--text-muted); }
+    .podcast-meta { display: flex; gap: 1rem; margin-top: 0.4rem; font-size: 0.75rem; }
+    .pmeta-item { color: var(--accent-orange); font-weight: 600; }
+
+    /* ══════════════════ FOOTER ══════════════════ */
+    footer { background: #09111e; color: #94a3b8; padding: 2.5rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
+    footer strong { color: #fff; }
+    footer a { color: #94a3b8; }
+
+    /* ══════════════════ UTILITIES ══════════════════ */
+    .hidden { display: none !important; }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+    @media (max-width: 600px) {
+      .hero-h1 { font-size: 1.9rem; }
+      .section-title { font-size: 1.6rem; }
+      .nav-container { flex-direction: column; align-items: stretch; }
+      .logo-wrap { align-self: flex-start; }
+      .nav-stack { width: 100%; align-items: stretch; }
+      nav { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 0.3rem; }
+      nav a, nav button { white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PREVIEW BANNER -->
+<div class="preview-banner">
+  🧪 COLLABORATOR PREVIEW — test3.html &nbsp;|&nbsp; <a href="index.html">← Back to Live Site</a> &nbsp;|&nbsp; Last updated: July 2026
+</div>
+
+<header>
+  <div class="nav-container">
+    <!-- ANIMATED LOGO -->
+    <a href="#" class="logo-wrap" onclick="showView('home')">
+      <svg class="logo-svg" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer orbit ring -->
+        <g class="orbit-ring">
+          <circle cx="21" cy="21" r="19" stroke="#005EB8" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+          <circle cx="21" cy="3" r="3" fill="#E65F2B"/>
+          <circle cx="39" cy="21" r="2" fill="#005EB8"/>
+        </g>
+        <!-- Inner ring -->
+        <g class="spin-reverse">
+          <circle cx="21" cy="21" r="13" stroke="#0d9488" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"/>
+        </g>
+        <!-- Core circle -->
+        <circle class="core-pulse" cx="21" cy="21" r="8" fill="#0A192F" stroke="#E65F2B" stroke-width="2"/>
+        <!-- Pull arrow -->
+        <g class="arrow-pull">
+          <path d="M16 21 L24 21" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M21 18 L24 21 L21 24" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </g>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-wordmark">uPull<span class="dot-ai">.ai</span></span>
+        <span class="logo-tagline">Pull — Don't Push</span>
+      </div>
+    </a>
+
+    <div class="nav-stack">
+      <nav class="main-nav">
+        <a href="index.html" class="page-link">Strategic Core</a>
+        <a href="case-studies.html" class="page-link">Case Studies</a>
+        <a href="roi.html" class="page-link">ROI Calculator</a>
+        <a href="community.html" class="page-link">Community</a>
+        <a href="faqs.html" class="page-link">FAQs</a>
+        <a href="mailto:info@upull.ai" class="cta-btn">Get Started</a>
+      </nav>
+      <nav class="sub-nav main-nav">
+        <button onclick="showView('home')" id="tab-home" class="active-tab">Home</button>
+        <button onclick="showView('community')" id="tab-community">Community Hub</button>
+        <button onclick="showView('learning')" id="tab-learning">AI Learning</button>
+        <button onclick="showView('brand')" id="tab-brand">Brand &amp; Assets</button>
+        <button onclick="showView('podcasts')" id="tab-podcasts">Podcasts</button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VIEW: HOME -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="view-home" class="page-view active-view">
+<main>
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span class="pulse-dot"></span> Collaborator Preview Build — July 2026</div>
+      <h1 class="hero-h1">Scaling People to <span class="highlight">Pull AI</span><br>into NHS Workflows</h1>
+      <p class="hero-sub">A frontline-led transformation framework. Not push. Not procurement rush. A controlled, self-funding Pull methodology that returns 5:1 from day one.</p>
+      <div class="hero-actions">
+        <button onclick="showView('community')" class="cta-btn">Explore Community Hub</button>
+        <button onclick="showView('learning')" class="cta-btn outline">AI Learning Courses</button>
+      </div>
+    </div>
+    <div class="stats-card">
+      <div style="font-weight:700; font-size:0.85rem; display:flex; align-items:center; gap:0.5rem;"><span class="pulse-dot"></span> Platform Analytics</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-num count-up" id="s1">1,420+</div><div class="stat-label">Community Members</div></div>
+        <div class="stat-item"><div class="stat-num count-up" id="s2">84</div><div class="stat-label">Active Today</div></div>
+        <div class="stat-item"><div class="stat-num count-up" id="s3">47</div><div class="stat-label">NHS Trusts</div></div>
+        <div class="stat-item"><div class="stat-num count-up" id="s4">5:1</div><div class="stat-label">Avg ROI</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIF-like animation showcase -->
+  <section>
+    <h2 class="section-title">The Pull Principle — Visualised</h2>
+    <p class="section-subtitle">How uPull.ai moves workflows from static push models to dynamic, frontline-activated pull systems.</p>
+    <div class="gif-strip">
+      <div class="gif-card">
+        <div class="gif-anim-box"><div class="pull-chain"><div class="chain-dot"></div><div class="chain-dot"></div><div class="chain-dot"></div><div class="chain-dot"></div><svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10h12M12 6l4 4-4 4" stroke="#E65F2B" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <h4 style="font-weight:800; color:var(--primary-navy); font-size:0.9rem;">Pull Chain Flow</h4>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Workflow signals pulled sequentially through clinical layers</p>
+      </div>
+      <div class="gif-card">
+        <div class="gif-anim-box"><div class="workflow-circles"><div class="wc wc-1"></div><div class="wc wc-2"></div><div class="wc wc-3"></div></div></div>
+        <h4 style="font-weight:800; color:var(--primary-navy); font-size:0.9rem;">Concentric Adoption</h4>
+        <p style="font-size:0.8rem; color:var(--text-muted);">From single workflow out to organisation-wide transformation</p>
+      </div>
+      <div class="gif-card">
+        <div class="gif-anim-box"><div class="data-bars"><div class="db"></div><div class="db"></div><div class="db"></div><div class="db"></div><div class="db"></div></div></div>
+        <h4 style="font-weight:800; color:var(--primary-navy); font-size:0.9rem;">ROI Growth Curve</h4>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Stage A → B → C returns building to 10:1+ systemic value</p>
+      </div>
+      <div class="gif-card">
+        <div class="gif-anim-box">
+          <svg class="brain-pulse-svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <ellipse cx="40" cy="40" rx="28" ry="24" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
+            <path d="M28 32 Q40 20 52 32" stroke="#6366f1" stroke-width="2" fill="none"/>
+            <path d="M24 44 Q32 52 40 48 Q48 52 56 44" stroke="#6366f1" stroke-width="2" fill="none"/>
+            <circle cx="40" cy="38" r="4" fill="#6366f1" opacity="0.6"/>
+            <circle cx="30" cy="36" r="2.5" fill="#E65F2B" opacity="0.8"/>
+            <circle cx="50" cy="36" r="2.5" fill="#005EB8" opacity="0.8"/>
+          </svg>
+        </div>
+        <h4 style="font-weight:800; color:var(--primary-navy); font-size:0.9rem;">AI Neural Activation</h4>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Frontline intelligence network expanding in real time</p>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VIEW: COMMUNITY HUB -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="view-community" class="page-view">
+<main>
+  <section>
+    <h2 class="section-title">Community Information Hub</h2>
+    <p class="section-subtitle">Find threads, discuss workflows, discover vendors. Search, filter and share across the frontline AI network.</p>
+    <div class="hub-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="hub-sidebar">
+        <div class="sidebar-panel">
+          <h4>Channels</h4>
+          <div class="channel-item active-channel" onclick="filterPosts('all',this)">🌐 All Streams <span class="ch-badge" id="badge-all">0</span></div>
+          <div class="channel-item" onclick="filterPosts('agentic',this)">🤖 Agentic AI <span class="ch-badge" id="badge-agentic">0</span></div>
+          <div class="channel-item" onclick="filterPosts('ambient',this)">🎙️ Ambient AI <span class="ch-badge" id="badge-ambient">0</span></div>
+          <div class="channel-item" onclick="filterPosts('clinical',this)">🩺 Clinical AI <span class="ch-badge" id="badge-clinical">0</span></div>
+          <div class="channel-item" onclick="filterPosts('robotic',this)">⚙️ Robotic AI <span class="ch-badge" id="badge-robotic">0</span></div>
+        </div>
+        <div class="sidebar-panel">
+          <h4>🔥 Trending This Week</h4>
+          <div class="trending-list" id="trending-list"></div>
+        </div>
+        <div class="sidebar-panel">
+          <h4>Vendor Directory</h4>
+          <div id="vendor-chips"></div>
+          <button class="btn-sm btn-ghost" style="margin-top:0.8rem; width:100%;" onclick="showView('vendors')">View All Vendors →</button>
+        </div>
+      </aside>
+
+      <!-- MAIN FEED -->
+      <div class="feed-area">
+        <div class="search-bar-wrap">
+          <input class="search-bar" id="post-search" placeholder="🔍  Search threads, vendors, topics..." oninput="searchPosts()">
+          <button class="cta-btn" onclick="document.getElementById('composer-box').scrollIntoView({behavior:'smooth'})">+ Post</button>
+        </div>
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="ftab ftab-active" onclick="filterPostsTab('all',this)">All</button>
+          <button class="ftab" onclick="filterPostsTab('agentic',this)">🤖 Agentic</button>
+          <button class="ftab" onclick="filterPostsTab('ambient',this)">🎙️ Ambient</button>
+          <button class="ftab" onclick="filterPostsTab('clinical',this)">🩺 Clinical</button>
+          <button class="ftab" onclick="filterPostsTab('robotic',this)">⚙️ Robotic</button>
+        </div>
+
+        <!-- COMPOSER -->
+        <div class="composer" id="composer-box">
+          <div class="composer-top">
+            <div class="composer-avatar">A</div>
+            <textarea class="composer-input" id="new-post-text" rows="3" placeholder="Share an insight, workflow win, or question with the community..."></textarea>
+          </div>
+          <div class="composer-footer">
+            <div class="composer-meta">
+              <select class="meta-sel" id="new-post-cat">
+                <option value="agentic">🤖 Agentic AI</option>
+                <option value="ambient">🎙️ Ambient AI</option>
+                <option value="clinical">🩺 Clinical AI</option>
+                <option value="robotic">⚙️ Robotic AI</option>
+              </select>
+              <select class="meta-sel" id="new-post-type">
+                <option value="insight">💡 Insight</option>
+                <option value="question">❓ Question</option>
+                <option value="casestudy">📋 Case Study</option>
+                <option value="vendor">🔌 Vendor Review</option>
+              </select>
+            </div>
+            <button class="cta-btn" onclick="submitNewPost()">Broadcast →</button>
+          </div>
+        </div>
+
+        <!-- FEED -->
+        <div id="forum-feed"></div>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VIEW: AI LEARNING HUB -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="view-learning" class="page-view">
+<main>
+  <section>
+    <h2 class="section-title">AI Learning Hub</h2>
+    <p class="section-subtitle">Structured courses for beginner to intermediate learners. Covering Agentic, Ambient, Clinical, and Robotic AI — with free and paid options clearly marked.</p>
+    <div class="learning-filters">
+      <button class="lf-btn all lf-active" onclick="filterCourses('all',this)">All Categories</button>
+      <button class="lf-btn agentic" onclick="filterCourses('agentic',this)">🤖 Agentic AI</button>
+      <button class="lf-btn ambient" onclick="filterCourses('ambient',this)">🎙️ Ambient AI</button>
+      <button class="lf-btn clinical" onclick="filterCourses('clinical',this)">🩺 Clinical AI</button>
+      <button class="lf-btn robotic" onclick="filterCourses('robotic',this)">⚙️ Robotic AI</button>
+    </div>
+    <div class="courses-grid" id="courses-grid"></div>
+  </section>
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VIEW: BRAND & ASSETS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="view-brand" class="page-view">
+<main>
+  <section>
+    <h2 class="section-title">Logo Showcase & Brand Identity</h2>
+    <p class="section-subtitle">uPull.ai brand system — animated logo variants, colour palette, and stock image library for marketing use.</p>
+
+    <div class="logo-showcase">
+      <h3 style="color:#94a3b8; font-size:0.85rem; text-transform:uppercase; letter-spacing:2px;">Logo Variants</h3>
+      <div class="logo-showcase-inner">
+
+        <!-- Variant 1: Orbit (default) -->
+        <div class="logo-variant float-anim">
+          <svg class="logo-hero-svg" viewBox="0 0 42 42" fill="none">
+            <g class="orbit-ring"><circle cx="21" cy="21" r="19" stroke="#005EB8" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/><circle cx="21" cy="3" r="3" fill="#E65F2B"/><circle cx="39" cy="21" r="2" fill="#005EB8"/></g>
+            <g class="spin-reverse"><circle cx="21" cy="21" r="13" stroke="#0d9488" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"/></g>
+            <circle class="core-pulse" cx="21" cy="21" r="8" fill="#0A192F" stroke="#E65F2B" stroke-width="2"/>
+            <g class="arrow-pull"><path d="M16 21 L24 21" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M21 18 L24 21 L21 24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+          </svg>
+          <span>Orbit Pull</span>
+        </div>
+
+        <!-- Variant 2: NHS Blue dominant -->
+        <div class="logo-variant float-anim" style="animation-delay:0.5s">
+          <svg class="logo-hero-svg logo-glow" viewBox="0 0 42 42" fill="none">
+            <circle cx="21" cy="21" r="20" fill="#005EB8" opacity="0.1"/>
+            <g class="spin-fast"><circle cx="21" cy="21" r="18" stroke="#005EB8" stroke-width="2" stroke-dasharray="6 2"/></g>
+            <circle class="core-pulse" cx="21" cy="21" r="10" fill="#005EB8"/>
+            <text x="21" y="25" text-anchor="middle" font-size="9" font-weight="900" fill="white" font-family="sans-serif">uP</text>
+          </svg>
+          <span>NHS Blue</span>
+        </div>
+
+        <!-- Variant 3: Orange energy -->
+        <div class="logo-variant float-anim" style="animation-delay:1s">
+          <svg class="logo-hero-svg" viewBox="0 0 42 42" fill="none">
+            <circle cx="21" cy="21" r="20" fill="rgba(230,95,43,0.08)"/>
+            <g class="spin-slow"><path d="M21 2 A19 19 0 0 1 40 21" stroke="#E65F2B" stroke-width="3" stroke-linecap="round"/><path d="M21 40 A19 19 0 0 1 2 21" stroke="#E65F2B" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/></g>
+            <circle cx="21" cy="21" r="9" fill="#E65F2B" class="core-pulse"/>
+            <g class="arrow-pull"><path d="M16 21 L24 21" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M21 18 L24 21 L21 24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+          </svg>
+          <span>Orange Energy</span>
+        </div>
+
+        <!-- Variant 4: Minimal monogram -->
+        <div class="logo-variant float-anim" style="animation-delay:1.5s">
+          <svg class="logo-hero-svg" viewBox="0 0 42 42" fill="none">
+            <rect x="2" y="2" width="38" height="38" rx="10" fill="#0A192F"/>
+            <text x="21" y="16" text-anchor="middle" font-size="8" font-weight="900" fill="#005EB8" font-family="sans-serif">uPull</text>
+            <text x="21" y="27" text-anchor="middle" font-size="10" font-weight="900" fill="#E65F2B" font-family="sans-serif">.ai</text>
+            <g class="arrow-pull"><path d="M10 33 L32 33" stroke="rgba(255,255,255,0.2)" stroke-width="1"/></g>
+          </svg>
+          <span>Monogram Box</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Colour Palette -->
+    <div style="margin-top:2rem;">
+      <h3 class="section-title" style="font-size:1.4rem;">Brand Colour Palette</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:1.5rem;">
+        <div style="text-align:center;"><div style="width:80px;height:80px;border-radius:10px;background:#0A192F;"></div><div style="font-size:0.75rem;margin-top:0.4rem;font-weight:700;">Primary Navy<br>#0A192F</div></div>
+        <div style="text-align:center;"><div style="width:80px;height:80px;border-radius:10px;background:#005EB8;"></div><div style="font-size:0.75rem;margin-top:0.4rem;font-weight:700;">NHS Blue<br>#005EB8</div></div>
+        <div style="text-align:center;"><div style="width:80px;height:80px;border-radius:10px;background:#E65F2B;"></div><div style="font-size:0.75rem;margin-top:0.4rem;font-weight:700;">Accent Orange<br>#E65F2B</div></div>
+        <div style="text-align:center;"><div style="width:80px;height:80px;border-radius:10px;background:#0d9488;"></div><div style="font-size:0.75rem;margin-top:0.4rem;font-weight:700;">Clinical Teal<br>#0d9488</div></div>
+        <div style="text-align:center;"><div style="width:80px;height:80px;border-radius:10px;background:#6366f1;"></div><div style="font-size:0.75rem;margin-top:0.4rem;font-weight:700;">Robotic Purple<br>#6366f1</div></div>
+        <div style="text-align:center;"><div style="width:80px;height:80px;border-radius:10px;background:#F8FAFC;border:1px solid #e2e8f0;"></div><div style="font-size:0.75rem;margin-top:0.4rem;font-weight:700;">Background<br>#F8FAFC</div></div>
+      </div>
+    </div>
+
+    <!-- Stock Images for Marketing -->
+    <div style="margin-top:3rem;">
+      <h3 class="section-title" style="font-size:1.4rem;">Stock Images — uPull.ai Marketing Library</h3>
+      <p class="section-subtitle" style="margin-bottom:1.5rem;">Curated Unsplash imagery for NHS AI, healthcare digital transformation, and team collaboration themes.</p>
+      <div class="stock-grid">
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&q=80" alt="Clinical workflow"><div class="stock-overlay"><span class="stock-label">Clinical Workflow & Ambient AI</span></div></div>
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80" alt="Data analytics"><div class="stock-overlay"><span class="stock-label">Healthcare Data Analytics</span></div></div>
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400&q=80" alt="NHS collaboration"><div class="stock-overlay"><span class="stock-label">NHS Team Collaboration</span></div></div>
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=400&q=80" alt="Digital transformation"><div class="stock-overlay"><span class="stock-label">Digital Transformation Strategy</span></div></div>
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=400&q=80" alt="AI technology"><div class="stock-overlay"><span class="stock-label">AI Technology & Innovation</span></div></div>
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=400&q=80" alt="Medical team"><div class="stock-overlay"><span class="stock-label">Frontline Medical Team</span></div></div>
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=400&q=80" alt="Doctor digital"><div class="stock-overlay"><span class="stock-label">Doctor & Digital Tools</span></div></div>
+        <div class="stock-card"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=400&q=80" alt="Workflow automation"><div class="stock-overlay"><span class="stock-label">Workflow Automation</span></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VIEW: PODCASTS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="view-podcasts" class="page-view">
+<main>
+  <section>
+    <h2 class="section-title">uPull.ai Podcast Series</h2>
+    <p class="section-subtitle">Based on Pull vs Push theory, productivity improvement, AI adoption, and how organisations can transform their workflows. Built for NotebookLM source material.</p>
+    <div class="podcast-grid" id="podcast-list"></div>
+  </section>
+</main>
+</div>
+
+<footer>
+  <p><strong>uPull.ai Ltd.</strong> &mdash; London, UK &mdash; <a href="mailto:info@upull.ai">info@upull.ai</a></p>
+  <p style="margin-top:0.4rem; opacity:0.5; font-size:0.75rem;">🧪 Collaborator Preview &mdash; test3.html &mdash; Not for public distribution &mdash; &copy; 2026 uPull.ai Ltd.</p>
+</footer>
+
+<script>
+// ══ DATA ══
+const COLORS = {
+  agentic: '#0284c7',
+  ambient: '#0d9488',
+  clinical: '#0d9488',
+  robotic: '#7c3aed',
+  insight: '#005EB8',
+  question: '#E65F2B',
+  casestudy: '#0d9488',
+  vendor: '#6366f1',
+};
+
+const postsData = [
+  { id:1, user:'Dr Sarah Jenkins', role:'Operations Lead, Midlands', cat:'ambient', type:'insight', text:'Successfully deployed ambient voice scribing in our outpatient clinic. Documentation time dropped 43% in week 1. The key is briefing clinicians on what the model can and cannot do before go-live.', tags:['#AmbientAI','#Documentation','#QuickWin'], likes:24, time:'2h ago', liked:false },
+  { id:2, user:'Dr Marcus Vance', role:'Clinical Fellow, London', cat:'clinical', type:'question', text:'Has anyone mapped ambient AI output directly into EMIS Web templates without a middleware layer? Looking for a zero-retention approach that satisfies our IG team.', tags:['#ClinicalAI','#EMIS','#DataGovernance'], likes:31, time:'4h ago', liked:false },
+  { id:3, user:'David Thorne', role:'System Integration Lead', cat:'agentic', type:'casestudy', text:'Our agentic workflow for referral triage is now classifying 82% of incoming referrals automatically. Built on a local LLM with no data leaving the trust. Happy to share the integration schema.', tags:['#AgenticAI','#Referrals','#LocalLLM'], likes:18, time:'6h ago', liked:false },
+  { id:4, user:'Priya Kapoor', role:'Digital Transformation, ICB', cat:'robotic', type:'vendor', text:'Evaluated 3 RPA vendors for admin automation this quarter. Verdict: Blue Prism most mature for NHS, but UiPath easier for clinical staff to configure without developer resource.', tags:['#RoboticAI','#RPA','#VendorReview'], likes:12, time:'1d ago', liked:false },
+  { id:5, user:'Tom Hadley', role:'NHS Digital Strategist', cat:'agentic', type:'insight', text:'The Pull model works because it creates internal champions. Top tip: pick the most frustrated person in the department — they become the most passionate intrapreneur once they see results.', tags:['#PullMethod','#Intrapreneurs','#ChangeManagement'], likes:47, time:'1d ago', liked:false },
+];
+
+const coursesData = [
+  // AGENTIC
+  { cat:'agentic', level:'Beginner', title:'Introduction to Agentic AI', provider:'Coursera / DeepLearning.AI', desc:'Foundation course on autonomous AI agents, tool use, and multi-step reasoning. Includes real-world healthcare workflow examples.', cost:'Free (audit)', paid:false, audience:'Clinical managers, digital leads', topics:'AI workflow, automation', caseStudy:'case-studies.html' },
+  { cat:'agentic', level:'Intermediate', title:'Building Agentic Workflows', provider:'Microsoft Learn', desc:'Design and deploy agentic AI systems using Azure AI. Covers orchestration, safety guardrails, and NHS-compliant deployment patterns.', cost:'Free', paid:false, audience:'Technical NHS staff, IT architects', topics:'AI workflow, productivity improvement', caseStudy:'case-studies.html' },
+  { cat:'agentic', level:'Intermediate', title:'LangChain & Agentic Pipelines', provider:'LangChain Academy', desc:'Hands-on course building multi-agent pipelines for document processing, triage classification, and automated reporting.', cost:'£149/yr', paid:true, audience:'Developers, data engineers', topics:'Automation, AI development', caseStudy:'case-studies.html' },
+  // AMBIENT
+  { cat:'ambient', level:'Beginner', title:'Ambient Voice AI for Clinicians', provider:'NHS England / FutureNHS', desc:'Practical introduction to ambient clinical documentation. Covers Dragon Ambient eXperience, Nuance DAX, and safety frameworks.', cost:'Free (NHS Staff)', paid:false, audience:'GPs, consultants, junior doctors', topics:'Productivity improvement, clinical workflow', caseStudy:'case-studies.html' },
+  { cat:'ambient', level:'Beginner', title:'AI Scribe Fundamentals', provider:'NHSX Academy', desc:'Overview of AI medical scribing technology, validation protocols, and human-in-the-loop oversight for frontline teams.', cost:'Free', paid:false, audience:'All clinical staff', topics:'AI workflow, documentation', caseStudy:'case-studies.html' },
+  { cat:'ambient', level:'Intermediate', title:'Deploying Ambient AI at Scale', provider:'uPull.ai Academy', desc:'Advanced programme on rolling out ambient AI across departments. Covers safety envelopes, IG compliance, and measuring ROI.', cost:'£299 (cohort)', paid:true, audience:'Digital delivery leads, trust CIOs', topics:'Automation, productivity improvement', caseStudy:'case-studies.html' },
+  // CLINICAL
+  { cat:'clinical', level:'Beginner', title:'AI in Healthcare: An Introduction', provider:'FutureLearn / NHS', desc:'Accessible overview of how AI is transforming diagnosis, triage, and patient care. No technical background required.', cost:'Free', paid:false, audience:'All NHS staff, administrators', topics:'AI fundamentals, clinical workflow', caseStudy:'case-studies.html' },
+  { cat:'clinical', level:'Beginner', title:'Clinical Decision Support AI', provider:'Google Health / Coursera', desc:'Learn how AI augments clinical decision-making. Covers diagnostic AI, imaging AI, and risk stratification tools.', cost:'Free (audit)', paid:false, audience:'Clinicians, nurses, allied health', topics:'Clinical AI, productivity', caseStudy:'case-studies.html' },
+  { cat:'clinical', level:'Intermediate', title:'NHS AI Implementation Framework', provider:'NHSX / Health Education England', desc:'Structured programme on deploying clinical AI safely — covering evaluation, governance, procurement, and staff engagement.', cost:'Free (NHS)', paid:false, audience:'NHS transformation leads, clinical leads', topics:'AI workflow, governance', caseStudy:'case-studies.html' },
+  // ROBOTIC
+  { cat:'robotic', level:'Beginner', title:'Introduction to RPA for Healthcare', provider:'UiPath Academy', desc:'Beginner-friendly course on Robotic Process Automation. NHS admin use cases: appointment letters, referral processing, reporting.', cost:'Free', paid:false, audience:'Admin staff, managers', topics:'Automation, productivity improvement', caseStudy:'case-studies.html' },
+  { cat:'robotic', level:'Intermediate', title:'Blue Prism for NHS Operations', provider:'Blue Prism University', desc:'Official certification pathway for deploying Blue Prism RPA in NHS environments. Covers compliance and audit trails.', cost:'£199 (cert)', paid:true, audience:'IT teams, operational improvement leads', topics:'Automation, AI development', caseStudy:'case-studies.html' },
+  { cat:'robotic', level:'Intermediate', title:'Process Mining & RPA Integration', provider:'Celonis / Coursera', desc:'Learn to identify automation opportunities using process mining, then deploy RPA bots to remove bottlenecks in care pathways.', cost:'£89/module', paid:true, audience:'Process improvement analysts, data teams', topics:'Automation, workflow optimisation', caseStudy:'case-studies.html' },
+];
+
+const vendors = [
+  { name:'Nuance DAX', cat:'ambient', color:'#0d9488', desc:'Industry-leading ambient clinical documentation AI used by NHS trusts.', nhs:true, cost:'Paid' },
+  { name:'Microsoft Copilot', cat:'agentic', color:'#0284c7', desc:'Agentic AI integrated into M365 for administrative automation.', nhs:true, cost:'Paid' },
+  { name:'UiPath', cat:'robotic', color:'#7c3aed', desc:'Market-leading RPA platform with NHS deployment experience.', nhs:true, cost:'Freemium' },
+  { name:'Blue Prism', cat:'robotic', color:'#7c3aed', desc:'Enterprise RPA with strong NHS compliance and audit capabilities.', nhs:true, cost:'Paid' },
+  { name:'Google Health AI', cat:'clinical', color:'#0d9488', desc:'Clinical AI tools including Med-PaLM 2 for diagnostic support.', nhs:false, cost:'Paid' },
+  { name:'Babylon Health', cat:'clinical', color:'#0d9488', desc:'AI-powered symptom checking and triage for NHS digital pathways.', nhs:true, cost:'Paid' },
+  { name:'LangChain', cat:'agentic', color:'#0284c7', desc:'Open-source framework for building agentic AI pipelines.', nhs:false, cost:'Free' },
+  { name:'EMIS Web AI', cat:'clinical', color:'#0d9488', desc:'AI-enhanced primary care EHR widely deployed across UK GP practices.', nhs:true, cost:'Paid' },
+];
+
+const podcasts = [
+  { ep:'EP 01', title:'Pull vs Push: Why Top-Down AI Fails in the NHS', desc:'The foundational argument for frontline-led AI adoption. Why generic software push creates waste, and how the Pull principle creates self-funding transformation.', theme:'Pull/Push Theory', runtime:'28 mins', notebooklm:'Research seed: NHS digital transformation failure rates, push vs pull supply chain theory applied to healthcare AI adoption, frontline digital champions.' },
+  { ep:'EP 02', title:'The Self-Funding Flywheel: From 2:1 to 10:1 ROI', desc:'How a single workflow proof of value, done right, generates the budget to fund the next transformation — and the next.', theme:'Productivity Improvement', runtime:'22 mins', notebooklm:'Research seed: NHS productivity measurement, NHS Transformation Directorate frameworks, healthcare ROI case studies, QIPP programs.' },
+  { ep:'EP 03', title:'Ambient AI in the Consultation Room', desc:'Clinicians share their experience of ambient voice scribing. What changed in their practice, what the IG risks were, and how they validated outputs.', theme:'Ambient AI', runtime:'31 mins', notebooklm:'Research seed: Nuance DAX NHS deployment, ambient clinical documentation studies, GDPR Article 22, BMA guidance on AI clinical tools.' },
+  { ep:'EP 04', title:'The Intrapreneur Effect: Building AI Champions from Within', desc:'How uPull.ai identifies and develops internal change agents — and why motivated insiders outperform external consultants every time.', theme:'People & Culture', runtime:'24 mins', notebooklm:'Research seed: intrapreneurship in public sector, change management NHS, Kotter 8-step model, digital clinical fellows programme.' },
+  { ep:'EP 05', title:'Agentic AI: From Chatbot to Autonomous Workflow Engine', desc:'The maturity curve from simple chatbots to multi-step agentic pipelines that handle referrals, triage, and admin autonomously.', theme:'AI Development', runtime:'35 mins', notebooklm:'Research seed: LLM agents healthcare, AutoGPT NHS applications, AI safety guardrails clinical environments, multi-agent orchestration.' },
+  { ep:'EP 06', title:'How Companies Should Actually Adopt AI', desc:'A framework for any organisation — NHS or not — to move from AI anxiety to AI adoption. The 6-week proof of value model explained.', theme:'Organisational Adoption', runtime:'26 mins', notebooklm:'Research seed: McKinsey AI adoption report, Gartner AI hype cycle, BCG AI transformation framework, NHS Long Term Plan digital.' },
+];
+
+const trendingTopics = [
+  'Ambient scribing EMIS deployment',
+  'Referral agentic triage models',
+  'Zero-retention AI governance',
+  'RPA admin automation ROI',
+  'NHS AI procurement checklist',
+];
+
+// ══ NAVIGATION ══
+const views = ['home','community','learning','brand','podcasts'];
+function showView(v) {
+  views.forEach(id => {
+    const el = document.getElementById('view-'+id);
+    const tab = document.getElementById('tab-'+id);
+    if(el) el.classList.toggle('active-view', id===v);
+    if(tab) tab.classList.toggle('active-tab', id===v);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ══ FORUM ══
+let activeFilter = 'all';
+let activePosts = [...postsData];
+
+function renderBadgeCounts() {
+  const counts = {all:postsData.length, agentic:0, ambient:0, clinical:0, robotic:0};
+  postsData.forEach(p => counts[p.cat]++);
+  Object.keys(counts).forEach(k => { const el=document.getElementById('badge-'+k); if(el) el.textContent=counts[k]; });
+}
+
+function renderVendorChips() {
+  const c = document.getElementById('vendor-chips');
+  if(!c) return;
+  c.innerHTML = vendors.slice(0,6).map(v=>`<span class="vendor-chip" style="background:${v.color}20; color:${v.color}; border:1px solid ${v.color}40;">${v.name}</span>`).join('');
+}
+
+function renderTrending() {
+  const t = document.getElementById('trending-list');
+  if(!t) return;
+  t.innerHTML = trendingTopics.map((topic,i)=>`<div class="trending-item"><span class="trending-num">${i+1}</span>${topic}</div>`).join('');
+}
+
+function renderFeed(posts) {
+  const feed = document.getElementById('forum-feed');
+  if(!feed) return;
+  if(posts.length===0){ feed.innerHTML='<div style="text-align:center;padding:3rem;color:var(--text-muted);">No threads found. Be the first to post!</div>'; return; }
+  feed.innerHTML = posts.map(p => {
+    const col = COLORS[p.cat] || '#005EB8';
+    const typeCol = COLORS[p.type] || '#005EB8';
+    return `
+    <div class="post-card" id="post-${p.id}">
+      <div class="post-head">
+        <div class="post-user">
+          <div class="post-avatar" style="background:${col};">${p.user.charAt(0)}</div>
+          <div><div class="post-name">${p.user}</div><div class="post-role">${p.role}</div></div>
+        </div>
+        <span class="post-type-badge" style="background:${typeCol};">${p.type}</span>
+      </div>
+      <div class="post-body">${p.text}</div>
+      <div class="post-tags">${p.tags.map(t=>`<span class="ptag">${t}</span>`).join('')}</div>
+      <div class="post-actions">
+        <button class="paction ${p.liked?'liked':''}" onclick="toggleLike(${p.id})">👍 <span id="like-${p.id}">${p.likes}</span></button>
+        <button class="paction" onclick="toggleReply(${p.id})">💬 Reply</button>
+        <button class="paction" onclick="sharePost(${p.id})">🔗 Share</button>
+        <span class="post-time">${p.time}</span>
+      </div>
+      <div class="reply-box" id="reply-${p.id}">
+        <textarea class="reply-input" rows="2" placeholder="Write a reply..." id="reply-text-${p.id}"></textarea>
+        <div style="text-align:right;margin-top:0.5rem;"><button class="btn-sm btn-primary" onclick="submitReply(${p.id})">Post Reply</button></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleLike(id) {
+  const p = postsData.find(x=>x.id===id);
+  if(!p) return;
+  p.liked = !p.liked;
+  p.likes += p.liked ? 1 : -1;
+  const el = document.getElementById('like-'+id);
+  const btn = el && el.closest('.paction');
+  if(el) el.textContent = p.likes;
+  if(btn) btn.classList.toggle('liked', p.liked);
+}
+
+function toggleReply(id) {
+  const rb = document.getElementById('reply-'+id);
+  if(rb) rb.classList.toggle('open');
+}
+
+function submitReply(id) {
+  const ta = document.getElementById('reply-text-'+id);
+  if(!ta || !ta.value.trim()) return;
+  const rb = document.getElementById('reply-'+id);
+  const replyDiv = document.createElement('div');
+  replyDiv.style.cssText = 'background:#f8fafc;border-left:3px solid #005EB8;padding:0.6rem 0.8rem;border-radius:0 6px 6px 0;margin-top:0.5rem;font-size:0.85rem;';
+  replyDiv.innerHTML = `<strong>You:</strong> ${ta.value}`;
+  rb.insertBefore(replyDiv, rb.lastElementChild);
+  ta.value = '';
+}
+
+function sharePost(id) {
+  const url = window.location.href.split('#')[0]+'#post-'+id;
+  if(navigator.clipboard) navigator.clipboard.writeText(url);
+  alert('Thread link copied to clipboard!');
+}
+
+function filterPosts(cat, el) {
+  activeFilter = cat;
+  document.querySelectorAll('.channel-item').forEach(c=>c.classList.remove('active-channel'));
+  el.classList.add('active-channel');
+  applyFilters();
+}
+
+function filterPostsTab(cat, el) {
+  activeFilter = cat;
+  document.querySelectorAll('.ftab').forEach(f=>f.classList.remove('ftab-active'));
+  el.classList.add('ftab-active');
+  applyFilters();
+}
+
+function searchPosts() {
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = (document.getElementById('post-search').value||'').toLowerCase();
+  let filtered = postsData.filter(p => activeFilter==='all' || p.cat===activeFilter);
+  if(q) filtered = filtered.filter(p => p.text.toLowerCase().includes(q) || p.tags.some(t=>t.toLowerCase().includes(q)) || p.user.toLowerCase().includes(q));
+  renderFeed(filtered);
+}
+
+function submitNewPost() {
+  const text = document.getElementById('new-post-text').value.trim();
+  if(!text){ alert('Please write something to share.'); return; }
+  const cat = document.getElementById('new-post-cat').value;
+  const type = document.getElementById('new-post-type').value;
+  const newPost = {
+    id: postsData.length+1,
+    user: 'Alex Cheung',
+    role: 'uPull.ai Co-Founder',
+    cat, type,
+    text,
+    tags: ['#NewPost','#'+cat],
+    likes: 0,
+    time: 'Just now',
+    liked: false
+  };
+  postsData.unshift(newPost);
+  document.getElementById('new-post-text').value = '';
+  activeFilter = 'all';
+  document.querySelectorAll('.ftab').forEach((f,i)=>f.classList.toggle('ftab-active',i===0));
+  document.querySelectorAll('.channel-item').forEach((c,i)=>c.classList.toggle('active-channel',i===0));
+  renderBadgeCounts();
+  applyFilters();
+}
+
+// ══ COURSES ══
+let activeCourseFilter = 'all';
+function filterCourses(cat, el) {
+  activeCourseFilter = cat;
+  document.querySelectorAll('.lf-btn').forEach(b=>b.classList.remove('lf-active'));
+  el.classList.add('lf-active');
+  renderCourses();
+}
+
+function renderCourses() {
+  const grid = document.getElementById('courses-grid');
+  if(!grid) return;
+  const filtered = activeCourseFilter==='all' ? coursesData : coursesData.filter(c=>c.cat===activeCourseFilter);
+  const catColors = { agentic:'#0284c7', ambient:'#0d9488', clinical:'#0d9488', robotic:'#7c3aed' };
+  grid.innerHTML = filtered.map(c => {
+    const col = catColors[c.cat];
+    return `
+    <div class="course-card" data-cat="${c.cat}">
+      <div class="course-top" style="background:${col};"></div>
+      <div class="course-body">
+        <div class="course-header">
+          <span class="course-cat-badge" style="background:${col};">${c.cat} AI</span>
+          <span class="cost-badge ${c.paid?'cost-paid':'cost-free'}">${c.paid?'💳 Paid':'✅ Free'}</span>
+        </div>
+        <div class="course-title">${c.title}</div>
+        <div class="course-provider">📚 ${c.provider}</div>
+        <div class="course-desc">${c.desc}</div>
+        <div class="course-meta">
+          <div class="cm-item">🎯 Level: <strong>${c.level}</strong></div>
+          <div class="cm-item">👥 <strong>${c.audience}</strong></div>
+          <div class="cm-item">🔧 ${c.topics}</div>
+          <div class="cm-item">💰 <strong>${c.cost}</strong></div>
+        </div>
+        <div class="course-footer">
+          <a href="${c.caseStudy}" class="btn-sm btn-primary">📋 Case Study →</a>
+          <button class="btn-sm btn-ghost" onclick="alert('Course enquiry sent for: ${c.title.replace(/'/g,"\\'")}')">Enquire</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══ PODCASTS ══
+function renderPodcasts() {
+  const list = document.getElementById('podcast-list');
+  if(!list) return;
+  list.innerHTML = podcasts.map(p=>`
+    <div class="podcast-row">
+      <button class="play-btn" onclick="this.textContent=this.textContent==='▶'?'⏸':'▶'">▶</button>
+      <div class="podcast-info">
+        <div class="podcast-title">${p.ep}: ${p.title}</div>
+        <div class="podcast-desc">${p.desc}</div>
+        <div class="podcast-meta">
+          <span class="pmeta-item">🏷️ ${p.theme}</span>
+          <span class="pmeta-item">⏱️ ${p.runtime}</span>
+        </div>
+        <details style="margin-top:0.6rem;">
+          <summary style="font-size:0.78rem;cursor:pointer;color:var(--nhs-blue);font-weight:600;">📒 NotebookLM Research Seed</summary>
+          <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.4rem;background:var(--bg-light);padding:0.6rem;border-radius:6px;">${p.notebooklm}</div>
+        </details>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══ INIT ══
+window.onload = function() {
+  renderBadgeCounts();
+  renderVendorChips();
+  renderTrending();
+  renderFeed(postsData);
+  renderCourses();
+  renderPodcasts();
+};
+</script>
+</body>
+</html>
