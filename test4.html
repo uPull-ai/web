@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>uPull.ai — Learning Hub & Case Studies</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;scroll-behavior:smooth}
+    body{background:#F8FAFC;color:#1E293B;line-height:1.6}
+    :root{
+      --navy:#0A192F;--blue:#005EB8;--orange:#E65F2B;--bg:#F8FAFC;
+      --card:#ffffff;--muted:#64748B;--border:#E2E8F0;
+      --clinical:#0d9488;--operational:#ea580c;--vendor:#6366f1;
+      --agentic:#7c3aed;--ambient:#0284c7;--clinical-tag:#0d9488;--robotic:#dc2626;
+    }
+    header{background:var(--navy);padding:1rem 5%;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--blue);box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
+    .nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.5rem}
+    .logo{color:#fff;font-size:1.7rem;font-weight:900;text-decoration:none;letter-spacing:-1px;display:flex;align-items:center;gap:.4rem}
+    .logo-pull{color:var(--orange)}
+    .logo-dot{width:8px;height:8px;background:var(--orange);border-radius:50%;display:inline-block;animation:pulse 2s infinite}
+    .logo-tag{font-size:.75rem;background:rgba(255,255,255,.1);padding:.2rem .5rem;border-radius:4px;color:#cbd5e1;font-weight:500}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(230,95,43,.7)}70%{box-shadow:0 0 0 8px rgba(230,95,43,0)}}
+    nav{display:flex;flex-wrap:wrap;gap:.5rem .8rem;align-items:center}
+    nav a{color:#fff;text-decoration:none;font-weight:500;font-size:.88rem;transition:color .2s;cursor:pointer;padding:.25rem 0}
+    nav a:hover,nav a.active-page{color:var(--orange)}
+    .cta-btn{background:var(--orange);color:#fff;padding:.55rem 1.2rem;border-radius:5px;font-weight:700;border:none;cursor:pointer;transition:background .2s,transform .1s;text-decoration:none;display:inline-block;font-size:.88rem}
+    .cta-btn:hover{background:#c54f20;transform:translateY(-1px)}
+    main{max-width:1200px;margin:0 auto;padding:0 5%}
+    .page-view{display:none}
+    .page-view.active-view{display:block}
+    section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
+    .section-title{text-align:center;font-size:2rem;color:var(--navy);margin-bottom:.4rem;font-weight:800}
+    .section-subtitle{text-align:center;color:var(--muted);font-size:1rem;max-width:700px;margin:0 auto 2rem;line-height:1.5}
+    .tab-bar{display:flex;gap:.5rem;flex-wrap:wrap;padding:1.5rem 0 0;border-bottom:2px solid var(--border);margin-bottom:2rem}
+    .tab-btn{padding:.55rem 1.2rem;border-radius:6px 6px 0 0;font-weight:700;font-size:.88rem;cursor:pointer;border:2px solid transparent;border-bottom:none;background:none;color:var(--muted);transition:all .2s;margin-bottom:-2px}
+    .tab-btn.active{background:#fff;color:var(--navy);border-color:var(--border);border-bottom-color:#fff}
+    .tab-btn:hover:not(.active){color:var(--navy);background:#f1f5f9}
+    .filter-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem;align-items:center}
+    .filter-pill{padding:.35rem .9rem;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--muted);transition:all .2s}
+    .filter-pill:hover,.filter-pill.active{color:#fff;border-color:transparent}
+    .pill-all.active{background:var(--navy)}
+    .pill-agentic.active{background:var(--agentic)}
+    .pill-ambient.active{background:var(--ambient)}
+    .pill-clinical.active{background:var(--clinical-tag)}
+    .pill-robotic.active{background:var(--robotic)}
+    .pill-operational.active{background:var(--operational)}
+    .pill-free.active{background:#16a34a}
+    .search-wrap{flex:1;min-width:220px;max-width:380px;position:relative}
+    .search-wrap input{width:100%;padding:.55rem 1rem .55rem 2.4rem;border:2px solid var(--border);border-radius:8px;font-size:.9rem;outline:none;transition:border .2s}
+    .search-wrap input:focus{border-color:var(--blue)}
+    .search-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem}
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1.25rem}
+    .course-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+    .course-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+    .course-card-top{padding:1.2rem 1.2rem .8rem;flex:1}
+    .course-card-bottom{padding:.8rem 1.2rem 1.2rem;border-top:1px solid var(--border);display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .tag{padding:.2rem .6rem;border-radius:12px;font-size:.7rem;font-weight:700;text-transform:uppercase;color:#fff;display:inline-block;margin:.1rem}
+    .tag-agentic{background:var(--agentic)}
+    .tag-ambient{background:var(--ambient)}
+    .tag-clinical{background:var(--clinical-tag)}
+    .tag-robotic{background:var(--robotic)}
+    .tag-operational{background:var(--operational)}
+    .tag-free{background:#16a34a}
+    .tag-paid{background:#6b7280}
+    .tag-beginner{background:#0ea5e9}
+    .tag-intermediate{background:#f59e0b}
+    .course-provider{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:.3rem}
+    .course-title{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:.4rem;line-height:1.3}
+    .course-desc{font-size:.85rem;color:var(--muted);line-height:1.5;margin-bottom:.7rem}
+    .course-meta{display:flex;flex-wrap:wrap;gap:.4rem .8rem;font-size:.78rem;color:var(--muted)}
+    .course-meta span{display:flex;align-items:center;gap:.25rem}
+    .course-link{color:var(--blue);font-weight:700;font-size:.82rem;text-decoration:none}
+    .course-link:hover{color:var(--orange)}
+    .cs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem}
+    .cs-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.4rem;transition:transform .2s;display:flex;flex-direction:column;gap:.7rem}
+    .cs-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+    .cs-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+    .cs-number{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase}
+    .cs-title{font-size:.98rem;font-weight:800;color:var(--navy);line-height:1.3}
+    .cs-desc{font-size:.84rem;color:var(--muted);line-height:1.5}
+    .cs-stat{background:var(--bg);border-radius:6px;padding:.45rem .7rem;font-size:.78rem;font-weight:700;color:var(--navy)}
+    .cs-footer{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:auto}
+    .btn-sm{padding:.35rem .85rem;border-radius:5px;font-size:.78rem;font-weight:700;text-decoration:none;display:inline-block;transition:all .2s;border:none;cursor:pointer}
+    .btn-blue{background:var(--blue);color:#fff}
+    .btn-blue:hover{background:#004a99}
+    .btn-outline{background:none;border:2px solid var(--border);color:var(--muted)}
+    .btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+    .cat-header{display:flex;align-items:center;gap:1rem;margin:2rem 0 1rem;padding:.75rem 1rem;border-radius:8px;color:#fff;font-weight:800;font-size:1.1rem}
+    .cat-header.clinical-op{background:linear-gradient(135deg,var(--clinical-tag),#0f766e)}
+    .cat-header.operational-op{background:linear-gradient(135deg,var(--operational),#b45309)}
+    .cat-count{font-size:.8rem;font-weight:500;opacity:.85;margin-left:auto}
+    .hero-strip{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;padding:2.5rem 2rem;border-radius:12px;margin-top:1rem;display:flex;flex-direction:column;gap:1rem}
+    @media(min-width:768px){.hero-strip{flex-direction:row;align-items:center;justify-content:space-between}}
+    .hero-strip h1{font-size:2rem;font-weight:900;line-height:1.2}
+    .hero-strip h1 span{color:var(--orange)}
+    .hero-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+    .hero-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:600}
+    footer{background:#09111e;color:#94a3b8;padding:2rem 5%;text-align:center;font-size:.85rem;margin-top:3rem}
+    .hidden{display:none!important}
+    .path-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem}
+    @media(max-width:600px){.path-cards{grid-template-columns:1fr}}
+    .path-card{border-radius:10px;padding:1.5rem;color:#fff;display:flex;flex-direction:column;gap:.4rem}
+    .path-card.beginner{background:linear-gradient(135deg,var(--clinical-tag),#0f766e)}
+    .path-card.intermediate{background:linear-gradient(135deg,var(--orange),#b45309)}
+    .path-card h3{font-size:1.2rem;font-weight:900}
+    .path-card p{font-size:.85rem;opacity:.9}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      u<span class="logo-pull">Pull</span><span style="color:#fff">.ai</span>
+      <span class="logo-dot"></span>
+      <span class="logo-tag">Learning Hub</span>
+    </a>
+    <nav>
+      <a href="index.html">Strategic Core</a>
+      <a href="case-studies.html">Case Studies</a>
+      <a href="community.html">Community</a>
+      <a href="roi.html">ROI Calculator</a>
+      <a href="faqs.html">FAQs</a>
+      <a href="test4.html" class="active-page">Learning &amp; Case Studies</a>
+      <a href="community.html" class="cta-btn">Join Hub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero-strip">
+    <div>
+      <h1>AI <span>Learning Hub</span> &amp; Case Studies</h1>
+      <p style="opacity:.9;margin-top:.4rem;max-width:560px">From zero to confident. Explore verified AI courses, real-world healthcare case studies, and filter by technology category — all in one place.</p>
+      <div class="hero-badges">
+        <span class="hero-badge">🎓 Beginner to Intermediate</span>
+        <span class="hero-badge">🏥 Healthcare-Focused</span>
+        <span class="hero-badge">🆓 Free &amp; Paid Courses</span>
+        <span class="hero-badge">📋 30 Case Studies</span>
+      </div>
+    </div>
+    <div style="flex-shrink:0;text-align:center">
+      <div style="font-size:3rem">🧠</div>
+      <div style="font-size:.85rem;opacity:.75;margin-top:.25rem">Powered by uPull.ai</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('learning', this)">🎓 AI Learning Courses</button>
+    <button class="tab-btn" onclick="switchTab('casestudies', this)">📋 Case Studies</button>
+  </div>
+
+  <!-- LEARNING TAB -->
+  <div id="tab-learning" class="page-view active-view">
+    <section>
+      <h2 class="section-title">AI Learning Courses</h2>
+      <p class="section-subtitle">Curated courses for healthcare professionals — from absolute beginner to advanced AI implementation. Click any course to go directly to the provider.</p>
+
+      <div class="path-cards">
+        <div class="path-card beginner">
+          <h3>🌱 Beginner Track</h3>
+          <p>No prior tech experience needed. Understand what AI is, how it works in healthcare, and how to safely use it in your daily role.</p>
+        </div>
+        <div class="path-card intermediate">
+          <h3>⚡ Intermediate Track</h3>
+          <p>For those who understand AI basics. Learn automation, workflow design, prompt engineering, and how to lead AI adoption in your team.</p>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="course-search" placeholder="Search courses, providers..." oninput="filterCourses()">
+        </div>
+        <button class="filter-pill pill-all active" onclick="setCourseFilter('all',this)">All</button>
+        <button class="filter-pill pill-agentic" onclick="setCourseFilter('agentic',this)">🤖 Agentic AI</button>
+        <button class="filter-pill pill-ambient" onclick="setCourseFilter('ambient',this)">🎙️ Ambient AI</button>
+        <button class="filter-pill pill-clinical" onclick="setCourseFilter('clinical',this)">🩺 Clinical AI</button>
+        <button class="filter-pill pill-robotic" onclick="setCourseFilter('robotic',this)">🦾 Robotic AI</button>
+        <button class="filter-pill pill-free" onclick="setCourseFilter('free',this)">🆓 Free Only</button>
+      </div>
+
+      <div class="cards-grid" id="course-grid"></div>
+    </section>
+  </div>
+
+  <!-- CASE STUDIES TAB -->
+  <div id="tab-casestudies" class="page-view">
+    <section>
+      <h2 class="section-title">Healthcare AI Case Studies</h2>
+      <p class="section-subtitle">30 real-world deployments. Filter by AI category or operational domain. Each card links to the full case study and associated learning courses.</p>
+
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="cs-search" placeholder="Search case studies..." oninput="filterCaseStudies()">
+        </div>
+        <button class="filter-pill pill-all active" onclick="setCSFilter('all',this)">All</button>
+        <button class="filter-pill pill-agentic" onclick="setCSFilter('agentic',this)">🤖 Agentic</button>
+        <button class="filter-pill pill-ambient" onclick="setCSFilter('ambient',this)">🎙️ Ambient</button>
+        <button class="filter-pill pill-clinical" onclick="setCSFilter('clinical',this)">🩺 Clinical</button>
+        <button class="filter-pill pill-robotic" onclick="setCSFilter('robotic',this)">🦾 Robotic</button>
+        <button class="filter-pill pill-operational" onclick="setCSFilter('operational',this)">⚙️ Operational</button>
+      </div>
+
+      <div id="cs-group-clinical">
+        <div class="cat-header clinical-op">🩺 Clinical Case Studies <span class="cat-count" id="cs-count-clinical"></span></div>
+        <div class="cs-grid" id="cs-grid-clinical"></div>
+      </div>
+
+      <div id="cs-group-operational" style="margin-top:2rem">
+        <div class="cat-header operational-op">⚙️ Operational Case Studies <span class="cat-count" id="cs-count-operational"></span></div>
+        <div class="cs-grid" id="cs-grid-operational"></div>
+      </div>
+
+      <div id="associated-learning-section" class="hidden" style="margin-top:2rem;padding:1.5rem;background:#fff;border:2px solid var(--blue);border-radius:10px">
+        <h3 style="color:var(--navy);margin-bottom:1rem">📚 Associated Learning for Selected Filter</h3>
+        <div class="cards-grid" id="associated-courses-grid"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> Learning Hub &amp; Case Studies · Healthcare AI Community of Practice</p>
+  <p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. All rights reserved. Courses linked are third-party providers — verify suitability before enrolment.</p>
+</footer>
+
+<script>
+const courses = [
+  {id:'c1',cat:'agentic',level:'beginner',free:true,provider:'Microsoft Learn',title:'Introduction to AI Agents',desc:'Understand what AI agents are, how they make decisions autonomously, and how agentic systems differ from traditional automation tools.',cost:'Free',audience:'All healthcare staff, managers, and admin teams',url:'https://learn.microsoft.com/en-us/training/paths/introduction-to-ai/',cs:'CS3,CS8,CS15'},
+  {id:'c2',cat:'agentic',level:'beginner',free:true,provider:'Google AI',title:'Introduction to Generative AI & Agents',desc:'Google\'s foundational course covering generative AI fundamentals, how agents work, and responsible AI use in professional settings.',cost:'Free',audience:'Clinicians and operational leads new to AI',url:'https://cloud.google.com/training/machinelearning-ai',cs:'CS3,CS6,CS10'},
+  {id:'c3',cat:'agentic',level:'intermediate',free:false,provider:'Coursera / DeepLearning.AI',title:'AI Agents in LangChain',desc:'Build and understand multi-step AI agents using LangChain. Learn how agents plan, call tools, and complete complex healthcare workflows autonomously.',cost:'£39/month (audit free)',audience:'Digital leads, system architects, technical staff',url:'https://www.coursera.org/learn/ai-agents-in-langchain',cs:'CS3,CS12,CS22'},
+  {id:'c4',cat:'agentic',level:'intermediate',free:false,provider:'LinkedIn Learning',title:'AI-Powered Workflow Automation',desc:'Covers how autonomous agents can be deployed to manage repetitive healthcare processes including scheduling, triage routing, and documentation workflows.',cost:'£29.99/month (free trial)',audience:'Operations managers, workflow leads',url:'https://www.linkedin.com/learning/',cs:'CS8,CS9,CS14'},
+  {id:'c5',cat:'ambient',level:'beginner',free:true,provider:'NHS Digital Academy',title:'Understanding Ambient AI in Clinical Settings',desc:'NHS-developed introductory module on how ambient AI (voice-based documentation) works in clinical environments, safety frameworks, and GDPR compliance.',cost:'Free (NHS staff)',audience:'GPs, nurses, consultants, clinical admins',url:'https://digital.nhs.uk/services/nhs-digital-academy',cs:'CS1,CS5,CS16'},
+  {id:'c6',cat:'ambient',level:'beginner',free:true,provider:'FutureLearn',title:'AI in Healthcare: A Patient Safety Perspective',desc:'Explores ambient AI, clinical documentation tools, and safety considerations. Designed for non-technical frontline healthcare staff.',cost:'Free (audit)',audience:'Frontline clinical staff, ward managers',url:'https://www.futurelearn.com/courses/ai-in-healthcare',cs:'CS1,CS16,CS17'},
+  {id:'c7',cat:'ambient',level:'intermediate',free:false,provider:'Nuance / Microsoft',title:'Dragon Ambient eXperience (DAX) Training',desc:'Official training for DAX ambient clinical intelligence — real-world workflow integration, EHR connection, and clinical validation protocols.',cost:'Included with DAX licence',audience:'Clinicians deploying ambient documentation tools',url:'https://www.nuance.com/healthcare/ambient-clinical-intelligence.html',cs:'CS1,CS16'},
+  {id:'c8',cat:'ambient',level:'intermediate',free:false,provider:'Coursera / Johns Hopkins',title:'AI for Medicine Specialisation',desc:'Deep dive into AI applied to medical imaging, natural language processing, and ambient diagnostics. 3-course specialisation.',cost:'£39/month',audience:'Clinical informaticists, doctors, clinical researchers',url:'https://www.coursera.org/specializations/ai-for-medicine',cs:'CS2,CS17,CS18'},
+  {id:'c9',cat:'clinical',level:'beginner',free:true,provider:'Oxford University (edX)',title:'Foundations of AI in Healthcare',desc:'University-level introduction to how machine learning and AI models are transforming clinical decision-making, diagnostics, and patient outcomes.',cost:'Free (audit)',audience:'Clinicians, medical students, healthcare managers',url:'https://www.edx.org/learn/artificial-intelligence',cs:'CS2,CS6,CS11'},
+  {id:'c10',cat:'clinical',level:'beginner',free:true,provider:'BMJ Learning',title:'Artificial Intelligence in Clinical Practice',desc:'BMJ\'s CPD-accredited module for clinicians to understand AI tools, evaluate evidence, and apply critical thinking to AI-generated clinical recommendations.',cost:'Free with BMJ membership',audience:'All NHS clinicians and GPs',url:'https://learning.bmj.com/',cs:'CS6,CS7,CS17'},
+  {id:'c11',cat:'clinical',level:'intermediate',free:false,provider:'Imperial College London (Coursera)',title:'AI for Clinical Decision Support',desc:'Evidence-based module covering predictive analytics, risk scoring, and clinical decision support tools including sepsis detection and deterioration alerts.',cost:'£39/month',audience:'Senior clinicians, medical directors, CCIOs',url:'https://www.coursera.org/learn/clinical-decision-support',cs:'CS4,CS6,CS13'},
+  {id:'c12',cat:'clinical',level:'intermediate',free:false,provider:'Royal College of Physicians',title:'Digital Medicine & AI Certificate',desc:'Accredited certificate programme covering AI in diagnostics, digital therapeutics, clinical governance for AI, and ethical deployment.',cost:'£695 (subsidised NHS rates available)',audience:'Consultants, registrars, clinical leaders',url:'https://www.rcplondon.ac.uk/education-practice/courses',cs:'CS2,CS11,CS20'},
+  {id:'c13',cat:'robotic',level:'beginner',free:true,provider:'MIT OpenCourseWare',title:'Introduction to Robotics in Healthcare',desc:'Free MIT course material covering robotic systems, surgical robots, rehabilitation robotics, and how AI drives autonomous robotic decision-making in clinical settings.',cost:'Free',audience:'Engineers, clinical technologists, digital leads',url:'https://ocw.mit.edu/courses/robotics/',cs:'CS19,CS25,CS28'},
+  {id:'c14',cat:'robotic',level:'intermediate',free:false,provider:'Coursera / University of Pennsylvania',title:'Robotics Specialisation',desc:'6-course specialisation covering mobility, perception, estimation, planning, and control — with healthcare robotics applications.',cost:'£39/month',audience:'Technical engineers, clinical technologists, R&D teams',url:'https://www.coursera.org/specializations/robotics',cs:'CS19,CS25'},
+  {id:'c15',cat:'robotic',level:'intermediate',free:false,provider:'Health Education England',title:'Digital Health Technologies & Robotics',desc:'HEE accredited programme exploring the role of robotic and digital technologies in NHS pathways, including automated dispensing and rehabilitation robotics.',cost:'Free for NHS staff',audience:'NHS clinical and technical staff',url:'https://www.hee.nhs.uk/our-work/digital-literacy',cs:'CS7,CS19'},
+  {id:'c16',cat:'agentic',level:'beginner',free:true,provider:'Elements of AI (Univ. of Helsinki)',title:'Elements of AI',desc:'The most widely used free AI literacy course globally. No maths or programming required. Covers what AI is, how it works, and its societal implications — ideal starting point.',cost:'Free',audience:'Complete beginners, all NHS staff',url:'https://www.elementsofai.com/',cs:'CS1,CS3'},
+  {id:'c17',cat:'clinical',level:'beginner',free:true,provider:'Alan Turing Institute',title:'Introduction to AI Ethics in Healthcare',desc:'Alan Turing Institute course on responsible AI use in public services and healthcare, covering bias, transparency, accountability, and governance.',cost:'Free',audience:'All staff — especially managers and clinical leads',url:'https://www.turing.ac.uk/',cs:'CS1,CS6,CS7'},
+  {id:'c18',cat:'ambient',level:'beginner',free:true,provider:'Google (Grow with Google)',title:'Fundamentals of AI & Productivity Tools',desc:'Google\'s practical introduction to using AI-powered productivity tools (Docs, Meet, Workspace AI) for reducing administrative burden in everyday work.',cost:'Free',audience:'Admin staff, receptionists, ward coordinators',url:'https://grow.google/certificates/',cs:'CS1,CS14'},
+  {id:'c19',cat:'agentic',level:'intermediate',free:false,provider:'Udemy',title:'AI Automation & Workflow Design for Non-Developers',desc:'Practical course on building no-code AI workflows using tools like Make, Zapier AI, and Microsoft Power Automate for healthcare process automation.',cost:'£12.99–£19.99 (frequent sales)',audience:'Operations managers, project leads, digital champions',url:'https://www.udemy.com/topic/artificial-intelligence/',cs:'CS8,CS9,CS14'},
+  {id:'c20',cat:'clinical',level:'intermediate',free:false,provider:'NHSX / NHS England AI Lab',title:'Data Saves Lives: AI in the NHS',desc:'NHS-specific programme on using data and AI to improve care delivery — includes practical modules on AI procurement, evaluation, and deployment governance.',cost:'Free for NHS staff',audience:'NHS digital leads, CCIOs, informatics teams',url:'https://transform.england.nhs.uk/ai-lab/',cs:'CS1,CS4,CS9'}
+];
+
+const caseStudies = [
+  {id:'CS1',group:'clinical',cats:['ambient'],title:'MedScribe AI — Automated Clinical Documentation',country:'UK · London',desc:'Real-time ambient AI documentation reducing clinician admin burden by 35%, eliminating out-of-hours chart dictations for 94% of participants.',stat:'35% reduction in admin overhead',url:'https://www.medscribe.co.uk/case-study'},
+  {id:'CS2',group:'clinical',cats:['clinical'],title:'PathoAgent — Automating Histopathology Workflows',country:'Germany · Heidelberg',desc:'AI pixel classification for histopathology slide screening achieving 310% throughput increase with zero false negatives in validation.',stat:'310% screening throughput increase',url:'https://www.pathoagent.de/en/research'},
+  {id:'CS3',group:'clinical',cats:['agentic'],title:'TriageBot — Emergency Department Streaming',country:'Australia · Sydney',desc:'Autonomous agentic triage system reducing ED wait times by routing patients to appropriate care pathways in real time.',stat:'40% reduction in ED wait times',url:'case-studies.html'},
+  {id:'CS4',group:'clinical',cats:['clinical','agentic'],title:'ClinPath AI — Sepsis Early Warning',country:'USA · Chicago',desc:'Predictive AI agent monitoring vitals and lab values to trigger sepsis alerts 6 hours earlier than standard NEWS scoring systems.',stat:'6-hour earlier detection',url:'case-studies.html'},
+  {id:'CS5',group:'clinical',cats:['ambient'],title:'VoiceRound — Ward Round Documentation',country:'UK · Manchester',desc:'Ambient AI capturing multi-disciplinary ward round discussions and auto-generating structured EHR entries and discharge summaries.',stat:'4.2 hrs/day reclaimed per clinician',url:'case-studies.html'},
+  {id:'CS6',group:'clinical',cats:['clinical','agentic'],title:'OncoSuggest — Oncology Treatment Regimen Drafting',country:'Canada · Toronto',desc:'Knowledge-graph AI agent synthesising clinical trial literature into personalised oncology treatment protocol drafts reviewed by MDTs.',stat:'80% compression in protocol drafting',url:'https://www.oncoSuggest.ca/evidence'},
+  {id:'CS7',group:'clinical',cats:['robotic','clinical'],title:'PharmAI Dispense — Prescription Cross-Checking',country:'Singapore',desc:'Robotic AI prescription verification catching 124 severe cross-reactivity errors missed by standard rule-based safety parameters.',stat:'124 critical dispensing errors caught',url:'https://www.pharmaidispense.sg/case-studies'},
+  {id:'CS10',group:'clinical',cats:['clinical'],title:'DermAI — Dermatology Triage Automation',country:'UK · Leeds',desc:'AI-powered image classification for GP-referred dermatology cases, reducing 2WW referral conversion rates and wait times.',stat:'60% reduction in unnecessary referrals',url:'case-studies.html'},
+  {id:'CS11',group:'clinical',cats:['clinical','agentic'],title:'RadAgent — Radiology Reporting Assist',country:'USA · Boston',desc:'AI assistant pre-populating radiology report templates with structured findings, reducing reporting time by 50%.',stat:'50% faster reporting time',url:'case-studies.html'},
+  {id:'CS16',group:'clinical',cats:['ambient'],title:'PediatricScribe — Paediatric Consultation Summarisation',country:'UK · Birmingham',desc:'Ambient AI capturing complex child-parent clinical dialogues and generating structured, validated consultation summaries automatically.',stat:'38% reduction in queue cycle times',url:'https://www.pediatricscribe.nhs.uk/case-study'},
+  {id:'CS17',group:'clinical',cats:['clinical'],title:'NeuroAssess AI — Cognitive Decline Assessment Automation',country:'Germany · Munich',desc:'AI-driven standardised cognitive assessment scoring, reducing assessment administration time and enabling earlier dementia detection.',stat:'35% reduction in admin overhead',url:'https://www.neuroassess.de/studies'},
+  {id:'CS18',group:'clinical',cats:['clinical','ambient'],title:'EchoScan AI — Cardiac Imaging Analysis',country:'Japan · Tokyo',desc:'Deep learning model analysing echocardiography outputs in real time, flagging structural abnormalities for cardiologist review.',stat:'3x faster image analysis',url:'case-studies.html'},
+  {id:'CS20',group:'clinical',cats:['clinical'],title:'WoundAI — Tissue Viability Imaging',country:'UK · Bristol',desc:'AI-powered wound photography analysis providing objective wound staging, healing progress tracking, and dressing recommendations.',stat:'42% improvement in healing outcomes',url:'case-studies.html'},
+  {id:'CS25',group:'clinical',cats:['robotic'],title:'SurgiBot Assist — Robotic Surgical Guidance',country:'USA · San Francisco',desc:'AI-guided robotic surgical assistance system providing real-time haptic feedback and anatomical mapping during minimally invasive procedures.',stat:'28% reduction in surgical complications',url:'case-studies.html'},
+  {id:'CS28',group:'clinical',cats:['robotic'],title:'RehaBot — Robotic Physiotherapy Assistant',country:'Germany · Berlin',desc:'Robotic rehabilitation system using AI to personalise physiotherapy programmes and track patient motor recovery in real time.',stat:'45% faster motor recovery',url:'case-studies.html'},
+  {id:'CS8',group:'operational',cats:['agentic'],title:'NurseBot Priority — Inpatient Ward Call-Light Prioritisation',country:'USA · Boston',desc:'Autonomous AI agent triaging ward call-light requests by urgency, routing them to appropriate nursing staff and reducing response times.',stat:'35% reduction in admin overhead',url:'https://www.nursebotpriority.com/outcomes'},
+  {id:'CS9',group:'operational',cats:['agentic'],title:'BedFlow AI — Hospital Bed Management',country:'UK · Birmingham',desc:'Agentic bed management system predicting discharge likelihood and proactively coordinating bed allocation across all wards in real time.',stat:'22% increase in bed utilisation',url:'case-studies.html'},
+  {id:'CS12',group:'operational',cats:['agentic'],title:'RefRouter — Intelligent Referral Management',country:'UK · London',desc:'AI agent automating GP referral triage and routing, matching patients to the most appropriate specialist pathway based on clinical data.',stat:'55% reduction in referral processing time',url:'case-studies.html'},
+  {id:'CS13',group:'operational',cats:['clinical','agentic'],title:'OutpatientAI — Appointment No-Show Prediction',country:'Australia · Melbourne',desc:'Predictive AI reducing appointment no-shows by proactively contacting high-risk patients and reallocating slots to waiting list patients.',stat:'31% reduction in no-show rate',url:'case-studies.html'},
+  {id:'CS14',group:'operational',cats:['agentic'],title:'StaffSync AI — Rostering & Workforce Optimisation',country:'UK · Leeds',desc:'Autonomous rostering agent balancing shift demand, staff skills, and compliance requirements to produce optimised rota proposals.',stat:'18 hrs/week admin time saved',url:'case-studies.html'},
+  {id:'CS15',group:'operational',cats:['agentic'],title:'GerioCare Agent — Autonomous Monitoring in Aged Care',country:'Japan',desc:'Multi-sensor AI agent autonomously monitoring elderly residents, detecting early deterioration patterns, and alerting care teams.',stat:'38% reduction in process queue times',url:'https://www.geriocare.co.jp/outcomes'},
+  {id:'CS19',group:'operational',cats:['robotic'],title:'MedDispense Robot — Automated Pharmacy Dispensing',country:'UK · Edinburgh',desc:'Robotic pharmacy dispensing system with AI verification, reducing dispensing errors and freeing pharmacist time for clinical review.',stat:'99.8% dispensing accuracy',url:'case-studies.html'},
+  {id:'CS21',group:'operational',cats:['agentic'],title:'ClaimBot — Insurance Pre-Authorisation Automation',country:'USA · New York',desc:'AI agent automating insurance pre-authorisation requests, reducing administrative burden and approval turnaround from days to hours.',stat:'72% faster pre-auth approval',url:'case-studies.html'},
+  {id:'CS22',group:'operational',cats:['agentic'],title:'ProcureAI — Medical Supply Chain Optimisation',country:'Germany · Frankfurt',desc:'Autonomous supply chain agent predicting stock depletion, issuing purchase orders, and managing supplier relationships at scale.',stat:'30% reduction in supply chain costs',url:'case-studies.html'},
+  {id:'CS23',group:'operational',cats:['agentic','ambient'],title:'MeetingScribe — Clinical Governance Meeting Documentation',country:'UK · London',desc:'Ambient AI capturing clinical governance meeting discussions, auto-generating minutes, action logs, and compliance documentation.',stat:'3 hrs/meeting saved in admin',url:'case-studies.html'},
+  {id:'CS24',group:'operational',cats:['agentic'],title:'CapacityIQ — Regional Demand Forecasting',country:'UK · NHS England',desc:'Predictive analytics agent forecasting NHS regional demand surges 14 days ahead, enabling proactive capacity planning across ICSs.',stat:'14-day advance demand forecasting',url:'case-studies.html'},
+  {id:'CS26',group:'operational',cats:['agentic'],title:'AuditAgent — CQC Compliance Automation',country:'UK · London',desc:'AI agent continuously auditing clinical and operational records against CQC standards, flagging compliance gaps in real time.',stat:'60% reduction in audit prep time',url:'case-studies.html'},
+  {id:'CS27',group:'operational',cats:['agentic'],title:'TranslateAI — Multi-Language Patient Communication',country:'UK · London',desc:'Real-time AI translation and communication agent supporting 40+ languages for patient-clinician interactions and consent processes.',stat:'98% patient comprehension score',url:'case-studies.html'},
+  {id:'CS29',group:'operational',cats:['robotic'],title:'CleanBot — Automated Hospital Environment Monitoring',country:'Japan · Osaka',desc:'Autonomous robotic system monitoring infection control compliance, air quality, and surface contamination levels across wards.',stat:'44% reduction in HAI rates',url:'case-studies.html'},
+  {id:'CS30',group:'operational',cats:['agentic'],title:'DataBridge — EHR System Integration Agent',country:'UK · London',desc:'Agentic middleware automating data flows between legacy and modern EHR systems, eliminating manual re-keying and data silos.',stat:'85% reduction in data entry errors',url:'case-studies.html'}
+];
+
+let activeCourseFilter = 'all';
+let activeCSFilter = 'all';
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active-view');
+  btn.classList.add('active');
+}
+
+function renderCourses() {
+  const query = (document.getElementById('course-search')?.value || '').toLowerCase();
+  const grid = document.getElementById('course-grid');
+  grid.innerHTML = '';
+  const filtered = courses.filter(c => {
+    const matchFilter = activeCourseFilter === 'all' || c.cat === activeCourseFilter || (activeCourseFilter === 'free' && c.free);
+    const matchSearch = !query || c.title.toLowerCase().includes(query) || c.provider.toLowerCase().includes(query) || c.desc.toLowerCase().includes(query);
+    return matchFilter && matchSearch;
+  });
+  if (filtered.length === 0) {
+    grid.innerHTML = '<p style="color:var(--muted);padding:1rem">No courses match your search.</p>';
+    return;
+  }
+  filtered.forEach(c => {
+    const csLinks = c.cs ? c.cs.split(',').map(id => `<a class="btn-sm btn-outline" href="#" onclick="jumpToCS('${id.trim()}'); return false;" style="font-size:.72rem;padding:.2rem .5rem">📋 ${id.trim()}</a>`).join('') : '';
+    grid.innerHTML += `
+      <div class="course-card">
+        <div class="course-card-top">
+          <div class="course-provider">${c.provider}</div>
+          <div class="course-title">${c.title}</div>
+          <div class="course-desc">${c.desc}</div>
+          <div class="course-meta">
+            <span>👥 ${c.audience}</span>
+            <span>💰 ${c.cost}</span>
+          </div>
+        </div>
+        <div class="course-card-bottom">
+          <span class="tag tag-${c.cat}">${c.cat.charAt(0).toUpperCase()+c.cat.slice(1)} AI</span>
+          <span class="tag tag-${c.level}">${c.level.charAt(0).toUpperCase()+c.level.slice(1)}</span>
+          <span class="tag tag-${c.free?'free':'paid'}">${c.free?'🆓 Free':'💳 Paid'}</span>
+          <a href="${c.url}" target="_blank" rel="noopener" class="course-link" style="margin-left:auto">Enrol →</a>
+          ${csLinks}
+        </div>
+      </div>`;
+  });
+}
+
+function setCourseFilter(filter, el) {
+  activeCourseFilter = filter;
+  document.querySelectorAll('#tab-learning .filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderCourses();
+}
+
+function filterCourses() { renderCourses(); }
+
+function renderCaseStudies() {
+  const query = (document.getElementById('cs-search')?.value || '').toLowerCase();
+  ['clinical','operational'].forEach(group => {
+    const grid = document.getElementById('cs-grid-' + group);
+    const countEl = document.getElementById('cs-count-' + group);
+    grid.innerHTML = '';
+    let count = 0;
+    caseStudies.filter(cs => {
+      const matchCat = activeCSFilter === 'all' || cs.cats.includes(activeCSFilter);
+      const matchGroup = cs.group === group;
+      const matchSearch = !query || cs.title.toLowerCase().includes(query) || cs.desc.toLowerCase().includes(query) || cs.id.toLowerCase().includes(query) || cs.country.toLowerCase().includes(query);
+      return matchCat && matchGroup && matchSearch;
+    }).forEach(cs => {
+      count++;
+      const tagHTML = cs.cats.map(t => `<span class="tag tag-${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('');
+      const linkedCourses = courses.filter(c => c.cs && c.cs.split(',').map(x=>x.trim()).includes(cs.id));
+      const learnLink = linkedCourses.length > 0
+        ? `<a href="#" onclick="highlightCourses('${cs.id}'); return false;" class="btn-sm btn-outline" style="font-size:.72rem">🎓 ${linkedCourses.length} Course${linkedCourses.length>1?'s':''}</a>`
+        : '';
+      grid.innerHTML += `
+        <div class="cs-card" data-cats="${cs.cats.join(',')}">
+          <div class="cs-card-header">
+            <div>
+              <div class="cs-number">${cs.id} · ${cs.country}</div>
+              <div class="cs-title">${cs.title}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:.3rem;align-items:flex-end">${tagHTML}</div>
+          </div>
+          <div class="cs-desc">${cs.desc}</div>
+          <div class="cs-stat">📊 ${cs.stat}</div>
+          <div class="cs-footer">
+            <a href="${cs.url}" target="_blank" rel="noopener" class="btn-sm btn-blue">Read Case Study →</a>
+            ${learnLink}
+          </div>
+        </div>`;
+    });
+    countEl.textContent = count + ' shown';
+    document.getElementById('cs-group-' + group).style.display = count > 0 ? 'block' : 'none';
+  });
+}
+
+function setCSFilter(filter, el) {
+  activeCSFilter = filter;
+  document.querySelectorAll('#tab-casestudies .filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderCaseStudies();
+  const panel = document.getElementById('associated-learning-section');
+  const assocGrid = document.getElementById('associated-courses-grid');
+  if (filter !== 'all') {
+    const linked = courses.filter(c => c.cat === filter || (filter === 'operational' && c.cat === 'agentic'));
+    assocGrid.innerHTML = '';
+    linked.slice(0,4).forEach(c => {
+      assocGrid.innerHTML += `
+        <div class="course-card">
+          <div class="course-card-top">
+            <div class="course-provider">${c.provider}</div>
+            <div class="course-title">${c.title}</div>
+            <div class="course-desc">${c.desc}</div>
+          </div>
+          <div class="course-card-bottom">
+            <span class="tag tag-${c.level}">${c.level.charAt(0).toUpperCase()+c.level.slice(1)}</span>
+            <span class="tag tag-${c.free?'free':'paid'}">${c.free?'🆓 Free':'💳 Paid'}</span>
+            <a href="${c.url}" target="_blank" rel="noopener" class="course-link" style="margin-left:auto">Enrol →</a>
+          </div>
+        </div>`;
+    });
+    panel.classList.remove('hidden');
+  } else {
+    panel.classList.add('hidden');
+  }
+}
+
+function filterCaseStudies() { renderCaseStudies(); }
+
+function jumpToCS(id) {
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-casestudies').classList.add('active-view');
+  document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.cs-card');
+    cards.forEach(card => {
+      if (card.querySelector('.cs-number') && card.querySelector('.cs-number').textContent.startsWith(id)) {
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.style.border = '2px solid var(--blue)';
+        setTimeout(() => card.style.border = '1px solid var(--border)', 2500);
+      }
+    });
+  }, 100);
+}
+
+function highlightCourses(csId) {
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-learning').classList.add('active-view');
+  document.querySelectorAll('.tab-btn')[0].classList.add('active');
+  activeCourseFilter = 'all';
+  document.querySelectorAll('#tab-learning .filter-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector('#tab-learning .pill-all')?.classList.add('active');
+  renderCourses();
+  setTimeout(() => {
+    document.querySelectorAll('#course-grid .course-card').forEach(card => {
+      const links = card.querySelectorAll('a[onclick]');
+      links.forEach(l => {
+        if (l.textContent.includes(csId)) {
+          card.scrollIntoView({behavior:'smooth', block:'center'});
+          card.style.border = '2px solid var(--orange)';
+          setTimeout(() => card.style.border = '1px solid var(--border)', 2500);
+        }
+      });
+    });
+  }, 150);
+}
+
+window.onload = function() {
+  renderCourses();
+  renderCaseStudies();
+};
+</script>
+</body>
+</html>
