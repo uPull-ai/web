@@ -1,804 +1,603 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>uPull.ai — Scaling People to Bridge the NHS Digital Delivery Gap</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>uPull.ai — Frontline-Led AI for the NHS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
-      scroll-behavior: smooth;
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --nhs-blue:#005EB8;
+      --nhs-blue-rgb:0,94,184;
+      --accent-orange:#E65F2B;
+      --accent-orange-rgb:230,95,43;
+      --accent-orange-hover:#c54f20;
+      --nhs-blue-light:#5B9FE0;
     }
-    body {
-      background-color: #F8FAFC;
-      color: #1E293B;
-      line-height: 1.6;
-      padding: 0;
-      margin: 0;
-    }
-    :root {
-      --primary-navy: #0A192F;
-      --nhs-blue: #005EB8;
-      --accent-orange: #E65F2B;
-      --bg-light: #F8FAFC;
-      --card-bg: #ffffff;
-      --text-dark: #1E293B;
-      --text-muted: #64748B;
-      --border-color: #E2E8F0;
-      --clinical: #0d9488;
-      --operational: #ea580c;
-    }
-header {
-  background-color: var(--primary-navy);
-  padding: 1rem 5%;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  border-bottom: 3px solid var(--nhs-blue);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#0e0e0e;color:#fff;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{display:block;width:100%;height:100%;object-fit:cover}
 
-.nav-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 0.5rem 1rem;
-}
+    /* NAV */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 48px;
+      background:rgba(14,14,14,0);
+      transition:background .4s;
+    }
+    .nav-right{display:flex;align-items:center;gap:18px}
+    nav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
+    .brand{font-weight:900;font-size:1.25rem;letter-spacing:-.02em}
+    .brand span{color:var(--accent-orange)}
 
-.nav-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.45rem;
-  min-width: 0;
-}
+    /* PRIMARY DROPDOWN MENU */
+    .nav-menu{display:flex;align-items:center;gap:2px;list-style:none}
+    .nav-item{position:relative}
+    .nav-link-item{
+      display:flex;align-items:center;gap:6px;
+      padding:10px 16px;border-radius:999px;
+      background:none;border:none;cursor:pointer;
+      color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;font-family:inherit;
+      transition:color .2s, background .2s;
+    }
+    .nav-link-item:hover, .nav-item.open > .nav-link-item{ color:#fff; background:rgba(255,255,255,.08); }
+    .nav-chevron{
+      width:7px;height:7px;
+      border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+      transform:rotate(45deg);margin-top:-2px;transition:transform .2s;
+    }
+    .nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
+    .nav-submenu{
+      list-style:none;position:absolute;top:calc(100% + 10px);left:0;
+      min-width:230px;padding:10px;border-radius:16px;
+      background:rgba(14,14,14,.97);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,255,255,.1);
+      border-top:3px solid var(--nhs-blue);
+      box-shadow:0 20px 44px rgba(0,0,0,.5);
+      opacity:0;visibility:hidden;transform:translateY(-8px);
+      transition:opacity .18s ease, transform .18s ease, visibility .18s;
+      z-index:200;
+    }
+    .nav-item.open > .nav-submenu, .nav-item:hover > .nav-submenu{ opacity:1; visibility:visible; transform:translateY(0); }
+    .nav-submenu li a{
+      display:block;padding:10px 12px;border-radius:10px;
+      color:rgba(255,255,255,.68);font-size:.85rem;font-weight:500;
+      transition:background .15s, color .15s;
+    }
+    .nav-submenu li a:hover{ background:rgba(var(--nhs-blue-rgb),.25); color:#fff; }
+    .nav-toggle{
+      display:none;background:none;border:none;cursor:pointer;padding:8px;
+    }
+    .nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
+    .nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .nav-toggle.active span:nth-child(2){opacity:0}
+    .nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    .nav-btn{
+      padding:11px 22px;border-radius:999px;background:var(--accent-orange);color:#fff;
+      font-weight:800;font-size:.9rem;transition:.2s;white-space:nowrap;
+    }
+    .nav-btn:hover{background:var(--accent-orange-hover)}
+    @media(max-width:900px){
+      .nav-toggle{display:block}
+      .nav-menu{
+        display:none;position:fixed;top:64px;left:0;right:0;
+        flex-direction:column;align-items:stretch;gap:2px;
+        background:rgba(14,14,14,.98);backdrop-filter:blur(18px);
+        padding:14px 24px 22px;border-bottom:1px solid rgba(255,255,255,.1);
+        max-height:calc(100vh - 64px);overflow-y:auto;
+      }
+      .nav-menu.mobile-open{display:flex}
+      .nav-link-item{width:100%;justify-content:space-between}
+      .nav-submenu{
+        position:static;opacity:1;visibility:visible;transform:none;
+        display:none;box-shadow:none;background:rgba(255,255,255,.04);
+        margin:4px 0 8px;
+      }
+      .nav-item.open > .nav-submenu{display:block}
+      .nav-item:hover > .nav-submenu{display:none}
+      .nav-item.open:hover > .nav-submenu{display:block}
+    }
 
-.logo {
-  color: #ffffff;
-  font-size: 1.6rem;
-  font-weight: 800;
-  text-decoration: none;
-  letter-spacing: -0.5px;
-}
+    /* HERO — full viewport image */
+    #hero{
+      position:relative;height:100vh;min-height:680px;
+      display:flex;align-items:flex-end;
+    }
+    .hero-img{
+      position:absolute;inset:0;z-index:0;
+    }
+    .hero-img img{filter:brightness(.55)}
+    .hero-overlay{
+      position:absolute;inset:0;z-index:1;
+      background:linear-gradient(to top, rgba(14,14,14,.95) 0%, rgba(14,14,14,.3) 50%, transparent 100%)
+    }
+    .hero-content{
+      position:relative;z-index:2;
+      padding:100px 48px 80px;max-width:900px;
+    }
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 14px;border-radius:999px;
+      background:rgba(var(--nhs-blue-rgb),.18);border:1px solid rgba(var(--nhs-blue-rgb),.4);
+      color:var(--nhs-blue-light);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:22px;
+    }
+    .tag::before{content:'';width:7px;height:7px;border-radius:999px;background:var(--accent-orange)}
+    #hero{padding-top:0}
+    #hero h1{
+      font-size:clamp(3.2rem,7vw,6.5rem);font-weight:900;
+      letter-spacing:-.04em;line-height:1;
+      margin-bottom:22px;
+    }
+    #hero h1 em{color:var(--accent-orange);font-style:normal}
+    #hero p{font-size:1.2rem;color:rgba(255,255,255,.75);max-width:55ch;margin-bottom:32px}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+    .btn-g{
+      padding:16px 26px;border-radius:999px;background:var(--accent-orange);color:#fff;
+      font-weight:800;font-size:1rem;transition:.2s
+    }
+    .btn-g:hover{background:var(--accent-orange-hover);transform:translateY(-2px)}
+    .btn-outline{
+      padding:16px 26px;border-radius:999px;border:1px solid rgba(255,255,255,.3);
+      color:#fff;font-weight:600;font-size:1rem;transition:.2s
+    }
+    .btn-outline:hover{border-color:var(--nhs-blue-light);color:var(--nhs-blue-light)}
 
-.logo span { color: var(--accent-orange); }
+    /* STAT STRIP */
+    .stat-strip{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      background:#111;border-top:1px solid #222;
+    }
+    .stat-item{
+      padding:36px 32px;border-right:1px solid #222;
+    }
+    .stat-item:last-child{border-right:none}
+    .stat-num{font-size:3rem;font-weight:900;letter-spacing:-.04em;color:var(--accent-orange)}
+    .stat-label{font-size:.88rem;color:rgba(255,255,255,.55);margin-top:4px}
 
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 0.8rem;
-}
+    /* CHALLENGE — split image/text */
+    .split{
+      display:grid;grid-template-columns:1fr 1fr;min-height:600px;
+    }
+    .split.flip{direction:rtl}
+    .split.flip > *{direction:ltr}
+    .split-img{position:relative;overflow:hidden;min-height:500px}
+    .split-img img{transition:.6s}
+    .split-img:hover img{transform:scale(1.03)}
+    .split-text{
+      display:flex;flex-direction:column;justify-content:center;
+      padding:72px 64px;background:#111;
+    }
+    .split-text .tag{background:rgba(var(--nhs-blue-rgb),.14)}
+    .split-text h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 18px;line-height:1.05}
+    .split-text p{color:rgba(255,255,255,.62);font-size:1rem;max-width:44ch;line-height:1.7}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+    .pill{padding:10px 16px;border-radius:999px;background:#1a1a1a;border:1px solid #2a2a2a;font-size:.85rem;font-weight:700}
 
-.main-nav { justify-content: flex-end; }
+    /* APPROACH — two-column card grid */
+    #approach{background:#0e0e0e;padding:100px 48px}
+    .approach-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:32px;flex-wrap:wrap}
+    #approach h2{font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;letter-spacing:-.03em;max-width:16ch;line-height:1.0}
+    .approach-sub{max-width:38ch;color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
+    .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,300px);gap:3px}
+    .step-tile{
+      position:relative;overflow:hidden;
+      background:#111;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
+    }
+    .step-tile:nth-child(1){border-radius:28px 4px 4px 4px}
+    .step-tile:nth-child(2){border-radius:4px 28px 4px 4px}
+    .step-tile:nth-child(3){border-radius:4px 4px 4px 28px}
+    .step-tile:nth-child(4){border-radius:4px 4px 28px 4px}
+    .step-tile-img{position:absolute;inset:0;z-index:0}
+    .step-tile-img img{filter:brightness(.28);transition:.5s}
+    .step-tile:hover .step-tile-img img{filter:brightness(.38);transform:scale(1.04)}
+    .step-tile-overlay{
+      position:absolute;inset:0;z-index:1;
+      background:linear-gradient(to top,rgba(14,14,14,.96) 0%,rgba(14,14,14,.1) 70%,transparent 100%)
+    }
+    .step-tile-content{position:relative;z-index:2}
+    .step-num{
+      width:42px;height:42px;border-radius:14px;background:rgba(var(--nhs-blue-rgb),.18);
+      border:1px solid rgba(var(--nhs-blue-rgb),.4);color:var(--nhs-blue-light);
+      display:grid;place-items:center;font-weight:900;font-size:.9rem;margin-bottom:14px
+    }
+    .step-tile h3{font-size:1.15rem;font-weight:800;margin-bottom:8px}
+    .step-tile p{font-size:.9rem;color:rgba(255,255,255,.58);line-height:1.6}
+    @media(max-width:900px){
+      #approach{padding:64px 24px}
+      .steps-grid{grid-template-columns:1fr}
+      .approach-top{flex-direction:column}
+    }
 
-.sub-nav {
-  justify-content: flex-end;
-  gap: 0.35rem 0.8rem;
-  padding-top: 0.25rem;
-  border-top: 1px solid rgba(255,255,255,0.14);
-}
+    /* RESULTS — large mosaic with images */
+    #results{background:#0e0e0e;padding:0}
+    .mosaic-grid{
+      display:grid;
+      grid-template-columns:1.4fr 1fr;
+      grid-template-rows:500px 380px;
+      gap:3px;
+    }
+    .mosaic-tile{position:relative;overflow:hidden}
+    .mosaic-tile img{transition:.5s}
+    .mosaic-tile:hover img{transform:scale(1.04)}
+    .mosaic-tile.tall{grid-row:1 / 3}
+    .tile-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top, rgba(14,14,14,.92) 0%, rgba(14,14,14,.15) 60%, transparent 100%);
+      display:flex;flex-direction:column;justify-content:flex-end;padding:32px;
+    }
+    .tile-metric{font-size:3.6rem;font-weight:900;letter-spacing:-.04em;color:var(--accent-orange)}
+    .tile-title{font-size:1.25rem;font-weight:700;margin:4px 0 6px}
+    .tile-desc{font-size:.9rem;color:rgba(255,255,255,.62);max-width:36ch}
 
-nav a {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.88rem;
-  transition: color 0.2s;
-  cursor: pointer;
-  padding: 0.25rem 0;
-}
+    /* TEAM — full-bleed portrait section */
+    #leadership{background:#111}
+    .team-header{padding:80px 48px 0}
+    .team-header h2{font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;letter-spacing:-.03em;max-width:20ch;margin:14px 0 8px}
+    .team-header p{color:rgba(255,255,255,.55);max-width:52ch}
+    .team-cards{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:3px;margin-top:40px;
+    }
+    .person-card{position:relative;height:600px;overflow:hidden}
+    .person-card img{transition:.5s}
+    .person-card:hover img{transform:scale(1.04)}
+    .person-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top, rgba(14,14,14,.96) 0%, transparent 55%);
+      display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
+    }
+    .person-role{color:var(--nhs-blue-light);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+    .person-name{font-size:1.45rem;font-weight:900;letter-spacing:-.02em}
+    .person-bio{margin-top:8px;font-size:.9rem;color:rgba(255,255,255,.6)}
 
-nav a:hover,
-nav a.active-tab {
-  color: var(--accent-orange);
-}
+    /* CTA — image with overlay form */
+    #cta{position:relative;min-height:540px;display:flex;align-items:center}
+    #cta .bg-img{position:absolute;inset:0;z-index:0}
+    #cta .bg-img img{filter:brightness(.28)}
+    #cta .bg-overlay{
+      position:absolute;inset:0;z-index:1;
+      background:radial-gradient(ellipse at center, rgba(var(--nhs-blue-rgb),.1) 0%, transparent 70%)
+    }
+    #cta .cta-inner{
+      position:relative;z-index:2;
+      display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+      padding:80px 48px;width:100%;max-width:1280px;margin:0 auto;
+    }
+    #cta h2{font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
+    #cta p{color:rgba(255,255,255,.6);max-width:44ch}
+    .signup{
+      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+      border-radius:28px;padding:32px;
+    }
+    .signup label{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:10px}
+    .signup input{
+      width:100%;padding:15px 16px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);
+      color:#fff;font:inherit;margin-bottom:12px;outline:none;font-size:1rem
+    }
+    .signup input::placeholder{color:rgba(255,255,255,.35)}
+    .signup input:focus{border-color:rgba(var(--nhs-blue-rgb),.6)}
+    .signup button{
+      width:100%;padding:16px;border:none;border-radius:999px;
+      background:var(--accent-orange);color:#fff;font-weight:900;font:inherit;font-size:1rem;
+      cursor:pointer;transition:.2s
+    }
+    .signup button:hover{background:var(--accent-orange-hover)}
 
-.sub-nav a,
-.sub-nav button {
-  color: #cbd5e1;
-  font-size: 0.82rem;
-}
-    .sub-nav button {
-      background: transparent;
-      border: 0;
-      font-family: inherit;
-      font-weight: 500;
-      cursor: pointer;
-      padding: 0.25rem 0;
-      transition: color 0.2s;
+    footer{
+      padding:40px 48px;background:#0a0a0a;
+      border-top:1px solid #1a1a1a;
+      display:flex;align-items:center;justify-content:space-between;
     }
-    .sub-nav button:hover, .sub-nav button.active-filter { color: var(--accent-orange); }
-    nav a.page-link {
-      opacity: 0.85;
-    }
-    nav a.page-link.current-page {
-      color: var(--accent-orange);
-      opacity: 1;
-    }
-    .cta-btn {
-      background-color: var(--accent-orange);
-      color: #ffffff;
-      padding: 0.6rem 1.2rem;
-      border-radius: 4px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 0.9rem;
-    }
-    .cta-btn:hover {
-      background-color: #c54f20;
-      transform: translateY(-1px);
-    }
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 5%;
-    }
-    .page-view { display: none; }
-    .page-view.active-view { display: block; }
-    section { padding: 3rem 0; border-bottom: 1px solid var(--border-color); }
-    .section-title {
-      text-align: center;
-      font-size: 2rem;
-      color: var(--primary-navy);
-      margin-bottom: 0.5rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-    .section-subtitle {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 1rem;
-      max-width: 750px;
-      margin: 0 auto 2.5rem auto;
-      line-height: 1.5;
-      padding: 0 1rem;
-    }
-    /* Hero */
-    .hero-banner {
-      background: linear-gradient(rgba(10, 25, 47, 0.88), rgba(10, 25, 47, 0.96)), url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
-      color: #ffffff;
-      border-radius: 12px;
-      padding: 2.5rem 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      align-items: center;
-      margin-top: 1rem;
-      box-shadow: 0 10px 20px -3px rgba(0,0,0,0.08);
-    }
-    @media (min-width: 760px) {
-      .hero-banner { grid-template-columns: 1.25fr 0.75fr; padding: 4rem; }
-    }
-    .hero-left h1 {
-      font-size: 2.4rem;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-    .hero-left p {
-      opacity: 0.92;
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      max-width: 650px;
-    }
-    .crisis-card {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 1.8rem;
-      border-radius: 8px;
-      border-left: 6px solid var(--accent-orange);
-      text-align: center;
-    }
-    .vise-title {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent-orange);
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-    }
-    .vise-core {
-      border: 2px dashed rgba(255,255,255,0.2);
-      padding: 1rem;
-      margin: 1rem 0;
-      background: rgba(230, 95, 43, 0.12);
-      font-weight: 800;
-      font-size: 1.1rem;
-    }
-    /* Pressures */
-    .pressures-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 1.2rem;
-      margin-top: -1.5rem;
-      padding-bottom: 2rem;
-    }
-    .pressure-card {
-      background: #ffffff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      border-top: 4px solid var(--nhs-blue);
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-    }
-    .pressure-card h3 {
-      color: var(--primary-navy);
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-    /* split */
-    .split-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    @media (min-width: 700px) { .split-grid { grid-template-columns: 1fr 1fr; } }
-    .model-box {
-      padding: 2rem 1.5rem;
-      border-radius: 8px;
-      background: #ffffff;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-      display: flex;
-      flex-direction: column;
-    }
-    .model-box.push { border-top: 6px solid #cbd5e1; }
-    .model-box.pull { border-top: 6px solid var(--accent-orange); background: #fffcf9; }
-    .model-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 6px;
-      margin-bottom: 1.5rem;
-      background: #e2e8f0;
-    }
-    .quote-box {
-      font-style: italic;
-      border-left: 3px solid var(--text-muted);
-      padding-left: 1rem;
-      margin: 1rem 0;
-      color: var(--text-muted);
-    }
-    /* roadmap */
-    .roadmap {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-    @media (min-width: 600px) { .roadmap { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
-    .step-card {
-      background: #ffffff;
-      padding: 2rem 1.5rem;
-      border-radius: 8px;
-      position: relative;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-    }
-    .step-badge {
-      position: absolute;
-      top: -12px;
-      left: 20px;
-      background: var(--primary-navy);
-      color: #ffffff;
-      padding: 0.2rem 1rem;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    .step-card.active .step-badge { background: var(--accent-orange); }
-    /* calculator */
-    .interactive-calculator {
-      background: var(--primary-navy);
-      color: #ffffff;
-      border-radius: 12px;
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-    }
-    .range-slider {
-      -webkit-appearance: none;
-      width: 100%;
-      background: rgba(255,255,255,0.2);
-      border-radius: 5px;
-      height: 8px;
-      outline: none;
-      margin: 1.5rem 0;
-    }
-    .range-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--accent-orange);
-      cursor: pointer;
-    }
-    .calc-metric { font-size: 2.2rem; font-weight: 800; color: var(--accent-orange); }
-    .calculator-results {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1rem;
-    }
-    /* case preview */
-    .case-preview-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    @media (min-width: 650px) { .case-preview-grid { grid-template-columns: 1fr 1fr; } }
-    .case-preview-card {
-      background: #ffffff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-    }
-    .case-preview-banner { height: 180px; width: 100%; object-fit: cover; background: #cbd5e1; }
-    .case-preview-content { padding: 1.5rem; }
-    .case-tag {
-      display: inline-block;
-      background: #e0f2fe;
-      color: var(--nhs-blue);
-      padding: 0.2rem 0.7rem;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-    }
-    /* library */
-    .filter-shelf {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.6rem;
-      margin: -0.5rem auto 2rem;
-    }
-    .filter-btn {
-      padding: 0.4rem 1.2rem;
-      border: 1px solid var(--border-color);
-      background: white;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .filter-btn.active-filter[data-target="all"] { background: var(--primary-navy); color: white; }
-    .filter-btn.active-filter[data-target="clinical"] { background: var(--clinical); color: white; }
-    .filter-btn.active-filter[data-target="operational"] { background: var(--operational); color: white; }
-    .sub-nav .filter-btn {
-      background: transparent;
-      border: 0;
-      border-radius: 0;
-      color: #cbd5e1;
-      padding: 0.25rem 0;
-      font-size: 0.82rem;
-    }
-    .sub-nav .filter-btn.active-filter,
-    .sub-nav .filter-btn.active-filter[data-target="all"],
-    .sub-nav .filter-btn.active-filter[data-target="clinical"],
-    .sub-nav .filter-btn.active-filter[data-target="operational"] {
-      background: transparent;
-      color: var(--accent-orange);
-    }
-    .library-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    @media (min-width: 500px) { .library-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } }
-    .lib-card {
-      background: #ffffff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-    }
-    .lib-img-frame { height: 150px; position: relative; background: #d1d9e6; }
-    .lib-img-frame img { width: 100%; height: 100%; object-fit: cover; }
-    .lib-badge {
-      position: absolute;
-      top: 0.5rem; right: 0.5rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: white;
-    }
-    .badge-clinical { background: var(--clinical); }
-    .badge-operational { background: var(--operational); }
-    .lib-body { padding: 1.2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .lib-read-btn { color: var(--nhs-blue); font-weight: 700; cursor: pointer; margin-top: 0.8rem; }
-    /* popup */
-    .popup-overlay {
-      position: fixed;
-      top:0; left:0; right:0; bottom:0;
-      background: rgba(10,25,47,0.7);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      padding: 1rem;
-    }
-    .popup-overlay.show-popup { opacity: 1; visibility: visible; }
-    .popup-window {
-      background: white;
-      padding: 2rem 1.5rem;
-      border-radius: 16px;
-      max-width: 680px;
-      width: 100%;
-      position: relative;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-    .popup-close {
-      position: absolute;
-      top: 0.8rem; right: 1rem;
-      background: var(--bg-light); border: none;
-      width: 2.2rem; height: 2.2rem;
-      border-radius: 50%;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-    .abstract-section { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed var(--border-color); }
-    .abstract-label { font-weight: 700; color: var(--primary-navy); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.2rem; }
-    .abstract-val { color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0.5rem; }
-    .library-gateway-btn {
-      background: transparent;
-      color: var(--primary-navy);
-      border: 3px solid var(--primary-navy);
-      padding: 0.8rem 1.8rem;
-      font-size: 1.1rem;
-      font-weight: 800;
-      border-radius: 6px;
-      display: inline-block;
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-    .library-gateway-btn:hover {
-      background: var(--primary-navy);
-      color: #ffffff;
-      transform: scale(1.02);
-    }
-    /* team */
-    .team-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-    @media (min-width: 600px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
-    .team-card {
-      background: #ffffff;
-      padding: 2rem 1.2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-      text-align: center;
-      border-top: 4px solid var(--border-color);
-    }
-    .team-card:first-of-type { border-top-color: var(--accent-orange); }
-    .member-avatar { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; margin: 0 auto 1rem auto; background: #e2e8f0; }
-    .member-role { color: var(--accent-orange); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
-    .funnel-banner {
-      background: linear-gradient(135deg, var(--nhs-blue), var(--primary-navy));
-      color: #ffffff;
-      text-align: center;
-      padding: 3rem 5%;
-      border-radius: 12px;
-    }
-    .funnel-steps { display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0; justify-content: center; }
-    .funnel-step { flex: 1; min-width: 160px; background: rgba(255,255,255,0.08); padding: 1.2rem; border-radius: 8px; }
-    .funnel-step num { display: block; font-size: 2.2rem; font-weight: 800; color: var(--accent-orange); }
-    .hidden { display: none !important; }
-    /* waitlist */
-    .waitlist-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      max-width: 800px;
-      margin: 0 auto 2rem auto;
-    }
-    .waitlist-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 1rem 1.3rem;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-      flex-wrap: wrap;
-    }
-    .waitlist-org { display: flex; flex-direction: column; gap: 0.15rem; }
-    .waitlist-org-name { font-weight: 700; color: var(--primary-navy); }
-    .waitlist-org-type { font-size: 0.8rem; color: var(--text-muted); }
-    .pending-badge {
-      background: #fff7ed;
-      color: var(--accent-orange);
-      border: 1px solid #fed7aa;
-      padding: 0.25rem 0.8rem;
-      border-radius: 30px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-    .waitlist-cta {
-      background: #ffffff;
-      border: 2px dashed var(--nhs-blue);
-      border-radius: 8px;
-      padding: 1.5rem;
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    footer { background: #09111e; color: #94a3b8; padding: 2rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
-    @media (max-width: 480px) {
-      .hero-left h1 { font-size: 1.8rem; }
-      .section-title { font-size: 1.7rem; }
-      .nav-container { flex-direction: column; align-items: stretch; min-width: 0; }
-      .logo { align-self: flex-start; }
-      .nav-stack { width: 100%; align-items: stretch; }
-      nav { width: 100%; max-width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 0.2rem; row-gap: 0.7rem; }
-      nav a { white-space: nowrap; }
-      nav a { font-size: 0.86rem; }
-      .sub-nav { padding-top: 0.45rem; }
-      .sub-nav a, .sub-nav button { white-space: nowrap; font-size: 0.8rem; }
-      .cta-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
-      .waitlist-row { flex-direction: column; align-items: flex-start; }
+    .footer-brand{font-weight:900;font-size:1.1rem}
+    .footer-brand span{color:var(--accent-orange)}
+    footer nav ul{display:flex;gap:24px;list-style:none}
+    footer nav a{color:rgba(255,255,255,.5);font-size:.9rem;transition:.2s}
+    footer nav a:hover{color:#fff}
+    .footer-copy{color:rgba(255,255,255,.3);font-size:.85rem}
+
+    .reveal{opacity:0;transform:translateY(22px);transition:700ms cubic-bezier(.16,1,.3,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    @media(max-width:900px){
+      nav{padding:16px 24px}
+      .nav-links{display:none}
+      #hero{padding-top:0}
+    #hero h1{font-size:2.8rem}
+      .hero-content,.split-text,#approach .approach-content,#cta .cta-inner,.team-header{padding:48px 24px}
+      .split,.mosaic-grid,#cta .cta-inner{grid-template-columns:1fr}
+      .mosaic-grid{grid-template-rows:auto}
+      .mosaic-tile.tall{grid-row:auto}
+      .team-cards{grid-template-columns:1fr}
+      .person-card{height:460px}
+      .stat-strip{grid-template-columns:repeat(2,1fr)}
+      .stat-item:nth-child(2){border-right:none}
+      footer{flex-direction:column;gap:20px;align-items:flex-start;padding:32px 24px}
+      #hero .hero-content{padding-bottom:60px}
     }
   </style>
 </head>
 <body>
-<header>
-  <div class="nav-container">
-    <a href="index.html" class="logo">uPull<span>.ai</span></a>
-    <div class="nav-stack">
-    <nav class="main-nav">
-      <a href="index.html" class="page-link current-page">Strategic Core</a>
-      <a href="case-studies.html" class="page-link">Case Studies</a>
-      <a href="roi.html" class="page-link">ROI Calculator</a>
-      <a href="faqs.html" class="page-link">FAQs</a>
-      <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
-    </nav>
+
+<nav id="topnav">
+  <a href="#hero" class="brand">uPull<span>.ai</span></a>
+  <div class="nav-right">
+    <ul class="nav-menu" id="navMenu">
+
+      <!-- 1. STRATEGIC CORE -->
+      <li class="nav-item">
+        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+          Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-submenu">
+          <li><a href="#problem" onclick="closeAllSubmenus(); closeMobileNav();">Challenge</a></li>
+          <li><a href="#approach" onclick="closeAllSubmenus(); closeMobileNav();">Model</a></li>
+          <li><a href="#results" onclick="closeAllSubmenus(); closeMobileNav();">Results</a></li>
+        </ul>
+      </li>
+
+      <!-- 2. COMMUNITY -->
+      <li class="nav-item">
+        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+          Community <span class="nav-chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-submenu">
+          <li><a href="test3.html">Forum</a></li>
+          <li><a href="test4.html#tab-learning">AI Learning</a></li>
+          <li><a href="test4.html#tab-casestudies">Case Studies</a></li>
+        </ul>
+      </li>
+
+      <!-- 3. FAQS -->
+      <li class="nav-item">
+        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+          FAQs <span class="nav-chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-submenu">
+          <li><a href="https://upull.ai/faqs.html#about">About uPull.ai</a></li>
+          <li><a href="https://upull.ai/faqs.html#pilot">Pilot &amp; ROI</a></li>
+          <li><a href="https://upull.ai/faqs.html#workflows">Workflow Delivery</a></li>
+          <li><a href="https://upull.ai/faqs.html#governance">Safety &amp; Governance</a></li>
+          <li><a href="https://upull.ai/faqs.html#cases">Case Studies &amp; Evidence</a></li>
+          <li><a href="https://upull.ai/faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+        </ul>
+      </li>
+
+    </ul>
+    <!-- 4. PROOF OF VALUE -->
+    <a href="mailto:info@upull.ai" class="nav-btn">Proof of Value</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-img">
+    <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1800&q=80&auto=format&fit=crop" alt="NHS hospital corridor">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="tag">NHS AI Adoption</div>
+    <h1>Stop pushing.<br><em>Start pulling</em> AI.</h1>
+    <p>Redesign one workflow. Build capability. Prove measurable value in six weeks.</p>
+    <div class="hero-btns">
+      <a href="mailto:info@upull.ai" class="btn-g">Proof of Value</a>
+      <a href="#approach" class="btn-outline">See the model</a>
     </div>
   </div>
-</header>
+</section>
 
-<!-- LANDING -->
-<div id="view-landing">
-  <main>
-    <section class="hero-banner">
-      <div class="hero-left">
-        <h1>Scaling People to Bridge the NHS Digital Delivery Gap</h1>
-        <p>Unprecedented financial and operational pressures force an impossible choice: rush AI adoption or face system collapse. We break the vise.</p>
-        <a href="case-studies.html" class="cta-btn">View Library Framework</a>
-      </div>
-      <div class="hero-right">
-        <article class="crisis-card">
-          <div class="vise-title">Operational Constraint</div>
-          <div style="font-weight:600; margin-bottom:0.5rem;">The Delivery Crisis Vise</div>
-          <div class="vise-core"><span style="color:var(--accent-orange);">HIGH RISK ENVIRONMENT</span></div>
-          <p style="font-size:0.95rem; opacity:0.9;">System Overload vs. Rapid Software Procurement</p>
-        </article>
-      </div>
-    </section>
-
-    <section>
-      <div class="pressures-grid">
-        <article class="pressure-card"><h3>Productivity Imperative</h3><p>Digital transformation is no longer optional; it is required for sustainability.</p></article>
-        <article class="pressure-card"><h3>Capacity Deficit</h3><p>Existing systems are overloaded, restricting internal digital development.</p></article>
-        <article class="pressure-card"><h3>Financial Barrier</h3><p>Traditional external delivery teams have become prohibitively expensive.</p></article>
-        <article class="pressure-card"><h3>Talent Stagnation</h3><p>Relying on outsourced expertise leaves workforces unable to scale.</p></article>
-      </div>
-    </section>
-
-    <section id="philosophy">
-      <h2 class="section-title">The Push vs. Pull Dilemma</h2>
-      <p class="section-subtitle">Successful automation relies on frontline-led pathway transformation.</p>
-      <div class="split-grid">
-        <article class="model-box push">
-          <div>
-            <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80" alt="push model" class="model-image" loading="lazy">
-            <h3>The Old Way: The 'Push' Model</h3>
-            <p>Organisations deploy generic tools globally and expect staff to adapt blindly.</p>
-            <div class="quote-box">"You cannot transform a workflow without the people who run it."</div>
-          </div>
-          <p style="color:var(--text-muted); font-weight:bold; margin-top:1rem;">Result: low adoption and poor ROI.</p>
-        </article>
-        <article class="model-box pull">
-          <div>
-            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80" alt="pull model" class="model-image" loading="lazy">
-            <h3>The New Way: The 'Pull' Principle</h3>
-            <p>Target a critical workflow, redesign the pathway, and upskill frontline to <strong>pull AI</strong> into operations.</p>
-          </div>
-          <p style="margin-top:1.5rem; color:var(--accent-orange); font-weight:bold;">Result: immediate adoption & self-sustaining growth.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="roadmap">
-      <h2 class="section-title">The Three-Stage Delivery Roadmap</h2>
-      <p class="section-subtitle">A controlled optimization framework to minimize risk and capture metrics.</p>
-      <div class="roadmap">
-        <div class="step-card active"><div class="step-badge">Stage A: Weeks 1-6</div><h3>Prove</h3><p>Focus on <strong>1 workflow</strong> and <strong>2 staff</strong> to demonstrate rapid proof of value.</p><div style="margin-top:1rem; font-weight:bold; color:var(--accent-orange);">Initial 2:1 Return</div></div>
-        <div class="step-card"><div class="step-badge">Stage B: Expansion</div><h3>Build</h3><p>Engage executive sponsor and empower <strong>2-3 Intrapreneurs</strong> to scale the model.</p><div style="margin-top:1rem; font-weight:bold; color:var(--nhs-blue);">Standard 5:1 Return</div></div>
-        <div class="step-card"><div class="step-badge">Stage C: Standardization</div><h3>Scale</h3><p>Execute organization-wide rollout with central platforms and dashboards.</p><div style="margin-top:1rem; font-weight:bold; color:var(--primary-navy);">Systemic 10:1+ Return</div></div>
-      </div>
-    </section>
-
-    <section id="why-us">
-      <div class="interactive-calculator">
-        <h2>The Self-Funding Flywheel</h2>
-        <p style="opacity:0.8; max-width:600px; margin:0 auto 1rem;">Adjust investment to estimate targeted systemic value (5:1 framework).</p>
-        <div style="max-width:600px; margin:0 auto;">
-          <label style="display:block; font-weight:600; margin-bottom:0.3rem;">Program Investment: <span id="investmentLabel">£100,000</span></label>
-          <input type="range" min="10000" max="100000000" step="10000" value="100000" class="range-slider" id="investmentSlider">
-        </div>
-        <div class="calculator-results">
-          <div><p style="opacity:0.7; font-size:0.8rem;">Projected Return Value</p><div class="calc-metric" id="returnMetric">£500,000</div></div>
-          <div><p style="opacity:0.7; font-size:0.8rem;">Standard ROI Ratio</p><div class="calc-metric" style="color:#ffffff;">5:1</div></div>
-        </div>
-        <div style="margin-top:1.8rem;">
-          <a href="roi.html" class="cta-btn" style="background:#ffffff; color:var(--primary-navy);">Open the Full Workflow ROI Calculator →</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="cases">
-      <h2 class="section-title">Strategic Case Validations</h2>
-      <p class="section-subtitle">Active operational optimizations and clinical efficiency tracks.</p>
-      <div class="case-preview-grid">
-        <article class="case-preview-card">
-          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80" alt="clinical scribing" class="case-preview-banner" loading="lazy">
-          <div class="case-preview-content"><span class="case-tag">Clinical Efficiency</span><h3>Ambient Voice & Medical Scribing</h3><p style="color:var(--text-muted); font-size:0.9rem;">Transitioning from retrospective typing to real-time ambient validation.</p><p style="font-weight:bold; color:var(--nhs-blue);">Documentation time reduced 45%</p></div>
-        </article>
-        <article class="case-preview-card">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="triage automation" class="case-preview-banner" loading="lazy">
-          <div class="case-preview-content"><span class="case-tag">Operational Flow</span><h3>Intelligent Care Triage Automation</h3><p style="color:var(--text-muted); font-size:0.9rem;">Automated classification engines extract histories into EHR.</p><p style="font-weight:bold; color:var(--nhs-blue);">85% of referral pathways automated</p></div>
-        </article>
-      </div>
-      <div style="text-align:center; margin-top:3rem;">
-        <a href="case-studies.html" class="library-gateway-btn">Explore more case studies →</a>
-      </div>
-    </section>
-
-    <section id="waitlist">
-      <h2 class="section-title">Proof of Concept Waitlist</h2>
-      <p class="section-subtitle">Organisations that have registered interest in taking part in an upcoming Proof of Value trial. Status shown reflects onboarding stage, not commitment level.</p>
-      <div class="waitlist-grid" id="waitlist-injector"></div>
-      <div class="waitlist-cta">
-        <h3 style="color:var(--primary-navy); margin-bottom:0.4rem;">Register your organisation's interest</h3>
-        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Join the waitlist to be considered for the next Proof of Value cohort — one workflow, two staff, six weeks.</p>
-        <a href="mailto:info@upull.ai?subject=Proof%20of%20Concept%20Waitlist%20Registration" class="cta-btn">Join the Waitlist</a>
-      </div>
-    </section>
-
-    <section id="leadership">
-      <h2 class="section-title">Our Visionaries & Leaders</h2>
-      <p class="section-subtitle">Dedicated to frontline-led digital capability and safety.</p>
-      <div class="team-grid">
-        <article class="team-card">
-          <img src="https://github.com/a1exch3ung/uPull.ai/blob/main/1628754257220.jpeg?raw=true&auto=format&fit=crop&w=200&h=200&q=80" alt="Alex" class="member-avatar" loading="lazy">
-          <h3>Alex Cheung</h3><div class="member-role">Co-Founder & CEO</div><p style="font-size:0.9rem; color:var(--text-muted);">Community builder with technology and program management experience, delivering large-scale programs and digital transformation.</p>
-        </article>
-        <article class="team-card">
-          <img src="https://www.digitalhealth.net/wp-content/uploads/2025/11/Hassan-Chaudhury-1-1.jpeg.webp?auto=format&fit=crop&w=200&h=200&q=80" alt="Hassan" class="member-avatar" loading="lazy">
-          <h3>Hassan Chaudry</h3><div class="member-role">Co-Founder & CCO</div><p style="font-size:0.9rem; color:var(--text-muted);">Healthcare innovation and commercial strategy leader with extensive experience in digital health, data, and life sciences.</p>
-        </article>
-        <article class="team-card">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMJHlcCAyat6G1PhHEPMudzD9-vNMWJvT569mkWDWZFQ&s&auto=format&fit=crop&w=200&h=200&q=80" alt="Suki" class="member-avatar" loading="lazy">
-          <h3>Suki Panesar</h3><div class="member-role">Co-Founder & Chief Strategist</div><p style="font-size:0.9rem; color:var(--text-muted);">Healthcare strategist and innovation leader with years of experience in technology, data, and AI to improve patient care.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="faq-teaser">
-      <h2 class="section-title">Frequently Asked Questions</h2>
-      <p class="section-subtitle">Quick answers on ethos, workflow redesign, and how a Proof of Value pilot works.</p>
-      <div class="case-preview-grid">
-        <article class="case-preview-card">
-          <div class="case-preview-content">
-            <span class="case-tag">Ethos & Ethics</span>
-            <h3>What is your ethical position on AI?</h3>
-            <p style="color:var(--text-muted); font-size:0.9rem;">We believe AI should be deployed responsibly, transparently, and with human accountability — no blind automation, no hidden decision-making.</p>
-          </div>
-        </article>
-        <article class="case-preview-card">
-          <div class="case-preview-content">
-            <span class="case-tag">Workflow & Productivity</span>
-            <h3>How do you prove value before scaling?</h3>
-            <p style="color:var(--text-muted); font-size:0.9rem;">We start with one defined workflow, agree the measures of success early, and test in a contained proof-of-value setting.</p>
-          </div>
-        </article>
-      </div>
-      <div style="text-align:center; margin-top:3rem;">
-        <a href="faqs.html" class="library-gateway-btn">View all FAQs →</a>
-      </div>
-    </section>
-  </main>
+<!-- STAT STRIP -->
+<div class="stat-strip reveal">
+  <div class="stat-item"><div class="stat-num">45%</div><div class="stat-label">Documentation time saved</div></div>
+  <div class="stat-item"><div class="stat-num">85%</div><div class="stat-label">Referral pathways automated</div></div>
+  <div class="stat-item"><div class="stat-num">5:1</div><div class="stat-label">Target ROI ratio</div></div>
+  <div class="stat-item"><div class="stat-num">6 wks</div><div class="stat-label">To proof of value</div></div>
 </div>
 
-<!-- GLOBAL FOOTER / CONTACT -->
-<main>
-  <section class="funnel-banner" id="contact">
-    <h2>Ready to bridge your digital delivery gap?</h2>
-    <p style="opacity:0.9; margin-top:0.3rem;">Begin your Proof of Value journey today.</p>
-    <div class="funnel-steps">
-      <div class="funnel-step"><num>1</num><h4 style="color:#fff; margin:0.3rem 0;">Identify 1 Workflow</h4><p style="font-size:0.8rem; opacity:0.8;">Pinpoint a single operational process ripe for automation.</p></div>
-      <div class="funnel-step"><num>2</num><h4 style="color:#fff; margin:0.3rem 0;">Select 2 Staff</h4><p style="font-size:0.8rem; opacity:0.8;">Choose two internal team members to become core practitioners.</p></div>
-      <div class="funnel-step"><num>3</num><h4 style="color:#fff; margin:0.3rem 0;">Begin Proof of Value</h4><p style="font-size:0.8rem; opacity:0.8;">Start a focused, low-risk localised pilot.</p></div>
+<!-- CHALLENGE — split -->
+<section id="problem">
+  <div class="split">
+    <div class="split-img">
+      <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&auto=format&fit=crop" alt="NHS clinician under pressure">
     </div>
-    <a href="mailto:info@upull.ai" class="cta-btn" style="background:#fff; color:var(--primary-navy); padding:0.8rem 2rem;">Launch Pilot Initiative</a>
-  </section>
-</main>
+    <div class="split-text reveal">
+      <div class="tag">The challenge</div>
+      <h2>Why NHS AI deployments stall</h2>
+      <p>Most programmes fail not because the tools are weak — but because workflows stay unchanged and value is never proven.</p>
+      <div class="pill-row">
+        <div class="pill">Capacity pressure</div>
+        <div class="pill">Adoption gaps</div>
+        <div class="pill">Financial risk</div>
+        <div class="pill">Weak ROI</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<footer>
-  <p><strong>uPull.ai Ltd.</strong> • London, UK • <a href="mailto:info@upull.ai" style="color:#94a3b8;">info@upull.ai</a></p>
-  <p style="margin-top:0.5rem; font-size:0.75rem; opacity:0.5;">© 2026 uPull.ai Ltd. All rights reserved.</p>
-</footer>
+<!-- APPROACH — full-bleed image with steps overlay -->
+<section id="approach">
+  <div class="approach-top reveal">
+    <div>
+      <div class="tag">The model</div>
+      <h2>The pull<br>principle</h2>
+    </div>
+    <p class="approach-sub">Workflow first. AI second. Four focused steps to operational proof of value.</p>
+  </div>
+  <div class="steps-grid reveal">
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80&auto=format&fit=crop" alt="Finding bottleneck">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">01</div>
+        <h3>Find the bottleneck</h3>
+        <p>One real operational pain point, chosen with the frontline team.</p>
+      </div>
+    </div>
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=900&q=80&auto=format&fit=crop" alt="Redesign workflow">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">02</div>
+        <h3>Redesign the workflow</h3>
+        <p>Staff-led redesign before any AI is introduced.</p>
+      </div>
+    </div>
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&auto=format&fit=crop" alt="AI layer">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">03</div>
+        <h3>Add the right AI layer</h3>
+        <p>Technology that supports the redesigned process — not the reverse.</p>
+      </div>
+    </div>
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="Prove ROI">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">04</div>
+        <h3>Prove ROI in 6 weeks</h3>
+        <p>One credible operational win in six weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS — mosaic tiles -->
+<section id="results">
+  <div class="mosaic-grid">
+    <div class="mosaic-tile tall">
+      <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=80&auto=format&fit=crop" alt="Clinical documentation">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">45%</div>
+        <div class="tile-title">Ambient Voice &amp; Medical Scribing</div>
+        <div class="tile-desc">Real-time ambient validation reduces documentation time across pilot sites.</div>
+      </div>
+    </div>
+    <div class="mosaic-tile">
+      <img src="https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=900&q=80&auto=format&fit=crop" alt="Triage automation">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">85%</div>
+        <div class="tile-title">Care Triage Automation</div>
+        <div class="tile-desc">Referral pathways automated, reducing friction and improving consistency.</div>
+      </div>
+    </div>
+    <div class="mosaic-tile">
+      <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="ROI and proof of value">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">5:1</div>
+        <div class="tile-title">Target ROI · 6-Week Proof</div>
+        <div class="tile-desc">One workflow, measurable return, leadership-ready evidence.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CTA -->
+<section id="cta">
+  <div class="bg-img">
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1800&q=80&auto=format&fit=crop" alt="Technology and healthcare">
+  </div>
+  <div class="bg-overlay"></div>
+  <div class="cta-inner">
+    <div class="reveal">
+      <div class="tag">Join the cohort</div>
+      <h2>One workflow.<br>Six weeks.</h2>
+      <p>Register your interest for the next proof-of-value cohort.</p>
+    </div>
+    <form class="signup reveal" onsubmit="handleWaitlist(event)">
+      <label for="email">Work email address</label>
+      <input id="email" class="cta-input" type="email" placeholder="name@nhs.net" aria-label="Work email">
+      <button type="submit" class="cta-btn">Register interest</button>
+    </form>
+  </div>
+</section>
 
 <script>
-  // ---------- WAITLIST DATA (pending Proof of Concept trial registrations) ----------
-  const waitlistOrgs = [
-    { name: "NHS Acute Trust \u2014 South East", sector: "Acute Care", status: "Pending" },
-    { name: "Integrated Care Board \u2014 Midlands", sector: "Commissioning / ICB", status: "Pending" },
-    { name: "Community Health Trust \u2014 North West", sector: "Community Care", status: "Pending" },
-    { name: "Mental Health & Wellbeing Trust", sector: "Mental Health", status: "Pending" },
-    { name: "Primary Care Network \u2014 Greater London", sector: "Primary Care", status: "Pending" },
-  ];
+  // Nav scroll style
+  const nav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
 
-  function initWaitlist() {
-    const container = document.getElementById('waitlist-injector');
-    if (!container) return;
-    container.innerHTML = '';
-    waitlistOrgs.forEach(o => {
-      container.innerHTML += `
-        <div class="waitlist-row">
-          <div class="waitlist-org">
-            <span class="waitlist-org-name">${o.name}</span>
-            <span class="waitlist-org-type">${o.sector}</span>
-          </div>
-          <span class="pending-badge">${o.status}</span>
-        </div>
-      `;
+  // Reveal on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+  }, {threshold: 0.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Waitlist
+  function handleWaitlist(e){
+    e.preventDefault();
+    const input = document.querySelector('.cta-input');
+    const btn = document.querySelector('.signup button');
+    if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+    btn.textContent = 'Registered ✓';
+    input.value = '';
+    setTimeout(()=>{ btn.textContent = 'Register interest'; }, 2800);
+  }
+
+  // ══ PRIMARY NAV DROPDOWNS ══
+  function closeAllSubmenus() {
+    document.querySelectorAll('.nav-item.open').forEach(function(item) {
+      item.classList.remove('open');
+      const link = item.querySelector('.nav-link-item');
+      if (link) link.setAttribute('aria-expanded', 'false');
     });
   }
 
-  // slider
-  const slider = document.getElementById('investmentSlider');
-  const label = document.getElementById('investmentLabel');
-  const metric = document.getElementById('returnMetric');
-  slider.addEventListener('input', function() {
-    const val = parseInt(this.value);
-    label.textContent = '\u00a3' + val.toLocaleString('en-US');
-    metric.textContent = '\u00a3' + (val * 5).toLocaleString('en-US');
+  function toggleSubmenu(btn) {
+    const item = btn.closest('.nav-item');
+    const wasOpen = item.classList.contains('open');
+    closeAllSubmenus();
+    if (!wasOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-item')) closeAllSubmenus();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeAllSubmenus(); closeMobileNav(); }
   });
 
-  window.onload = function() {
-    initWaitlist();
-  };
+  // ══ MOBILE MENU TOGGLE ══
+  function toggleMobileNav() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('navToggle');
+    const isOpen = menu.classList.toggle('mobile-open');
+    toggle.classList.toggle('active', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (!isOpen) closeAllSubmenus();
+  }
+
+  function closeMobileNav() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('navToggle');
+    menu.classList.remove('mobile-open');
+    toggle.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
 </script>
 </body>
 </html>
