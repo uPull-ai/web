@@ -516,8 +516,8 @@
           </button>
           <ul class="nav-submenu">
             <li><a href="#" onclick="switchView('landing'); closeAllSubmenus(); closeMobileNav(); return false;">Forum</a></li>
-            <li><a href="academy.html" onclick="switchView('academy'); closeAllSubmenus(); closeMobileNav(); return false;">AI Learning</a></li>
-            <li><a href="acadmey.html#tab-casestudies">Case Studies</a></li>
+            <li><a href="academy.html#tab-learning">AI Learning</a></li>
+            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
           </ul>
         </li>
 
@@ -547,7 +547,7 @@
     <nav class="sub-nav" aria-label="Community sections">
       <a id="nav-landing" class="active-tab" onclick="switchView('landing')">Community Feed</a>
       <a id="nav-categories" onclick="switchView('categories')">Sectors & Vendors</a>
-      <a id="nav-academy" onclick="switchView('academy')">Learning Academy</a>
+      <a id="nav-academy" href="academy.html#tab-learning">Learning Academy</a>
       <a id="nav-insights" onclick="switchView('insights')">Insights & Podcasts</a>
       <a onclick="switchView('landing'); setTimeout(()=&gt;document.getElementById('composer').scrollIntoView({behavior:'smooth'}), 50);">✏️ Share an Insight</a>
     </nav>
@@ -562,7 +562,7 @@
       <div class="hero-left">
         <h1>The Frontline AI Community of Practice</h1>
         <p>Led by uPull.ai Intrapreneurs[cite: 1]. We bring down systemic silos, facilitating real interaction across the health and care sector to master the new way of working using AI.</p>
-        <button class="cta-btn" onclick="switchView('academy')">Start Learning Journey</button>
+        <a class="cta-btn" href="academy.html#tab-learning">Start Learning Journey</a>
       </div>
       <div class="live-status">
         <div style="font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center;">
