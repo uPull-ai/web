@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -21,6 +20,7 @@
     :root {
       --primary-navy: #0A192F;
       --nhs-blue: #005EB8;
+      --nhs-blue-rgb: 0,94,184;
       --accent-orange: #E65F2B;
       --bg-light: #F8FAFC;
       --card-bg: #ffffff;
@@ -73,42 +73,61 @@
       vertical-align: middle;
       color: #cbd5e1;
     }
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem 0.8rem;
+
+    /* PRIMARY DROPDOWN MENU */
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+    .nav-menu { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
+    .nav-item { position: relative; }
+    .nav-link-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 0.6rem 0.9rem; border-radius: 999px;
+      background: none; border: none; cursor: pointer;
+      color: #ffffff; font-size: 0.9rem; font-weight: 600; font-family: inherit;
+      transition: color 0.2s, background 0.2s;
     }
-    .main-nav {
-      justify-content: flex-end;
+    .nav-link-item:hover, .nav-item.open > .nav-link-item, .nav-link-item.active-tab { color: var(--accent-orange); background: rgba(255,255,255,0.08); }
+    .nav-chevron {
+      width: 7px; height: 7px;
+      border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+      transform: rotate(45deg); margin-top: -2px; transition: transform 0.2s;
     }
+    .nav-item.open .nav-chevron { transform: rotate(-135deg); margin-top: 2px; }
+    .nav-submenu {
+      list-style: none; margin: 0; position: absolute; top: calc(100% + 10px); left: 0;
+      min-width: 230px; padding: 0.5rem; border-radius: 12px;
+      background: var(--primary-navy);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-top: 3px solid var(--nhs-blue);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+      opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+      z-index: 1100;
+    }
+    .nav-item.open > .nav-submenu, .nav-item:hover > .nav-submenu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .nav-submenu li a {
+      display: block; padding: 0.6rem 0.75rem; border-radius: 8px;
+      color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-submenu li a:hover { background: rgba(var(--nhs-blue-rgb),0.28); color: #ffffff; }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: #fff; margin: 4px 0; transition: 0.25s; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* SECONDARY QUICK-TABS (in-page views for this Community hub) */
     .sub-nav {
-      justify-content: flex-end;
-      gap: 0.35rem 0.8rem;
-      padding-top: 0.25rem;
-      border-top: 1px solid rgba(255,255,255,0.14);
-    }
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.88rem;
-      transition: color 0.2s;
-      cursor: pointer;
-      padding: 0.25rem 0;
-    }
-    nav a:hover, nav a.active-tab { color: var(--accent-orange); }
-    nav a.page-link {
-      opacity: 0.85;
-    }
-    nav a.page-link.current-page {
-      color: var(--accent-orange);
-      opacity: 1;
+      display: flex; flex-wrap: wrap; justify-content: flex-end;
+      gap: 0.35rem 0.8rem; padding-top: 0.5rem; margin-top: 0.5rem;
+      border-top: 1px solid rgba(255,255,255,0.14); width: 100%;
     }
     .sub-nav a {
-      color: #cbd5e1;
-      font-size: 0.82rem;
+      color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.82rem;
+      transition: color 0.2s; cursor: pointer; padding: 0.25rem 0;
     }
+    .sub-nav a:hover, .sub-nav a.active-tab { color: var(--accent-orange); }
+
     .cta-btn {
       background-color: var(--accent-orange);
       color: #ffffff;
@@ -121,10 +140,31 @@
       text-decoration: none;
       display: inline-block;
       font-size: 0.9rem;
+      white-space: nowrap;
     }
     .cta-btn:hover {
       background-color: #c54f20;
       transform: translateY(-1px);
+    }
+    @media (max-width: 767px) {
+      .nav-toggle { display: block; }
+      .nav-menu {
+        display: none; position: fixed; top: 68px; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 2px;
+        background: var(--primary-navy);
+        padding: 0.9rem 1.25rem 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.14);
+        max-height: calc(100vh - 68px); overflow-y: auto; z-index: 999;
+      }
+      .nav-menu.mobile-open { display: flex; }
+      .nav-link-item { width: 100%; justify-content: space-between; }
+      .nav-submenu {
+        position: static; opacity: 1; visibility: visible; transform: none;
+        display: none; box-shadow: none; background: rgba(255,255,255,0.05);
+        margin: 0.25rem 0 0.5rem;
+      }
+      .nav-item.open > .nav-submenu { display: block; }
+      .nav-item:hover > .nav-submenu { display: none; }
+      .nav-item.open:hover > .nav-submenu { display: block; }
     }
     main {
       max-width: 1200px;
@@ -188,17 +228,17 @@
     .pulse-dot {
       width: 10px;
       height: 10px;
-      background-color: #22c55e;
+      background-color: var(--accent-orange);
       border-radius: 50%;
       display: inline-block;
       margin-right: 8px;
-      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      box-shadow: 0 0 0 0 rgba(230, 95, 43, 0.7);
       animation: pulse 2s infinite;
     }
     @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 95, 43, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(230, 95, 43, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 95, 43, 0); }
     }
 
     /* Interactive Forum Component */
@@ -441,11 +481,8 @@
       .nav-container { flex-direction: column; align-items: stretch; min-width: 0; }
       .logo { align-self: flex-start; }
       .nav-stack { width: 100%; align-items: stretch; }
-      nav { width: 100%; max-width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 0.2rem; row-gap: 0.7rem; }
-      nav a { white-space: nowrap; }
-      nav a { font-size: 0.86rem; }
-      .sub-nav { padding-top: 0.45rem; }
-      .sub-nav a { font-size: 0.8rem; }
+      .sub-nav { width: 100%; max-width: 100%; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 0.2rem; }
+      .sub-nav a { white-space: nowrap; font-size: 0.8rem; }
       .cta-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
     }
   </style>
@@ -456,18 +493,63 @@
   <div class="nav-container">
     <a href="#" class="logo" onclick="switchView('landing')">uPull<span>.ai</span><span class="logo-tag">Hub</span></a>
     <div class="nav-stack">
-    <nav class="main-nav">
-      <a href="index.html" class="page-link">Strategic Core</a>
-      <a href="case-studies.html" class="page-link">Case studies</a>
-      <a href="roi.html" class="page-link">ROI Calculator</a>
-      <a href="faqs.html" class="page-link">FAQs</a>
-      <a onclick="switchView('landing'); document.getElementById('composer').scrollIntoView();" class="cta-btn">Share an Insight</a>
-    </nav>
+    <div class="nav-right">
+      <nav aria-label="Primary">
+      <ul class="nav-menu" id="navMenu">
+
+        <!-- 1. STRATEGIC CORE -->
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="test2.html#problem">Challenge</a></li>
+            <li><a href="test2.html#approach">Model</a></li>
+            <li><a href="test2.html#results">Results</a></li>
+          </ul>
+        </li>
+
+        <!-- 2. COMMUNITY (this page) -->
+        <li class="nav-item">
+          <button class="nav-link-item active-tab" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Community <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="#" onclick="switchView('landing'); closeAllSubmenus(); closeMobileNav(); return false;">Forum</a></li>
+            <li><a href="#" onclick="switchView('academy'); closeAllSubmenus(); closeMobileNav(); return false;">AI Learning</a></li>
+            <li><a href="test4.html#tab-casestudies">Case Studies</a></li>
+          </ul>
+        </li>
+
+        <!-- 3. FAQS -->
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            FAQs <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="faqs.html#about">About uPull.ai</a></li>
+            <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
+            <li><a href="faqs.html#workflows">Workflow Delivery</a></li>
+            <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+            <li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
+            <li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+          </ul>
+        </li>
+
+      </ul>
+      </nav>
+      <!-- 4. PROOF OF VALUE -->
+      <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
     <nav class="sub-nav" aria-label="Community sections">
       <a id="nav-landing" class="active-tab" onclick="switchView('landing')">Community Feed</a>
       <a id="nav-categories" onclick="switchView('categories')">Sectors & Vendors</a>
       <a id="nav-academy" onclick="switchView('academy')">Learning Academy</a>
       <a id="nav-insights" onclick="switchView('insights')">Insights & Podcasts</a>
+      <a onclick="switchView('landing'); setTimeout(()=&gt;document.getElementById('composer').scrollIntoView({behavior:'smooth'}), 50);">✏️ Share an Insight</a>
     </nav>
     </div>
   </div>
@@ -842,6 +924,50 @@
   window.onload = function() {
     renderForum('all');
   };
+
+  // ══ PRIMARY NAV DROPDOWNS ══
+  function closeAllSubmenus() {
+    document.querySelectorAll('.nav-item.open').forEach(function(item) {
+      item.classList.remove('open');
+      const link = item.querySelector('.nav-link-item');
+      if (link) link.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function toggleSubmenu(btn) {
+    const item = btn.closest('.nav-item');
+    const wasOpen = item.classList.contains('open');
+    closeAllSubmenus();
+    if (!wasOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-item')) closeAllSubmenus();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeAllSubmenus(); closeMobileNav(); }
+  });
+
+  // ══ MOBILE MENU TOGGLE ══
+  function toggleMobileNav() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('navToggle');
+    const isOpen = menu.classList.toggle('mobile-open');
+    toggle.classList.toggle('active', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (!isOpen) closeAllSubmenus();
+  }
+
+  function closeMobileNav() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('navToggle');
+    menu.classList.remove('mobile-open');
+    toggle.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
 </script>
 </body>
 </html>
