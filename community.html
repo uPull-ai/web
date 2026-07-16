@@ -31,6 +31,9 @@
       --clinical: #0d9488;
       --operational: #ea580c;
       --vendor-purple: #6366f1;
+      --agentic: #7c3aed;
+      --ambient: #0284c7;
+      --robotic: #dc2626;
     }
     header {
       background-color: var(--primary-navy);
@@ -397,6 +400,83 @@
       border-top: 1px dashed var(--border-color);
     }
 
+    /* ══ VENDOR DIRECTORY ══ */
+    .vendor-card {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    }
+    .vendor-card-header { display: flex; align-items: center; gap: 0.75rem; }
+    .vendor-logo {
+      width: 46px; height: 46px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .vendor-name { color: var(--primary-navy); font-weight: 700; font-size: 1.05rem; }
+    .vendor-location { font-size: 0.78rem; color: var(--text-muted); }
+    .vendor-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
+    .vendor-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag-pill {
+      display: inline-block; padding: 0.25rem 0.65rem; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.02em;
+    }
+    .tag-clinical { background: var(--clinical); }
+    .tag-robotic { background: var(--robotic); }
+    .tag-ambient { background: var(--ambient); }
+    .tag-agentic { background: var(--agentic); }
+    .vendor-status { font-size: 0.8rem; font-weight: 600; }
+    .vendor-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: auto; padding-top: 0.75rem; border-top: 1px dashed var(--border-color);
+    }
+
+    /* ══ TAG FILTER BAR (vendor update feed) ══ */
+    .tag-filter-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .tag-filter-btn {
+      padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);
+      background: #fff; color: var(--text-muted); font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .tag-filter-btn:hover { border-color: var(--nhs-blue); color: var(--nhs-blue); }
+    .tag-filter-btn.active-filter { color: #fff; border-color: transparent; }
+    .tag-filter-btn.active-filter.f-all { background: var(--primary-navy); }
+    .tag-filter-btn.active-filter.f-clinical { background: var(--clinical); }
+    .tag-filter-btn.active-filter.f-robotic { background: var(--robotic); }
+    .tag-filter-btn.active-filter.f-ambient { background: var(--ambient); }
+    .tag-filter-btn.active-filter.f-agentic { background: var(--agentic); }
+
+    /* ══ CASE STUDY SUBMISSION PANEL ══ */
+    .submission-panel {
+      background: linear-gradient(135deg, var(--primary-navy), #14304f);
+      border-radius: 12px; padding: 2rem; color: #fff;
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: start;
+    }
+    .submission-panel h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
+    .submission-panel p { color: #cbd5e1; font-size: 0.92rem; line-height: 1.6; }
+    .submission-form { background: #fff; border-radius: 10px; padding: 1.4rem; display: flex; flex-direction: column; gap: 0.8rem; }
+    .submission-form label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.15rem; display: block; }
+    .submission-form input,
+    .submission-form select,
+    .submission-form textarea {
+      width: 100%; border: 1px solid var(--border-color); border-radius: 6px;
+      padding: 0.6rem 0.75rem; font-size: 0.9rem; font-family: inherit; outline: none;
+    }
+    .submission-form input:focus, .submission-form select:focus, .submission-form textarea:focus { border-color: var(--nhs-blue); }
+    .status-option-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .status-chip {
+      padding: 0.4rem 0.8rem; border-radius: 999px; border: 1px solid var(--border-color);
+      font-size: 0.8rem; font-weight: 600; color: var(--text-muted); cursor: pointer; background: #fff;
+    }
+    .status-chip.selected-status { background: var(--nhs-blue); color: #fff; border-color: var(--nhs-blue); }
+    @media (max-width: 800px) {
+      .submission-panel { grid-template-columns: 1fr; }
+    }
+
     /* Academy Learning Styles */
     .academy-split {
       display: grid;
@@ -709,8 +789,109 @@
         </div>
       </div>
 
-      <h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem;">2. Vendor Application Integrations.</h3>
-      <div class="grid-container">
+      <h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem;">2. Vendor Directory</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Profiles of AI vendors and suppliers active in the community, tagged by the type of AI application they focus on.</p>
+
+      <div class="grid-container" style="margin-bottom: 3rem;" id="vendorDirectoryGrid">
+        <div class="vendor-card">
+          <div class="vendor-card-header">
+            <div class="vendor-logo" style="background: var(--ambient);">M</div>
+            <div>
+              <div class="vendor-name">MedScribe AI</div>
+              <div class="vendor-location">United Kingdom · London</div>
+            </div>
+          </div>
+          <p class="vendor-desc">Ambient clinical documentation — converts patient encounters into structured notes in real time, reducing administrative overhead for consultation-heavy specialties.</p>
+          <div class="vendor-tags"><span class="tag-pill tag-ambient">Ambient</span></div>
+          <div class="vendor-footer">
+            <span class="vendor-status" style="color: var(--clinical);">🟢 Live · 8 Trusts</span>
+            <a href="academy.html#cs-CS1" class="action-btn" style="font-size: 0.82rem;">View case study →</a>
+          </div>
+        </div>
+
+        <div class="vendor-card">
+          <div class="vendor-card-header">
+            <div class="vendor-logo" style="background: var(--clinical);">P</div>
+            <div>
+              <div class="vendor-name">PathoAgent</div>
+              <div class="vendor-location">Germany · Heidelberg</div>
+            </div>
+          </div>
+          <p class="vendor-desc">Automates histopathology slide triage and pre-classification, accelerating micro-staging diagnostic workflows for pathology teams.</p>
+          <div class="vendor-tags"><span class="tag-pill tag-clinical">Clinical</span></div>
+          <div class="vendor-footer">
+            <span class="vendor-status" style="color: var(--clinical);">🟢 Live · Pilot expanding</span>
+            <a href="academy.html#cs-CS2" class="action-btn" style="font-size: 0.82rem;">View case study →</a>
+          </div>
+        </div>
+
+        <div class="vendor-card">
+          <div class="vendor-card-header">
+            <div class="vendor-logo" style="background: var(--agentic);">C</div>
+            <div>
+              <div class="vendor-name">CardioPredict</div>
+              <div class="vendor-location">United Kingdom · Edinburgh</div>
+            </div>
+          </div>
+          <p class="vendor-desc">Agentic triage automation for cardiology admissions — routes risk-stratified cases to the right clinical pathway without manual re-review.</p>
+          <div class="vendor-tags"><span class="tag-pill tag-agentic">Agentic</span> <span class="tag-pill tag-clinical">Clinical</span></div>
+          <div class="vendor-footer">
+            <span class="vendor-status" style="color: var(--operational);">🟡 Pilot</span>
+            <a href="academy.html#cs-CS3" class="action-btn" style="font-size: 0.82rem;">View case study →</a>
+          </div>
+        </div>
+
+        <div class="vendor-card">
+          <div class="vendor-card-header">
+            <div class="vendor-logo" style="background: var(--robotic);">P</div>
+            <div>
+              <div class="vendor-name">PharmAI Dispense</div>
+              <div class="vendor-location">Singapore</div>
+            </div>
+          </div>
+          <p class="vendor-desc">Robotic prescription cross-checking and dispensing support, integrated with pharmacy workflows to reduce manual verification time.</p>
+          <div class="vendor-tags"><span class="tag-pill tag-robotic">Robotic</span> <span class="tag-pill tag-clinical">Clinical</span></div>
+          <div class="vendor-footer">
+            <span class="vendor-status" style="color: var(--clinical);">🟢 Live · Multi-site</span>
+            <a href="academy.html#cs-CS7" class="action-btn" style="font-size: 0.82rem;">View case study →</a>
+          </div>
+        </div>
+
+        <div class="vendor-card">
+          <div class="vendor-card-header">
+            <div class="vendor-logo" style="background: var(--agentic);">S</div>
+            <div>
+              <div class="vendor-name">SurgiPlan AI</div>
+              <div class="vendor-location">United States · Boston</div>
+            </div>
+          </div>
+          <p class="vendor-desc">Agentic scheduling optimisation for operating theatres — reduces idle theatre time by dynamically resequencing lists as constraints change.</p>
+          <div class="vendor-tags"><span class="tag-pill tag-agentic">Agentic</span></div>
+          <div class="vendor-footer">
+            <span class="vendor-status" style="color: var(--operational);">🟡 Pilot</span>
+            <a href="academy.html#cs-CS11" class="action-btn" style="font-size: 0.82rem;">View case study →</a>
+          </div>
+        </div>
+
+        <div class="vendor-card">
+          <div class="vendor-card-header">
+            <div class="vendor-logo" style="background: var(--clinical);">I</div>
+            <div>
+              <div class="vendor-name">ICU-Guard AI</div>
+              <div class="vendor-location">United Kingdom · Manchester</div>
+            </div>
+          </div>
+          <p class="vendor-desc">Real-time ICU alarm filtering, distinguishing actionable clinical events from non-actionable telemetry noise to reduce alarm fatigue.</p>
+          <div class="vendor-tags"><span class="tag-pill tag-clinical">Clinical</span> <span class="tag-pill tag-agentic">Agentic</span></div>
+          <div class="vendor-footer">
+            <span class="vendor-status" style="color: var(--clinical);">🟢 Live · ICU network</span>
+            <a href="academy.html#cs-CS9" class="action-btn" style="font-size: 0.82rem;">View case study →</a>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem;">3. Platform Integrations</h3>
+      <div class="grid-container" style="margin-bottom: 3rem;">
         <div class="hub-card">
           <div>
             <div class="hub-card-header">
@@ -742,6 +923,86 @@
             <p style="font-size: 0.9rem; color: var(--text-muted);">Primary care automated summaries and triage script hooks tailored to UK GP workforce pathways.</p>
           </div>
           <div class="stat-bar"><span>🟢 24 Threads</span><span>Last post 45m ago</span></div>
+        </div>
+      </div>
+
+      <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem;">4. Vendor Update Feed</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">A live channel for vendors and suppliers to share product updates, integration notes, and news directly with the community. Tag each update by AI type so members can filter to what's relevant to them.</p>
+
+      <div id="vendorAuthBar" style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
+        <div id="vendorAuthSignedOut" style="display:flex; align-items:center; gap:0.6rem;">
+          <span style="font-size:0.88rem; color:var(--text-muted);">Sign in to post an update as a vendor.</span>
+          <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="signInWithGoogle()">Sign in with Google</button>
+        </div>
+        <div id="vendorAuthSignedIn" style="display:none; align-items:center; gap:0.7rem; width:100%; justify-content:space-between;">
+          <span style="font-size:0.88rem; font-weight:600; color:var(--text-dark);" id="vendorAuthName"></span>
+          <button style="background:none; border:none; color:var(--text-muted); font-size:0.82rem; cursor:pointer; text-decoration:underline;" onclick="signOutUser()">Sign out</button>
+        </div>
+      </div>
+
+      <div class="composer-box" id="vendorComposer">
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Post a Vendor Update</h4>
+        <input type="text" id="vendorCompanyName" placeholder="Company / product name" disabled
+          style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:0.7rem; font-size:0.9rem; margin-bottom:0.6rem; outline:none;">
+        <textarea class="composer-input" id="vendorPostText" rows="3" placeholder="Sign in above to share a product update or integration note." disabled></textarea>
+        <div class="composer-footer">
+          <select id="vendorPostTag" style="padding: 0.4rem; border-radius: 4px; border: 1px solid var(--border-color); font-weight: 600;">
+            <option value="clinical">Clinical</option>
+            <option value="robotic">Robotic</option>
+            <option value="ambient">Ambient</option>
+            <option value="agentic">Agentic AI</option>
+          </select>
+          <button class="cta-btn" id="vendorPostSubmitBtn" onclick="submitVendorPost()" disabled>Sign in to post</button>
+        </div>
+      </div>
+
+      <div class="tag-filter-bar">
+        <button class="tag-filter-btn active-filter f-all" onclick="filterVendorFeed('all', this)">All Updates</button>
+        <button class="tag-filter-btn f-clinical" onclick="filterVendorFeed('clinical', this)">🩺 Clinical</button>
+        <button class="tag-filter-btn f-robotic" onclick="filterVendorFeed('robotic', this)">🤖 Robotic</button>
+        <button class="tag-filter-btn f-ambient" onclick="filterVendorFeed('ambient', this)">🎙️ Ambient</button>
+        <button class="tag-filter-btn f-agentic" onclick="filterVendorFeed('agentic', this)">🧠 Agentic AI</button>
+      </div>
+
+      <div id="vendor-feed-target" style="margin-bottom: 3rem;">
+        <p style="text-align:center; opacity:0.6; padding:2rem;">Loading vendor updates…</p>
+      </div>
+
+      <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem;">5. Submit a Case Study</h3>
+      <div class="submission-panel">
+        <div>
+          <h3>Worked with a Trust or care setting? Tell the community.</h3>
+          <p>If your product has been piloted or deployed in a healthcare setting, we'd like to feature it in the Learning Hub's case study library. Submissions are reviewed by the uPull.ai team before publication — this isn't a live product listing, just a starting point for a conversation.</p>
+          <p style="margin-top:0.9rem;">Include an honest project status — early pilots are just as valuable to the community as scaled deployments.</p>
+        </div>
+        <div class="submission-form">
+          <div>
+            <label for="csVendorName">Vendor / Product Name</label>
+            <input type="text" id="csVendorName" placeholder="e.g. MedScribe AI">
+          </div>
+          <div>
+            <label for="csContactEmail">Contact Email</label>
+            <input type="email" id="csContactEmail" placeholder="you@company.com">
+          </div>
+          <div>
+            <label>Project Status</label>
+            <div class="status-option-row" id="csStatusRow">
+              <span class="status-chip" data-status="Planned" onclick="selectCsStatus(this)">Planned</span>
+              <span class="status-chip" data-status="Pilot" onclick="selectCsStatus(this)">Pilot</span>
+              <span class="status-chip" data-status="Live" onclick="selectCsStatus(this)">Live</span>
+              <span class="status-chip" data-status="Scaled" onclick="selectCsStatus(this)">Scaled</span>
+            </div>
+          </div>
+          <div>
+            <label for="csSummary">Case Study Summary</label>
+            <textarea id="csSummary" rows="3" placeholder="What problem does it solve, and what's the early evidence of impact?"></textarea>
+          </div>
+          <div>
+            <label for="csLink">Link (optional)</label>
+            <input type="url" id="csLink" placeholder="https://">
+          </div>
+          <button class="cta-btn" id="csSubmitBtn" style="width:100%;" onclick="submitCaseStudyProposal()">Submit for Review</button>
+          <p id="csSubmitStatus" style="font-size:0.8rem; color:var(--text-muted); text-align:center;"></p>
         </div>
       </div>
     </section>
@@ -870,6 +1131,9 @@
   let currentFilter = 'all';
   let currentUser = null;
   let isAdmin = false;
+  let vendorLivePosts = [];
+  let currentVendorFilter = 'all';
+  let csSelectedStatus = null;
 
   // Lazy accessor: always reads window.__firebase fresh at call time, so it
   // doesn't matter whether this script or the Firebase module finishes
@@ -924,6 +1188,12 @@
     const textarea = document.getElementById('postText');
     const submitBtn = document.getElementById('postSubmitBtn');
 
+    const vendorSignedOutEl = document.getElementById('vendorAuthSignedOut');
+    const vendorSignedInEl = document.getElementById('vendorAuthSignedIn');
+    const vendorCompanyInput = document.getElementById('vendorCompanyName');
+    const vendorTextarea = document.getElementById('vendorPostText');
+    const vendorSubmitBtn = document.getElementById('vendorPostSubmitBtn');
+
     if (user) {
       signedOutEl.style.display = 'none';
       signedInEl.style.display = 'flex';
@@ -936,6 +1206,15 @@
       textarea.placeholder = 'What validation insights or workflow puzzles are you working on today?';
       submitBtn.disabled = false;
       submitBtn.textContent = 'Broadcast Post';
+
+      vendorSignedOutEl.style.display = 'none';
+      vendorSignedInEl.style.display = 'flex';
+      document.getElementById('vendorAuthName').textContent = user.displayName || user.email || 'Community member';
+      vendorCompanyInput.disabled = false;
+      vendorTextarea.disabled = false;
+      vendorTextarea.placeholder = 'Share a product update, integration note, or news item.';
+      vendorSubmitBtn.disabled = false;
+      vendorSubmitBtn.textContent = 'Post Update';
 
       // Look up admin status (admins are listed as documents in an
       // "admins" collection, keyed by their uid — see setup notes).
@@ -955,6 +1234,16 @@
       textarea.placeholder = 'Sign in above to share a validation insight or workflow puzzle.';
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sign in to post';
+
+      vendorSignedOutEl.style.display = 'flex';
+      vendorSignedInEl.style.display = 'none';
+      vendorCompanyInput.disabled = true;
+      vendorCompanyInput.value = '';
+      vendorTextarea.disabled = true;
+      vendorTextarea.value = '';
+      vendorTextarea.placeholder = 'Sign in above to share a product update or integration note.';
+      vendorSubmitBtn.disabled = true;
+      vendorSubmitBtn.textContent = 'Sign in to post';
     }
     renderForum(currentFilter);
   }
@@ -1094,6 +1383,181 @@
     }).catch(err => console.error('Failed to log report:', err));
   }
 
+  // ══ VENDOR UPDATE FEED ══
+  const VENDOR_TAG_LABEL = { clinical: 'Clinical', robotic: 'Robotic', ambient: 'Ambient', agentic: 'Agentic AI' };
+  const VENDOR_TAG_CLASS = { clinical: 'tag-clinical', robotic: 'tag-robotic', ambient: 'tag-ambient', agentic: 'tag-agentic' };
+
+  function filterVendorFeed(tag, element) {
+    currentVendorFilter = tag;
+    document.querySelectorAll('.tag-filter-bar .tag-filter-btn').forEach(btn => btn.classList.remove('active-filter'));
+    element.classList.add('active-filter');
+    renderVendorFeed(tag);
+  }
+
+  function renderVendorFeed(filterTag = 'all') {
+    const target = document.getElementById('vendor-feed-target');
+    if (!target) return;
+    target.innerHTML = '';
+    currentVendorFilter = filterTag;
+
+    const filtered = vendorLivePosts.filter(p => filterTag === 'all' || p.tag === filterTag);
+
+    if (filtered.length === 0) {
+      target.innerHTML = '<p style="text-align:center; opacity:0.6; padding:2rem;">No vendor updates yet in this category — check back soon, or be the first to post one.</p>';
+      return;
+    }
+
+    filtered.forEach(post => {
+      const likeAction = currentUser
+        ? `onclick="likeVendorPost('${post.id}')"`
+        : `onclick="alert('Sign in to like a post.')" style="opacity:0.6; cursor:pointer;"`;
+      const canDelete = currentUser && (currentUser.uid === post.uid || isAdmin);
+      const deleteBtn = canDelete
+        ? `<span class="action-btn" style="color:#b91c1c;" onclick="deleteVendorPost('${post.id}')">🗑️ Delete</span>`
+        : '';
+      const tagClass = VENDOR_TAG_CLASS[post.tag] || 'tag-clinical';
+      const tagLabel = VENDOR_TAG_LABEL[post.tag] || post.tag;
+
+      target.innerHTML += `
+        <article class="forum-post" style="margin-bottom: 1rem;">
+          <div class="post-header">
+            <div class="post-user">
+              <div class="user-avatar" style="background: var(--vendor-purple); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:1.1rem;">${post.company.charAt(0)}</div>
+              <div class="user-meta">
+                <span class="user-name">${post.company}</span>
+                <span class="user-role">Posted by ${post.user}</span>
+              </div>
+            </div>
+            <span class="tag-pill ${tagClass}">${tagLabel}</span>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-dark);">${post.text}</p>
+          <div class="post-actions">
+            <span class="action-btn" ${likeAction}>👍 <span id="vendor-like-count-${post.id}">${post.likes}</span> Likes</span>
+            ${deleteBtn}
+            <span style="margin-left: auto; font-size: 0.8rem; opacity: 0.7;">${post.time}</span>
+          </div>
+        </article>
+      `;
+    });
+  }
+
+  function submitVendorPost() {
+    if (!currentUser) { alert('Sign in to post a vendor update.'); return; }
+    const f = fb();
+    if (!f) { alert('Still connecting — please wait a second and try again.'); return; }
+
+    const company = document.getElementById('vendorCompanyName').value.trim();
+    const text = document.getElementById('vendorPostText').value.trim();
+    const tag = document.getElementById('vendorPostTag').value;
+
+    if (!company) { alert('Please add your company or product name.'); return; }
+    if (!text) { alert('Please write an update to share.'); return; }
+
+    const btn = document.getElementById('vendorPostSubmitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Posting…';
+
+    f.addDoc(f.collection(f.db, 'vendorPosts'), {
+      uid: currentUser.uid,
+      user: currentUser.displayName || currentUser.email || 'Community member',
+      company: company,
+      tag: tag,
+      text: text,
+      likes: 0,
+      createdAt: f.serverTimestamp()
+    }).then(() => {
+      document.getElementById('vendorPostText').value = '';
+    }).catch(err => {
+      console.error('Failed to post vendor update:', err);
+      alert('Sorry, your update could not be sent. Please check your connection and try again.');
+    }).finally(() => {
+      btn.disabled = false;
+      btn.textContent = 'Post Update';
+    });
+  }
+
+  function likeVendorPost(id) {
+    if (!currentUser) { alert('Sign in to like a post.'); return; }
+    const f = fb();
+    if (!f) return;
+    f.updateDoc(f.doc(f.db, 'vendorPosts', id), { likes: f.increment(1) })
+      .catch(err => console.error('Failed to like vendor post:', err));
+  }
+
+  function deleteVendorPost(id) {
+    if (!currentUser) return;
+    const post = vendorLivePosts.find(p => p.id === id);
+    if (!post || !(post.uid === currentUser.uid || isAdmin)) {
+      alert('You can only delete your own updates.');
+      return;
+    }
+    if (!confirm('Delete this vendor update? This cannot be undone.')) return;
+
+    const f = fb();
+    if (!f) return;
+    f.deleteDoc(f.doc(f.db, 'vendorPosts', id))
+      .catch(err => {
+        console.error('Failed to delete vendor post:', err);
+        alert('Sorry, this update could not be deleted. Please try again.');
+      });
+  }
+
+  // ══ CASE STUDY SUBMISSION (for review — not published live) ══
+  function selectCsStatus(el) {
+    document.querySelectorAll('#csStatusRow .status-chip').forEach(chip => chip.classList.remove('selected-status'));
+    el.classList.add('selected-status');
+    csSelectedStatus = el.dataset.status;
+  }
+
+  function submitCaseStudyProposal() {
+    const vendorName = document.getElementById('csVendorName').value.trim();
+    const contactEmail = document.getElementById('csContactEmail').value.trim();
+    const summary = document.getElementById('csSummary').value.trim();
+    const link = document.getElementById('csLink').value.trim();
+    const statusEl = document.getElementById('csSubmitStatus');
+
+    if (!vendorName || !contactEmail || !summary || !csSelectedStatus) {
+      statusEl.style.color = '#b91c1c';
+      statusEl.textContent = 'Please fill in the vendor name, contact email, project status, and summary.';
+      return;
+    }
+
+    const f = fb();
+    if (!f) {
+      statusEl.style.color = '#b91c1c';
+      statusEl.textContent = 'Still connecting — please wait a second and try again.';
+      return;
+    }
+
+    const btn = document.getElementById('csSubmitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    f.addDoc(f.collection(f.db, 'caseStudySubmissions'), {
+      vendorName, contactEmail, summary, link,
+      status: csSelectedStatus,
+      submittedByUid: currentUser ? currentUser.uid : null,
+      reviewed: false,
+      createdAt: f.serverTimestamp()
+    }).then(() => {
+      statusEl.style.color = 'var(--clinical)';
+      statusEl.textContent = 'Thanks — your case study has been submitted for review.';
+      document.getElementById('csVendorName').value = '';
+      document.getElementById('csContactEmail').value = '';
+      document.getElementById('csSummary').value = '';
+      document.getElementById('csLink').value = '';
+      document.querySelectorAll('#csStatusRow .status-chip').forEach(chip => chip.classList.remove('selected-status'));
+      csSelectedStatus = null;
+    }).catch(err => {
+      console.error('Failed to submit case study proposal:', err);
+      statusEl.style.color = '#b91c1c';
+      statusEl.textContent = 'Sorry, something went wrong. Please try again.';
+    }).finally(() => {
+      btn.disabled = false;
+      btn.textContent = 'Submit for Review';
+    });
+  }
+
   function submitPost() {
     if (!currentUser) { alert('Sign in to post.'); return; }
     const f = fb();
@@ -1175,6 +1639,28 @@
       const target = document.getElementById('forum-feed-target');
       if (target) target.innerHTML =
         '<p style="text-align:center; opacity:0.6; padding:2rem;">Unable to connect to the live forum right now. Please refresh, or check back shortly.</p>';
+    });
+
+    f.onSnapshot(f.query(f.collection(f.db, 'vendorPosts'), f.orderBy('createdAt', 'desc')), snapshot => {
+      vendorLivePosts = snapshot.docs.map(d => {
+        const data = d.data();
+        return {
+          id: d.id,
+          uid: data.uid,
+          company: data.company,
+          user: data.user,
+          tag: data.tag,
+          text: data.text,
+          likes: data.likes || 0,
+          time: timeAgo(data.createdAt ? data.createdAt.toDate() : null)
+        };
+      });
+      renderVendorFeed(currentVendorFilter);
+    }, err => {
+      console.error('Live vendor feed connection failed:', err);
+      const target = document.getElementById('vendor-feed-target');
+      if (target) target.innerHTML =
+        '<p style="text-align:center; opacity:0.6; padding:2rem;">Unable to connect to the vendor feed right now. Please refresh, or check back shortly.</p>';
     });
   }
 
