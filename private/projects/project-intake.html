@@ -92,7 +92,11 @@
     <div class="brand-sub">Admin — project initiation, plan &amp; brief · stakeholders sync straight into the NHS Stakeholder CRM</div>
   </header>
 
-  <div class="sync-note">Any stakeholder you add here is saved into the same shared list used by the NHS Stakeholder CRM artifact — open that tool and their organisation will show the new contact.</div>
+  <div class="sync-note">Any stakeholder you add here is saved into the same shared list used by the NHS Stakeholder CRM — open
+      <a href="https://upull.ai/private/sales/crm.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">upull.ai/private/sales/crm.html</a>
+      and their organisation will show the new contact.
+      <span style="display:block;margin-top:.3rem;font-size:.72rem;color:var(--muted)">Source: github.com/uPull-ai/web · private/sales/crm.html — internal, private &amp; confidential.</span>
+    </div>
 
   <div class="toolbar">
     <div id="countLabel" style="color:var(--muted);font-size:.85rem"></div>
@@ -102,7 +106,10 @@
   <div class="project-list" id="projectList"></div>
   <div class="empty-state" id="emptyState" style="display:none">No projects yet. Click "New project" to capture your first initiation, plan and brief.</div>
 
-  <footer>upull.ai internal tool · Data stored for your team</footer>
+  <footer>
+    upull.ai internal tool · Private &amp; Confidential — internal use only<br>
+    CRM: <span style="font-family:var(--mono)">upull.ai/private/sales/crm.html</span>
+  </footer>
 </div>
 
 <div class="overlay" id="overlay">
@@ -465,7 +472,7 @@ document.getElementById('entryForm').addEventListener('submit', handleSubmit);
 document.getElementById('deleteBtn').addEventListener('click', handleDelete);
 document.getElementById('addStakeholderBtn').addEventListener('click', ()=> addStakeholderRow({}));
 
-loadAll(); 
+loadAll();
 </script>
 </body>
 </html>
