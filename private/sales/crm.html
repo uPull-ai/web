@@ -12,12 +12,25 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif}
   body{background:var(--bg);color:#1E293B;line-height:1.5}
+  body{padding:0;margin:0}
   .app{max-width:1400px;margin:0 auto;padding:1.5rem;}
 
-  header{display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+  /* Site header — matches upull.ai main site */
+  .site-header{background-color:var(--navy);padding:1rem 5%;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--blue);box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
+  .site-header .nav-container{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;gap:.5rem 1rem}
+  .site-logo{color:#fff;font-size:1.4rem;font-weight:800;text-decoration:none;letter-spacing:-.5px}
+  .site-logo span{color:var(--orange)}
+  .tool-name{color:#cbd5e1;font-size:.85rem;font-weight:500;margin-left:.6rem;padding-left:.6rem;border-left:1px solid rgba(255,255,255,.25)}
+  .site-nav{display:flex;align-items:center;gap:1rem}
+  .site-nav a{color:#fff;text-decoration:none;font-weight:500;font-size:.85rem;transition:color .2s}
+  .site-nav a:hover{color:var(--orange)}
+  .confidential-badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(230,95,43,.15);color:#ffb088;border:1px solid rgba(230,95,43,.4);border-radius:6px;padding:.3rem .65rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+
+  .confidential-banner{background:#FEF3C7;border-bottom:1px solid #FDE68A;color:#92400E;text-align:center;font-size:.78rem;font-weight:600;padding:.45rem 1rem}
+
+  .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;margin:1.5rem 0 1.25rem;flex-wrap:wrap}
   .brand{display:flex;flex-direction:column;gap:.15rem}
-  .brand-logo{color:var(--navy);font-size:1.5rem;font-weight:800;letter-spacing:-.5px}
-  .brand-logo span{color:var(--orange)}
+  .page-title{color:var(--navy);font-size:1.3rem;font-weight:800;letter-spacing:-.3px}
   .brand-sub{color:var(--muted);font-size:.85rem}
 
   .stats{display:flex;gap:.75rem;flex-wrap:wrap}
@@ -66,6 +79,7 @@
   .email-set{color:var(--good)}
   .email-missing{color:var(--warn);font-style:italic}
   .region-tag{font-size:.76rem;color:var(--muted)}
+  .extra-badge{font-size:.68rem;color:var(--blue);background:#E6F0FA;border-radius:5px;padding:.1rem .4rem;margin-top:.25rem;display:inline-block}
   .empty-state{padding:3rem;text-align:center;color:var(--muted)}
 
   /* slide-over panel */
@@ -97,10 +111,24 @@
 </style>
 </head>
 <body>
+<header class="site-header">
+  <div class="nav-container">
+    <div style="display:flex;align-items:center">
+      <a href="https://upull.ai" class="site-logo">uPull<span>.ai</span></a>
+      <span class="tool-name">Sales · Stakeholder CRM</span>
+    </div>
+    <div class="site-nav">
+      <span class="confidential-badge">&#128274; Private &amp; Confidential</span>
+      <a href="https://upull.ai">&larr; Back to upull.ai</a>
+    </div>
+  </div>
+</header>
+<div class="confidential-banner">PRIVATE &amp; CONFIDENTIAL — Internal use only. Do not distribute or share outside upull.ai.</div>
+
 <div class="app">
-  <header>
+  <div class="page-header">
     <div class="brand">
-      <div class="brand-logo">upull<span>.ai</span> — NHS Stakeholder CRM</div>
+      <div class="page-title">NHS Stakeholder CRM</div>
       <div class="brand-sub">Sales team contact tracker · Chairs, CFOs, CIO/CDIOs across UK health bodies</div>
     </div>
     <div class="stats">
@@ -108,7 +136,7 @@
       <div class="stat"><div class="stat-num" id="statEmails">0</div><div class="stat-label">Emails captured</div></div>
       <div class="stat"><div class="stat-num" id="statRegions">0</div><div class="stat-label">Regions</div></div>
     </div>
-  </header>
+  </div>
 
   <div class="coverage">
     <div class="coverage-top">
@@ -143,7 +171,10 @@
     <div class="empty-state" id="emptyState" style="display:none">No matching contacts. Try a different search or filter.</div>
   </div>
 
-  <footer>upull.ai internal tool · Data stored for your team · Not for external distribution</footer>
+  <footer>
+    upull.ai internal tool · Private &amp; Confidential — internal use only<br>
+    Canonical location: <span style="font-family:var(--mono)">upull.ai/private/sales/crm.html</span>
+  </footer>
 </div>
 
 <div class="overlay" id="overlay">
@@ -189,6 +220,11 @@
         <div class="field-group-title">General board contact</div>
         <div class="field"><label>Phone</label><input type="text" id="f_boardPhone"></div>
         <div class="field"><label>Email</label><input type="email" id="f_boardEmail"></div>
+      </div>
+
+      <div class="field-group" id="extraContactsGroup" style="display:none">
+        <div class="field-group-title">Additional contacts (from project intake)</div>
+        <div id="extraContactsList"></div>
       </div>
 
       <div class="field">
@@ -339,7 +375,10 @@ function render(){
         <td>${personCell(item.chairName, item.chairEmail)}</td>
         <td>${personCell(item.cfoName, item.cfoEmail)}</td>
         <td>${personCell(item.cioName, item.cioEmail)}</td>
-        <td><span class="person-email">${escapeHtml(item.boardEmail || '—')}</span></td>
+        <td>
+          <span class="person-email">${escapeHtml(item.boardEmail || '—')}</span>
+          ${(item.additionalContacts && item.additionalContacts.length) ? `<div class="extra-badge">+${item.additionalContacts.length} project contact${item.additionalContacts.length>1?'s':''}</div>` : ''}
+        </td>
         <td><span class="region-tag">${escapeHtml(item.region || '—')}</span></td>
       </tr>
     `).join('');
@@ -382,6 +421,23 @@ function openPanel(id){
   fields.forEach(key=>{
     document.getElementById('f_'+key).value = item ? (item[key] || '') : '';
   });
+
+  const extraGroup = document.getElementById('extraContactsGroup');
+  const extraList = document.getElementById('extraContactsList');
+  const extras = item && item.additionalContacts ? item.additionalContacts : [];
+  if(extras.length){
+    extraGroup.style.display = 'block';
+    extraList.innerHTML = extras.map(c => `
+      <div style="padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.85rem">
+        <div style="font-weight:600">${escapeHtml(c.name||'')} ${c.role ? '· '+escapeHtml(c.role) : ''}</div>
+        <div style="font-family:var(--mono);font-size:.78rem;color:${c.email?'var(--good)':'var(--warn)'}">${escapeHtml(c.email||'no email')}</div>
+        ${c.fromProject ? `<div style="font-size:.72rem;color:var(--muted)">via project: ${escapeHtml(c.fromProject)}</div>` : ''}
+      </div>
+    `).join('');
+  } else {
+    extraGroup.style.display = 'none';
+    extraList.innerHTML = '';
+  }
 
   overlay.classList.add('open');
 }
