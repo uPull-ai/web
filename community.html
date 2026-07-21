@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -789,7 +789,7 @@
         </div>
       </div>
 
-      <h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem;">2. Vendor Directory</h3>
+      <h3 id="vendors" style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">2. Vendor Directory</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Profiles of AI vendors and suppliers active in the community, tagged by the type of AI application they focus on.</p>
 
       <div class="grid-container" style="margin-bottom: 3rem;" id="vendorDirectoryGrid">
@@ -1020,7 +1020,7 @@
         <div class="track-container beginner">
           <span class="post-badge" style="background: var(--clinical); margin-bottom: 0.5rem; display: inline-block;">Foundations Track[cite: 1]</span>
           <h3 style="color: var(--primary-navy); font-size: 1.6rem; margin-bottom: 0.5rem;">Beginner: From Zero to Hero[cite: 1]</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">Designed for frontline practitioners new to modern digital ecosystems. Learn to securely select, pull, and review localized automation vectors safely[cite: 1].</p>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Designed for frontline practitioners new to modern digital ecosystems. Learn to securely select, pull, and review localised automation vectors safely.</p>
           
           <div class="syllabus-timeline">
             <div class="syllabus-step">
@@ -1033,7 +1033,7 @@
             </div>
             <div class="syllabus-step">
               <h5 style="color: var(--primary-navy); font-weight: 700;">Module 3: The Pull Blueprint[cite: 1]</h5>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">How 2 staff can systematically optimize 1 targeted workflow in 6 weeks.</p>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">How 2 staff can systematically optimise 1 targeted workflow in 6 weeks.</p>
             </div>
           </div>
           <button class="cta-btn" style="background: var(--clinical); width: 100%; margin-top: 1rem;">Enrol in Foundations</button>
@@ -1079,7 +1079,7 @@
             <div class="insight-body">
               <span style="color: var(--accent-orange); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Pathway Optimisation</span>
               <h4 style="color: var(--primary-navy); margin: 0.25rem 0 0.5rem 0; font-size: 1.3rem;">Breaking the Delivery Vise: Why Procurement Rushing Fails.</h4>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">An extensive analysis by the uPull.ai intrapreneurial network regarding why generic tool 'push' structures drop ROI, and how localized pathway adjustments solve workforce bottlenecks.</p>
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">An extensive analysis by the uPull.ai intrapreneurial network regarding why generic tool 'push' structures drop ROI, and how localised pathway adjustments solve workforce bottlenecks.</p>
               <a href="#" style="color: var(--nhs-blue); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Read Full Insight →</a>
             </div>
           </article>
@@ -1673,7 +1673,36 @@
   window.onload = function() {
     document.getElementById('forum-feed-target').innerHTML =
       '<p style="text-align:center; opacity:0.6; padding:2rem;">Loading live discussion…</p>';
+    handleCommunityDeepLink();
   };
+
+  // ══ DEEP LINKING FROM OTHER PAGES (e.g. academy.html#vendors links here
+  // as community.html#vendors) — switches to the right in-page view before
+  // scrolling to the target element. ══
+  function handleCommunityDeepLink() {
+    const hash = window.location.hash.replace('#', '');
+    if (!hash) return;
+    const categoryTargets = ['vendors', 'view-categories', 'categories'];
+    const insightsTargets = ['view-insights', 'insights'];
+    const academyTargets = ['view-academy', 'academy'];
+    let targetId = hash;
+    if (categoryTargets.includes(hash)) {
+      switchView('categories');
+      targetId = hash === 'vendors' ? 'vendors' : null;
+    } else if (insightsTargets.includes(hash)) {
+      switchView('insights');
+      targetId = null;
+    } else if (academyTargets.includes(hash)) {
+      switchView('academy');
+      targetId = null;
+    }
+    if (targetId) {
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }, 150);
+    }
+  }
 
   // ══ PRIMARY NAV DROPDOWNS ══
   function closeAllSubmenus() {
