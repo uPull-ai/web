@@ -746,7 +746,7 @@
           </button>
           <ul class="nav-submenu">
             <li><a href="#" onclick="switchView('landing'); closeAllSubmenus(); closeMobileNav(); return false;">Forum</a></li>
-            <li><a href="academy.html#tab-learning">AI Learning</a></li>
+            <li><a href="academy.html#tab-learning">uGrowX</a></li>
             <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
             <li><a href="#" onclick="switchView('categories'); closeAllSubmenus(); closeMobileNav(); setTimeout(()=&gt;document.getElementById('ucollabx')?.scrollIntoView({behavior:'smooth'}),50); return false;">🧪 uCollabX</a></li>
           </ul>
@@ -778,7 +778,7 @@
     <nav class="sub-nav" aria-label="Community sections">
       <a id="nav-landing" class="active-tab" onclick="switchView('landing')">Community Feed</a>
       <a id="nav-categories" onclick="switchView('categories')">Sectors & Vendors</a>
-      <a id="nav-academy" href="academy.html#tab-learning">Learning Academy</a>
+      <a id="nav-academy" href="academy.html#tab-learning">uGrowX</a>
       <a id="nav-insights" onclick="switchView('insights')">Insights & Podcasts</a>
       <a onclick="switchView('landing'); setTimeout(()=&gt;document.getElementById('composer').scrollIntoView({behavior:'smooth'}), 50);">✏️ Share an Insight</a>
     </nav>
@@ -866,7 +866,7 @@
 <div id="view-categories" class="page-view">
   <main>
     <section>
-      <h2 class="section-title">uCollabX</h2>
+      <h2 class="section-title">Specialised Focus Tracks</h2>
       <p class="section-subtitle">Bridging structural operational domains and technological vendor application spaces.</p>
 
       <div class="track-key-bar">
@@ -876,7 +876,7 @@
         <button class="track-key-chip" data-track="operational" onclick="setTrackFilter('operational', this)">⚙️ Operational Flow <small>31 threads</small></button>
       </div>
 
-      <h3 id="ucollabx" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">1.Verified Solutions</h3>
+      <h3 id="ucollabx" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">1. uCollabX — Verified Solutions</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Not a marketplace — a compliance-checked, evidence-linked registry. Any signed-in vendor can submit a solution; uPull.ai verifies it against five compliance areas; NHS-verified members rate and comment. Verified listings also appear in the Vendor Directory below.</p>
 
       <div class="ucx-intro">
@@ -1448,7 +1448,7 @@
       return true;
     });
     if (!list.length) {
-      grid.innerHTML = '<div class="ucx-empty">in development.</div>';
+      grid.innerHTML = '<div class="ucx-empty">No solutions match yet. Be the first vendor to submit one, or try a different filter.</div>';
       return;
     }
     grid.innerHTML = list.map(s => {
