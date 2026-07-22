@@ -410,6 +410,7 @@
       flex-direction: column;
       gap: 0.9rem;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+      position: relative;
     }
     .vendor-card-header { display: flex; align-items: center; gap: 0.75rem; }
     .vendor-logo {
@@ -542,6 +543,25 @@
     .ucx-modal-body p{font-size:.88rem; line-height:1.55; color:var(--primary-navy);}
     .ucx-toast{position:fixed; bottom:24px; right:24px; background:var(--primary-navy); color:#fff; padding:.8rem 1.1rem; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.3); font-size:.83rem; font-weight:700; z-index:3000; opacity:0; transform:translateY(12px); transition:all .25s; pointer-events:none;}
     .ucx-toast.show{opacity:1; transform:translateY(0);}
+
+    /* ══ Track key (compact filter, replaces the old large Sector Frameworks cards) ══ */
+    .track-key-bar{display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; background:#fff; border:1px solid var(--border-color); border-radius:10px; padding:.6rem .9rem; margin-bottom:1.5rem;}
+    .track-key-label{font-size:.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-right:.2rem;}
+    .track-key-chip{padding:.4rem .8rem; border-radius:20px; font-size:.78rem; font-weight:700; cursor:pointer; border:2px solid var(--border-color); background:#fff; color:var(--text-muted); transition:all .2s; display:flex; align-items:center; gap:.35rem;}
+    .track-key-chip:hover{border-color:var(--nhs-blue);}
+    .track-key-chip.active{color:#fff; border-color:transparent;}
+    .track-key-chip.active[data-track="all"]{background:var(--primary-navy);}
+    .track-key-chip.active[data-track="clinical"]{background:var(--clinical);}
+    .track-key-chip.active[data-track="operational"]{background:var(--operational);}
+    .track-key-chip small{opacity:.75; font-weight:600;}
+
+    /* ══ Vendor directory star-rating widget (top-right of card) ══ */
+    .ucx-star-widget{position:absolute; top:.9rem; right:1rem; display:flex; flex-direction:column; align-items:flex-end; gap:.1rem;}
+    .ucx-star-widget .stars-row{display:flex; gap:1px; font-size:1.05rem; cursor:pointer;}
+    .ucx-star-widget .stars-row span{color:#d1d5db; transition:color .1s;}
+    .ucx-star-widget .stars-row span.filled{color:#f59e0b;}
+    .ucx-star-widget .stars-row span.hovered{color:#f59e0b;}
+    .ucx-star-widget .rating-count{font-size:.66rem; color:var(--text-muted); white-space:nowrap;}
 
     /* ══ CASE STUDY SUBMISSION PANEL ══ */
     .submission-panel {
@@ -866,38 +886,137 @@
     <section>
       <h2 class="section-title">Specialised Focus Tracks</h2>
       <p class="section-subtitle">Bridging structural operational domains and technological vendor application spaces.</p>
-      
-<h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem;">1. Sector Frameworks</h3>
 
-      <div class="grid-container" style="margin-bottom: 3rem;">
-        <div class="hub-card" style="border-top: 4px solid var(--clinical);">
-          <div>
-            <div class="hub-card-header">
-              <div class="hub-icon" style="background: var(--clinical);">🩺</div>
-              <h4 style="color: var(--primary-navy);">Clinical Productivity Track</h4>
-            </div>
-            <p style="font-size: 0.9rem; color: var(--text-muted);">Focusing on ambient medical scribing, diagnostic safety envelopes, real-time telemetry filters, and pathways that return immediate validation value.</p>
-          </div>
-          <div class="stat-bar"><span>🟢 42 Threads</span><span>9 Active Contributors</span></div>
-        </div>
+      <div class="track-key-bar">
+        <span class="track-key-label">Filter by track:</span>
+        <button class="track-key-chip active" data-track="all" onclick="setTrackFilter('all', this)">All</button>
+        <button class="track-key-chip" data-track="clinical" onclick="setTrackFilter('clinical', this)">🩺 Clinical Productivity <small>42 threads</small></button>
+        <button class="track-key-chip" data-track="operational" onclick="setTrackFilter('operational', this)">⚙️ Operational Flow <small>31 threads</small></button>
+      </div>
 
-        <div class="hub-card" style="border-top: 4px solid var(--operational);">
-          <div>
-            <div class="hub-card-header">
-              <div class="hub-icon" style="background: var(--operational);">⚙️</div>
-              <h4 style="color: var(--primary-navy);">Operational Flow Track</h4>
-            </div>
-            <p style="font-size: 0.9rem; color: var(--text-muted);">Re-architecting systemic referral logic, automated classification engines, care triage pipelines, and asset routing arrays.</p>
-          </div>
-          <div class="stat-bar"><span>🟢 31 Threads</span><span>14 Active Contributors</span></div>
+      <h3 id="ucollabx" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">1. uCollabX — Verified Solutions</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Not a marketplace — a compliance-checked, evidence-linked registry. Any signed-in vendor can submit a solution; uPull.ai verifies it against five compliance areas; NHS-verified members rate and comment. Verified listings also appear in the Vendor Directory below.</p>
+
+      <div class="ucx-intro">
+        <h4>🧪 Have a solution to prove?</h4>
+        <p>Submit it below for compliance verification and NHS-verified ratings — status is shown transparently and re-checked over time, not stamped once and forgotten.</p>
+        <div class="ucx-badges">
+          <span class="ucx-badge">🛡️ Compliance verified</span>
+          <span class="ucx-badge">🔁 Re-proven, not one-off</span>
+          <span class="ucx-badge">✅ NHS-verified reviews</span>
+          <span class="ucx-badge">📇 Linked to the Vendor Directory</span>
         </div>
       </div>
 
-      <h3 id="vendors" style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">2. Vendor Directory</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Profiles of AI vendors and suppliers active in the community, tagged by the type of AI application they focus on.</p>
+      <nav class="ucx-nav">
+        <button class="ucx-nav-btn active" data-ucx="browse" onclick="showUcxSection('browse')">🔍 Browse Solutions</button>
+        <button class="ucx-nav-btn" data-ucx="submit" onclick="showUcxSection('submit')">🚀 Submit a Solution</button>
+        <button class="ucx-nav-btn" data-ucx="admin" onclick="showUcxSection('admin')">🛡️ Admin Review</button>
+        <button class="ucx-nav-btn" data-ucx="howitworks" onclick="showUcxSection('howitworks')">ℹ️ How It Works</button>
+      </nav>
+
+      <!-- BROWSE -->
+      <div id="ucx-browse" class="ucx-view active-view">
+        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:1rem">Every solution here also appears as a card in the <a href="#vendors" style="color:var(--nhs-blue);font-weight:700">Vendor Directory</a> — this view adds compliance-status filtering on top.</p>
+        <div class="ucx-filter-bar">
+          <div class="ucx-search"><span class="ucx-search-icon">🔍</span><input type="text" id="ucx-search" placeholder="Search solutions, vendors..." oninput="renderUcxSolutions()"></div>
+          <button class="ucx-pill active" data-cat="all" onclick="setUcxFilter('cat','all',this)">All categories</button>
+          <button class="ucx-pill" data-cat="agentic" onclick="setUcxFilter('cat','agentic',this)">🤖 Agentic</button>
+          <button class="ucx-pill" data-cat="clinical" onclick="setUcxFilter('cat','clinical',this)">🩺 Clinical</button>
+          <button class="ucx-pill" data-cat="robotic" onclick="setUcxFilter('cat','robotic',this)">🦾 Robotic</button>
+          <button class="ucx-pill" data-cat="ambient" onclick="setUcxFilter('cat','ambient',this)">🎙️ Ambience</button>
+        </div>
+        <div class="ucx-filter-bar">
+          <button class="ucx-pill active" data-status="all" onclick="setUcxFilter('status','all',this)">All statuses</button>
+          <button class="ucx-pill" data-status="proven" onclick="setUcxFilter('status','proven',this)">✅ Proven</button>
+          <button class="ucx-pill" data-status="provisional" onclick="setUcxFilter('status','provisional',this)">🟠 Provisionally listed</button>
+          <button class="ucx-pill" data-status="under_review" onclick="setUcxFilter('status','under_review',this)">⚪ Under review</button>
+        </div>
+        <div class="ucx-grid" id="ucxSolutionsGrid"></div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div id="ucx-submit" class="ucx-view">
+        <div id="ucxVendorSignedOut" class="ucx-panel" style="text-align:center">
+          <h4 style="color:var(--primary-navy);margin-bottom:.5rem">Sign in as a vendor to submit</h4>
+          <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem">Uses the same vendor sign-in as the Update Feed below — any company Google account, no @nhs.net/@nhs.uk requirement.</p>
+          <button class="cta-btn" onclick="signInAsVendor()">Sign in with Google</button>
+        </div>
+        <div id="ucxVendorSignedIn" class="hidden">
+
+          <div class="ucx-panel" style="margin-bottom:1rem">
+            <label style="font-size:.76rem;font-weight:800;color:var(--primary-navy);text-transform:uppercase;display:block;margin-bottom:.6rem">What are you submitting?</label>
+            <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+              <button type="button" class="ucx-pill active" id="ucxTypeDirectory" onclick="setUcxSubmitType('directory')">📇 Vendor Directory listing</button>
+              <button type="button" class="ucx-pill" id="ucxTypeCaseStudy" onclick="setUcxSubmitType('case_study')">📋 Case study instead</button>
+            </div>
+            <p id="ucxTypeHint" style="font-size:.76rem;color:var(--text-muted);margin-top:.6rem">Continue below — once verified, this appears live in the Vendor Directory with NHS-verified ratings.</p>
+          </div>
+
+          <div id="ucxDirectoryFormFields" class="ucx-panel" style="margin-bottom:1.5rem">
+            <div class="ucx-field"><label for="ucxVendorName">Company / vendor name</label><input type="text" id="ucxVendorName" placeholder="e.g. Acme Health AI Ltd"></div>
+            <div class="ucx-field"><label for="ucxSolName">Solution name</label><input type="text" id="ucxSolName" placeholder="e.g. Acme Ambient Scribe"></div>
+            <div class="ucx-field"><label for="ucxCategory">Pathway category</label>
+              <select id="ucxCategory">
+                <option value="agentic">🤖 Agentic AI</option>
+                <option value="clinical">🩺 Clinical AI</option>
+                <option value="robotic">🦾 Robotic AI</option>
+                <option value="ambient">🎙️ Ambience AI</option>
+              </select>
+            </div>
+            <div class="ucx-field"><label for="ucxDesc">Description</label><textarea id="ucxDesc" rows="3" placeholder="What does this solution do, and what problem does it solve?"></textarea></div>
+            <div class="ucx-field"><label for="ucxAudience">Target audience</label><input type="text" id="ucxAudience" placeholder="e.g. Clinical leads, ward administrators"></div>
+            <div class="ucx-field"><label for="ucxEvidence">Evidence &amp; outcomes summary</label><textarea id="ucxEvidence" rows="3" placeholder="Any outcome data, pilots, or published evidence so far"></textarea></div>
+            <p style="font-size:.72rem;color:var(--text-muted);margin:.9rem 0 .5rem;font-weight:700;text-transform:uppercase">Supporting notes for compliance review (optional)</p>
+            <div class="ucx-field"><label>Clinical safety</label><textarea id="ucx-cn-clinicalSafety" rows="2"></textarea></div>
+            <div class="ucx-field"><label>Data protection &amp; cyber security</label><textarea id="ucx-cn-dataProtection" rows="2"></textarea></div>
+            <div class="ucx-field"><label>Interoperability</label><textarea id="ucx-cn-interoperability" rows="2"></textarea></div>
+            <div class="ucx-field"><label>Usability &amp; accessibility</label><textarea id="ucx-cn-usability" rows="2"></textarea></div>
+            <div class="ucx-field"><label>Evidence &amp; outcomes documentation</label><textarea id="ucx-cn-evidence" rows="2"></textarea></div>
+            <button class="cta-btn" style="width:100%" onclick="submitUcxSolution()">Submit for review</button>
+            <p id="ucxSubmitStatus" style="font-size:.78rem;font-weight:700;margin-top:.6rem"></p>
+          </div>
+
+          <div id="ucxCaseStudyRedirect" class="hidden ucx-panel" style="text-align:center;margin-bottom:1.5rem">
+            <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:.8rem">Case studies are reviewed and published by the uPull.ai team rather than listed live. Use the Submit a Case Study form further down this page instead.</p>
+            <a href="#submit-case-study" onclick="document.getElementById('submit-case-study')?.scrollIntoView({behavior:'smooth'})" class="cta-btn">Jump to Submit a Case Study →</a>
+          </div>
+
+          <h4 style="color:var(--primary-navy);font-size:1rem;margin-bottom:.7rem">My submitted solutions</h4>
+          <div id="ucxMySubmissions"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN -->
+      <div id="ucx-admin" class="ucx-view">
+        <div id="ucxAdminNotAllowed" class="ucx-panel" style="text-align:center">
+          <h4 style="color:var(--primary-navy);margin-bottom:.5rem">Administrators only</h4>
+          <p style="font-size:.85rem;color:var(--text-muted)">Sign in with an account listed in the <code>admins</code> collection to review submissions and flagged reviews.</p>
+        </div>
+        <div id="ucxAdminPanel" class="hidden">
+          <h4 style="color:var(--primary-navy);margin-bottom:.8rem">All submissions</h4>
+          <div id="ucxAdminSolutionsList"></div>
+          <h4 style="color:var(--primary-navy);margin:1.6rem 0 .8rem">Flagged reviews</h4>
+          <div id="ucxAdminFlaggedReviews"></div>
+        </div>
+      </div>
+
+      <!-- HOW IT WORKS -->
+      <div id="ucx-howitworks" class="ucx-view">
+        <div class="ucx-info-grid">
+          <div class="ucx-info-card"><span class="ucx-info-num">01</span><h5>🚀 Submit</h5><p>Any signed-in vendor submits a solution: what it does, who it's for, and supporting evidence for each compliance area.</p></div>
+          <div class="ucx-info-card"><span class="ucx-info-num">02</span><h5>🛡️ Verify</h5><p>uPull.ai checks five areas — clinical safety, data protection, interoperability, usability &amp; accessibility, and evidence &amp; outcomes.</p></div>
+          <div class="ucx-info-card"><span class="ucx-info-num">03</span><h5>✅ Prove</h5><p>Status is shown transparently — Under review, Provisionally listed, or fully Proven — and re-checked over time, not stamped once.</p></div>
+          <div class="ucx-info-card"><span class="ucx-info-num">04</span><h5>🔗 Connect</h5><p>Every profile appears in the Vendor Directory below, links to the vendor's updates further down, and to the Academy courses for that category.</p></div>
+        </div>
+      </div>
+
+      <h3 id="vendors" style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem; scroll-margin-top: 110px; margin-top: 2.5rem;">2. Vendor Directory</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Profiles of AI vendors and suppliers active in the community, tagged by the type of AI application they focus on. Includes uCollabX-verified solutions — click any star rating to add your score.</p>
 
       <div class="grid-container" style="margin-bottom: 3rem;" id="vendorDirectoryGrid">
-        <div class="vendor-card">
+        <div class="vendor-card" data-track="clinical">
+          <div class="ucx-star-widget" data-solution-id="seed-medscribe"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--ambient);">M</div>
             <div>
@@ -913,7 +1032,8 @@
           </div>
         </div>
 
-        <div class="vendor-card">
+        <div class="vendor-card" data-track="clinical">
+          <div class="ucx-star-widget" data-solution-id="seed-pathoagent"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--clinical);">P</div>
             <div>
@@ -929,7 +1049,8 @@
           </div>
         </div>
 
-        <div class="vendor-card">
+        <div class="vendor-card" data-track="clinical">
+          <div class="ucx-star-widget" data-solution-id="seed-cardiopredict"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--agentic);">C</div>
             <div>
@@ -945,7 +1066,8 @@
           </div>
         </div>
 
-        <div class="vendor-card">
+        <div class="vendor-card" data-track="clinical">
+          <div class="ucx-star-widget" data-solution-id="seed-pharmai"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--robotic);">P</div>
             <div>
@@ -961,7 +1083,8 @@
           </div>
         </div>
 
-        <div class="vendor-card">
+        <div class="vendor-card" data-track="operational">
+          <div class="ucx-star-widget" data-solution-id="seed-surgiplan"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--agentic);">S</div>
             <div>
@@ -977,7 +1100,8 @@
           </div>
         </div>
 
-        <div class="vendor-card">
+        <div class="vendor-card" data-track="clinical">
+          <div class="ucx-star-widget" data-solution-id="seed-icuguard"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--clinical);">I</div>
             <div>
@@ -992,7 +1116,10 @@
             <a href="academy.html#cs-CS9" class="action-btn" style="font-size: 0.82rem;">View case study →</a>
           </div>
         </div>
+
+        <!-- uCollabX-verified solutions render here live -->
       </div>
+      <div class="grid-container" id="ucxDirectoryDynamicGrid" style="margin-bottom: 3rem;"></div>
 
       <h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.5rem;">3. Platform Integrations</h3>
       <div class="grid-container" style="margin-bottom: 3rem;">
@@ -1030,106 +1157,7 @@
         </div>
       </div>
 
-      <h3 id="ucollabx" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">4. uCollabX — Verified Solutions</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Not a marketplace — a compliance-checked, evidence-linked registry. Any signed-in vendor can submit a solution; uPull.ai verifies it against five compliance areas; NHS-verified members rate and comment.</p>
-
-      <div class="ucx-intro">
-        <h4>🧪 Have a solution to prove?</h4>
-        <p>Submit it below for compliance verification and NHS-verified ratings — status is shown transparently and re-checked over time, not stamped once and forgotten.</p>
-        <div class="ucx-badges">
-          <span class="ucx-badge">🛡️ Compliance verified</span>
-          <span class="ucx-badge">🔁 Re-proven, not one-off</span>
-          <span class="ucx-badge">✅ NHS-verified reviews</span>
-        </div>
-      </div>
-
-      <nav class="ucx-nav">
-        <button class="ucx-nav-btn active" data-ucx="browse" onclick="showUcxSection('browse')">🔍 Browse Solutions</button>
-        <button class="ucx-nav-btn" data-ucx="submit" onclick="showUcxSection('submit')">🚀 Submit a Solution</button>
-        <button class="ucx-nav-btn" data-ucx="admin" onclick="showUcxSection('admin')">🛡️ Admin Review</button>
-        <button class="ucx-nav-btn" data-ucx="howitworks" onclick="showUcxSection('howitworks')">ℹ️ How It Works</button>
-      </nav>
-
-      <!-- BROWSE -->
-      <div id="ucx-browse" class="ucx-view active-view">
-        <div class="ucx-filter-bar">
-          <div class="ucx-search"><span class="ucx-search-icon">🔍</span><input type="text" id="ucx-search" placeholder="Search solutions, vendors..." oninput="renderUcxSolutions()"></div>
-          <button class="ucx-pill active" data-cat="all" onclick="setUcxFilter('cat','all',this)">All categories</button>
-          <button class="ucx-pill" data-cat="agentic" onclick="setUcxFilter('cat','agentic',this)">🤖 Agentic</button>
-          <button class="ucx-pill" data-cat="clinical" onclick="setUcxFilter('cat','clinical',this)">🩺 Clinical</button>
-          <button class="ucx-pill" data-cat="robotic" onclick="setUcxFilter('cat','robotic',this)">🦾 Robotic</button>
-          <button class="ucx-pill" data-cat="ambient" onclick="setUcxFilter('cat','ambient',this)">🎙️ Ambience</button>
-        </div>
-        <div class="ucx-filter-bar">
-          <button class="ucx-pill active" data-status="all" onclick="setUcxFilter('status','all',this)">All statuses</button>
-          <button class="ucx-pill" data-status="proven" onclick="setUcxFilter('status','proven',this)">✅ Proven</button>
-          <button class="ucx-pill" data-status="provisional" onclick="setUcxFilter('status','provisional',this)">🟠 Provisionally listed</button>
-          <button class="ucx-pill" data-status="under_review" onclick="setUcxFilter('status','under_review',this)">⚪ Under review</button>
-        </div>
-        <div class="ucx-grid" id="ucxSolutionsGrid"></div>
-      </div>
-
-      <!-- SUBMIT -->
-      <div id="ucx-submit" class="ucx-view">
-        <div id="ucxVendorSignedOut" class="ucx-panel" style="text-align:center">
-          <h4 style="color:var(--primary-navy);margin-bottom:.5rem">Sign in as a vendor to submit</h4>
-          <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem">Uses the same vendor sign-in as the Update Feed below — any company Google account, no @nhs.net/@nhs.uk requirement.</p>
-          <button class="cta-btn" onclick="signInAsVendor()">Sign in with Google</button>
-        </div>
-        <div id="ucxVendorSignedIn" class="hidden">
-          <div class="ucx-panel" style="margin-bottom:1.5rem">
-            <div class="ucx-field"><label for="ucxVendorName">Company / vendor name</label><input type="text" id="ucxVendorName" placeholder="e.g. Acme Health AI Ltd"></div>
-            <div class="ucx-field"><label for="ucxSolName">Solution name</label><input type="text" id="ucxSolName" placeholder="e.g. Acme Ambient Scribe"></div>
-            <div class="ucx-field"><label for="ucxCategory">Pathway category</label>
-              <select id="ucxCategory">
-                <option value="agentic">🤖 Agentic AI</option>
-                <option value="clinical">🩺 Clinical AI</option>
-                <option value="robotic">🦾 Robotic AI</option>
-                <option value="ambient">🎙️ Ambience AI</option>
-              </select>
-            </div>
-            <div class="ucx-field"><label for="ucxDesc">Description</label><textarea id="ucxDesc" rows="3" placeholder="What does this solution do, and what problem does it solve?"></textarea></div>
-            <div class="ucx-field"><label for="ucxAudience">Target audience</label><input type="text" id="ucxAudience" placeholder="e.g. Clinical leads, ward administrators"></div>
-            <div class="ucx-field"><label for="ucxEvidence">Evidence &amp; outcomes summary</label><textarea id="ucxEvidence" rows="3" placeholder="Any outcome data, pilots, or published evidence so far"></textarea></div>
-            <p style="font-size:.72rem;color:var(--text-muted);margin:.9rem 0 .5rem;font-weight:700;text-transform:uppercase">Supporting notes for compliance review (optional)</p>
-            <div class="ucx-field"><label>Clinical safety</label><textarea id="ucx-cn-clinicalSafety" rows="2"></textarea></div>
-            <div class="ucx-field"><label>Data protection &amp; cyber security</label><textarea id="ucx-cn-dataProtection" rows="2"></textarea></div>
-            <div class="ucx-field"><label>Interoperability</label><textarea id="ucx-cn-interoperability" rows="2"></textarea></div>
-            <div class="ucx-field"><label>Usability &amp; accessibility</label><textarea id="ucx-cn-usability" rows="2"></textarea></div>
-            <div class="ucx-field"><label>Evidence &amp; outcomes documentation</label><textarea id="ucx-cn-evidence" rows="2"></textarea></div>
-            <button class="cta-btn" style="width:100%" onclick="submitUcxSolution()">Submit for review</button>
-            <p id="ucxSubmitStatus" style="font-size:.78rem;font-weight:700;margin-top:.6rem"></p>
-          </div>
-          <h4 style="color:var(--primary-navy);font-size:1rem;margin-bottom:.7rem">My submitted solutions</h4>
-          <div id="ucxMySubmissions"></div>
-        </div>
-      </div>
-
-      <!-- ADMIN -->
-      <div id="ucx-admin" class="ucx-view">
-        <div id="ucxAdminNotAllowed" class="ucx-panel" style="text-align:center">
-          <h4 style="color:var(--primary-navy);margin-bottom:.5rem">Administrators only</h4>
-          <p style="font-size:.85rem;color:var(--text-muted)">Sign in with an account listed in the <code>admins</code> collection to review submissions and flagged reviews.</p>
-        </div>
-        <div id="ucxAdminPanel" class="hidden">
-          <h4 style="color:var(--primary-navy);margin-bottom:.8rem">All submissions</h4>
-          <div id="ucxAdminSolutionsList"></div>
-          <h4 style="color:var(--primary-navy);margin:1.6rem 0 .8rem">Flagged reviews</h4>
-          <div id="ucxAdminFlaggedReviews"></div>
-        </div>
-      </div>
-
-      <!-- HOW IT WORKS -->
-      <div id="ucx-howitworks" class="ucx-view">
-        <div class="ucx-info-grid">
-          <div class="ucx-info-card"><span class="ucx-info-num">01</span><h5>🚀 Submit</h5><p>Any signed-in vendor submits a solution: what it does, who it's for, and supporting evidence for each compliance area.</p></div>
-          <div class="ucx-info-card"><span class="ucx-info-num">02</span><h5>🛡️ Verify</h5><p>uPull.ai checks five areas — clinical safety, data protection, interoperability, usability &amp; accessibility, and evidence &amp; outcomes.</p></div>
-          <div class="ucx-info-card"><span class="ucx-info-num">03</span><h5>✅ Prove</h5><p>Status is shown transparently — Under review, Provisionally listed, or fully Proven — and re-checked over time, not stamped once.</p></div>
-          <div class="ucx-info-card"><span class="ucx-info-num">04</span><h5>🔗 Connect</h5><p>Every profile links to the vendor's updates just below and the Academy courses that teach people how to evaluate or deploy that category.</p></div>
-        </div>
-      </div>
-
-      <h3 id="vendor-feed-heading" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; margin-top: 2.5rem;">5. Vendor Update Feed</h3>
+      <h3 id="vendor-feed-heading" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; margin-top: 2.5rem;">4. Vendor Update Feed</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">A live channel for vendors and suppliers to share product updates, integration notes, and news directly with the community. Tag each update by AI type so members can filter to what's relevant to them.</p>
 
       <div id="vendorAuthBar" style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
@@ -1171,7 +1199,7 @@
         <p style="text-align:center; opacity:0.6; padding:2rem;">Loading vendor updates…</p>
       </div>
 
-      <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem;">6. Submit a Case Study</h3>
+      <h3 id="submit-case-study" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">5. Submit a Case Study</h3>
       <div class="submission-panel">
         <div>
           <h3>Worked with a Trust or care setting? Tell the community.</h3>
@@ -1411,6 +1439,13 @@
   let ucxReviews = [];
   let ucxFilters = {cat:'all', status:'all'};
   let ucxSelectedStars = 0;
+  let currentTrackFilter = 'all';
+
+  function trackOfCategory(cat) {
+    if (cat === 'clinical' || cat === 'ambient') return 'clinical';
+    if (cat === 'agentic' || cat === 'robotic') return 'operational';
+    return null;
+  }
 
   function ucxComputeStatus(complianceStatus) {
     const vals = UCX_COMPLIANCE_CATEGORIES.map(c => (complianceStatus && complianceStatus[c.key]) || 'not_reviewed');
@@ -1441,6 +1476,23 @@
     document.querySelector(`.ucx-nav-btn[data-ucx="${name}"]`)?.classList.add('active');
   }
 
+  // ── track key (replaces the old large Sector Frameworks cards) ──
+  function setTrackFilter(track, btn) {
+    currentTrackFilter = track;
+    document.querySelectorAll('.track-key-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    renderUcxSolutions();
+    renderUcxDirectoryDynamic();
+    applyTrackFilterToStaticCards();
+  }
+
+  function applyTrackFilterToStaticCards() {
+    document.querySelectorAll('#vendorDirectoryGrid .vendor-card[data-track]').forEach(card => {
+      const show = currentTrackFilter === 'all' || card.dataset.track === currentTrackFilter;
+      card.style.display = show ? '' : 'none';
+    });
+  }
+
   // ── browse ──
   function setUcxFilter(kind, value, btn) {
     ucxFilters[kind] = value;
@@ -1455,6 +1507,7 @@
     if (!grid) return;
     const search = (document.getElementById('ucx-search')?.value || '').toLowerCase();
     let list = ucxSolutions.filter(s => {
+      if (currentTrackFilter !== 'all' && trackOfCategory(s.category) !== currentTrackFilter) return false;
       if (ucxFilters.cat !== 'all' && s.category !== ucxFilters.cat) return false;
       const status = ucxComputeStatus(s.complianceStatus).key;
       if (ucxFilters.status !== 'all' && status !== ucxFilters.status) return false;
@@ -1483,6 +1536,92 @@
           </div>
         </div>`;
     }).join('');
+  }
+
+  // ── Vendor Directory: uCollabX-verified solutions rendered as directory cards ──
+  function renderUcxDirectoryDynamic() {
+    const grid = document.getElementById('ucxDirectoryDynamicGrid');
+    if (!grid) return;
+    const list = ucxSolutions.filter(s => currentTrackFilter === 'all' || trackOfCategory(s.category) === currentTrackFilter);
+    grid.innerHTML = list.map(s => {
+      const status = ucxComputeStatus(s.complianceStatus);
+      return `
+        <div class="vendor-card" onclick="openUcxModal('${s.id}')" style="cursor:pointer">
+          <div class="ucx-star-widget" data-solution-id="${s.id}" onclick="event.stopPropagation()"></div>
+          <div class="vendor-card-header">
+            <div class="vendor-logo" style="background:var(--${s.category});">${(s.name||'?').charAt(0).toUpperCase()}</div>
+            <div>
+              <div class="vendor-name">${s.name || 'Untitled solution'}</div>
+              <div class="vendor-location">${s.vendorName || 'Unknown vendor'}</div>
+            </div>
+          </div>
+          <p class="vendor-desc">${(s.description||'').slice(0,150)}${(s.description||'').length>150?'…':''}</p>
+          <div class="vendor-tags"><span class="tag-pill tag-${s.category}">${UCX_CAT_LABELS[s.category]||s.category}</span></div>
+          <div class="vendor-footer">
+            <span class="vendor-status" style="color:var(--primary-navy)">${status.label}</span>
+            <span class="action-btn" style="font-size:0.82rem;">View profile →</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── star-rating widget (top-right of every Vendor Directory card) ──
+  function buildStarWidgetHTML(solutionId) {
+    const avg = ucxAvgRating(solutionId);
+    const count = ucxReviewsFor(solutionId).length;
+    const rounded = avg === null ? 0 : Math.round(avg);
+    const stars = [1,2,3,4,5].map(n => `<span data-n="${n}" class="${n <= rounded ? 'filled' : ''}">★</span>`).join('');
+    return `<div class="stars-row" data-solution-id="${solutionId}">${stars}</div><div class="rating-count">${count ? avg.toFixed(1) + ' (' + count + ')' : 'Rate this'}</div>`;
+  }
+
+  function renderAllStarWidgets() {
+    document.querySelectorAll('.ucx-star-widget[data-solution-id]').forEach(widget => {
+      const id = widget.dataset.solutionId;
+      widget.innerHTML = buildStarWidgetHTML(id);
+      const row = widget.querySelector('.stars-row');
+      if (!row) return;
+      const starsEls = Array.from(row.querySelectorAll('span'));
+      starsEls.forEach(starEl => {
+        starEl.addEventListener('mouseenter', () => {
+          const n = Number(starEl.dataset.n);
+          starsEls.forEach(s => s.classList.toggle('hovered', Number(s.dataset.n) <= n));
+        });
+        starEl.addEventListener('mouseleave', () => {
+          starsEls.forEach(s => s.classList.remove('hovered'));
+        });
+        starEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          quickRateSolution(id, Number(starEl.dataset.n));
+        });
+      });
+    });
+  }
+
+  async function quickRateSolution(solutionId, stars) {
+    const f = fb();
+    if (!f) return;
+    if (!currentUser) { alert('Please sign in above with your NHS email to rate a solution.'); return; }
+    if (getSignInRole() === 'vendor') { alert("Vendor accounts can't submit ratings — sign in with an @nhs.net/@nhs.uk email instead."); return; }
+    await f.addDoc(f.collection(f.db, 'solutionReviews'), {
+      solutionId, uid: currentUser.uid,
+      name: currentUser.displayName || currentUser.email || 'NHS reviewer',
+      rating: stars, comment: '', reportCount: 0, createdAt: f.serverTimestamp()
+    });
+    showUcxToast('Thanks — your rating has been added.');
+  }
+
+  // ── submit form: directory listing vs case study ──
+  function setUcxSubmitType(type) {
+    document.getElementById('ucxTypeDirectory')?.classList.toggle('active', type === 'directory');
+    document.getElementById('ucxTypeCaseStudy')?.classList.toggle('active', type === 'case_study');
+    document.getElementById('ucxDirectoryFormFields')?.classList.toggle('hidden', type !== 'directory');
+    document.getElementById('ucxCaseStudyRedirect')?.classList.toggle('hidden', type !== 'case_study');
+    const hint = document.getElementById('ucxTypeHint');
+    if (hint) {
+      hint.textContent = type === 'directory'
+        ? 'Continue below — once verified, this appears live in the Vendor Directory with NHS-verified ratings.'
+        : 'Case studies are reviewed and published by the uPull.ai team rather than listed live.';
+    }
   }
 
   // ── detail modal ──
@@ -2306,11 +2445,17 @@
       renderUcxSolutions();
       renderUcxMySubmissions();
       renderUcxAdminSolutions();
+      renderUcxDirectoryDynamic();
+      renderAllStarWidgets();
+      applyTrackFilterToStaticCards();
     }, err => console.error('uCollabX solutions feed error:', err));
 
     f.onSnapshot(f.query(f.collection(f.db, 'solutionReviews'), f.orderBy('createdAt', 'desc')), snapshot => {
       ucxReviews = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
       renderUcxAdminFlagged();
+      renderUcxSolutions();
+      renderUcxDirectoryDynamic();
+      renderAllStarWidgets();
       if (window.__ucxOpenSolutionId) renderUcxModalReviews(window.__ucxOpenSolutionId);
     }, err => console.error('uCollabX reviews feed error:', err));
   }
@@ -2326,6 +2471,7 @@
       '<p style="text-align:center; opacity:0.6; padding:2rem;">Loading live discussion…</p>';
     handleCommunityDeepLink();
     renderUcxSolutions();
+    renderAllStarWidgets();
   };
 
   // ══ DEEP LINKING FROM OTHER PAGES (e.g. academy.html#vendors links here
