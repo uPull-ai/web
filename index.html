@@ -298,6 +298,24 @@
     }
     .signup button:hover{background:var(--accent-orange-hover)}
 
+    /* WAITLIST */
+    #waitlist{background:#0e0e0e;padding:100px 48px}
+    .waitlist-header{margin-bottom:48px;max-width:640px}
+    .waitlist-header h2{font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 14px;line-height:1.05}
+    .waitlist-header p{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
+    .waitlist-table-wrap{background:#111;border-radius:20px;border:1px solid #222;overflow-x:auto}
+    .waitlist-table{width:100%;border-collapse:collapse;min-width:520px}
+    .waitlist-table th{text-align:left;padding:18px 24px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);border-bottom:1px solid #222;white-space:nowrap}
+    .waitlist-table td{padding:18px 24px;border-bottom:1px solid #1a1a1a;font-size:.95rem;font-weight:600;vertical-align:middle}
+    .waitlist-table tr:last-child td{border-bottom:none}
+    .org-type{color:rgba(255,255,255,.5);font-size:.85rem;font-weight:500}
+    .status-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:999px;background:rgba(230,95,43,.14);border:1px solid rgba(230,95,43,.35);color:var(--accent-orange);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+    .status-badge::before{content:'';width:6px;height:6px;border-radius:999px;background:var(--accent-orange)}
+    .waitlist-note{margin-top:24px;color:rgba(255,255,255,.4);font-size:.85rem}
+    @media(max-width:900px){
+      #waitlist{padding:64px 24px}
+    }
+
     footer{
       padding:40px 48px;background:#0a0a0a;
       border-top:1px solid #1a1a1a;
@@ -541,6 +559,84 @@
       <button type="submit" class="cta-btn">Register interest</button>
     </form>
   </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist">
+  <div class="waitlist-header reveal">
+    <div class="tag">Early access</div>
+    <h2>Who's on the waitlist</h2>
+    <p>NHS organisations currently in discussion to join the next proof-of-value cohort.</p>
+  </div>
+  <div class="waitlist-table-wrap reveal">
+    <table class="waitlist-table">
+      <thead>
+        <tr>
+          <th>Organisation</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NHS England</td>
+          <td class="org-type">National body</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Greater Manchester ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>North East London ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Cheshire and Merseyside ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>South Yorkshire ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Guy's and St Thomas' NHS Foundation Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Manchester University NHS Foundation Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Leeds Teaching Hospitals NHS Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>University Hospitals Birmingham NHS Foundation Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Imperial College Healthcare NHS Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Central London Community Healthcare NHS Trust</td>
+          <td class="org-type">Community Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="waitlist-note">Illustrative list for demonstration purposes. Contact <a href="mailto:info@upull.ai" style="color:rgba(255,255,255,.6);text-decoration:underline">info@upull.ai</a> to register your organisation's interest.</p>
 </section>
 
 <script>
