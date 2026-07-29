@@ -1,0 +1,100 @@
+<!--
+  HOW TO USE
+  Paste snippet 1 into the <head> of every page (or at least index.html).
+  Paste snippet 2 into the <head> of faqs.html only — it mirrors the Q&A
+  already written on that page, so AI engines and Google's FAQ rich results
+  can extract direct answers.
+  Update the placeholder URLs/images if paths differ from what's shown here.
+-->
+
+<!-- ============================================================ -->
+<!-- 1) ORGANIZATION SCHEMA — put in <head> of index.html (site-wide) -->
+<!-- ============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "uPull.ai",
+  "legalName": "uPull.ai Ltd.",
+  "url": "https://upull.ai/",
+  "logo": "https://upull.ai/asset/images/logo.png",
+  "description": "uPull.ai is a workflow-led delivery model that helps NHS and UK health-and-care organisations redesign one operational or clinical bottleneck, then introduce the right AI capability, proving ROI in a 4-6 week proof-of-value pilot.",
+  "email": "info@upull.ai",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "London",
+    "addressCountry": "GB"
+  },
+  "founder": [
+    { "@type": "Person", "name": "Alex Cheung", "jobTitle": "Co-Founder & CEO" },
+    { "@type": "Person", "name": "Hassan Chaudhry", "jobTitle": "Co-Founder & CCO" },
+    { "@type": "Person", "name": "Suki Panesar", "jobTitle": "Co-Founder & Chief Strategist" }
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/company/upull-ai"
+  ]
+}
+</script>
+
+<!-- ============================================================ -->
+<!-- 2) FAQPAGE SCHEMA — put in <head> of faqs.html                -->
+<!--    (trimmed to a representative set; add every Q&A from the    -->
+<!--    live page for full coverage — this is the single highest-  -->
+<!--    leverage GEO change available on the site today)            -->
+<!-- ============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is uPull.ai?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "uPull.ai is a workflow-led approach to healthcare AI adoption that focuses on helping organisations redesign a specific operational or clinical pathway first, then pull the right AI capability into that workflow where it can create measurable value."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does \"pull\" mean in practice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Pull\" means the workflow defines the requirement, not the other way around. Instead of pushing a generic tool into the organisation and hoping staff adapt, uPull.ai starts with a real bottleneck, defines the safety envelope, maps the people and process changes, and then introduces the AI capability needed for that job."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is uPull.ai for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "uPull.ai is designed for NHS trusts, ICS leaders, operational executives, digital transformation teams, frontline service leads, and clinical or operational intrapreneurs who need measurable change rather than another abstract AI strategy discussion."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why start with a proof-of-value pilot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A proof-of-value pilot reduces risk. It allows an organisation to test a narrow workflow, baseline the current state, introduce controlled change, and replace assumptions with measured evidence before discussing wider rollout."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long should an NHS AI pilot run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most pilots should be short enough to maintain focus and sponsorship but long enough to generate meaningful evidence. In practice, many organisations use a 4-6 week proof-of-value window to establish baseline, workflow change, measurement, and early outcomes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a safety envelope in NHS AI deployment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A safety envelope is the set of rules, checks, approvals, and workflow controls that determine how an AI system is used safely in context. It covers data handling, human oversight, decision boundaries, failure modes, and governance sign-off."
+      }
+    }
+  ]
+}
+</script>
