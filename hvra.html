@@ -50,8 +50,9 @@
     .brand { display: flex; align-items: center; gap: var(--space-3); }
     .logo-mark { width: 2.5rem; height: 2.5rem; padding: 0.45rem; border-radius: 50%; background: var(--color-primary-highlight); color: var(--color-primary); box-shadow: var(--shadow-sm); transition: transform .5s var(--ease); }
     .brand:hover .logo-mark { transform: rotate(-10deg) scale(1.12); }
-    .brand-title { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.15; }
-    .brand-sub { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .site-logo { display: flex; align-items: center; transition: transform .5s var(--ease); }
+    .site-logo svg { height: 4.5rem; width: auto; display: block; }
+    .brand:hover .site-logo { transform: scale(1.05); }
     nav ul { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; padding: 0; margin: 0; }
     nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 0.85rem; border-radius: var(--radius-full); color: var(--color-text-muted); transition: background .25s ease, color .25s ease, transform .2s ease; }
     nav a::before { content: ''; position: absolute; left: 0.85rem; right: 0.85rem; bottom: 6px; height: 2px; border-radius: var(--radius-full); background: var(--color-primary); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
@@ -325,16 +326,19 @@
   <header class="site-header" data-site-header>
     <div class="container header-inner">
       <div class="brand" aria-label="Hayes Village Residents Association">
-        <div class="logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
-            <path d="M8 33c6-8 9-11 16-18 5 5 8 8 16 18" />
-            <path d="M14 30v8m20-8v8M20 23l4-4 4 4" />
-            <rect x="18" y="28" width="12" height="10" rx="2" />
+        <div class="site-logo" aria-hidden="true">
+          <svg viewBox="0 0 650 240" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(40, 40)">
+              <path d="M0,80 L0,40 L20,40 L20,60 L40,40 L40,80 Z" fill="#2C3E50"/>
+              <path d="M50,80 L50,15 L70,15 L70,80 Z" fill="#D35400"/>
+              <path d="M80,80 L80,30 L100,30 L100,80 Z" fill="#2C3E50"/>
+              <path d="M0,88 Q50,118 100,88 L100,103 Q50,133 0,103 Z" fill="#27AE60"/>
+              <path d="M0,108 Q50,138 100,108 L100,123 Q50,153 0,123 Z" fill="#2980B9"/>
+            </g>
+            <text x="160" y="105" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="72" font-weight="900" fill="#2C3E50" letter-spacing="2">HVRA</text>
+            <text x="165" y="140" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#7F8C8D" letter-spacing="2.8">HAYES VILLAGE RESIDENTS ASSOCIATION</text>
+            <text x="165" y="175" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="20" font-weight="800" fill="#01696F" letter-spacing="3">COMMUNITY HUB</text>
           </svg>
-        </div>
-        <div>
-          <div class="brand-title">Hayes Village Residents Association</div>
-          <div class="brand-sub">Community hub draft</div>
         </div>
       </div>
       <nav aria-label="Primary navigation">
@@ -360,7 +364,6 @@
           <div>
             <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span>Working draft for the Hayes Village Residents Association</div>
             <h1>One practical place for residents to find what matters.</h1>
-            <p class="lead">This draft combines verified starter content about Hayes Village with clearly marked placeholders for information that still needs checking with the Hayes Village Residents Association, managing agents, utilities, and local public bodies.</p>
             <div class="actions">
               <a class="btn btn-primary" href="#essentials" data-ripple>Browse essentials guide</a>
               <a class="btn btn-secondary" href="#queries" data-ripple>Submit a query</a>
