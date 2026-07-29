@@ -93,6 +93,7 @@
     .jump-pill.tag-ambient{border-color:var(--ambient);color:var(--ambient)}
     .jump-pill.tag-clinical{border-color:var(--clinical);color:var(--clinical)}
     .jump-pill.tag-learning{border-color:var(--learning);color:#9a6b00}
+    .jump-pill.tag-archive{border-color:var(--navy);color:var(--navy)}
 
     /* Section eyebrow tag */
     .cat-tag{display:inline-flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;border-radius:10px;color:#fff;font-size:1.05rem;font-weight:800;flex-shrink:0}
@@ -136,6 +137,17 @@
     .from-upull h2{color:#fff;font-size:1.6rem;margin-bottom:.7rem}
     .from-upull p{color:#cbd5e1;font-size:.95rem;max-width:600px;margin:0 auto 1.3rem;line-height:1.6}
 
+    /* Archive */
+    .archive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
+    @media(max-width:700px){.archive-grid{grid-template-columns:1fr}}
+    .archive-card{display:block;background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;text-decoration:none;transition:border-color .2s,transform .15s}
+    .archive-card:hover{border-color:var(--blue);transform:translateY(-2px)}
+    .archive-badge{display:inline-block;background:var(--bg);color:var(--navy);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:.25rem .6rem;border-radius:20px;margin-bottom:.6rem}
+    .archive-card h3{color:var(--navy);font-size:1.05rem;margin-bottom:.4rem;line-height:1.35}
+    .archive-card p{color:var(--muted);font-size:.86rem;line-height:1.5;margin-bottom:.7rem}
+    .archive-link{color:var(--blue);font-weight:700;font-size:.85rem}
+    .archive-card:hover .archive-link{color:var(--orange)}
+
     /* Further reading + references */
     .reading-list{list-style:none}
     .reading-list li{padding:.8rem 0;border-bottom:1px solid var(--border)}
@@ -153,7 +165,7 @@
 
 <header>
   <div class="nav-container">
-    <a href="index.html" class="logo">uPull<span>.ai</span></a>
+    <a href="https://upull.ai/index.html" class="logo">uPull<span>.ai</span></a>
     <div class="nav-right">
       <nav aria-label="Primary">
       <ul class="nav-menu" id="navMenu">
@@ -163,10 +175,10 @@
             Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
           </button>
           <ul class="nav-submenu">
-            <li><a href="index.html#problem">Challenge</a></li>
-            <li><a href="index.html#approach">Model</a></li>
-            <li><a href="index.html#results">Results</a></li>
-            <li><a href="faqs.html#leadership">Leadership</a></li>
+            <li><a href="https://upull.ai/index.html#problem">Challenge</a></li>
+            <li><a href="https://upull.ai/index.html#approach">Model</a></li>
+            <li><a href="https://upull.ai/index.html#results">Results</a></li>
+            <li><a href="https://upull.ai/faqs.html#leadership">Leadership</a></li>
           </ul>
         </li>
 
@@ -175,14 +187,14 @@
             Community <span class="nav-chevron" aria-hidden="true"></span>
           </button>
           <ul class="nav-submenu">
-            <li><a href="community.html">Community</a></li>
-            <li><a href="academy.html#tab-learning">uGrowX</a></li>
-            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+            <li><a href="https://upull.ai/community.html">Community</a></li>
+            <li><a href="https://upull.ai/academy.html#tab-learning">uGrowX</a></li>
+            <li><a href="https://upull.ai/academy.html#tab-casestudies">Case Studies</a></li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link-item" href="ucollabx.html" style="text-decoration:none">uCollabX</a>
+          <a class="nav-link-item" href="https://upull.ai/ucollabx.html" style="text-decoration:none">uCollabX</a>
         </li>
 
         <li class="nav-item">
@@ -190,15 +202,15 @@
             FAQs <span class="nav-chevron" aria-hidden="true"></span>
           </button>
           <ul class="nav-submenu">
-            <li><a href="faqs.html#about">About uPull.ai</a></li>
-            <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
-            <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+            <li><a href="https://upull.ai/faqs.html#about">About uPull.ai</a></li>
+            <li><a href="https://upull.ai/faqs.html#pilot">Pilot &amp; ROI</a></li>
+            <li><a href="https://upull.ai/faqs.html#governance">Safety &amp; Governance</a></li>
           </ul>
         </li>
 
       </ul>
       </nav>
-      <a href="news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
+      <a href="https://upull.ai/news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
       <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
         <span></span><span></span><span></span>
@@ -209,9 +221,9 @@
 
 <div class="breadcrumb">
   <div class="breadcrumb-inner">
-    <a href="index.html">Home</a>
+    <a href="https://upull.ai/index.html">Home</a>
     <span class="bc-sep">›</span>
-    <a href="news.html">uPull.ai Weekly</a>
+    <a href="https://upull.ai/news.html">uPull.ai Weekly</a>
     <span class="bc-sep">›</span>
     <span class="bc-current">21–27 July 2026</span>
   </div>
@@ -265,6 +277,7 @@
     <a href="#ambient" class="jump-pill tag-ambient">Ambient AI</a>
     <a href="#clinical" class="jump-pill tag-clinical">Clinical AI</a>
     <a href="#learning" class="jump-pill tag-learning">Learning &amp; Development</a>
+    <a href="#archive" class="jump-pill tag-archive">Archive</a>
   </nav>
 
   <!-- AGENTIC AI -->
@@ -449,7 +462,7 @@
     </div>
 
     <p style="text-align:center;margin-top:1rem">
-      <a href="academy.html#tab-learning" class="cta-btn">Explore more free NHS learning on uGrowX →</a>
+      <a href="https://upull.ai/academy.html#tab-learning" class="cta-btn">Explore more free NHS learning on uGrowX →</a>
     </p>
   </section>
 
@@ -459,6 +472,32 @@
       <h2>From uPull.ai</h2>
       <p>Across all four beats, the pattern repeats: the technology is ready before the institution is. Closing that gap — safely, with evidence and governance built in from day one — is what uPull.ai does.</p>
       <a href="mailto:info@upull.ai" class="cta-btn">Get in touch →</a>
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section id="archive">
+    <h2 class="section-title" style="font-size:1.4rem"><span class="cat-tag" style="background:var(--navy)">🗂</span> Archive</h2>
+    <p class="section-subtitle">Every past issue of uPull.ai Weekly, in one place.</p>
+    <div class="archive-grid">
+      <a class="archive-card" href="https://upull.ai/news/weekly20260728.html">
+        <span class="archive-badge">28 July–3 August 2026 · Latest issue</span>
+        <h3>The Evidence Arrives, the Funding Doesn't</h3>
+        <p>A landmark NHS histopathology study, the largest-ever regional ambient AI rollout, and a stark warning that surgical robotics ambition is outpacing NHS funding.</p>
+        <span class="archive-link">Read the issue →</span>
+      </a>
+      <a class="archive-card" href="https://upull.ai/news/weekly20260721.html">
+        <span class="archive-badge">21–27 July 2026 · Current issue</span>
+        <h3>What Changed This Week</h3>
+        <p>MHRA draws a clear regulatory line for ambient voice AI, while NHS App triage and Copilot rollouts push clinical and agentic AI further into everyday workflows.</p>
+        <span class="archive-link">Read the issue →</span>
+      </a>
+      <a class="archive-card" href="https://upull.ai/news/weekly20260714.html">
+        <span class="archive-badge">14–20 July 2026</span>
+        <h3>Deploying Safely in a Real Institution</h3>
+        <p>Agentic, robotics, ambient and clinical AI, read through the lens of deploying safely inside a real institution rather than a demo.</p>
+        <span class="archive-link">Read the issue →</span>
+      </a>
     </div>
   </section>
 
@@ -518,7 +557,7 @@
 
 <footer>
   <p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> Weekly · Curated AI news for health and care teams</p>
-  <p style="margin-top:.6rem"><a href="news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
+  <p style="margin-top:.6rem"><a href="https://upull.ai/news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
   <p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. All rights reserved. Summaries are editorial and link back to original sources where cited; they do not constitute clinical or regulatory advice.</p>
 </footer>
 
