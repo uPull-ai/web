@@ -287,6 +287,14 @@
     .event-list li p a { color: var(--color-primary); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
     .calendar-card { padding: var(--space-6); position: sticky; top: 6rem; }
     .calendar-embed { border-radius: var(--radius-md); overflow: hidden; border: 1px dashed rgba(125,120,110,0.35); background: var(--color-surface-offset); min-height: 200px; }
+
+    /* advertisement hosting slots */
+    .ad-slot-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+    .ad-slot { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); text-align: center; min-height: 11rem; padding: var(--space-5); border-radius: var(--radius-lg); border: 1px dashed rgba(125,120,110,0.4); background: var(--color-surface-offset); color: var(--color-text-muted); transition: border-color .25s ease, background .25s ease, transform .25s ease; }
+    .ad-slot:hover { border-color: var(--color-primary); background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface-offset)); transform: translateY(-4px); }
+    .ad-slot-icon { width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--color-primary-highlight); color: var(--color-primary); }
+    .ad-slot-label { font-weight: 700; font-size: var(--text-sm); color: var(--color-text); }
+    .ad-slot span.tag { margin-top: var(--space-1); }
     .calendar-embed iframe { width: 100%; display: block; }
 
     /* tab switchers (about / forms) */
@@ -304,7 +312,7 @@
     .touch-list .touch-icon { width: 2rem; height: 2rem; flex-shrink: 0; border-radius: 50%; background: var(--color-primary-highlight); color: var(--color-primary); display: flex; align-items: center; justify-content: center; }
 
     @media (max-width: 980px) {
-      .hero-grid, .grid-3, .grid-2, .contacts-grid, .placeholder-grid, .footer-grid, .form-grid, .meeting-cols, .gallery-grid, .events-grid, .essentials-layout { grid-template-columns: 1fr; }
+      .hero-grid, .grid-3, .grid-2, .contacts-grid, .placeholder-grid, .footer-grid, .form-grid, .meeting-cols, .gallery-grid, .events-grid, .essentials-layout, .ad-slot-grid { grid-template-columns: 1fr; }
       .header-inner { align-items: flex-start; flex-direction: column; }
       .calendar-card, .essentials-nav-wrap { position: static; }
       .essentials-nav { flex-direction: row; flex-wrap: wrap; }
@@ -349,6 +357,7 @@
           <li><a href="#contacts" data-nav-link>Contacts</a></li>
           <li><a href="#queries" data-nav-link>Get involved</a></li>
           <li><a href="#meetings" data-nav-link>Meetings</a></li>
+          <li><a href="#advertise" data-nav-link>Advertise</a></li>
         </ul>
       </nav>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
@@ -1281,6 +1290,35 @@
       </div>
     </section>
 
+    <section id="ad-space">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Advertisements</h2>
+            <p class="muted">This space is available to host adverts from local businesses and services reaching Hayes Village residents. If you'd like to place an advert here, contact HVRA for further information.</p>
+          </div>
+        </div>
+        <div class="ad-slot-grid">
+          <div class="ad-slot reveal">
+            <span class="ad-slot-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 9h18" /></svg></span>
+            <span class="ad-slot-label">Your advert here</span>
+            <span class="tag">[Placeholder] Banner slot</span>
+          </div>
+          <div class="ad-slot reveal">
+            <span class="ad-slot-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 9h18" /></svg></span>
+            <span class="ad-slot-label">Your advert here</span>
+            <span class="tag">[Placeholder] Banner slot</span>
+          </div>
+          <div class="ad-slot reveal">
+            <span class="ad-slot-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 9h18" /></svg></span>
+            <span class="ad-slot-label">Your advert here</span>
+            <span class="tag">[Placeholder] Banner slot</span>
+          </div>
+        </div>
+        <p class="small" style="margin-top: var(--space-6); text-align: center;">Interested in advertising in this space? <a href="#advertise">Find out more</a> or <a href="#queries">contact HVRA</a> for further information.</p>
+      </div>
+    </section>
+
     <section id="meetings">
       <div class="container">
         <div class="section-head reveal">
@@ -1319,6 +1357,42 @@
               </div>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="advertise">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Advertise your service</h2>
+            <p class="muted">Reach Hayes Village residents directly. This space is reserved for local tradespeople, businesses, and services that residents use regularly — from plumbers and electricians to cafés, cleaners, and childcare.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <article class="card verified reveal">
+            <h3>Why advertise here</h3>
+            <ul>
+              <li><strong>Local audience</strong> — Your listing reaches residents living in Hayes Village specifically, not a generic area-wide audience.</li>
+              <li><strong>Trusted placement</strong> — Ads appear alongside genuine resident information, not buried among unrelated content.</li>
+              <li><strong>Simple to get started</strong> — No account or self-serve platform needed — just get in touch and the committee will confirm the details with you.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag">[Placeholder] Pricing to be confirmed</span>
+              <span class="tag">[Placeholder] Ad formats and sizes</span>
+            </div>
+          </article>
+          <aside class="hero-card reveal">
+            <h3>Get a listing</h3>
+            <p class="muted">Tell the committee a bit about your business and what you'd like to advertise. We'll come back to you with available slots and rates.</p>
+            <ul>
+              <li>Banner or listing placements on this site</li>
+              <li>Mentions in the monthly newsletter</li>
+              <li>Featured slot on the village noticeboard</li>
+            </ul>
+            <a class="btn btn-primary" href="#queries" data-ripple>Enquire about advertising</a>
+            <p class="form-note">Use the <a href="#queries">general query form</a> and select "Other" as the category, or mention advertising in your message.</p>
+          </aside>
         </div>
       </div>
     </section>
