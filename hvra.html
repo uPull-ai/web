@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hayes Village Residents Association — Community Hub</title>
+  <meta name="description" content="Community hub for the Hayes Village Residents Association, with verified starter content, resident forms, meeting records, and placeholders for information still being confirmed." />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=boska@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #fbfbf9; --color-surface-offset: #f0ece6; --color-border: #d4d1ca;
+      --color-text: #28251d; --color-text-muted: #6d6a63; --color-text-faint: #9f9a8f; --color-text-inverse: #f9f8f4;
+      --color-primary: #01696f; --color-primary-hover: #0c4e54; --color-primary-highlight: #d8e8e6;
+      --color-warning: #964219; --color-success: #437a22; --color-blue: #006494;
+      --radius-sm: 0.375rem; --radius-md: 0.75rem; --radius-lg: 1rem; --radius-full: 9999px;
+      --shadow-sm: 0 1px 2px rgba(40,37,29,0.06); --shadow-md: 0 8px 24px rgba(40,37,29,0.08); --shadow-lg: 0 18px 48px rgba(40,37,29,0.14);
+      --font-body: 'Satoshi', 'Inter', sans-serif; --font-display: 'Boska', Georgia, serif;
+      --content-default: 1120px;
+      --ease: cubic-bezier(.22,1,.36,1);
+    }
+    [data-theme="dark"] {
+      --color-bg: #171614; --color-surface: #1c1b19; --color-surface-2: #201f1d; --color-surface-offset: #262320; --color-border: #393836;
+      --color-text: #cdccca; --color-text-muted: #a7a5a0; --color-text-faint: #7d7b76; --color-text-inverse: #171614;
+      --color-primary: #4f98a3; --color-primary-hover: #227f8b; --color-primary-highlight: #2f3c3e;
+      --color-warning: #bb653b; --color-success: #6daa45; --color-blue: #5591c7;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2); --shadow-md: 0 8px 24px rgba(0,0,0,0.3); --shadow-lg: 0 18px 48px rgba(0,0,0,0.45);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-height: 100vh; font-family: var(--font-body); font-size: var(--text-base); line-height: 1.6; background: var(--color-bg); color: var(--color-text); transition: background .4s ease, color .4s ease; }
+    a { color: inherit; text-decoration: none; }
+    img, svg { max-width: 100%; display: block; }
+    .skip-link { position: absolute; left: -9999px; top: 0; }
+    .skip-link:focus { left: var(--space-4); top: var(--space-4); background: var(--color-primary); color: var(--color-text-inverse); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); z-index: 1000; }
+    .container { width: min(calc(100% - 2rem), var(--content-default)); margin: 0 auto; }
+
+    /* progress bar */
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--color-primary), var(--color-blue)); z-index: 200; transition: width .1s linear; }
+
+    .site-header { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px); background: color-mix(in srgb, var(--color-bg) 86%, transparent); border-bottom: 1px solid rgba(125,120,110,0.18); transition: box-shadow .3s ease, background .3s ease; }
+    .site-header.scrolled { box-shadow: var(--shadow-md); background: color-mix(in srgb, var(--color-bg) 95%, transparent); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-4) 0; }
+    .brand { display: flex; align-items: center; gap: var(--space-3); }
+    .logo-mark { width: 2.5rem; height: 2.5rem; padding: 0.45rem; border-radius: 50%; background: var(--color-primary-highlight); color: var(--color-primary); box-shadow: var(--shadow-sm); transition: transform .5s var(--ease); }
+    .brand:hover .logo-mark { transform: rotate(-10deg) scale(1.12); }
+    .brand-title { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.15; }
+    .brand-sub { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    nav ul { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; padding: 0; margin: 0; }
+    nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 0.85rem; border-radius: var(--radius-full); color: var(--color-text-muted); transition: background .25s ease, color .25s ease, transform .2s ease; }
+    nav a::before { content: ''; position: absolute; left: 0.85rem; right: 0.85rem; bottom: 6px; height: 2px; border-radius: var(--radius-full); background: var(--color-primary); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+    nav a:hover, nav a:focus-visible { background: var(--color-surface-offset); color: var(--color-text); outline: none; transform: translateY(-1px); }
+    nav a:hover::before, nav a.active::before { transform: scaleX(1); }
+    nav a.active { color: var(--color-primary); font-weight: 600; }
+    .theme-toggle { min-width: 44px; min-height: 44px; border: 1px solid rgba(125,120,110,0.2); border-radius: 50%; background: var(--color-surface); color: var(--color-text); cursor: pointer; transition: transform .3s ease, background .3s ease; }
+    .theme-toggle:hover { transform: rotate(18deg) scale(1.06); background: var(--color-surface-offset); }
+    .theme-toggle svg { transition: transform .5s var(--ease); }
+
+    .hero { padding: clamp(4rem, 8vw, 8rem) 0 var(--space-12); position: relative; overflow: hidden; }
+    .hero::before, .hero::after { content: ''; position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; z-index: -1; animation: floatBlob 14s ease-in-out infinite; }
+    .hero::before { width: 22rem; height: 22rem; top: -6rem; right: -4rem; background: radial-gradient(circle, var(--color-primary-highlight), transparent 70%); }
+    .hero::after { width: 16rem; height: 16rem; bottom: -4rem; left: -4rem; background: radial-gradient(circle, color-mix(in srgb, var(--color-blue) 30%, transparent), transparent 70%); animation-delay: -6s; }
+    .hero-grid { display: grid; grid-template-columns: 3fr 1fr; gap: var(--space-8); align-items: start; }
+    .whatsapp-card { position: sticky; top: 6rem; padding: var(--space-5); border-radius: var(--radius-lg); background: var(--color-surface); border: 1px solid rgba(125,120,110,0.14); box-shadow: var(--shadow-sm); text-align: center; }
+    .whatsapp-avatar { width: 3.5rem; height: 3.5rem; margin: 0 auto var(--space-3); border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-blue)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--text-sm); box-shadow: var(--shadow-sm); }
+    .whatsapp-card h3 { font-size: var(--text-base); margin-bottom: 0.15rem; }
+    .whatsapp-card .whatsapp-sub { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: var(--space-4); }
+    .whatsapp-qr-wrap { padding: var(--space-3); background: #fff; border-radius: var(--radius-md); display: inline-block; box-shadow: var(--shadow-sm); margin-bottom: var(--space-3); }
+    .whatsapp-qr-wrap img { width: 100%; max-width: 9rem; height: auto; display: block; }
+    .whatsapp-card p.small { color: var(--color-text-muted); margin-bottom: var(--space-4); }
+    .whatsapp-join-btn { display: inline-flex; align-items: center; gap: var(--space-2); width: 100%; justify-content: center; padding: 0.7rem 1rem; border-radius: var(--radius-full); background: #25D366; color: #073b1e; font-weight: 700; font-size: var(--text-sm); text-decoration: none; box-shadow: var(--shadow-sm); transition: filter .2s ease, transform .2s ease; }
+    .whatsapp-join-btn:hover { filter: brightness(1.05); transform: translateY(-2px); }
+    .eyebrow { display: inline-flex; gap: var(--space-2); align-items: center; padding: 0.4rem 0.8rem; border-radius: var(--radius-full); background: var(--color-primary-highlight); color: var(--color-primary); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); flex-shrink: 0; animation: pulseRing 2.2s infinite; }
+    h1, h2, h3 { margin: 0 0 var(--space-4); line-height: 1.08; }
+    h1 { font-family: var(--font-display); font-size: var(--text-2xl); max-width: 14ch; }
+    h2 { font-family: var(--font-display); font-size: var(--text-xl); }
+    h3 { font-size: var(--text-lg); }
+    p { margin: 0 0 var(--space-4); max-width: 68ch; color: var(--color-text); }
+    .hero p.lead { font-size: var(--text-lg); color: var(--color-text-muted); max-width: 52ch; }
+    .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-6); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0.9rem 1.15rem; border-radius: var(--radius-full); font-weight: 600; border: 1px solid transparent; position: relative; overflow: hidden; cursor: pointer; font-family: inherit; font-size: var(--text-base); transition: transform .2s var(--ease), box-shadow .2s ease, background .2s ease; }
+    .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .btn:active { transform: translateY(-1px) scale(0.98); }
+    .btn-primary { background: var(--color-primary); color: var(--color-text-inverse); }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-secondary { background: var(--color-surface); color: var(--color-text); border-color: rgba(125,120,110,0.2); }
+    .btn .ripple { position: absolute; border-radius: 50%; transform: scale(0); background: color-mix(in srgb, currentColor 30%, transparent); animation: rippleAnim .6s ease-out; pointer-events: none; }
+
+    .hero-card, .card, .timeline-step, .contact-card, .placeholder-card, .form-card, .meeting-card, .essential-card, .touch-card { background: var(--color-surface); border: 1px solid rgba(125,120,110,0.14); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s ease; }
+    .card:hover, .contact-card:hover, .placeholder-card:hover, .form-card:hover, .meeting-card:hover, .essential-card:hover, .touch-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--color-primary) 35%, var(--color-border)); }
+    .timeline-step:hover { transform: translateX(8px); box-shadow: var(--shadow-lg); }
+    .hero-card { padding: var(--space-6); }
+    .hero-card:hover { transform: none; }
+    .stack { display: grid; gap: var(--space-4); }
+    .stat { padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-surface-offset); transition: transform .25s ease, background .25s ease; }
+    .stat:hover { transform: translateX(5px); background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface-offset)); }
+    .stat strong { display: block; font-size: var(--text-lg); }
+    section { padding: clamp(3rem, 6vw, 5rem) 0; }
+    .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-8); align-items: flex-end; }
+    .muted { color: var(--color-text-muted); }
+    .grid-3, .grid-2, .contacts-grid, .placeholder-grid, .form-grid { display: grid; gap: var(--space-5); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .contacts-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .placeholder-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card, .contact-card, .placeholder-card { padding: var(--space-5); }
+    .card ul, .contact-card ul, .placeholder-card ul { margin: 0; padding-left: 1rem; color: var(--color-text-muted); }
+    .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+    .tag { display: inline-flex; align-items: center; padding: 0.38rem 0.7rem; border-radius: var(--radius-full); background: var(--color-surface-offset); color: var(--color-text-muted); font-size: var(--text-xs); transition: background .25s ease, color .25s ease, transform .25s ease; }
+    .tag:hover { background: var(--color-primary); color: var(--color-text-inverse); transform: translateY(-2px); }
+    .placeholder { border-left: 3px solid var(--color-warning); background: color-mix(in srgb, var(--color-warning) 8%, var(--color-surface)); }
+    .verified { border-left: 3px solid var(--color-success); }
+    .timeline { display: grid; gap: var(--space-4); }
+    .timeline-step { position: relative; padding: var(--space-5); overflow: hidden; }
+    .timeline-step::after { content: ''; position: absolute; inset: auto -10% -45% auto; width: 10rem; height: 10rem; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 70%); }
+    .year { font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primary); margin-bottom: var(--space-2); }
+    .news-rail { display: grid; gap: var(--space-4); }
+    .news-item { padding: var(--space-4) 0; border-top: 1px solid rgba(125,120,110,0.16); transition: padding-left .3s ease; }
+    .news-item:first-child { border-top: 0; padding-top: 0; }
+    .news-item:hover { padding-left: var(--space-3); }
+    .notice { padding: var(--space-5); border-radius: var(--radius-lg); background: var(--color-surface-offset); border: 1px dashed rgba(125,120,110,0.3); }
+    .critical-alert-box { padding: var(--space-5); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface)); border: 1px solid color-mix(in srgb, var(--color-warning) 45%, transparent); box-shadow: var(--shadow-sm); transition: box-shadow .3s ease; }
+    .critical-alert-box:hover { box-shadow: var(--shadow-md); }
+    .critical-alert-head { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); }
+    .critical-alert-head h3 { margin: 0; font-size: var(--text-base); flex: 1; }
+    .critical-alert-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-warning); flex-shrink: 0; animation: pulseWarning 1.8s infinite; }
+    @keyframes pulseWarning { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-warning) 55%, transparent); } 70% { box-shadow: 0 0 0 10px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+    .critical-alert-details { overflow: hidden; max-height: 0; opacity: 0; transition: max-height .35s var(--ease), opacity .3s ease, margin-top .35s ease; }
+    .critical-alert-details:not([hidden]) { max-height: 20rem; opacity: 1; margin-top: var(--space-3); }
+    .critical-alert-details[hidden] { display: block; }
+    .site-footer { padding: var(--space-10) 0 var(--space-16); border-top: 1px solid rgba(125,120,110,0.16); }
+    .footer-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: var(--space-6); }
+    .small { font-size: var(--text-sm); color: var(--color-text-muted); }
+    .content-note { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+    @keyframes drift { 0% { transform: translateX(-18px); opacity: 0.55; } 50% { transform: translateX(18px); opacity: 1; } 100% { transform: translateX(-18px); opacity: 0.55; } }
+    @keyframes floatBlob { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(24px,-28px) scale(1.08); } }
+    @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 45%, transparent); } 70% { box-shadow: 0 0 0 12px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+    @keyframes rippleAnim { to { transform: scale(2.6); opacity: 0; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+    .factory-line { position: relative; height: 14px; background: linear-gradient(90deg, transparent, var(--color-primary-highlight), transparent); border-radius: var(--radius-full); overflow: hidden; margin-top: var(--space-4); }
+    .factory-line span { position: absolute; inset: 2px auto 2px 0; width: 24%; border-radius: var(--radius-full); background: var(--color-primary); animation: drift 5s ease-in-out infinite; }
+
+    /* reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.in-view { opacity: 1; transform: none; }
+
+    /* back to top */
+    .back-to-top { position: fixed; right: 1.5rem; bottom: 1.5rem; width: 3rem; height: 3rem; border-radius: 50%; background: var(--color-primary); color: var(--color-text-inverse); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transform: translateY(14px) scale(.9); transition: opacity .3s ease, transform .3s ease, background .3s ease; border: none; cursor: pointer; z-index: 90; }
+    .back-to-top.visible { opacity: 1; pointer-events: auto; transform: none; }
+    .back-to-top:hover { background: var(--color-primary-hover); transform: translateY(-4px); }
+
+    /* forms */
+    .form-card { padding: var(--space-6); }
+    .form-card.concern { border-left: 3px solid var(--color-warning); }
+    .form-card.join { border-left: 3px solid var(--color-success); }
+    .field { display: grid; gap: 0.4rem; margin-bottom: var(--space-4); }
+    .field label { font-size: var(--text-sm); font-weight: 600; }
+    .field .req { color: var(--color-warning); }
+    .field input, .field select, .field textarea { font: inherit; padding: 0.7rem 0.85rem; border-radius: var(--radius-md); border: 1px solid rgba(125,120,110,0.3); background: var(--color-surface-2); color: var(--color-text); transition: border-color .2s ease, box-shadow .2s ease; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-highlight); }
+    .field textarea { resize: vertical; min-height: 6rem; }
+    .checkbox-field { display: flex; align-items: flex-start; gap: 0.6rem; font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4); }
+    .checkbox-field input { margin-top: 0.2rem; }
+    .form-status { display: none; margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); font-size: var(--text-sm); animation: fadeInUp .4s var(--ease); }
+    .form-status.success { display: block; background: color-mix(in srgb, var(--color-success) 12%, var(--color-surface)); border: 1px solid color-mix(in srgb, var(--color-success) 35%, transparent); color: var(--color-success); }
+    .form-status.error { display: block; background: color-mix(in srgb, var(--color-warning) 12%, var(--color-surface)); border: 1px solid color-mix(in srgb, var(--color-warning) 35%, transparent); color: var(--color-warning); }
+    .form-note { font-size: var(--text-xs); color: var(--color-text-faint); margin-top: var(--space-3); }
+
+    /* meetings */
+    .meeting-card { padding: var(--space-6); margin-bottom: var(--space-5); }
+    .meeting-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); align-items: center; margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px dashed rgba(125,120,110,0.3); }
+    .meeting-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+    .meeting-col h4 { margin: 0 0 var(--space-2); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .06em; color: var(--color-primary); }
+    .meeting-col .placeholder-text { border-left: 2px dashed color-mix(in srgb, var(--color-warning) 55%, transparent); padding-left: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); min-height: 4.5rem; margin: 0; }
+    .meetings-toolbar { display: flex; justify-content: flex-end; margin-bottom: var(--space-5); }
+
+    /* hero photo */
+    .hero-illustration { margin-top: var(--space-10); }
+    .hero-illustration img { width: 100%; height: auto; max-height: 30rem; object-fit: cover; display: block; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+
+    /* essentials */
+    .essentials-layout { display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-8); align-items: start; }
+    .essentials-nav-wrap { position: sticky; top: 6rem; }
+    .essentials-nav { display: flex; flex-direction: column; gap: var(--space-2); }
+    .essentials-nav-btn { display: flex; align-items: center; gap: var(--space-3); width: 100%; text-align: left; padding: 0.7rem var(--space-4); border-radius: var(--radius-md); border: 1px solid rgba(125,120,110,0.16); background: var(--color-surface); color: var(--color-text); cursor: pointer; font: inherit; font-size: var(--text-sm); font-weight: 600; box-shadow: var(--shadow-sm); transition: background .25s ease, border-color .25s ease, transform .2s ease, color .25s ease, box-shadow .25s ease; }
+    .essentials-nav-btn:hover { transform: translateX(4px); box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border)); }
+    .essentials-nav-btn.active { background: var(--color-primary); color: var(--color-text-inverse); border-color: var(--color-primary); }
+    .essentials-nav-icon { width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--color-primary-highlight); color: var(--color-primary); flex-shrink: 0; transition: background .25s ease, color .25s ease; }
+    .essentials-nav-btn.active .essentials-nav-icon { background: rgba(255,255,255,0.25); color: var(--color-text-inverse); }
+    .essentials-panels { min-height: 22rem; }
+    .essentials-panel[hidden] { display: none; }
+    .essentials-panel { animation: fadeInUp .35s var(--ease); }
+    .supplier-list { list-style: none; margin: 0 0 var(--space-4); padding: 0; display: grid; gap: var(--space-3); }
+    .supplier-list li { padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--color-surface-offset); font-size: var(--text-sm); transition: background .25s ease, transform .25s ease; }
+    .supplier-list li:hover { background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface-offset)); transform: translateX(4px); }
+    .supplier-list a { color: var(--color-primary); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .supplier-list a:hover { color: var(--color-primary-hover); }
+    @media (min-width: 700px) { .supplier-list.two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    /* useful contacts directory */
+    .org-directory { display: block; }
+    .org-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8); }
+    .org-chip { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); text-align: left; padding: var(--space-4); border-radius: var(--radius-lg); border: 1px solid rgba(125,120,110,0.16); border-top: 3px solid transparent; background: var(--color-surface); color: var(--color-text); cursor: pointer; font: inherit; box-shadow: var(--shadow-sm); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease; }
+    .org-chip:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-top-color: var(--org-accent, var(--color-primary)); }
+    .org-chip.active { border-color: color-mix(in srgb, var(--org-accent, var(--color-primary)) 45%, rgba(125,120,110,0.16)); border-top-color: var(--org-accent, var(--color-primary)); background: color-mix(in srgb, var(--org-accent, var(--color-primary)) 9%, var(--color-surface)); box-shadow: var(--shadow-md); }
+    .org-chip-icon { width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--org-accent, var(--color-primary)) 18%, var(--color-surface)); color: var(--org-accent, var(--color-primary)); flex-shrink: 0; transition: transform .25s ease; }
+    .org-chip:hover .org-chip-icon { transform: scale(1.08) rotate(-4deg); }
+    .org-chip-name { font-weight: 700; font-size: var(--text-sm); }
+    .org-chip-sub { font-size: var(--text-xs); color: var(--color-text-muted); }
+    .org-panel-card { padding: var(--space-6); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-sm); border-top: 4px solid var(--org-accent, var(--color-primary)); animation: fadeInUp .35s var(--ease); }
+    .org-panel-card[hidden] { display: none; }
+    .org-panel-head { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-5); }
+    .org-panel-head h3 { margin-bottom: 0; }
+    .org-panel-icon { width: 3rem; height: 3rem; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--org-accent, var(--color-primary)) 18%, var(--color-surface)); color: var(--org-accent, var(--color-primary)); }
+    .org-quick-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+    .org-action-btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.6rem 1.05rem; border-radius: var(--radius-full); background: var(--org-accent, var(--color-primary)); color: #fff; font-weight: 600; font-size: var(--text-sm); text-decoration: none; box-shadow: var(--shadow-sm); transition: filter .2s ease, transform .2s ease, box-shadow .2s ease; }
+    .org-action-btn:hover { filter: brightness(1.08); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* magazine page-turn carousel (development news) */
+    .magazine { position: relative; perspective: 1600px; margin-bottom: var(--space-6); }
+    .magazine-page { position: relative; width: 100%; padding: var(--space-6); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-md); transform-style: preserve-3d; backface-visibility: hidden; transition: transform .55s var(--ease), opacity .5s var(--ease); }
+    .magazine-page:not(.active) { display: none; }
+    .magazine-page.leaving { display: block; position: absolute; inset: 0; transform: rotateY(-110deg); transform-origin: left center; opacity: 0; }
+    .magazine-page.entering-start { display: block; position: absolute; inset: 0; transform: rotateY(110deg); transform-origin: right center; opacity: 0; }
+    .magazine-page.active { transform: rotateY(0deg); opacity: 1; }
+    .magazine-page h3 { margin-bottom: var(--space-2); }
+    .magazine-controls { display: flex; align-items: center; justify-content: center; gap: var(--space-4); margin-top: var(--space-5); }
+    .magazine-nav-btn { width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 1px solid rgba(125,120,110,0.25); background: var(--color-surface); color: var(--color-primary); font-size: 1.25rem; line-height: 1; cursor: pointer; box-shadow: var(--shadow-sm); transition: background .25s ease, color .25s ease, transform .2s ease; }
+    .magazine-nav-btn:hover { background: var(--color-primary); color: var(--color-text-inverse); transform: scale(1.08); }
+    .magazine-dots { display: flex; gap: var(--space-2); }
+    .magazine-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; border: none; padding: 0; background: rgba(125,120,110,0.3); cursor: pointer; transition: background .25s ease, transform .25s ease; }
+    .magazine-dot.active { background: var(--color-primary); transform: scale(1.25); }
+
+    /* gallery / village life — artistic photo carousel */
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); margin-top: var(--space-8); }
+    .gallery-tile { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4 / 3; box-shadow: var(--shadow-sm); cursor: default; transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+    .gallery-tile:hover { transform: translateY(-6px) scale(1.02); box-shadow: var(--shadow-lg); }
+    .gallery-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-art { width: 100%; height: 100%; }
+    .gallery-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--space-4); background: linear-gradient(0deg, rgba(20,18,14,0.82) 0%, rgba(20,18,14,0.15) 60%, transparent 100%); opacity: 0; transform: translateY(8px); transition: opacity .3s ease, transform .3s ease; }
+    .gallery-tile:hover .gallery-overlay { opacity: 1; transform: none; }
+    .gallery-overlay strong { color: #f9f8f4; font-size: var(--text-sm); }
+    .gallery-overlay span { color: rgba(249,248,244,0.85); font-size: var(--text-xs); }
+
+    .photo-carousel { position: relative; margin-top: var(--space-8); }
+    .photo-carousel-track { display: flex; gap: var(--space-5); overflow-x: auto; scroll-snap-type: x mandatory; padding: var(--space-3) 0 var(--space-5); scrollbar-width: thin; }
+    .photo-carousel-track::-webkit-scrollbar { height: 8px; }
+    .photo-carousel-track::-webkit-scrollbar-thumb { background: rgba(125,120,110,0.35); border-radius: var(--radius-full); }
+    .photo-card { position: relative; flex: 0 0 auto; scroll-snap-align: start; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+    .photo-card:hover { transform: translateY(-8px) rotate(-0.4deg) scale(1.015); box-shadow: var(--shadow-lg); }
+    .photo-card:nth-child(1) { width: 340px; height: 420px; }
+    .photo-card:nth-child(2) { width: 300px; height: 340px; align-self: flex-end; }
+    .photo-card:nth-child(3) { width: 320px; height: 400px; }
+    .photo-card:nth-child(4) { width: 300px; height: 340px; align-self: flex-end; }
+    .photo-card:nth-child(5) { width: 340px; height: 420px; }
+    .photo-card:nth-child(6) { width: 300px; height: 340px; align-self: flex-end; }
+    .photo-carousel-track { align-items: flex-start; }
+    .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-card-caption { position: absolute; inset: auto 0 0 0; padding: var(--space-4); background: linear-gradient(0deg, rgba(20,18,14,0.88) 0%, rgba(20,18,14,0.1) 70%, transparent 100%); color: #f9f8f4; }
+    .photo-card-caption strong { display: block; font-size: var(--text-sm); }
+    .photo-card-caption span { font-size: var(--text-xs); color: rgba(249,248,244,0.8); }
+    .photo-carousel-controls { display: flex; justify-content: center; gap: var(--space-4); margin-top: var(--space-2); }
+    .photo-carousel-credit { text-align: center; margin-top: var(--space-3); }
+    .upload-preview { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+    .upload-preview img { width: 3rem; height: 3rem; object-fit: cover; border-radius: var(--radius-sm); display: none; }
+    .upload-preview img.has-image { display: block; }
+
+    /* events */
+    .events-grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-8); align-items: start; }
+    .event-list { list-style: none; margin: 0 0 var(--space-5); padding: 0; display: grid; gap: var(--space-4); }
+    .event-list li { padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-surface-offset); transition: transform .25s ease, background .25s ease; }
+    .event-list li:hover { transform: translateX(5px); background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface-offset)); }
+    .event-list li h3 { font-size: var(--text-base); margin-bottom: var(--space-1); }
+    .event-list li p { margin-bottom: 0; }
+    .event-list li h3 a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; }
+    .event-list li h3 a:hover { color: var(--color-primary-hover); }
+    .event-list li p a { color: var(--color-primary); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .calendar-card { padding: var(--space-6); position: sticky; top: 6rem; }
+    .calendar-embed { border-radius: var(--radius-md); overflow: hidden; border: 1px dashed rgba(125,120,110,0.35); background: var(--color-surface-offset); min-height: 200px; }
+    .calendar-embed iframe { width: 100%; display: block; }
+
+    /* tab switchers (about / forms) */
+    .about-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-6); flex-wrap: wrap; }
+    .about-tab-btn { padding: 0.65rem 1.15rem; border-radius: var(--radius-full); border: 1px solid rgba(125,120,110,0.2); background: var(--color-surface); color: var(--color-text-muted); font: inherit; font-weight: 600; font-size: var(--text-sm); cursor: pointer; box-shadow: var(--shadow-sm); transition: background .25s ease, color .25s ease, transform .2s ease, border-color .25s ease; }
+    .about-tab-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .about-tab-btn.active { background: var(--color-primary); color: var(--color-text-inverse); border-color: var(--color-primary); }
+    .about-panel[hidden] { display: none; }
+    .about-panel { animation: fadeInUp .35s var(--ease); }
+
+    /* get in touch */
+    .touch-card { padding: var(--space-6); }
+    .touch-list { list-style: none; margin: var(--space-4) 0 0; padding: 0; display: grid; gap: var(--space-3); }
+    .touch-list li { display: flex; gap: var(--space-3); align-items: flex-start; font-size: var(--text-sm); }
+    .touch-list .touch-icon { width: 2rem; height: 2rem; flex-shrink: 0; border-radius: 50%; background: var(--color-primary-highlight); color: var(--color-primary); display: flex; align-items: center; justify-content: center; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .grid-3, .grid-2, .contacts-grid, .placeholder-grid, .footer-grid, .form-grid, .meeting-cols, .gallery-grid, .events-grid, .essentials-layout { grid-template-columns: 1fr; }
+      .header-inner { align-items: flex-start; flex-direction: column; }
+      .calendar-card, .essentials-nav-wrap { position: static; }
+      .essentials-nav { flex-direction: row; flex-wrap: wrap; }
+      .essentials-nav-btn { width: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .factory-line span, .hero::before, .hero::after, .live-dot { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .btn, .card, .contact-card, .placeholder-card, .form-card, .meeting-card, .essential-card, .touch-card, .timeline-step, .stat, .tag, .nav a, .theme-toggle, .logo-mark { transition: none; }
+      .gallery-tile, .photo-card { animation: none; transition: none; }
+      .org-chip, .org-chip-icon, .org-action-btn, .org-panel-card { animation: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" data-scroll-progress></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header>
+    <div class="container header-inner">
+      <div class="brand" aria-label="Hayes Village Residents Association">
+        <div class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+            <path d="M8 33c6-8 9-11 16-18 5 5 8 8 16 18" />
+            <path d="M14 30v8m20-8v8M20 23l4-4 4 4" />
+            <rect x="18" y="28" width="12" height="10" rx="2" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">Hayes Village Residents Association</div>
+          <div class="brand-sub">Community hub draft</div>
+        </div>
+      </div>
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="#about" data-nav-link>About</a></li>
+          <li><a href="#hayes-village-general" data-nav-link>Hayes Village</a></li>
+          <li><a href="#news" data-nav-link>News</a></li>
+          <li><a href="#contacts" data-nav-link>Contacts</a></li>
+          <li><a href="#queries" data-nav-link>Get involved</a></li>
+          <li><a href="#meetings" data-nav-link>Meetings</a></li>
+        </ul>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span>Working draft for the Hayes Village Residents Association</div>
+            <h1>One practical place for residents to find what matters.</h1>
+            <p class="lead">This draft combines verified starter content about Hayes Village with clearly marked placeholders for information that still needs checking with the Hayes Village Residents Association, managing agents, utilities, and local public bodies.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="#essentials" data-ripple>Browse essentials guide</a>
+              <a class="btn btn-secondary" href="#queries" data-ripple>Submit a query</a>
+            </div>
+            <div class="hero-illustration reveal">
+              <img src="https://www.barratthomes.co.uk/new-homes/london/-/media/divisions/west-london/developments/hayes-village-dev002062/lifestyle-photography/jan-26/hayes-1_0000s_0015__o3a0349-final.jpg?w=1600&amp;hash=90DAE6A6533B7BEC5A3225CB440DE539" alt="Residents walking beside the Grand Union Canal at Hayes Village, with a canoe passing on the water and the new apartment blocks in the background" loading="eager">
+              <p class="small photo-carousel-credit muted" style="margin-top: var(--space-2);">Photo: Barratt London, official Hayes Village marketing photography — <a href="https://www.barratthomes.co.uk/new-homes/dev002062-hayes-village/" target="_blank" rel="noopener">barratthomes.co.uk/hayes-village</a>.</p>
+            </div>
+          </div>
+          <aside class="whatsapp-card reveal">
+            <div class="whatsapp-avatar" aria-hidden="true">HV</div>
+            <h3>Hayes Village – Main community Group</h3>
+            <p class="whatsapp-sub">WhatsApp group</p>
+            <div class="whatsapp-qr-wrap">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZoAAAGaAQAAAAAefbjOAAADZUlEQVR4nO2cS4rjMBCG/xoLslSgD5CjyDeYIzVzpL6BfBQfYEBaBmRqFqWXe9HQE1DcTnnh2LI/kHCl3jYxvr0tv77PAAoppNAPhSLlbQZAMzaiORLRHA1ojgZANCg3mdHTU2gsBOYwMTMzw8lvAntMDNgEGfO2Xg0Tsz/4mhR6HMr//WhAdJ2YZpvkVMbeVwPRJfNTpqfQU6FIxD4SsbfM7LERlls6zPQUGgptIgc0Y2K41UCEwa3mENNTaAAkj3oXgm4yRu4DIBfAWUdYBhDHTk+h4ZABsFE5mxK59cLkPt7KUHxL5FaTsMhd09DpKTQcMvm/DwCIAFefgZdbyqfLLe3UyMHXpNAjkESfcug4gZnFQjBcKPc4Zm5HGn2eGsoSIcIQAEAijJyj6DZvU7l68DUp9AgkciCP24UmB6kqj7qzCQA0Q3V+yGaTwF6GNgLihWm2dwJsAnt7J/bxwlmNHH9NCv03BElgAwBcqNpCMtblHsdFg3jVEWeHOokQ+yFljpBVRmdOvK0excHXpNAjUPUns5NQzESOOoq8TNWwqI54AShnrEU2XADoPeTqFxEZMIeNcj30CdNTaChUVUHq0w4SUtiWnigaxGk1/OwQep8BNWElGaqp27XUlUrEqaHsSnoALTklF5ozId4D1I94BaizCznWKE1TvcrApD1UrwUxB4DoCpTuSqKSutoILmwk3VTSXPUj1qTQY5WuLubMPZXiQsAWzSD2Q/2Is0N9PkJijV1c0fKYzYioRJwa6mufvo6JKqi76kyoRJwfyl11C01MsAFYfv8tXXUrAQB1zTKkPVSnh4qOaCEoamaCe7dC6xovAnWeZedH1AaanICwubih+YjzQ6UXO14YiFfAfVwYiG9MzicD2ACC3Up7vg1Dp6fQcGj/ll+pYbgA5Ojz06bR59kh9K2UAbltJuce2ptctWdCJeLsEHatUrXBtlxofmdX81KJODO0sxph6l4QL/ajpSI0Q/UK0K6W1TXUlbR1rZWjlbtUIl4H2ojm0lqXa14oHw9wAeA/12dOT6EBkPk8sFxBAAi83PKrvwxsYOBO7FaTDr8mhR6HuiYJDyAXwiOVV4Tb94eeMj2FBkObfGFKPiojSQl5+hMD9k40l+Yqouv46Sk0FCL9eqFCCin0xfYPnG0HvSSnteQAAAAASUVORK5CYII=" alt="QR code to join the Hayes Village WhatsApp community group" width="150" height="150" loading="lazy">
+            </div>
+            <p class="small">Scan or upload this QR code using the WhatsApp camera to join, or use the link below.</p>
+            <a class="whatsapp-join-btn" href="https://chat.whatsapp.com/H0r33NsHvWn7S12h41jXud?s=cl&amp;p=i&amp;ilr=0" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.25.7-1.4 1.3-2 1.4-.5.1-1.2.15-3.3-.7-2.8-1.15-4.6-4-4.75-4.2-.15-.2-1.15-1.5-1.15-2.9s.7-2.05.95-2.35c.25-.3.55-.35.75-.35h.55c.2 0 .4 0 .6.45.2.5.7 1.65.75 1.75.05.1.1.25.02.4-.35.65-.7.65-.4 1.15.7 1.1 1.35 1.6 2.35 2.15.15.1.25.1.4-.05.15-.15.6-.7.75-.95.15-.25.3-.2.5-.1.2.05 1.35.65 1.6.75.25.1.4.15.45.25.05.15.05.65-.2 1.35Z"/></svg>
+              Join the WhatsApp group
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>About the Hayes Village Residents Association</h2>
+          </div>
+        </div>
+        <div class="about-tabs reveal" role="tablist" aria-label="About the Association">
+          <button class="about-tab-btn active" type="button" data-about-target="about-us" aria-current="true">About us</button>
+          <button class="about-tab-btn" type="button" data-about-target="history">Our history</button>
+        </div>
+
+        <div class="about-panel active" data-about-panel="about-us">
+          <article class="card verified reveal" style="max-width: none;">
+            <p style="max-width: none;">The Hayes Village Residents Association (HVRA) is the independent, resident-led voice for everyone living in Hayes Village. We exist to make daily life easier, fairer, and more connected by giving residents a clear channel to raise issues, share information, and work together on practical improvements. We hold regular meetings, publish updates on local issues, and act as a constructive link between residents and the organisations that shape our neighbourhood, including developers, managing agents, the council, and emergency services. Whether helping resolve building or estate problems, pushing for better services and safety, or creating opportunities to meet neighbours and build community, HVRA supports residents, amplifies local concerns, and helps turn Hayes Village into a place where people feel informed, listened to, and proud to live.</p>
+            <div class="tag-row">
+              <span class="tag">Independent &amp; resident-led</span>
+              <span class="tag">Regular meetings</span>
+              <span class="tag">Link to developers, agents &amp; council</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="about-panel" data-about-panel="history" hidden>
+          <div class="grid-2">
+            <div>
+              <p class="muted">History and factory story — this gives the site a stronger identity than a typical estate information page.</p>
+              <div class="timeline">
+                <article class="timeline-step verified reveal">
+                  <div class="year">1914</div>
+                  <h3>Industrial beginnings</h3>
+                  <p>Public heritage material links the site to early cocoa production in Hayes and to Eugen Sandow's Health and Strength Cocoa factory.</p>
+                </article>
+                <article class="timeline-step verified reveal">
+                  <div class="year">20th century</div>
+                  <h3>Nestlé era</h3>
+                  <p>The factory became strongly associated with Nestlé and the industrial growth of Hayes, making it an important local employment and heritage site.</p>
+                </article>
+                <article class="timeline-step verified reveal">
+                  <div class="year">2014 onward</div>
+                  <h3>Closure and regeneration</h3>
+                  <p>Public planning and project sources describe the closure of the factory followed by redevelopment into Hayes Village with homes, green space, and community uses.</p>
+                </article>
+              </div>
+            </div>
+            <aside class="hero-card reveal">
+              <h3>Animation concept</h3>
+              <p>Use a simple “factory to village” animated strip on the homepage: chimney silhouettes, cocoa-era archive labels, then a soft transition into homes, canalside greenery, and community life.</p>
+              <div class="factory-line" aria-hidden="true"><span></span></div>
+              <div class="tag-row">
+                <span class="tag">Archive photos later</span>
+                <span class="tag">Motion can stay subtle</span>
+                <span class="tag">Ideal for hero section</span>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hayes-village-general">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Hayes Village in general</h2>
+            <p class="muted">Hayes Village offers modern canalside living with excellent transport links to central London, Heathrow, and the local town centre.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <article class="card verified reveal">
+            <h3>Getting around</h3>
+            <ul>
+              <li><strong>Elizabeth line (Crossrail)</strong> — Fast, frequent trains from Hayes &amp; Harlington to central London and Heathrow. <span class="tag">Source: TfL Elizabeth line</span></li>
+              <li><strong>Journey times</strong> — Around 16–20 minutes to central London (Paddington, Bond Street) and roughly 6–12 minutes to Heathrow terminals by train. <span class="tag">Source: Trainline journey info</span></li>
+              <li><strong>Heathrow access</strong> — Quick rail connections to all terminals for national and international flights. <span class="tag">Source: National Rail to Heathrow</span></li>
+            </ul>
+          </article>
+          <article class="card verified reveal">
+            <h3>Canal and town centre</h3>
+            <ul>
+              <li><strong>Grand Union Canal</strong> — Waterside walks and cycling routes along the towpaths beside the village. <span class="tag">Source: Canal and River Trust</span></li>
+              <li><strong>Hayes town centre</strong> — Local shops, cafés, services, and community information from the council. <span class="tag">Source: Hillingdon Council – Hayes Town Centre</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="essentials">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Essentials for newcomers</h2>
+            <p class="muted">Topics are listed alphabetically — click one to see general information and supplier links. Bracketed text is a placeholder until confirmed locally with each provider or managing agent.</p>
+          </div>
+        </div>
+        <div class="essentials-layout">
+          <div class="essentials-nav-wrap reveal">
+            <nav class="essentials-nav" aria-label="Essentials topics">
+              <button class="essentials-nav-btn active" type="button" data-essential-target="bikestorage" aria-current="true">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="17" r="3" /><circle cx="18" cy="17" r="3" /><path d="M6 17l4-8h5l3 5M10 9l2 4h6M14 9h3" /></svg></span>
+                Bike storage
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="bins">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg></span>
+                Bins &amp; recycling
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="broadband">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M8.5 16.4a6.5 6.5 0 0 1 7 0" /><path d="M12 20h.01" /><path d="M2 8.82a16 16 0 0 1 20 0" /></svg></span>
+                Broadband
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="counciltax">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h18" /><path d="M6 18v-8" /><path d="M10 18v-8" /><path d="M14 18v-8" /><path d="M18 18v-8" /><path d="M3 10l9-6 9 6" /></svg></span>
+                Council tax
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="electoral">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="9" width="18" height="12" rx="1" /><path d="M3 9l3-5h12l3 5" /><path d="M9 13l2 2 4-4" /></svg></span>
+                Electoral registration &amp; voting
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="electricity">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg></span>
+                Electricity
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="hotwater">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6" /><path d="M8 22v-6a4 4 0 0 1 8 0v6" /><path d="M5 22h14" /><circle cx="12" cy="12" r="3" /></svg></span>
+                Hot water &amp; heating
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="gym">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5h4v11h-4z" /><path d="M13.5 6.5h4v11h-4z" /><path d="M4 10h2M4 14h2M18 10h2M18 14h2" /></svg></span>
+                On-site gym
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="parcels">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z" /><path d="M3 8l9 5 9-5" /><path d="M12 13v8" /></svg></span>
+                Parcels
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="parking">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><path d="M9 16V8h3.5a2.5 2.5 0 0 1 0 5H9" /></svg></span>
+                Parking
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="security">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="14" height="10" rx="2" /><path d="M16 10l6-3v10l-6-3" /><circle cx="8" cy="12" r="2" /></svg></span>
+                Security &amp; CCTV
+              </button>
+              <button class="essentials-nav-btn" type="button" data-essential-target="water">
+                <span class="essentials-nav-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5s6 6.2 6 11a6 6 0 1 1-12 0c0-4.8 6-11 6-11z" /></svg></span>
+                Water
+              </button>
+            </nav>
+          </div>
+
+          <div class="essentials-panels">
+            <div class="essentials-panel active" data-essential-panel="bikestorage">
+              <h3>Bike storage</h3>
+              <p>Bike storage in Hayes Village is provided in a dedicated communal area within the car park. The bike store is a secure, fob-access space designed for residents to keep their bicycles off balconies, corridors, and communal walkways.</p>
+              <ul class="supplier-list">
+                <li><strong>Location</strong> — The bike storage area is located on the ground level in the car park, clearly signed and accessible from the main vehicle entrance.</li>
+                <li><strong>Access</strong> — Entry to the bike store is via your resident access fob. Only residents with a valid fob can enter the storage area.</li>
+                <li><strong>Use</strong> — The space is intended for bicycle storage only. Please do not store e-scooters, motorbikes, boxes, or other items unless explicitly permitted by the managing agent.</li>
+                <li><strong>Security</strong> — While the store is fob-access controlled, residents are encouraged to use their own bike lock as an extra precaution.</li>
+                <li><strong>Issues and maintenance</strong> — Report any problems with the bike store (lighting, access, damage, or misuse) to FirstPort customer services or via the estate management contact details.</li>
+              </ul>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="bins" hidden>
+              <h3>Bins &amp; recycling</h3>
+              <p>Bins and recycling in Hayes Village (UB3 4) are managed by Hillingdon Council. The communal bin store for each building is located on the ground floor at the bottom of the block, and residents need their access fob to enter the store and dispose of rubbish and recycling. Collection days vary by exact address, so residents should use the council's "Look up my collection day" tool with their postcode to confirm their specific schedule.</p>
+              <ul class="supplier-list">
+                <li><strong>Bin collection (UB3 4)</strong> — General waste, recycling, and garden waste are collected Monday to Friday from early morning. Use the council's online tool to check your exact collection day and any bank holiday changes. <a href="https://www.hillingdon.gov.uk" target="_blank" rel="noopener">Hillingdon — Look up my collection day</a></li>
+                <li><strong>Bulky waste collection</strong> — For large items such as sofas, mattresses, or fridges, residents can book a paid bulky waste collection with Hillingdon Council. Current fees are around £53 for residents, £39 for over-65s, and £94 for landlords, with collections Monday to Friday. <a href="https://www.hillingdon.gov.uk" target="_blank" rel="noopener">Hillingdon — Bulky waste collection</a></li>
+                <li><strong>Fly-tipping reporting</strong> — To report dumped rubbish or illegal waste in or around Hayes Village, use the council's online fly-tipping report form, providing the location and details so the council can investigate and arrange removal. <a href="https://www.hillingdon.gov.uk" target="_blank" rel="noopener">Hillingdon — Report fly-tipping</a></li>
+              </ul>
+              <p class="small">Residents should place their household bins in the communal bin store and ensure lids are closed. For large items that do not fit, the council's bulky waste service or approved private removers should be used instead of leaving items in or near the bin store.</p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="broadband" hidden>
+              <h3>Broadband</h3>
+              <p>Most broadband providers serving Hayes (UB3) also cover Hayes Village, but availability can vary by block and exact postcode, so residents should always check their specific address.</p>
+              <ul class="supplier-list">
+                <li><strong>BT</strong> — Full fibre and standard broadband via Openreach, with speeds up to around 900 Mbps in parts of Hayes. <a href="https://www.bt.com/broadband" target="_blank" rel="noopener">BT broadband</a></li>
+                <li><strong>Sky</strong> — Full fibre over Openreach infrastructure, typically up to about 900 Mbps where available. <a href="https://www.sky.com/broadband" target="_blank" rel="noopener">Sky broadband</a></li>
+                <li><strong>Virgin Media</strong> — Cable network with ultrafast options up to around 1.1 Gbps in many Hayes postcodes. <a href="https://www.virginmedia.com/broadband" target="_blank" rel="noopener">Virgin Media broadband</a></li>
+                <li><strong>Vodafone</strong> — Full fibre and fibre broadband, often up to 900 Mbps via Openreach or partner networks. <a href="https://www.vodafone.co.uk/broadband" target="_blank" rel="noopener">Vodafone broadband</a></li>
+                <li><strong>TalkTalk</strong> — Fibre and full fibre broadband, speeds vary by address and network. <a href="https://www.talktalk.co.uk/broadband" target="_blank" rel="noopener">TalkTalk broadband</a></li>
+                <li><strong>Plusnet</strong> — BT-based broadband and fibre, including FTTP in some areas. <a href="https://www.plus.net/broadband/" target="_blank" rel="noopener">Plusnet broadband</a></li>
+                <li><strong>NOW Broadband</strong> — BT-based fibre and full fibre packages. <a href="https://www.now.com/broadband" target="_blank" rel="noopener">NOW Broadband</a></li>
+                <li><strong>EE</strong> — Fibre and full fibre broadband, often up to around 900 Mbps. <a href="https://ee.co.uk/broadband" target="_blank" rel="noopener">EE broadband</a></li>
+                <li><strong>Hyperoptic</strong> — Full fibre provider active in parts of Hayes, offering very high speeds where the building is connected. <a href="https://www.hyperoptic.com" target="_blank" rel="noopener">Hyperoptic</a></li>
+                <li><strong>Community Fibre</strong> — Full fibre network covering parts of Hayes with gigabit-capable speeds. <a href="https://www.communityfibre.co.uk" target="_blank" rel="noopener">Community Fibre</a></li>
+              </ul>
+              <p class="small">For a quick check of what is available at a specific Hayes Village address, residents can use a postcode checker such as Uswitch or a similar comparison site, then compare prices and contract terms before signing up. <a href="https://www.uswitch.com/broadband/postcode-checker/" target="_blank" rel="noopener">Uswitch postcode checker</a></p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="counciltax" hidden>
+              <h3>Council tax</h3>
+              <p>Council tax in Hayes Village is charged by Hillingdon Council and funds local services such as waste collection, libraries, parks, and adult social care. New residents should register for council tax as soon as they move in, either by setting up an online council tax account or by contacting the council with their move-in date and property details. Bills are based on the property's valuation band (A to H), with Band D in Hillingdon around £1,952 per year for 2026/27 before any discounts or reductions.</p>
+              <ul class="supplier-list">
+                <li><strong>Applying and managing council tax</strong> — Create an online account to view bills, set up direct debit, update contact details, and apply for discounts. <a href="https://pre.hillingdon.gov.uk/council-tax/your-council-tax-account" target="_blank" rel="noopener">Hillingdon – Your online council tax account</a></li>
+                <li><strong>Council tax bands and rates</strong> — Charges depend on the property's 1991 valuation band, with Hillingdon and Greater London Authority portions shown on each bill. <a href="https://pre.hillingdon.gov.uk/council-tax/how-much-is-my-council-tax" target="_blank" rel="noopener">Hillingdon – How much is my council tax?</a></li>
+                <li><strong>Single person discount</strong> — If only one adult lives in the home as their main residence, they may be eligible for a 25% single person discount, applied for through the online account.</li>
+                <li><strong>Council Tax Reduction (support)</strong> — Households on low income or certain benefits, such as Universal Credit or Pension Credit, may qualify. Working-age applicants generally need savings below £6,000, and pension-age applicants below £16,000 (unless on Pension Credit). <a href="https://pre.hillingdon.gov.uk/benefits/council-tax-reduction-scheme" target="_blank" rel="noopener">Hillingdon – Council Tax Reduction Scheme</a></li>
+                <li><strong>Payments and help</strong> — Pay by direct debit, online, or via the 24-hour payment line on <a href="tel:01895556699">01895 556699</a>. Residents struggling to pay should email <a href="mailto:counciltax@hillingdon.gov.uk">counciltax@hillingdon.gov.uk</a> to discuss options.</li>
+              </ul>
+              <p class="small">New occupants should notify Hillingdon Council when they move in or out, and check their bill for the correct band and any applicable discounts or reductions.</p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="electoral" hidden>
+              <h3>Electoral registration &amp; voting</h3>
+              <p>Electoral registration ensures you are on the electoral roll and able to vote in UK elections and referendums. You must register at each address where you live, so when you move into Hayes Village you need to either register for the first time or update your existing registration with your new address.</p>
+              <ul class="supplier-list">
+                <li><strong>Register to vote</strong> — Add your name to the electoral register online. You will need your name, date of birth, address, and National Insurance number; it takes about five minutes. <a href="https://www.gov.uk/register-to-vote" target="_blank" rel="noopener">GOV.UK – Register to vote</a></li>
+                <li><strong>Moving address</strong> — If you are already registered elsewhere, you must re-register at your new Hayes Village address using the same online form with your new details and previous address. <a href="https://pre.hillingdon.gov.uk/xfp/form/31" target="_blank" rel="noopener">Hillingdon – Electoral services query</a></li>
+                <li><strong>Deadlines</strong> — Your name must be on the register at least 12 working days before an election or referendum for you to vote in that poll, so register as soon as you move in. <a href="https://pre.hillingdon.gov.uk/elections-voting/vote" target="_blank" rel="noopener">Hillingdon – Your guide to voting</a></li>
+                <li><strong>Open register option</strong> — You can choose whether to be on the "open register" (a version sold to companies); this is optional and does not affect your right to vote. <a href="https://www.electoralcommission.org.uk/voting-and-elections/register-vote" target="_blank" rel="noopener">Electoral Commission – Register to vote</a></li>
+                <li><strong>Hillingdon Council support</strong> — For questions about registration status, postal or proxy voting, contact Hillingdon's Electoral Services via their online query form. <a href="https://pre.hillingdon.gov.uk/xfp/form/31" target="_blank" rel="noopener">Hillingdon – Electoral services query</a></li>
+              </ul>
+              <p class="small">Residents should re-register every time they move, including when moving within Hayes Village or between blocks, to keep their details up to date.</p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="electricity" hidden>
+              <h3>Electricity</h3>
+              <p>In the UK, households can choose their electricity supplier, and new homes or new occupants usually remain on the existing supplier unless they actively switch. In Hayes Village, if no change is made, the default electricity supply for many new homes is typically set to British Gas unless another supplier is specified by the developer or managing agent.</p>
+              <ul class="supplier-list">
+                <li><strong>British Gas</strong> — Often the default or "deemed" supplier for new homes and new occupants who have not yet chosen a tariff. <a href="https://www.britishgas.co.uk" target="_blank" rel="noopener">British Gas energy</a></li>
+                <li><strong>Octopus Energy</strong> — Major UK supplier offering variable and fixed tariffs, including green options. <a href="https://octopus.energy" target="_blank" rel="noopener">Octopus Energy</a></li>
+                <li><strong>Ovo Energy</strong> — Large supplier with a range of fixed and variable electricity tariffs. <a href="https://www.ovoenergy.com" target="_blank" rel="noopener">Ovo Energy</a></li>
+                <li><strong>E.ON Next</strong> — Supplier offering fixed and variable electricity deals and smart home products. <a href="https://www.eonnext.com" target="_blank" rel="noopener">E.ON Next</a></li>
+                <li><strong>EDF Energy</strong> — One of the "big six" energy suppliers with standard and green electricity tariffs. <a href="https://www.edfenergy.com" target="_blank" rel="noopener">EDF Energy</a></li>
+                <li><strong>ScottishPower</strong> — Major supplier with electricity-only and dual-fuel options. <a href="https://www.scottishpower.co.uk" target="_blank" rel="noopener">ScottishPower</a></li>
+                <li><strong>Utilita</strong> — Supplier focused on new-build and apartment residents, often used by developers for initial supply. <a href="https://utilita.co.uk" target="_blank" rel="noopener">Utilita</a></li>
+                <li><strong>So Energy</strong> — Smaller supplier offering fixed and variable electricity tariffs. <a href="https://www.so.energy" target="_blank" rel="noopener">So Energy</a></li>
+                <li><strong>100Green</strong> — Supplier offering 100% renewable electricity tariffs. <span class="req">[add supplier link]</span></li>
+                <li><strong>Good Energy</strong> — Supplier with green electricity options and community-focused tariffs. <a href="https://www.goodenergy.co.uk" target="_blank" rel="noopener">Good Energy</a></li>
+              </ul>
+              <p class="small">Residents can compare current electricity tariffs and switch suppliers using sites such as Ofgem-accredited comparison tools, then contact their chosen supplier to arrange the switch. If you have not chosen a supplier, your electricity will usually continue on the existing or deemed contract, commonly British Gas in new developments, until you change it. <a href="https://www.uswitch.com/gas-electricity/" target="_blank" rel="noopener">Uswitch energy comparison</a></p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="hotwater" hidden>
+              <h3>Hot water &amp; heating</h3>
+              <p>Hot water and heating in Hayes Village are provided through a communal district heating system managed by Energy Invoicing. They act as the billing and customer service provider for the heat network, issuing residents with invoices for their hot water and heating usage and handling queries about meters, bills, and system performance.</p>
+              <ul class="supplier-list">
+                <li><strong>Energy Invoicing</strong> — Heat network billing and customer service, including meter, bill, and system queries. Phone: <a href="tel:01708760070">01708 760070</a>. Email: <a href="mailto:info@energyinvoicing.co.uk">info@energyinvoicing.co.uk</a> or <a href="mailto:helpdesk@energyinvoicing.co.uk">helpdesk@energyinvoicing.co.uk</a>. <a href="https://www.energyinvoicing.co.uk" target="_blank" rel="noopener">Energy Invoicing website</a></li>
+              </ul>
+              <p class="small">Customer service is available Monday to Friday during office hours.</p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="gym" hidden>
+              <h3>On-site gym</h3>
+              <ul class="supplier-list">
+                <li>Public marketing confirms a residents' gym and running track on site.</li>
+                <li>[Placeholder] Access, booking system, and opening hours.</li>
+                <li>[Placeholder] Equipment fault reporting and induction process.</li>
+              </ul>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="parcels" hidden>
+              <h3>Parcels</h3>
+              <p>Royal Mail is the only carrier with building access in Hayes Village and can deliver post and parcels directly to individual flats. All other delivery companies are generally required to deliver to the door or leave parcels in a safe place, and if no one is available to receive the parcel, residents are recommended to use nearby post boxes, parcel lockers, or local drop-off points for collections and returns.</p>
+              <p class="content-note">Parcel locker and drop-off locations near Hayes Village</p>
+              <ul class="supplier-list">
+                <li><strong>InPost Locker — Trident House</strong> — 76 Station Road, Hayes, UB3 4FP (24/7 outdoor locker). <a href="https://www.inpost.co.uk/find-a-locker" target="_blank" rel="noopener">InPost — Trident House</a></li>
+                <li><strong>InPost Locker — Lidl Hayes</strong> — Central Avenue, Hayes, UB3 (24/7 outdoor locker). <a href="https://www.inpost.co.uk/find-a-locker" target="_blank" rel="noopener">InPost — Lidl Hayes</a></li>
+                <li><strong>InPost Locker — Iceland Hayes Town (Indoor)</strong> — 25/37 Station Road, Hayes, UB3 4DX (mostly 24/7 indoor locker). <a href="https://www.inpost.co.uk/find-a-locker" target="_blank" rel="noopener">InPost — Iceland Hayes</a></li>
+                <li><strong>Royal Mail Customer Service Point — Hayes Delivery Office</strong> — Unit 4–5 Silverdale Industrial Estate, Hayes, UB3 3HZ (for "Something for You" cards and collections). <a href="https://www.royalmail.com/services-near-you" target="_blank" rel="noopener">Royal Mail — Hayes Delivery Office</a></li>
+                <li><strong>Post Office — Hayes</strong> — 6–8 Station Road, Hayes, UB3 4DA (for Royal Mail, Evri, and other parcel services). <a href="https://www.postoffice.co.uk/branch-finder" target="_blank" rel="noopener">Post Office — Hayes</a></li>
+              </ul>
+              <p class="content-note">Parcel returns and drop-off points</p>
+              <ul class="supplier-list">
+                <li><strong>Evri ParcelShops</strong> — Local convenience stores and newsagents in Hayes town centre act as Evri drop-off and collection points; use the ParcelShop finder to locate the nearest option. <a href="https://www.evri.com/drop-and-collect" target="_blank" rel="noopener">Evri ParcelShops</a></li>
+                <li><strong>Post Office branches</strong> — Many Post Offices accept Evri returns and pre-paid parcels, and can also handle Royal Mail returns and label purchases. <a href="https://www.postoffice.co.uk/branch-finder" target="_blank" rel="noopener">Evri via Post Office</a></li>
+                <li><strong>Amazon Locker / Counter</strong> — Amazon pickup locations in and around Hayes can be used for Amazon orders and some returns; search by postcode during checkout. <a href="https://www.amazon.co.uk/pickup-locations" target="_blank" rel="noopener">Amazon Pickup Locations</a></li>
+              </ul>
+              <p class="small">Residents can use these nearby lockers and drop-off points to collect missed deliveries and to return online purchases, then bring parcels back into the village via the main entrances.</p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="parking" hidden>
+              <h3>Parking</h3>
+              <p>Parking in Hayes Village is controlled and permitted only for residents and registered visitors. Residents must hold a valid resident parking permit for their allocated spaces, while all visitor parking is managed digitally through the Virtual Visitor Parking (VVP) app operated by PCM UK (Parking Control Management). Visitors cannot park without an active virtual permit, and unauthorised vehicles are subject to enforcement and penalty charges.</p>
+              <p class="content-note">Visitor parking via the Virtual Visitor app</p>
+              <ul class="supplier-list">
+                <li><strong>How it works</strong> — Residents download the VirtualVisitorPCM app (iOS or Android), register their tenancy details, and enter their visitor's vehicle registration to start a paid parking session. There are no paper permits or scratch cards. <a href="https://www.parkingcontrolmanagement.co.uk/parking-permits/virtual-visitor-parking/" target="_blank" rel="noopener">Virtual Visitor Parking</a></li>
+                <li><strong>Costs</strong> — Typical visitor sessions are priced around £6.99 for 30 hours and £7.99 for 48 hours, with rates shown in the app at time of booking.</li>
+                <li><strong>Where to get the app</strong> — Search "VirtualVisitorPCM" in the Apple App Store or Google Play Store. <a href="https://apps.apple.com/gb/app/virtualvisitorpcm/id1539118792" target="_blank" rel="noopener">VirtualVisitorPCM — App Store</a></li>
+              </ul>
+              <p class="content-note">Resident parking permits</p>
+              <ul class="supplier-list">
+                <li><strong>Resident-only spaces</strong> — On-site parking is restricted to residents with valid permits and their registered visitors.</li>
+                <li><strong>Applying for permits</strong> — Apply through the PCM permit portal (PermitPCM), providing proof of residency and vehicle details — you may need to upload a tenancy agreement or completion statement. <a href="https://www.permitpcm.com/" target="_blank" rel="noopener">PermitPCM — Parking Permits</a></li>
+              </ul>
+              <p class="content-note">Fines and Penalty Charge Notices (PCNs)</p>
+              <ul class="supplier-list">
+                <li><strong>Enforcement</strong> — Vehicles parked without a valid resident permit or active visitor session may receive a Penalty Charge Notice (PCN).</li>
+                <li><strong>Typical charges</strong> — Exact amounts for Hayes Village are set by the site's operator; private PCNs in similar schemes often start around £60–£70, reduced by 50% if paid within 14 days. Always check the amount on the notice you receive.</li>
+                <li><strong>Payment</strong> — PCNs must be paid by the deadline stated on the notice, usually within 28 days of issue. Late payment can lead to increased charges and further enforcement.</li>
+              </ul>
+              <p class="content-note">Appeals process</p>
+              <ul class="supplier-list">
+                <li><strong>Informal appeal</strong> — If you believe a PCN was issued incorrectly, you can make an informal challenge, usually within 14 days of the notice (or 21 days if posted). Do not pay the PCN if you intend to appeal, as payment is treated as acceptance of liability. <a href="https://www.citizensadvice.org.uk/law-and-courts/parking-tickets/appealing-a-parking-ticket/" target="_blank" rel="noopener">Citizens Advice — Appealing a parking ticket</a></li>
+                <li><strong>Formal representation</strong> — If your informal appeal is rejected, you will receive a Notice to Owner and have 28 days to make a formal representation with evidence (photos, permits, booking confirmations).</li>
+                <li><strong>Independent tribunal</strong> — If the formal appeal is rejected, you can escalate to an independent adjudicator such as the Traffic Penalty Tribunal or the relevant private parking appeals service, depending on the operator's accreditation. <a href="https://www.gov.uk/appeal-parking-fine" target="_blank" rel="noopener">GOV.UK — Challenge a parking fine</a></li>
+              </ul>
+              <p class="small">Residents should ensure all visitors are booked via the Virtual Visitor app before they arrive, and keep booking confirmations until the visit is complete, as these are key evidence if a PCN is disputed.</p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="security" hidden>
+              <h3>Security &amp; CCTV</h3>
+              <p>Hayes Village has on-site security measures and CCTV coverage in communal areas to help deter crime and support investigations. The system is managed by the estate's managing agent, and footage is not accessible to residents. In the event of a crime or incident, the Metropolitan Police can request access to relevant CCTV as part of their investigation.</p>
+              <p class="content-note">How to report an incident</p>
+              <ul class="supplier-list">
+                <li><strong>Emergency</strong> — If there is immediate danger to life, a crime in progress, or a serious incident, call 999 straight away.</li>
+                <li><strong>Non-emergency</strong> — For crimes that are not in progress, suspicious activity, or general enquiries, call 101 or report online. <a href="https://www.met.police.uk/contact/af/contact-us/" target="_blank" rel="noopener">Met Police — Contact us</a></li>
+                <li><strong>Hayes Town Safer Neighbourhoods Team</strong> — For local policing issues and community concerns, email <a href="mailto:HayesTown@contact.metengage.co.uk">HayesTown@contact.metengage.co.uk</a> (do not use this address to report crimes).</li>
+                <li><strong>Textphone / specialist services</strong> — For hearing or speech impairments, use 18001 101 (non-emergency) or pre-register for emergency SMS/text services; BSL users can access the 999 BSL service. <a href="https://www.gov.uk/contact-police" target="_blank" rel="noopener">GOV.UK — Contact the police</a></li>
+              </ul>
+              <p class="content-note">Contacting FirstPort (Hayes Village management)</p>
+              <ul class="supplier-list">
+                <li><strong>Customer Services</strong> — Call <a href="tel:03333214080">0333 321 4080</a> (Monday to Friday, 9am–5pm) or use the online contact form. <a href="https://www.firstport.co.uk/contact-us/" target="_blank" rel="noopener">FirstPort — Contact us</a></li>
+                <li><strong>Out-of-hours emergency support</strong> — FirstPort provides 24/7 support for urgent estate issues; the out-of-hours number is listed on your welcome pack and estate notices.</li>
+                <li><strong>Email</strong> — For non-urgent queries, email <a href="mailto:help@firstport.co.uk">help@firstport.co.uk</a>.</li>
+              </ul>
+              <p class="small"><strong>Do not attempt to tackle crime yourself.</strong> If you see suspicious activity, a break-in, or anything that feels unsafe, keep a safe distance, do not confront anyone, and report it immediately to the police on 999 (emergency) or 101 (non-emergency). CCTV footage is retained for a limited period and can only be accessed by the police and authorised parties for investigations, so report incidents promptly.</p>
+            </div>
+
+            <div class="essentials-panel" data-essential-panel="water" hidden>
+              <h3>Water</h3>
+              <p>Water services in Hayes Village are split between two suppliers: Independent Water Networks (IWNL) for clean drinking water and Thames Water for wastewater and sewerage. IWNL owns and operates the local water network that supplies homes with clean water, handling metering, supply queries, and clean water issues. Thames Water is responsible for removing and treating wastewater, dealing with drains, sewers, and any waste water problems.</p>
+              <ul class="supplier-list">
+                <li><strong>Clean water (IWNL)</strong> — Supplies drinking water and manages meters and clean water queries. Phone: <a href="tel:02920028711">02920 028711</a>. <a href="https://www.iwnl.co.uk" target="_blank" rel="noopener">IWNL contact</a></li>
+                <li><strong>Wastewater (Thames Water)</strong> — Manages drains, sewers, and wastewater services. Phone: <a href="tel:08003169800">0800 316 9800</a> (24/7 for water and waste issues). <a href="https://www.thameswater.co.uk" target="_blank" rel="noopener">Thames Water contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="news">
+      <div class="container events-grid">
+        <div>
+          <div class="section-head reveal">
+            <div>
+              <h2>Development news &amp; updates</h2>
+              <p class="muted">Hayes Village is a large regeneration of the former Nestlé factory site in Hayes, delivering around 1,500 new homes, new green spaces, and improved connections along the Grand Union Canal. Development news, resident news, and the newsletter all live here so nothing gets missed.</p>
+            </div>
+          </div>
+          <div class="magazine" data-magazine>
+            <article class="magazine-page active" data-page="0">
+              <div class="tag-row" style="margin-top:0;"><span class="tag">1 / 3</span><span class="tag">Barratt London</span></div>
+              <h3>Barratt London — development update</h3>
+              <p>Barratt London continues to deliver Hayes Village's approximately 1,500 new homes on the former Nestlé factory site, with canal frontage improvements, a residents' running track, and new public realm underway.</p>
+              <ul class="supplier-list">
+                <li><strong>Barratt London – Hayes Village</strong> — Main sales and information page for the development, with apartment details, prices, and contact details. <a href="https://www.barratthomes.co.uk/new-homes/dev002062-hayes-village/" target="_blank" rel="noopener">Barratt Hayes Village</a></li>
+              </ul>
+            </article>
+            <article class="magazine-page" data-page="1">
+              <div class="tag-row" style="margin-top:0;"><span class="tag">2 / 3</span><span class="tag">L&amp;Q</span></div>
+              <h3>L&amp;Q Hayes Village — update</h3>
+              <p>L&amp;Q's shared ownership and London Living Rent homes at Hayes Village give first-time buyers and renters affordable routes into the development, alongside the private sale apartments from Barratt London.</p>
+              <ul class="supplier-list">
+                <li><strong>L&amp;Q at Hayes Village</strong> — Shared ownership and London Living Rent homes on the site, with details on affordability, eligibility, and available apartments. <a href="https://lqhomes.com/hayesvillage/" target="_blank" rel="noopener">L&amp;Q Hayes Village</a></li>
+              </ul>
+            </article>
+            <article class="magazine-page" data-page="2">
+              <div class="tag-row" style="margin-top:0;"><span class="tag">3 / 3</span><span class="tag">FirstPort</span></div>
+              <h3>FirstPort property management — update</h3>
+              <p>FirstPort manages the day-to-day running of Hayes Village's shared spaces, from estate maintenance to service charge administration.</p>
+              <ul class="supplier-list">
+                <li>[Placeholder] Add specific snagging, maintenance, or estate improvement updates here as FirstPort issues them. See full contact details in <a href="#contacts">Useful contacts</a>.</li>
+              </ul>
+            </article>
+            <div class="magazine-controls">
+              <button class="magazine-nav-btn" type="button" data-magazine-prev aria-label="Previous update">‹</button>
+              <div class="magazine-dots" data-magazine-dots>
+                <button class="magazine-dot active" type="button" data-magazine-goto="0" aria-label="Go to update 1"></button>
+                <button class="magazine-dot" type="button" data-magazine-goto="1" aria-label="Go to update 2"></button>
+                <button class="magazine-dot" type="button" data-magazine-goto="2" aria-label="Go to update 3"></button>
+              </div>
+              <button class="magazine-nav-btn" type="button" data-magazine-next aria-label="Next update">›</button>
+            </div>
+          </div>
+        </div>
+        <div class="stack">
+          <aside class="critical-alert-box reveal" data-critical-alert>
+            <div class="critical-alert-head">
+              <span class="critical-alert-dot" aria-hidden="true"></span>
+              <h3>Critical alert</h3>
+              <span class="tag">1 active</span>
+            </div>
+            <p><strong>[Placeholder] Heating outage — Block C</strong></p>
+            <p class="muted">[Placeholder] Short summary of the critical issue residents need to know right now, and what to do in the meantime.</p>
+            <button class="btn btn-secondary" type="button" data-toggle-alert-details data-ripple>View details</button>
+            <div class="critical-alert-details" data-alert-details hidden>
+              <p class="small">[Placeholder] Full details: what happened, who is affected, current status, and next update time.</p>
+              <p class="small">[Placeholder] Reported: DD Month, HH:MM. Next update expected: HH:MM.</p>
+            </div>
+          </aside>
+          <aside class="notice reveal" style="display: flex; align-items: center; gap: var(--space-3);">
+            <span class="touch-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" /><path d="m4 6 8 7 8-7" /></svg></span>
+            <div>
+              <h3 style="margin-bottom: 0.25rem;">Monthly newsletter</h3>
+              <p class="small" style="margin-bottom: 0;">Sign up for HVRA updates by email. <a href="#" title="Placeholder — add the newsletter sign-up link here">[add URL]</a></p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="events">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Village life &amp; events</h2>
+            <p class="muted">Hayes Village events bring residents together for meetings, clean-up days, and seasonal activities in the green spaces and canalside areas — and this is the shared scrapbook of what happens when we do. Want to add your own photo and write-up? Use the submissions form in <a href="#queries">Get involved</a>.</p>
+          </div>
+        </div>
+        <div class="events-grid">
+          <div class="reveal">
+            <ul class="event-list">
+              <li>
+                <h3><a href="#meetings">Resident association meetings</a></h3>
+                <p class="muted">HVRA discussions on estate issues and community ideas. <span class="tag">[HVRA contact details to be added]</span></p>
+              </li>
+              <li>
+                <h3><a href="#village-wall">Community clean-up and improvement days</a></h3>
+                <p class="muted">Occasional events to tidy and enhance shared spaces — see photos on the village wall. <span class="tag">[Sign-up link to be added]</span></p>
+              </li>
+              <li>
+                <h3>Seasonal and family events</h3>
+                <p class="muted">Small gatherings and activities in the village green or community rooms. <span class="tag">[Event listing to be added]</span></p>
+              </li>
+              <li>
+                <h3><a href="https://www.hillingdon.gov.uk/events" target="_blank" rel="noopener">Local town events</a></h3>
+                <p class="muted">Hayes town centre markets and festivals relevant to village residents. <span class="tag">Source: Hillingdon Council – events</span></p>
+              </li>
+              <li>
+                <h3><a href="https://www.london.gov.uk/events" target="_blank" rel="noopener">London events</a></h3>
+                <p class="muted">Wider London festivals, markets, and things to do a short trip from Hayes Village. <span class="tag">Source: London.gov.uk events</span> <span class="tag">See also: <a href="https://www.whatsonlondon.co.uk" target="_blank" rel="noopener">What's On London</a></span></p>
+              </li>
+            </ul>
+            <p class="small">Most events are currently shared through HVRA newsletters, resident groups, and notices from the managing agent or developers.</p>
+          </div>
+          <aside class="calendar-card reveal">
+            <h3>Upcoming events calendar</h3>
+            <div class="calendar-embed">
+              <iframe src="https://calendar.google.com/calendar/embed?src=REPLACE_WITH_CALENDAR_ID%40group.calendar.google.com&ctz=Europe%2FLondon" style="border:0" width="100%" height="380" frameborder="0" scrolling="no" title="Hayes Village events calendar" loading="lazy"></iframe>
+            </div>
+            <p class="form-note">Demo embed: replace REPLACE_WITH_CALENDAR_ID with the Association's public Google Calendar ID once one is created and shared with residents.</p>
+          </aside>
+        </div>
+        <div class="section-head reveal" id="village-wall" style="margin-top: var(--space-10); scroll-margin-top: 6rem;">
+          <div>
+            <h3>The village wall</h3>
+            <p class="muted">An artistic scrapbook of Hayes Village — official development photography of the canal, gardens, and homes, alongside snapshots residents share from village life. Add your own photo and write-up via <a href="#queries">Get involved</a>.</p>
+          </div>
+        </div>
+        <div class="photo-carousel reveal">
+          <div class="photo-carousel-track" data-photo-track>
+            <figure class="photo-card">
+              <img src="https://www.barratthomes.co.uk/new-homes/london/-/media/divisions/west-london/developments/hayes-village-(h725301)/lifestyle-photography---sep-22/canalside-hayes-village.jpg?w=900&amp;hash=7E535CF190B3A6F64D8F972001DDD1CC" alt="Canalside walkway alongside the Grand Union Canal at Hayes Village" loading="lazy">
+              <figcaption class="photo-card-caption"><strong>Canalside at Hayes Village</strong><span>Next to the Grand Union Canal</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="https://www.barratthomes.co.uk/new-homes/london/-/media/divisions/west-london/developments/hayes-village-dev002062/lifestyle-photography/jan-26/hayes-1_0000s_0015__o3a0349-final.jpg?w=900&amp;hash=90DAE6A6533B7BEC5A3225CB440DE539" alt="Residents walking beside the canal at Hayes Village with a canoe passing on the water" loading="lazy">
+              <figcaption class="photo-card-caption"><strong>Life on the water</strong><span>Waterfront homes at Hayes Village</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="https://www.barratthomes.co.uk/new-homes/london/-/media/divisions/west-london/developments/hayes-village-dev002062/lifestyle-photography/archive/picnic-in-wallis-gardens.jpg?w=900&amp;hash=88004EF0464DDA74DBFFE248DC616809" alt="Residents having a picnic in the landscaped gardens at Hayes Village" loading="lazy">
+              <figcaption class="photo-card-caption"><strong>Picnic in the gardens</strong><span>Over nine acres of green space</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="https://www.barratthomes.co.uk/new-homes/london/-/media/divisions/west-london/developments/hayes-village-(h725301)/lifestyle-photography---sep-22/newgympic.jpg?w=900&amp;hash=0C1D03227834B361EDE824AAD504B161" alt="Hayes Village residents' on-site gym" loading="lazy">
+              <figcaption class="photo-card-caption"><strong>Residents' gym</strong><span>On-site fitness and running track</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="https://www.barratthomes.co.uk/new-homes/london/-/media/divisions/west-london/developments/hayes-village-(h725301)/menier-apartments/2-bed-show-home-may-26/hayes-village-menier-balcony.jpg?w=900&amp;hash=F6BFF13B76512645A32608FB6E24F1FA" alt="Balcony of a Menier Apartments home at Hayes Village" loading="lazy">
+              <figcaption class="photo-card-caption"><strong>A balcony for every home</strong><span>Outdoor space at Menier Apartments</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="https://www.barratthomes.co.uk/new-homes/london/-/media/divisions/west-london/developments/hayes-village-(h725301)/crossrail.jpg?w=900&amp;hash=03164F9AFE7469202B7A2EF265A2E12E" alt="Hayes and Harlington Elizabeth line station near Hayes Village" loading="lazy">
+              <figcaption class="photo-card-caption"><strong>10 minutes to the Elizabeth line</strong><span>Hayes &amp; Harlington station</span></figcaption>
+            </figure>
+          </div>
+          <div class="photo-carousel-controls">
+            <button class="magazine-nav-btn" type="button" data-photo-prev aria-label="Scroll photos left">‹</button>
+            <button class="magazine-nav-btn" type="button" data-photo-next aria-label="Scroll photos right">›</button>
+          </div>
+          <p class="small photo-carousel-credit muted">Photos: Barratt London, official Hayes Village marketing photography — <a href="https://www.barratthomes.co.uk/new-homes/dev002062-hayes-village/" target="_blank" rel="noopener">barratthomes.co.uk/hayes-village</a>. Used here for resident information purposes.</p>
+        </div>
+        <div class="gallery-grid" id="gallery-list" style="margin-top: var(--space-8);"></div>
+      </div>
+    </section>
+
+    <section id="queries">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Get involved: queries, concerns &amp; submissions</h2>
+            <p class="muted">One place for everything residents send in — general questions, issues that need committee attention, photos or write-ups for the village wall, and offers to help run the Association. All four forms are demo-only on this draft — see the note under each for how to connect it to a real inbox or storage.</p>
+          </div>
+        </div>
+        <div class="events-grid">
+          <div class="reveal">
+            <div class="about-tabs" role="tablist" aria-label="Choose a form">
+              <button class="about-tab-btn active" type="button" data-forms-target="query" aria-current="true">General query</button>
+              <button class="about-tab-btn" type="button" data-forms-target="concern">Raise a concern</button>
+              <button class="about-tab-btn" type="button" data-forms-target="gallery">Share a photo &amp; story</button>
+              <button class="about-tab-btn" type="button" data-forms-target="join">Join the RA</button>
+            </div>
+
+            <div class="about-panel active" data-forms-panel="query">
+              <article class="form-card reveal">
+                <h3>General query</h3>
+                <p class="muted">For questions about the Association, events, membership, or Hayes Village life.</p>
+                <form data-demo-form="query" novalidate>
+                  <div class="field">
+                    <label for="q-name">Full name <span class="req">*</span></label>
+                    <input id="q-name" name="name" type="text" required autocomplete="name" />
+                  </div>
+                  <div class="field">
+                    <label for="q-flat">Flat / block number</label>
+                    <input id="q-flat" name="flat" type="text" placeholder="e.g. Block C, Flat 14" />
+                  </div>
+                  <div class="field">
+                    <label for="q-email">Email <span class="req">*</span></label>
+                    <input id="q-email" name="email" type="email" required autocomplete="email" />
+                  </div>
+                  <div class="field">
+                    <label for="q-category">Category</label>
+                    <select id="q-category" name="category">
+                      <option>General enquiry</option>
+                      <option>Events and activities</option>
+                      <option>Membership</option>
+                      <option>Estate and buildings</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="q-message">Your question <span class="req">*</span></label>
+                    <textarea id="q-message" name="message" required></textarea>
+                  </div>
+                  <button class="btn btn-primary" type="submit" data-ripple>Send query</button>
+                  <div class="form-status" data-form-status role="status" aria-live="polite"></div>
+                </form>
+                <p class="form-note">Demo form: submissions are not sent anywhere yet. Connect this form to the Association's inbox using a service such as Formspree, Netlify Forms, or a committee mailbox address.</p>
+              </article>
+            </div>
+
+            <div class="about-panel" data-forms-panel="concern" hidden>
+              <article class="form-card concern reveal">
+                <h3>Raise a concern</h3>
+                <p class="muted">For issues that need committee attention — repairs, safety, parking, noise, or anti-social behaviour.</p>
+                <form data-demo-form="concern" novalidate>
+                  <div class="field">
+                    <label for="c-name">Full name <span class="req">*</span></label>
+                    <input id="c-name" name="name" type="text" required autocomplete="name" />
+                  </div>
+                  <div class="field">
+                    <label for="c-flat">Flat / block number <span class="req">*</span></label>
+                    <input id="c-flat" name="flat" type="text" required placeholder="e.g. Block A, Flat 3" />
+                  </div>
+                  <div class="field">
+                    <label for="c-email">Email <span class="req">*</span></label>
+                    <input id="c-email" name="email" type="email" required autocomplete="email" />
+                  </div>
+                  <div class="field">
+                    <label for="c-type">Concern type</label>
+                    <select id="c-type" name="type">
+                      <option>Safety</option>
+                      <option>Maintenance / repairs</option>
+                      <option>Anti-social behaviour</option>
+                      <option>Parking</option>
+                      <option>Noise</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="c-urgency">Urgency</label>
+                    <select id="c-urgency" name="urgency">
+                      <option>Low — general concern</option>
+                      <option>Medium — needs attention soon</option>
+                      <option>High — urgent, affects safety or access</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="c-message">Details <span class="req">*</span></label>
+                    <textarea id="c-message" name="message" required></textarea>
+                  </div>
+                  <div class="checkbox-field">
+                    <input id="c-contact" name="contact-ok" type="checkbox" />
+                    <label for="c-contact">I'm happy to be contacted by a committee member for more detail.</label>
+                  </div>
+                  <button class="btn btn-primary" type="submit" data-ripple>Raise concern</button>
+                  <div class="form-status" data-form-status role="status" aria-live="polite"></div>
+                </form>
+                <p class="form-note">For anything urgent affecting safety right now, contact emergency services on 999 first, then use this form to notify the committee.</p>
+              </article>
+            </div>
+
+            <div class="about-panel" data-forms-panel="gallery" hidden>
+              <article class="form-card reveal">
+                <h3>Share a photo &amp; story</h3>
+                <p class="muted">Add your photo and write-up to the <a href="#events">village wall</a>.</p>
+                <form data-demo-form="gallery" novalidate>
+                  <div class="field">
+                    <label for="g-name">Your name <span class="req">*</span></label>
+                    <input id="g-name" name="name" type="text" required autocomplete="name" />
+                  </div>
+                  <div class="field">
+                    <label for="g-event">Event or occasion <span class="req">*</span></label>
+                    <input id="g-event" name="event" type="text" placeholder="e.g. Canal clean-up day" required />
+                  </div>
+                  <div class="field">
+                    <label for="g-date">Date</label>
+                    <input id="g-date" name="date" type="date" />
+                  </div>
+                  <div class="field">
+                    <label for="g-story">Write-up <span class="req">*</span></label>
+                    <textarea id="g-story" name="story" placeholder="Tell us what happened and who was there…" required></textarea>
+                  </div>
+                  <div class="field">
+                    <label for="g-photo">Photo</label>
+                    <input id="g-photo" name="photo" type="file" accept="image/*" />
+                    <div class="upload-preview">
+                      <img data-photo-preview alt="" />
+                      <span data-photo-hint>No photo selected — a placeholder tile will be used instead.</span>
+                    </div>
+                  </div>
+                  <div class="checkbox-field">
+                    <input id="g-consent" name="consent" type="checkbox" required />
+                    <label for="g-consent">I have permission to share this photo and story publicly on the village site. <span class="req">*</span></label>
+                  </div>
+                  <button class="btn btn-primary" type="submit" data-ripple>Add to the village wall</button>
+                  <div class="form-status" data-form-status role="status" aria-live="polite"></div>
+                </form>
+                <p class="form-note">Demo form: entries appear on the <a href="#events">village life &amp; events</a> wall for this session only. Connect to real storage before publishing.</p>
+              </article>
+            </div>
+
+            <div class="about-panel" data-forms-panel="join" hidden>
+              <article class="form-card join reveal">
+                <h3>Join the RA</h3>
+                <p class="muted">HVRA is run entirely by volunteer residents. Whatever time or skills you can offer — from an hour at a clean-up day to a regular committee role — tell us a bit about yourself and we'll be in touch.</p>
+                <form data-demo-form="join" novalidate>
+                  <div class="field">
+                    <label for="j-name">Full name <span class="req">*</span></label>
+                    <input id="j-name" name="name" type="text" required autocomplete="name" />
+                  </div>
+                  <div class="field">
+                    <label for="j-flat">Flat / block number <span class="req">*</span></label>
+                    <input id="j-flat" name="flat" type="text" required placeholder="e.g. Block B, Flat 22" />
+                  </div>
+                  <div class="field">
+                    <label for="j-email">Email <span class="req">*</span></label>
+                    <input id="j-email" name="email" type="email" required autocomplete="email" />
+                  </div>
+                  <div class="field">
+                    <label for="j-about">Tell us a bit about yourself <span class="req">*</span></label>
+                    <textarea id="j-about" name="about" placeholder="What would you like to help with, and how much time can you offer?" required></textarea>
+                  </div>
+                  <button class="btn btn-primary" type="submit" data-ripple>Offer to help</button>
+                  <div class="form-status" data-form-status role="status" aria-live="polite"></div>
+                </form>
+                <p class="form-note">Demo form: submissions are not sent anywhere yet. Connect this form to the committee's inbox so volunteer offers reach HVRA directly.</p>
+              </article>
+            </div>
+          </div>
+
+          <aside class="hero-card reveal">
+            <h3>Editorial guidance &amp; house rules</h3>
+            <p class="muted">A few ground rules keep every form here useful and safe for the whole community.</p>
+            <ul>
+              <li>Keep language appropriate and respectful — no abuse, harassment, or personal attacks.</li>
+              <li>Stick to facts for queries and concerns; avoid naming individuals in public-facing posts.</li>
+              <li>Only share photos and stories you have permission to post publicly.</li>
+              <li>Keep captions short: who, what, and when.</li>
+              <li>A committee member moderates concern reports and photo submissions before anything is published or actioned.</li>
+              <li>For anything urgent affecting safety right now, call 999 first, then use the concern form to notify the committee.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag">Moderated before publishing</span>
+              <span class="tag">Consent required for photos</span>
+              <span class="tag">Keep it respectful</span>
+            </div>
+          </aside>
+        </div>
+
+        <div class="section-head reveal" id="contacts" style="margin-top: var(--space-10); scroll-margin-top: 6rem;">
+          <div>
+            <h3>Useful contacts</h3>
+            <p class="muted">Groups residents may need to contact directly, from policing to property management — the committee's own contact routes are covered in the forms above.</p>
+          </div>
+        </div>
+        <div class="org-directory reveal">
+          <div class="org-grid" role="tablist" aria-label="Choose an organisation">
+            <button class="org-chip active" type="button" data-org-target="police" aria-current="true" style="--org-accent: var(--color-warning);">
+              <span class="org-chip-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" /></svg></span>
+              <span class="org-chip-name">Police</span>
+              <span class="org-chip-sub">999 / 101</span>
+            </button>
+            <button class="org-chip" type="button" data-org-target="council" style="--org-accent: var(--color-blue);">
+              <span class="org-chip-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 21V9l8-5 8 5v12M9 21v-6h6v6" /></svg></span>
+              <span class="org-chip-name">Hillingdon Council</span>
+              <span class="org-chip-sub">Reporting &amp; services</span>
+            </button>
+            <button class="org-chip" type="button" data-org-target="mps" style="--org-accent: var(--color-success);">
+              <span class="org-chip-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" /></svg></span>
+              <span class="org-chip-name">Local MPs &amp; Councillors</span>
+              <span class="org-chip-sub">Hayes &amp; Harlington</span>
+            </button>
+            <button class="org-chip" type="button" data-org-target="barratt" style="--org-accent: var(--color-primary);">
+              <span class="org-chip-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 3l9 8" /><path d="M5 10v11h14V10" /><path d="M10 21v-6h4v6" /></svg></span>
+              <span class="org-chip-name">Barratt London</span>
+              <span class="org-chip-sub">Sales &amp; customer services</span>
+            </button>
+            <button class="org-chip" type="button" data-org-target="lq" style="--org-accent: var(--color-blue);">
+              <span class="org-chip-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="15" r="4" /><path d="M11 12 20 3M15 8l3 3M18 5l3 3" /></svg></span>
+              <span class="org-chip-name">L&amp;Q</span>
+              <span class="org-chip-sub">Shared ownership &amp; LLR</span>
+            </button>
+            <button class="org-chip" type="button" data-org-target="firstport" style="--org-accent: var(--color-warning);">
+              <span class="org-chip-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4L21 6l-3-3-3.3 3.3Z" /></svg></span>
+              <span class="org-chip-name">FirstPort</span>
+              <span class="org-chip-sub">Property management</span>
+            </button>
+            <button class="org-chip" type="button" data-org-target="pcm" style="--org-accent: var(--color-success);">
+              <span class="org-chip-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11 6.5 6a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 11" /><rect x="3" y="11" width="18" height="6" rx="2" /><circle cx="7.5" cy="17" r="1.4" /><circle cx="16.5" cy="17" r="1.4" /></svg></span>
+              <span class="org-chip-name">PCM Parking</span>
+              <span class="org-chip-sub">Permits &amp; appeals</span>
+            </button>
+          </div>
+
+          <div class="essentials-panels">
+            <div class="org-panel-card" data-org-panel="police" style="--org-accent: var(--color-warning);">
+              <div class="org-panel-head">
+                <span class="org-panel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" /></svg></span>
+                <h3>Police</h3>
+              </div>
+              <div class="org-quick-actions">
+                <a class="org-action-btn" href="tel:999">Call 999 (emergency)</a>
+                <a class="org-action-btn" href="tel:101">Call 101 (non-emergency)</a>
+                <a class="org-action-btn" href="mailto:HayesTown@contact.metengage.co.uk">Email local team</a>
+              </div>
+              <ul class="supplier-list two-col">
+                <li><strong>Emergency:</strong> 999</li>
+                <li><strong>Non-emergency:</strong> 101</li>
+                <li><strong>Textphone:</strong> 18001 101</li>
+                <li><strong>Report online:</strong> <a href="https://www.met.police.uk/ro/report/" target="_blank" rel="noopener">met.police.uk/ro/report</a></li>
+                <li><strong>Local team:</strong> Hayes Town Safer Neighbourhood Team</li>
+                <li><strong>Local email:</strong> <a href="mailto:HayesTown@contact.metengage.co.uk">HayesTown@contact.metengage.co.uk</a></li>
+                <li><strong>Local police page:</strong> <a href="https://www.met.police.uk/area/your-area/met/hillingdon/hayes-town/" target="_blank" rel="noopener">Hayes Town police info</a></li>
+              </ul>
+            </div>
+            <div class="org-panel-card" data-org-panel="council" style="--org-accent: var(--color-blue);" hidden>
+              <div class="org-panel-head">
+                <span class="org-panel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 21V9l8-5 8 5v12M9 21v-6h6v6" /></svg></span>
+                <h3>Hillingdon Council</h3>
+              </div>
+              <div class="org-quick-actions">
+                <a class="org-action-btn" href="https://pre.hillingdon.gov.uk/report" target="_blank" rel="noopener">Report an issue</a>
+                <a class="org-action-btn" href="https://pre.hillingdon.gov.uk/get-touch/contact-us-phone" target="_blank" rel="noopener">Call the council</a>
+              </div>
+              <ul class="supplier-list two-col">
+                <li><strong>Main contact page:</strong> <a href="https://pre.hillingdon.gov.uk/get-touch" target="_blank" rel="noopener">Hillingdon Council</a></li>
+                <li><strong>Phone contacts:</strong> <a href="https://pre.hillingdon.gov.uk/get-touch/contact-us-phone" target="_blank" rel="noopener">Contact us by phone</a></li>
+                <li><strong>Report issues online:</strong> <a href="https://pre.hillingdon.gov.uk/report" target="_blank" rel="noopener">Report an issue</a></li>
+                <li><strong>Fly-tipping:</strong> <a href="https://pre.hillingdon.gov.uk/antisocialbehaviour/fly-tipping-dumped-rubbish" target="_blank" rel="noopener">Report fly-tipping</a></li>
+                <li><strong>Bulky waste:</strong> <a href="https://www.hillingdon.gov.uk/article/10083/Bulky-Waste-Collection" target="_blank" rel="noopener">Bulky waste collection</a></li>
+                <li><strong>Street issues:</strong> <a href="https://www.hillingdon.gov.uk/article/7554/Issues-in-the-street" target="_blank" rel="noopener">Report street issues</a></li>
+                <li><strong>Council homepage:</strong> <a href="https://pre.hillingdon.gov.uk/" target="_blank" rel="noopener">hillingdon.gov.uk</a></li>
+              </ul>
+            </div>
+            <div class="org-panel-card" data-org-panel="mps" style="--org-accent: var(--color-success);" hidden>
+              <div class="org-panel-head">
+                <span class="org-panel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" /></svg></span>
+                <h3>Local MPs and Councillors (Hayes UB3 4)</h3>
+              </div>
+              <div class="org-quick-actions">
+                <a class="org-action-btn" href="mailto:mcdonnellj@parliament.uk">Email the MP</a>
+                <a class="org-action-btn" href="https://www.john-mcdonnell.net/contact/" target="_blank" rel="noopener">MP website</a>
+                <a class="org-action-btn" href="https://www.hillingdon.gov.uk/article/9393/Find-your-ward-and-councillor-by-postcode" target="_blank" rel="noopener">Find your councillor</a>
+              </div>
+              <p class="muted" style="margin-bottom: var(--space-3);">MP for Hayes and Harlington</p>
+              <ul class="supplier-list two-col">
+                <li><strong>MP:</strong> The Rt Hon John McDonnell (Labour)</li>
+                <li><strong>Constituency:</strong> Hayes and Harlington</li>
+                <li><strong>Parliamentary email:</strong> <a href="mailto:mcdonnellj@parliament.uk">mcdonnellj@parliament.uk</a></li>
+                <li><strong>Westminster phone:</strong> 0207 219 4100</li>
+                <li><strong>Constituency office:</strong> Pump Lane, Hayes, UB3 3NB</li>
+                <li><strong>Constituency phone:</strong> 020 8569 0010</li>
+                <li><strong>MP website:</strong> <a href="https://www.john-mcdonnell.net/contact/" target="_blank" rel="noopener">john-mcdonnell.net</a></li>
+                <li><strong>Social media:</strong> <a href="https://x.com/johnmcdonnellMP" target="_blank" rel="noopener">@johnmcdonnellMP</a></li>
+              </ul>
+              <p class="muted" style="margin: var(--space-4) 0 var(--space-3);">Local Councillors (Hayes Town Ward)</p>
+              <ul class="supplier-list two-col">
+                <li><strong>Ward:</strong> Hayes Town (elects three councillors to Hillingdon Council)</li>
+                <li><strong>Find your exact ward and councillors:</strong> <a href="https://www.hillingdon.gov.uk/article/9393/Find-your-ward-and-councillor-by-postcode" target="_blank" rel="noopener">Find your ward and councillor by postcode</a></li>
+                <li><strong>Councillors (2026):</strong> Stuart Mathers (Labour), Navnit Dhesi (Labour), Raju Sansarpuri (Labour) — elected for Hayes Town in May 2026</li>
+                <li><strong>Find all Hillingdon councillors:</strong> <a href="https://modgov.hillingdon.gov.uk/" target="_blank" rel="noopener">Hillingdon Council – Find your councillor</a></li>
+                <li><strong>National councillor search:</strong> <a href="https://www.gov.uk/find-your-local-councillors" target="_blank" rel="noopener">GOV.UK – Find your local councillors</a></li>
+              </ul>
+            </div>
+            <div class="org-panel-card" data-org-panel="barratt" style="--org-accent: var(--color-primary);" hidden>
+              <div class="org-panel-head">
+                <span class="org-panel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 3l9 8" /><path d="M5 10v11h14V10" /><path d="M10 21v-6h4v6" /></svg></span>
+                <h3>Barratt London</h3>
+              </div>
+              <div class="org-quick-actions">
+                <a class="org-action-btn" href="tel:03300294474">Call sales — 0330 029 4474</a>
+                <a class="org-action-btn" href="mailto:customerservices@barrattlondon.com">Email customer services</a>
+                <a class="org-action-btn" href="https://www.barratthomes.co.uk/new-homes/dev002062-hayes-village/" target="_blank" rel="noopener">Hayes Village page</a>
+              </div>
+              <ul class="supplier-list two-col">
+                <li><strong>Hayes Village page:</strong> <a href="https://www.barratthomes.co.uk/new-homes/dev002062-hayes-village/" target="_blank" rel="noopener">Barratt London – Hayes Village</a></li>
+                <li><strong>Sales phone:</strong> 0330 029 4474</li>
+                <li><strong>Sales hours:</strong> Mon to Sun, 9am to 6pm</li>
+                <li><strong>Address:</strong> Carnation Gardens, Nestle Avenue, Hayes, UB3 4QF</li>
+                <li><strong>Main Barratt London contact:</strong> <a href="https://www.barratthomes.co.uk/new-homes/london/get-in-touch/contact-us/" target="_blank" rel="noopener">Contact us</a></li>
+                <li><strong>Central sales team:</strong> 0330 057 6666</li>
+                <li><strong>West London customer services:</strong> 020 8799 4150</li>
+                <li><strong>Customer services email:</strong> <a href="mailto:customerservices@barrattlondon.com">customerservices@barrattlondon.com</a></li>
+                <li><strong>Out of hours emergency:</strong> 0345 601 6084</li>
+              </ul>
+            </div>
+            <div class="org-panel-card" data-org-panel="lq" style="--org-accent: var(--color-blue);" hidden>
+              <div class="org-panel-head">
+                <span class="org-panel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="15" r="4" /><path d="M11 12 20 3M15 8l3 3M18 5l3 3" /></svg></span>
+                <h3>L&amp;Q</h3>
+              </div>
+              <div class="org-quick-actions">
+                <a class="org-action-btn" href="tel:02081890405">Call LLR — 0208 189 0405</a>
+                <a class="org-action-btn" href="mailto:llrhayesvillage@lqgroup.org.uk">Email LLR team</a>
+                <a class="org-action-btn" href="https://lqhomes.com/hayesvillage/" target="_blank" rel="noopener">Hayes Village page</a>
+              </div>
+              <ul class="supplier-list two-col">
+                <li><strong>Hayes Village page:</strong> <a href="https://lqhomes.com/hayesvillage/" target="_blank" rel="noopener">L&amp;Q at Hayes Village</a></li>
+                <li><strong>Address:</strong> 1 Cranton Avenue, Hillingdon, London, UB3 4SD</li>
+                <li><strong>London Living Rent phone:</strong> 0208 189 0405</li>
+                <li><strong>London Living Rent email:</strong> <a href="mailto:llrhayesvillage@lqgroup.org.uk">llrhayesvillage@lqgroup.org.uk</a></li>
+                <li><strong>Hours:</strong> Monday to Friday, 9am to 5pm</li>
+                <li><strong>Main contact page:</strong> <a href="https://www.lqgroup.org.uk/contact-us" target="_blank" rel="noopener">L&amp;Q contact us</a></li>
+                <li><strong>Phone contact page:</strong> <a href="https://www.lqgroup.org.uk/contact-us/contacting-us-by-phone" target="_blank" rel="noopener">Contacting L&amp;Q by phone</a></li>
+                <li><strong>Register interest:</strong> <a href="https://lqhomes.com/hayesvillage/home/register-interest/" target="_blank" rel="noopener">L&amp;Q Hayes Village register interest</a></li>
+              </ul>
+            </div>
+            <div class="org-panel-card" data-org-panel="firstport" style="--org-accent: var(--color-warning);" hidden>
+              <div class="org-panel-head">
+                <span class="org-panel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4L21 6l-3-3-3.3 3.3Z" /></svg></span>
+                <h3>FirstPort Property Management</h3>
+              </div>
+              <div class="org-quick-actions">
+                <a class="org-action-btn" href="tel:03333214080">Call — 0333 321 4080</a>
+                <a class="org-action-btn" href="mailto:help@firstport.co.uk">Email help@firstport.co.uk</a>
+                <a class="org-action-btn" href="tel:01455247412">Out of hours — 01455 247 412</a>
+              </div>
+              <ul class="supplier-list two-col">
+                <li><strong>Main contact page:</strong> <a href="https://www.firstport.co.uk/contact-us/" target="_blank" rel="noopener">FirstPort contact</a></li>
+                <li><strong>Customer services:</strong> 0333 321 4080</li>
+                <li><strong>Service hours:</strong> Monday to Friday, 9am to 5pm</li>
+                <li><strong>Email:</strong> <a href="mailto:help@firstport.co.uk">help@firstport.co.uk</a></li>
+                <li><strong>Customer services form:</strong> <a href="https://www.firstport.co.uk/contact-us/customer-services/" target="_blank" rel="noopener">FirstPort customer services</a></li>
+                <li><strong>Out of hours support:</strong> 24/7 emergency support available</li>
+                <li><strong>Out of hours phone:</strong> 01455 247 412</li>
+              </ul>
+            </div>
+            <div class="org-panel-card" data-org-panel="pcm" style="--org-accent: var(--color-success);" hidden>
+              <div class="org-panel-head">
+                <span class="org-panel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11 6.5 6a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 11" /><rect x="3" y="11" width="18" height="6" rx="2" /><circle cx="7.5" cy="17" r="1.4" /><circle cx="16.5" cy="17" r="1.4" /></svg></span>
+                <h3>PCM Parking Management</h3>
+              </div>
+              <div class="org-quick-actions">
+                <a class="org-action-btn" href="https://paymypcn-uk.co.uk/" target="_blank" rel="noopener">Pay or appeal a PCN</a>
+                <a class="org-action-btn" href="tel:01753512603">Call — 01753 512603</a>
+                <a class="org-action-btn" href="https://www.permitpcm.com/" target="_blank" rel="noopener">Permit portal</a>
+              </div>
+              <ul class="supplier-list two-col">
+                <li><strong>Company:</strong> Parking Control Management (UK) Ltd</li>
+                <li><strong>Main contact page:</strong> <a href="https://www.parkingcontrolmanagement.co.uk/contactus/" target="_blank" rel="noopener">PCM contact</a></li>
+                <li><strong>Phone:</strong> 01753 512603</li>
+                <li><strong>Permit portal:</strong> <a href="https://www.permitpcm.com/" target="_blank" rel="noopener">PermitPCM</a></li>
+                <li><strong>Visitor parking:</strong> <a href="https://www.parkingcontrolmanagement.co.uk/parking-permits/virtual-visitor-parking/" target="_blank" rel="noopener">Virtual Visitor Parking</a></li>
+                <li><strong>Pay or appeal a PCN:</strong> <a href="https://paymypcn-uk.co.uk/" target="_blank" rel="noopener">paymypcn-uk.co.uk</a></li>
+                <li><strong>Appeals page:</strong> <a href="https://www.parkingcontrolmanagement.co.uk/enforcement-appeals-debt-recovery/appeals/" target="_blank" rel="noopener">PCM appeals</a></li>
+                <li><strong>Appeal deadline:</strong> within 28 days of issue</li>
+                <li><strong>Postal address:</strong> The Courtyard, 1a Cranbourne Road, Slough, SL1 2XF</li>
+                <li><strong>Appeals must be in writing:</strong> phone appeals are not accepted</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="meetings">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Association meetings</h2>
+            <p class="muted">A running record of committee and resident meetings. Each entry keeps notes, actions, and resolutions together — replace the placeholder text as meetings happen.</p>
+          </div>
+        </div>
+        <div class="meetings-toolbar">
+          <button class="btn btn-secondary" type="button" data-add-meeting data-ripple>+ Add meeting template</button>
+        </div>
+        <div id="meetings-list">
+          <article class="meeting-card reveal">
+            <div class="meeting-head">
+              <div>
+                <div class="year">[Placeholder] Meeting date</div>
+                <h3>DD Month YYYY — Committee meeting</h3>
+              </div>
+              <div class="tag-row">
+                <span class="tag">Attendees: [Placeholder]</span>
+                <span class="tag">Chair: [Placeholder]</span>
+              </div>
+            </div>
+            <div class="meeting-cols">
+              <div class="meeting-col">
+                <h4>Notes</h4>
+                <p class="placeholder-text">[Placeholder] Key discussion points from this meeting.</p>
+              </div>
+              <div class="meeting-col">
+                <h4>Actions</h4>
+                <p class="placeholder-text">[Placeholder] Action, owner, and due date.</p>
+              </div>
+              <div class="meeting-col">
+                <h4>Resolutions</h4>
+                <p class="placeholder-text">[Placeholder] Decisions agreed and next steps.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <h3>Disclaimer</h3>
+      <p class="small">All information on this site is correct at the time of publication. For the latest updates, or to report anything that has changed, please contact the Hayes Village Residents Association (HVRA).</p>
+      <p class="small" style="margin-top: var(--space-3);">This website is produced by residents for the Hayes Village community and is not an official publication of Barratt London, L&amp;Q, FirstPort, Hillingdon Council, the Metropolitan Police, or any other organisation referenced on this site. Contact details, links, and third-party information are provided in good faith and believed accurate at the time of writing, but HVRA cannot guarantee their ongoing accuracy and accepts no liability for errors, omissions, or reliance placed on this content. Links to external websites are provided for convenience; HVRA is not responsible for the content, accuracy, or availability of third-party sites.</p>
+      <p class="small" style="margin-top: var(--space-3);">Nothing on this site constitutes legal, financial, or professional advice. Residents should verify anything important — including safety, legal, tenancy, or financial matters — directly with the relevant organisation or a qualified professional. Official development photography is credited to Barratt London where used; all other trademarks and logos remain the property of their respective owners.</p>
+      <p class="small" style="margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid rgba(125,120,110,0.16);">&copy; Hayes Village Residents Association. This is a working resident-led draft, not a final or officially endorsed publication.</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" type="button" data-back-to-top aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    (function () {
+      /* ---------- theme toggle ---------- */
+      const root = document.documentElement;
+      const themeBtn = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      const renderTheme = () => {
+        themeBtn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode');
+        themeBtn.innerHTML = theme === 'dark'
+          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>'
+          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+      };
+      renderTheme();
+      themeBtn.addEventListener('click', function () {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        renderTheme();
+      });
+
+      /* ---------- scroll progress + header shadow + back to top ---------- */
+      const progress = document.querySelector('[data-scroll-progress]');
+      const header = document.querySelector('[data-site-header]');
+      const backToTop = document.querySelector('[data-back-to-top]');
+      function onScroll() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progress.style.width = pct + '%';
+        header.classList.toggle('scrolled', scrollTop > 8);
+        backToTop.classList.toggle('visible', scrollTop > 480);
+      }
+      document.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+      backToTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      /* ---------- scrollspy for nav ---------- */
+      const navLinks = Array.from(document.querySelectorAll('[data-nav-link]'));
+      const sectionIds = navLinks.map(a => a.getAttribute('href')).filter(h => h && h.startsWith('#'));
+      const sections = sectionIds.map(id => document.querySelector(id)).filter(Boolean);
+      const spy = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = '#' + entry.target.id;
+            navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      sections.forEach(s => spy.observe(s));
+
+      /* ---------- reveal on scroll ---------- */
+      const revealEls = Array.from(document.querySelectorAll('.reveal'));
+      revealEls.forEach((el, i) => {
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+      });
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(el => revealObserver.observe(el));
+
+      /* ---------- button ripple ---------- */
+      document.querySelectorAll('[data-ripple]').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+          const rect = btn.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const span = document.createElement('span');
+          span.className = 'ripple';
+          span.style.width = span.style.height = size + 'px';
+          span.style.left = (e.clientX - rect.left - size / 2) + 'px';
+          span.style.top = (e.clientY - rect.top - size / 2) + 'px';
+          btn.appendChild(span);
+          span.addEventListener('animationend', () => span.remove());
+        });
+      });
+
+      /* ---------- subtle hero card tilt ---------- */
+      const tiltEl = document.querySelector('[data-tilt]');
+      if (tiltEl && window.matchMedia('(pointer: fine)').matches) {
+        tiltEl.style.transformStyle = 'preserve-3d';
+        tiltEl.addEventListener('mousemove', function (e) {
+          const rect = tiltEl.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          tiltEl.style.transform = 'perspective(700px) rotateX(' + (-y * 5) + 'deg) rotateY(' + (x * 5) + 'deg)';
+        });
+        tiltEl.addEventListener('mouseleave', function () {
+          tiltEl.style.transform = 'perspective(700px) rotateX(0) rotateY(0)';
+        });
+      }
+
+      /* ---------- generic tab switcher (about, forms) ---------- */
+      function initTabSwitcher(targetAttr, panelAttr) {
+        const btns = Array.from(document.querySelectorAll('[' + targetAttr + ']'));
+        const panels = Array.from(document.querySelectorAll('[' + panelAttr + ']'));
+        btns.forEach(btn => {
+          btn.addEventListener('click', function () {
+            const target = btn.getAttribute(targetAttr);
+            btns.forEach(b => { b.classList.toggle('active', b === btn); b.removeAttribute('aria-current'); });
+            btn.setAttribute('aria-current', 'true');
+            panels.forEach(p => {
+              if (p.getAttribute(panelAttr) === target) {
+                p.removeAttribute('hidden');
+              } else {
+                p.setAttribute('hidden', '');
+              }
+            });
+          });
+        });
+      }
+      initTabSwitcher('data-about-target', 'data-about-panel');
+      initTabSwitcher('data-forms-target', 'data-forms-panel');
+      initTabSwitcher('data-org-target', 'data-org-panel');
+
+      /* ---------- essentials topic switcher ---------- */
+      const essentialsNavBtns = Array.from(document.querySelectorAll('[data-essential-target]'));
+      const essentialsPanels = Array.from(document.querySelectorAll('[data-essential-panel]'));
+      essentialsNavBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          const target = btn.getAttribute('data-essential-target');
+          essentialsNavBtns.forEach(b => { b.classList.toggle('active', b === btn); b.removeAttribute('aria-current'); });
+          btn.setAttribute('aria-current', 'true');
+          essentialsPanels.forEach(p => {
+            if (p.getAttribute('data-essential-panel') === target) {
+              p.removeAttribute('hidden');
+            } else {
+              p.setAttribute('hidden', '');
+            }
+          });
+        });
+      });
+
+      /* ---------- magazine page-turn carousel (development news) ---------- */
+      const magazineEl = document.querySelector('[data-magazine]');
+      if (magazineEl) {
+        const pages = Array.from(magazineEl.querySelectorAll('.magazine-page'));
+        const dots = Array.from(magazineEl.querySelectorAll('[data-magazine-goto]'));
+        let currentPage = 0;
+        let animating = false;
+        function goToPage(nextIndex, direction) {
+          if (animating || nextIndex === currentPage || nextIndex < 0 || nextIndex >= pages.length) return;
+          animating = true;
+          const outgoing = pages[currentPage];
+          const incoming = pages[nextIndex];
+          incoming.classList.add(direction === 'next' ? 'entering-start' : 'entering-start');
+          incoming.style.transform = direction === 'next' ? 'rotateY(110deg)' : 'rotateY(-110deg)';
+          incoming.style.transformOrigin = direction === 'next' ? 'right center' : 'left center';
+          incoming.style.display = 'block';
+          incoming.style.opacity = '0';
+          outgoing.classList.remove('active');
+          outgoing.classList.add('leaving');
+          outgoing.style.transform = direction === 'next' ? 'rotateY(-110deg)' : 'rotateY(110deg)';
+          outgoing.style.transformOrigin = direction === 'next' ? 'left center' : 'right center';
+          // force reflow then animate incoming to resting position
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              incoming.style.transform = 'rotateY(0deg)';
+              incoming.style.opacity = '1';
+              incoming.classList.add('active');
+            });
+          });
+          setTimeout(() => {
+            outgoing.classList.remove('leaving');
+            outgoing.style.display = '';
+            outgoing.style.transform = '';
+            outgoing.style.opacity = '';
+            outgoing.style.transformOrigin = '';
+            incoming.classList.remove('entering-start');
+            incoming.style.transform = '';
+            incoming.style.opacity = '';
+            incoming.style.transformOrigin = '';
+            currentPage = nextIndex;
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentPage));
+            animating = false;
+          }, 580);
+        }
+        const prevBtn = magazineEl.querySelector('[data-magazine-prev]');
+        const nextBtn = magazineEl.querySelector('[data-magazine-next]');
+        if (prevBtn) prevBtn.addEventListener('click', () => goToPage((currentPage - 1 + pages.length) % pages.length, 'prev'));
+        if (nextBtn) nextBtn.addEventListener('click', () => goToPage((currentPage + 1) % pages.length, 'next'));
+        dots.forEach(dot => {
+          dot.addEventListener('click', function () {
+            const idx = parseInt(dot.getAttribute('data-magazine-goto'), 10);
+            goToPage(idx, idx > currentPage ? 'next' : 'prev');
+          });
+        });
+      }
+
+      /* ---------- village wall photo carousel ---------- */
+      const photoTrack = document.querySelector('[data-photo-track]');
+      if (photoTrack) {
+        const prevPhotoBtn = document.querySelector('[data-photo-prev]');
+        const nextPhotoBtn = document.querySelector('[data-photo-next]');
+        const scrollAmount = () => Math.min(360, photoTrack.clientWidth * 0.8);
+        if (prevPhotoBtn) prevPhotoBtn.addEventListener('click', () => photoTrack.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+        if (nextPhotoBtn) nextPhotoBtn.addEventListener('click', () => photoTrack.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+      }
+
+      /* ---------- critical alert expand/collapse ---------- */
+      document.querySelectorAll('[data-toggle-alert-details]').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const box = btn.closest('[data-critical-alert]');
+          const details = box.querySelector('[data-alert-details]');
+          const isHidden = details.hasAttribute('hidden');
+          if (isHidden) {
+            details.removeAttribute('hidden');
+            btn.textContent = 'Hide details';
+          } else {
+            details.setAttribute('hidden', '');
+            btn.textContent = 'View details';
+          }
+        });
+      });
+
+      /* ---------- photo preview for village life form ---------- */
+      const photoInput = document.getElementById('g-photo');
+      if (photoInput) {
+        const previewImg = document.querySelector('[data-photo-preview]');
+        const previewHint = document.querySelector('[data-photo-hint]');
+        photoInput.addEventListener('change', function () {
+          const file = photoInput.files && photoInput.files[0];
+          if (!file) {
+            previewImg.classList.remove('has-image');
+            previewImg.src = '';
+            previewHint.textContent = 'No photo selected — a placeholder tile will be used instead.';
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            previewImg.src = e.target.result;
+            previewImg.classList.add('has-image');
+            previewHint.textContent = file.name;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      /* ---------- demo forms (query, concern, contact, gallery) ---------- */
+      const galleryList = document.getElementById('gallery-list');
+      const galleryGradients = [
+        'linear-gradient(135deg, var(--color-primary) 0%, var(--color-blue) 100%)',
+        'linear-gradient(135deg, var(--color-warning) 0%, var(--color-primary-highlight) 100%)',
+        'linear-gradient(135deg, var(--color-success) 0%, var(--color-blue) 100%)',
+        'linear-gradient(135deg, var(--color-blue) 0%, var(--color-success) 100%)'
+      ];
+      let galleryGradientIndex = 0;
+
+      function addGalleryTile(form) {
+        const name = form.querySelector('#g-name').value.trim() || 'A resident';
+        const event = form.querySelector('#g-event').value.trim() || 'Village event';
+        const date = form.querySelector('#g-date').value;
+        const photoFile = form.querySelector('#g-photo').files[0];
+        const tile = document.createElement('article');
+        tile.className = 'gallery-tile reveal';
+        const dateLabel = date ? new Date(date + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Date not given';
+
+        function finishTile(mediaHtml) {
+          tile.innerHTML = mediaHtml + '<div class="gallery-overlay"><strong>' + event.replace(/</g, '&lt;') + '</strong><span>' + name.replace(/</g, '&lt;') + ' · ' + dateLabel + '</span></div>';
+          galleryList.prepend(tile);
+          revealObserver.observe(tile);
+          requestAnimationFrame(() => requestAnimationFrame(() => tile.classList.add('in-view')));
+          tile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        if (photoFile) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            finishTile('<img src="' + e.target.result + '" alt="Photo from ' + event.replace(/"/g, '') + '" />');
+          };
+          reader.readAsDataURL(photoFile);
+        } else {
+          const gradient = galleryGradients[galleryGradientIndex % galleryGradients.length];
+          galleryGradientIndex++;
+          finishTile('<div class="gallery-art" style="background: ' + gradient + ';"></div>');
+        }
+      }
+
+      document.querySelectorAll('[data-demo-form]').forEach(form => {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const status = form.querySelector('[data-form-status]');
+          if (!form.checkValidity()) {
+            status.textContent = 'Please fill in the required fields before submitting.';
+            status.className = 'form-status error';
+            form.reportValidity();
+            return;
+          }
+          const kind = form.getAttribute('data-demo-form');
+          const messages = {
+            concern: 'Thanks — your concern has been logged for this demo. In the live site this will notify the committee by email and you\'ll get a reference number.',
+            query: 'Thanks — your query has been logged for this demo. In the live site this will be emailed to the committee inbox.',
+            contact: 'Thanks — your message has been logged for this demo. In the live site this will reach the committee directly.',
+            gallery: 'Thanks for sharing! Your photo and write-up have been added to the village wall below (this session only, pending committee moderation on the live site).',
+            join: 'Thanks for offering to help! Your details have been logged for this demo. In the live site a committee member will follow up by email.'
+          };
+          status.textContent = messages[kind] || messages.query;
+          status.className = 'form-status success';
+          if (kind === 'gallery' && galleryList) {
+            addGalleryTile(form);
+          }
+          form.reset();
+          if (kind === 'gallery') {
+            const previewImg = document.querySelector('[data-photo-preview]');
+            const previewHint = document.querySelector('[data-photo-hint]');
+            if (previewImg) { previewImg.classList.remove('has-image'); previewImg.src = ''; }
+            if (previewHint) { previewHint.textContent = 'No photo selected — a placeholder tile will be used instead.'; }
+          }
+        });
+      });
+
+      /* ---------- add meeting template ---------- */
+      const addMeetingBtn = document.querySelector('[data-add-meeting]');
+      const meetingsList = document.getElementById('meetings-list');
+      if (addMeetingBtn && meetingsList) {
+        addMeetingBtn.addEventListener('click', function () {
+          const card = document.createElement('article');
+          card.className = 'meeting-card reveal';
+          card.innerHTML = `
+            <div class="meeting-head">
+              <div>
+                <div class="year">[Placeholder] Meeting date</div>
+                <h3>DD Month YYYY — New meeting</h3>
+              </div>
+              <div class="tag-row">
+                <span class="tag">Attendees: [Placeholder]</span>
+                <span class="tag">Chair: [Placeholder]</span>
+              </div>
+            </div>
+            <div class="meeting-cols">
+              <div class="meeting-col">
+                <h4>Notes</h4>
+                <p class="placeholder-text">[Placeholder] Key discussion points from this meeting.</p>
+              </div>
+              <div class="meeting-col">
+                <h4>Actions</h4>
+                <p class="placeholder-text">[Placeholder] Action, owner, and due date.</p>
+              </div>
+              <div class="meeting-col">
+                <h4>Resolutions</h4>
+                <p class="placeholder-text">[Placeholder] Decisions agreed and next steps.</p>
+              </div>
+            </div>`;
+          meetingsList.appendChild(card);
+          revealObserver.observe(card);
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => card.classList.add('in-view'));
+          });
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      }
+    }());
+  </script>
+</body>
+</html>
