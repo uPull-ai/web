@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  upull.ai sitemap — every URL below was fetched and confirmed to return real
+  page content as of 29 July 2026.
+
+  NOT included, and why:
+
+  - /case-studies.html and /prompt-engineering.html are linked from the FAQ
+    and Academy pages but both returned empty/no content when fetched -
+    they appear to be dead links, not live pages. Case studies currently
+    live only as anchors inside academy.html (#tab-casestudies, #cs-CS1,
+    etc.), not standalone URLs. Worth fixing on the site itself: either
+    build those pages for real (recommended - case studies are strong,
+    citable content) or remove the dead links.
+
+  - /news/weekly20260728.html's own in-page archive section links to
+    weekly20260728-2.html, weekly20260721-2.html, and weekly20260714-2.html
+    (note the "-2" suffix) instead of the URLs used elsewhere on the site.
+    Checked weekly20260728-2.html directly - it also returns no content.
+    This looks like a duplicate-URL bug worth fixing before submitting to
+    Search Console, since broken internal links waste crawl budget.
+
+  - /news.html currently renders identical content to the latest weekly
+    issue (/news/weekly20260728.html). That's duplicate content from
+    Google's perspective. Consider adding a canonical tag on one pointing
+    to the other, or making /news.html a true index/archive page.
+
+  Re-verify all URLs before each re-upload as new pages go live.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://upull.ai/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/faqs.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/academy.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/community.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/ucollabx.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news/weekly20260728.html</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news/weekly20260721.html</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news/weekly20260714.html</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+</urlset>
