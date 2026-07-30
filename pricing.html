@@ -1,581 +1,401 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pricing | uPull.ai</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Pricing — Discovery, Blueprint &amp; Deployment | uPull.ai</title>
   <meta name="description" content="uPull.ai pricing: a staged path from a 4-day Discovery Sprint to Blueprint Enablement to full Deployment and Scale, priced on depth of intervention, not hours.">
   <link rel="canonical" href="https://upull.ai/pricing.html">
   <meta property="og:site_name" content="uPull.ai">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://upull.ai/pricing.html">
-  <meta property="og:title" content="Pricing | uPull.ai">
+  <meta property="og:title" content="Pricing — Discovery, Blueprint &amp; Deployment | uPull.ai">
   <meta property="og:description" content="Priced as an enterprise transformation partner, not a low-cost consultancy. Three stages: Discovery Sprint, Blueprint Enablement, Deployment and Scale.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80&auto=format&fit=crop">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --nhs-blue:#005EB8;
-      --nhs-blue-rgb:0,94,184;
-      --accent-orange:#ED8B00;
-      --accent-orange-rgb:237,139,0;
-      --accent-orange-hover:#c26f00;
-      --nhs-blue-light:#41B6E6;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
+    html { scroll-padding-top: 96px; }
+    :root {
+      --primary-navy: #003087;
+      --nhs-blue: #005EB8;
+      --nhs-blue-rgb: 0,94,184;
+      --accent-orange: #ED8B00;
+      --accent-orange-rgb: 237,139,0;
+      --accent-orange-hover: #c26f00;
+      --bg-light: #F8FAFC;
+      --card-bg: #ffffff;
+      --text-dark: #1E293B;
+      --text-muted: #768692;
+      --border-color: #E8EDEE;
+      --clinical: #00A499;
+      --operational: #78BE20;
     }
-    html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#0e0e0e;color:#fff;overflow-x:hidden}
-    a{text-decoration:none;color:inherit}
-    img{display:block;width:100%;height:100%;object-fit:cover}
+    body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
 
-    /* NAV — identical to site-wide nav */
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:18px 48px;
-      background:rgba(14,14,14,0);
-      transition:background .4s;
+    header {
+      background-color: var(--primary-navy);
+      padding: 1rem 5%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--nhs-blue);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
     }
-    .nav-right{display:flex;align-items:center;gap:18px}
-    nav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
-    .brand{font-weight:900;font-size:1.6rem;letter-spacing:-.02em;background:none;border:none;box-shadow:none;padding:0;display:inline-flex;align-items:center}
-    .brand span{color:var(--accent-orange)}
-    .brand:focus{outline:none}
-    .brand:focus-visible{outline:2px solid var(--accent-orange-hover);outline-offset:3px;border-radius:8px}
-    .brand svg{display:block;width:auto;height:58px;overflow:visible}
+    .nav-container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 0.5rem 1rem; }
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+    .logo { color: #ffffff; font-size: 1.6rem; font-weight: 800; text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent-orange); }
+    .logo:focus{outline:none}
+    .logo:focus-visible{outline:2px solid var(--accent-orange-hover);outline-offset:3px}
 
-    .up-l{font-family:'Inter',sans-serif;font-weight:900;font-size:38px;filter:url(#upDrop)}
-    .up-l{transform-box:fill-box;transform-origin:50% 100%}
-    .up-base{fill:url(#upChrome)}
-    .up-acc{fill:url(#upOrange)}
-    @keyframes upDropIn{
-      0%{transform:translateY(-52px) scale(.68);opacity:0}
-      48%{opacity:1}
-      60%{transform:translateY(5px) scale(1.05)}
-      74%{transform:translateY(-2.5px) scale(.98)}
-      87%{transform:translateY(1px) scale(1.01)}
-      100%{transform:translateY(0) scale(1);opacity:1}
+    .nav-menu { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
+    .nav-item { position: relative; }
+    .nav-link-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 0.6rem 0.9rem; border-radius: 999px;
+      background: none; border: none; cursor: pointer;
+      color: #ffffff; font-size: 0.92rem; font-weight: 600; font-family: inherit;
+      transition: color 0.2s, background 0.2s;
     }
-    .up-l{animation:upDropIn .85s cubic-bezier(.22,1,.36,1) both}
-    .up-l2{animation-delay:.05s}
-    .up-l3{animation-delay:.10s}
-    .up-l4{animation-delay:.15s}
-    .up-l5{animation-delay:.20s}
-    .up-l6{animation-delay:.25s}
-    .up-l7{animation-delay:.30s}
-    .up-l8{animation-delay:.35s}
-    .up-ball-wrap{transform-box:fill-box;transform-origin:147px 9px}
-    @keyframes upBallArc{
-      0%{transform:translate(-46px,-40px) scale(.4);opacity:0}
-      45%{opacity:1}
-      62%{transform:translate(0,3px) scale(1.15);opacity:1}
-      78%{transform:translate(0,-2px) scale(.94)}
-      100%{transform:translate(0,0) scale(1);opacity:1}
+    .nav-link-item:hover, .nav-item.open > .nav-link-item, .nav-link-item.active-tab { color: var(--accent-orange); background: rgba(255,255,255,0.08); }
+    .nav-chevron {
+      width: 7px; height: 7px;
+      border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+      transform: rotate(45deg); margin-top: -2px; transition: transform 0.2s;
     }
-    .up-ball-wrap{animation:upBallArc .95s .32s cubic-bezier(.22,1,.36,1) both}
-    .up-ball-pulse{fill:url(#upOrange);transform-box:fill-box;transform-origin:147px 9px}
-    @keyframes upBallPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
-    .up-ball-pulse{animation:upBallPulse 2.8s ease-in-out 1.3s infinite}
-    .up-trail{fill:none;stroke:var(--accent-orange);stroke-width:2;stroke-linecap:round;opacity:0}
-    @keyframes upTrailFade{0%{opacity:0}8%{opacity:.5}45%{opacity:0}100%{opacity:0}}
-    .up-trail{animation:upTrailFade .95s .32s ease-out both}
-    @keyframes upShineSweep{
-      0%,100%{transform:translateX(-90px)}
-      8%,92%{transform:translateX(-90px)}
-      45%{transform:translateX(90px)}
+    .nav-item.open .nav-chevron { transform: rotate(-135deg); margin-top: 2px; }
+    .nav-submenu {
+      list-style: none; margin: 0; position: absolute; top: calc(100% + 10px); left: 0;
+      min-width: 230px; padding: 0.5rem; border-radius: 12px;
+      background: var(--primary-navy);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-top: 3px solid var(--nhs-blue);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+      opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+      z-index: 1100;
     }
-    .up-shine-g{animation:upShineSweep 4.6s 1.1s ease-in-out infinite}
-    .brand:hover .up-l,.brand:hover .up-ball-wrap{animation-duration:.5s}
-    @media (prefers-reduced-motion:reduce){
-      .up-l,.up-ball-wrap,.up-ball-pulse,.up-trail,.up-shine-g{animation:none}
-      .up-trail{opacity:0}
+    .nav-item.open > .nav-submenu, .nav-item:hover > .nav-submenu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .nav-submenu li a {
+      display: block; padding: 0.6rem 0.75rem; border-radius: 8px;
+      color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 500;
+      transition: background 0.15s, color 0.15s;
     }
+    .nav-submenu li a:hover { background: rgba(var(--nhs-blue-rgb),0.28); color: #ffffff; }
+    .cta-btn { background-color: var(--accent-orange); color: #ffffff; padding: 0.6rem 1.2rem; border-radius: 4px; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s, transform 0.1s; text-decoration: none; display: inline-block; font-size: 0.9rem; white-space: nowrap; }
+    .cta-btn:hover { background-color: var(--accent-orange-hover); transform: translateY(-1px); }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); font-size: 1.1rem; transition: 0.2s; flex-shrink: 0; text-decoration: none; }
+    .nav-icon-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+    .footer-subscribe { color: var(--accent-orange); font-weight: 700; text-decoration: none; }
+    .footer-subscribe:hover { text-decoration: underline; }
 
-    .nav-menu{display:flex;align-items:center;gap:2px;list-style:none}
-    .nav-item{position:relative}
-    .nav-link-item{
-      display:flex;align-items:center;gap:6px;
-      padding:10px 16px;border-radius:999px;
-      background:none;border:none;cursor:pointer;
-      color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;font-family:inherit;
-      transition:color .2s, background .2s;
-    }
-    .nav-link-item.active,.nav-link-item:hover, .nav-item.open > .nav-link-item{ color:#fff; background:rgba(255,255,255,.08); }
-    .nav-chevron{
-      width:7px;height:7px;
-      border-right:2px solid currentColor;border-bottom:2px solid currentColor;
-      transform:rotate(45deg);margin-top:-2px;transition:transform .2s;
-    }
-    .nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
-    .nav-submenu{
-      list-style:none;position:absolute;top:calc(100% + 10px);left:0;
-      min-width:230px;padding:10px;border-radius:16px;
-      background:rgba(14,14,14,.97);backdrop-filter:blur(18px);
-      border:1px solid rgba(255,255,255,.1);
-      border-top:3px solid var(--nhs-blue);
-      box-shadow:0 20px 44px rgba(0,0,0,.5);
-      opacity:0;visibility:hidden;transform:translateY(-8px);
-      transition:opacity .18s ease, transform .18s ease, visibility .18s;
-      z-index:200;
-    }
-    .nav-item.open > .nav-submenu, .nav-item:hover > .nav-submenu{ opacity:1; visibility:visible; transform:translateY(0); }
-    .nav-submenu li a{
-      display:block;padding:10px 12px;border-radius:10px;
-      color:rgba(255,255,255,.68);font-size:.85rem;font-weight:500;
-      transition:background .15s, color .15s;
-    }
-    .nav-submenu li a:hover{ background:rgba(var(--nhs-blue-rgb),.25); color:#fff; }
-    .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
-    .nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
-    .nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
-    .nav-toggle.active span:nth-child(2){opacity:0}
-    .nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-    .nav-btn{
-      padding:11px 22px;border-radius:999px;background:var(--accent-orange);color:#fff;
-      font-weight:800;font-size:.9rem;transition:.2s;white-space:nowrap;
-    }
-    .nav-btn:hover{background:var(--accent-orange-hover)}
-    .nav-icon-btn{
-      display:flex;align-items:center;justify-content:center;
-      width:38px;height:38px;border-radius:50%;
-      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
-      font-size:1.1rem;transition:.2s;flex-shrink:0;
-    }
-    .nav-icon-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32)}
-    @media(max-width:900px){
-      .nav-toggle{display:block}
-      .nav-menu{
-        display:none;position:fixed;top:64px;left:0;right:0;
-        flex-direction:column;align-items:stretch;gap:2px;
-        background:rgba(14,14,14,.98);backdrop-filter:blur(18px);
-        padding:14px 24px 22px;border-bottom:1px solid rgba(255,255,255,.1);
-        max-height:calc(100vh - 64px);overflow-y:auto;
-      }
-      .nav-menu.mobile-open{display:flex}
-      .nav-link-item{width:100%;justify-content:space-between}
-      .nav-submenu{
-        position:static;opacity:1;visibility:visible;transform:none;
-        display:none;box-shadow:none;background:rgba(255,255,255,.04);
-        margin:4px 0 8px;
-      }
-      .nav-item.open > .nav-submenu{display:block}
-      .nav-item:hover > .nav-submenu{display:none}
-      .nav-item.open:hover > .nav-submenu{display:block}
-    }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: #fff; margin: 4px 0; transition: 0.25s; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-    /* PAGE HEADER — inner-page equivalent of the homepage hero */
-    #page-header{
-      position:relative;padding:190px 48px 90px;
-      background:
-        radial-gradient(ellipse 900px 500px at 15% -10%, rgba(var(--nhs-blue-rgb),.16), transparent 60%),
-        #0e0e0e;
-      border-bottom:1px solid #1a1a1a;
-    }
-    #page-header .tag{margin-bottom:22px}
-    #page-header h1{
-      font-size:clamp(2.2rem,4vw,3.6rem);font-weight:900;letter-spacing:-.03em;
-      line-height:1.05;margin-bottom:20px;max-width:16ch;
-    }
-    #page-header h1 em{color:var(--accent-orange);font-style:normal}
-    #page-header p{font-size:1.1rem;color:rgba(255,255,255,.62);max-width:60ch;line-height:1.65}
-    @media(max-width:900px){ #page-header{padding:150px 24px 64px} }
+    main { max-width: 1100px; margin: 0 auto; padding: 0 5% 4rem; }
+    section { padding: 3rem 0; border-bottom: 1px solid var(--border-color); }
+    section:last-of-type { border-bottom: none; }
 
-    /* Shared section elements reused from the site's design language */
-    .tag{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 14px;border-radius:999px;
-      background:rgba(var(--nhs-blue-rgb),.18);border:1px solid rgba(var(--nhs-blue-rgb),.4);
-      color:var(--nhs-blue-light);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    .hero {
+      background: linear-gradient(rgba(10, 25, 47, 0.92), rgba(10, 25, 47, 0.98)), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+      color: #fff; border-radius: 12px; padding: 3rem 2rem; margin-top: 1rem;
+      box-shadow: 0 10px 20px -3px rgba(0,0,0,0.08);
     }
-    .tag::before{content:'';width:7px;height:7px;border-radius:999px;background:var(--accent-orange)}
+    .hero h1 { font-size: 2.3rem; line-height: 1.15; margin-bottom: 1rem; font-weight: 800; letter-spacing: -0.5px; }
+    .hero p { max-width: 760px; opacity: 0.92; font-size: 1.05rem; }
+    .toc { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+    .toc a { background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.18); padding: 0.55rem 0.95rem; border-radius: 999px; font-size: 0.88rem; font-weight: 600; }
+    .toc a:hover { background: rgba(255,255,255,0.16); }
 
-    /* STAGES */
-    #stages{background:#0e0e0e;padding:100px 48px}
-    .numbers-intro{max-width:900px;margin-bottom:56px}
-    .numbers-intro .tag{margin-bottom:14px}
-    .numbers-intro h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 16px;line-height:1.1;max-width:20ch}
-    .numbers-intro p{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65;max-width:60ch}
+    .section-title { text-align: center; font-size: 2rem; color: var(--primary-navy); margin-bottom: 0.5rem; font-weight: 800; letter-spacing: -0.5px; }
+    .section-subtitle { text-align: center; color: var(--text-muted); font-size: 1rem; max-width: 760px; margin: 0 auto 2rem auto; padding: 0 1rem; }
 
-    .stages-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-    .stage-card{
-      background:#111;border:1px solid #222;border-radius:20px;
-      padding:32px 28px;display:flex;flex-direction:column;
-      transition:.3s;
-    }
-    .stage-card.featured{border-color:rgba(var(--nhs-blue-rgb),.5);box-shadow:0 0 0 1px rgba(var(--nhs-blue-rgb),.25)}
-    .stage-card:hover{border-color:#333;transform:translateY(-3px)}
-    .stage-eyebrow{
-      font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
-      color:var(--nhs-blue-light);margin-bottom:10px;
-    }
-    .stage-card h3{font-size:1.3rem;font-weight:800;margin-bottom:10px;letter-spacing:-.01em}
-    .stage-price{font-size:2rem;font-weight:900;letter-spacing:-.03em;color:var(--accent-orange);margin-bottom:4px}
-    .stage-duration{font-size:.85rem;font-weight:600;color:rgba(255,255,255,.45);margin-bottom:18px}
-    .stage-desc{font-size:.92rem;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:22px}
-    .best-for-label{
-      font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
-      color:rgba(255,255,255,.4);margin:auto 0 12px;padding-top:18px;border-top:1px solid #1f1f1f;
-    }
-    .stage-card ul{list-style:none;font-size:.88rem;color:rgba(255,255,255,.62);line-height:1.5}
-    .stage-card ul li{position:relative;padding-left:18px;margin-bottom:9px}
-    .stage-card ul li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:999px;background:var(--nhs-blue-light)}
-    @media(max-width:900px){
-      #stages{padding:64px 24px}
-      .stages-grid{grid-template-columns:1fr}
-    }
+    /* STAGE CARDS — same card language as .team-card / .faq-item */
+    .stage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
+    @media (min-width: 900px) { .stage-grid { align-items: stretch; } }
+    .stage-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.8rem 1.6rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); display: flex; flex-direction: column; }
+    .stage-card.featured { border-color: var(--nhs-blue); box-shadow: 0 0 0 1px var(--nhs-blue), 0 10px 20px -3px rgba(0,94,184,0.12); }
+    .stage-eyebrow { color: var(--accent-orange); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .stage-card h3 { color: var(--primary-navy); font-size: 1.25rem; margin-bottom: 0.4rem; }
+    .stage-price { font-size: 1.7rem; font-weight: 800; color: var(--primary-navy); letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+    .stage-duration { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 1rem; }
+    .stage-desc { font-size: 0.92rem; color: var(--text-dark); line-height: 1.65; margin-bottom: 1.2rem; }
+    .best-for-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: auto 0 0.6rem; padding-top: 1rem; border-top: 1px solid var(--border-color); }
+    .stage-card ul { list-style: none; font-size: 0.88rem; color: var(--text-dark); }
+    .stage-card ul li { position: relative; padding-left: 1.1rem; margin-bottom: 0.5rem; }
+    .stage-card ul li::before { content: ''; position: absolute; left: 0; top: 0.5rem; width: 6px; height: 6px; border-radius: 999px; background: var(--nhs-blue); }
+    @media (max-width: 899px) { .stage-grid { grid-template-columns: 1fr; } }
 
-    /* INCLUDED / WHY — split-style two column */
-    #included{background:#111;padding:96px 48px;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a}
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:64px;max-width:1280px;margin:0 auto}
-    .two-col h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 18px;line-height:1.1}
-    .included-list{list-style:none}
-    .included-list li{
-      display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #1f1f1f;
-      font-size:.98rem;color:rgba(255,255,255,.78);
-    }
-    .included-list li:last-child{border-bottom:none}
-    .check{
-      flex:0 0 24px;width:24px;height:24px;border-radius:50%;
-      background:rgba(var(--nhs-blue-rgb),.18);border:1px solid rgba(var(--nhs-blue-rgb),.4);
-      color:var(--nhs-blue-light);display:flex;align-items:center;justify-content:center;
-      font-size:.72rem;font-weight:900;
-    }
-    .why-copy p{color:rgba(255,255,255,.6);font-size:1rem;line-height:1.75;margin-bottom:16px;max-width:46ch}
-    @media(max-width:900px){
-      #included{padding:64px 24px}
-      .two-col{grid-template-columns:1fr;gap:40px}
-    }
+    /* INCLUDED / WHY */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.5rem; }
+    @media (max-width: 899px) { .two-col { grid-template-columns: 1fr; } }
+    .included-list { list-style: none; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.5rem 1.2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+    .included-list li { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.9rem 0; border-bottom: 1px solid var(--border-color); font-size: 0.96rem; }
+    .included-list li:last-child { border-bottom: none; }
+    .check { flex: 0 0 22px; width: 22px; height: 22px; border-radius: 50%; background: rgba(var(--nhs-blue-rgb),0.12); border: 1px solid rgba(var(--nhs-blue-rgb),0.35); color: var(--nhs-blue); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; margin-top: 0.1rem; }
+    .why-copy h3 { color: var(--primary-navy); font-size: 1.25rem; margin-bottom: 0.8rem; }
+    .why-copy p { color: var(--text-dark); font-size: 0.96rem; line-height: 1.75; margin-bottom: 1rem; }
 
     /* ENGAGEMENT NOTES */
-    #notes{background:#0e0e0e;padding:96px 48px}
-    .notes-box{
-      max-width:900px;background:#111;border:1px solid #222;border-radius:20px;padding:36px 40px;
-    }
-    .notes-box p{color:rgba(255,255,255,.6);font-size:.98rem;line-height:1.7;margin-bottom:14px}
-    .notes-box p:last-child{margin-bottom:0}
-    @media(max-width:900px){ #notes{padding:64px 24px} }
+    .notes-box { background: var(--card-bg); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-orange); border-radius: 10px; padding: 1.6rem 1.8rem; margin-top: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+    .notes-box p { font-size: 0.95rem; color: var(--text-dark); margin-bottom: 0.7rem; }
+    .notes-box p:last-child { margin-bottom: 0; }
 
-    /* CTA — reused pattern from homepage */
-    #cta{position:relative;min-height:480px;display:flex;align-items:center}
-    #cta .bg-img{position:absolute;inset:0;z-index:0}
-    #cta .bg-img img{filter:brightness(.28)}
-    #cta .bg-overlay{
-      position:absolute;inset:0;z-index:1;
-      background:radial-gradient(ellipse at center, rgba(var(--nhs-blue-rgb),.1) 0%, transparent 70%)
-    }
-    #cta .cta-inner{
-      position:relative;z-index:2;
-      display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
-      padding:80px 48px;width:100%;max-width:1280px;margin:0 auto;
-    }
-    #cta h2{font-size:clamp(2.2rem,4vw,3.4rem);font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
-    #cta p{color:rgba(255,255,255,.6);max-width:44ch}
-    .signup{
-      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
-      border-radius:28px;padding:32px;
-    }
-    .signup label{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:10px}
-    .signup input{
-      width:100%;padding:15px 16px;border-radius:16px;
-      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);
-      color:#fff;font:inherit;margin-bottom:12px;outline:none;font-size:1rem
-    }
-    .signup input::placeholder{color:rgba(255,255,255,.35)}
-    .signup input:focus{border-color:rgba(var(--nhs-blue-rgb),.6)}
-    .signup button{
-      width:100%;padding:16px;border:none;border-radius:999px;
-      background:var(--accent-orange);color:#fff;font-weight:900;font:inherit;font-size:1rem;
-      cursor:pointer;transition:.2s
-    }
-    .signup button:hover{background:var(--accent-orange-hover)}
-    @media(max-width:900px){ #cta .cta-inner{grid-template-columns:1fr;padding:48px 24px} }
+    .contact-box { background: linear-gradient(135deg, var(--nhs-blue), var(--primary-navy)); color: #fff; text-align: center; border-radius: 12px; padding: 2.2rem 1.5rem; }
+    .contact-box h2 { font-size: 1.7rem; margin-bottom: 0.7rem; }
+    .contact-box p { max-width: 700px; margin: 0 auto 1.2rem; opacity: 0.92; }
+    .contact-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.8rem; }
+    .secondary-btn { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.35); padding: 0.6rem 1.1rem; border-radius: 4px; text-decoration: none; font-weight: 600; }
+    .secondary-btn:hover { background: rgba(255,255,255,0.1); }
 
-    /* FOOTER — identical to site-wide footer */
-    footer{
-      padding:40px 48px;background:#0a0a0a;
-      border-top:1px solid #1a1a1a;
-      display:flex;align-items:center;justify-content:space-between;
-    }
-    .footer-brand{font-weight:900;font-size:1.1rem}
-    .footer-brand span{color:var(--accent-orange)}
-    footer nav{position:static;padding:0;background:none}
-    footer nav ul{display:flex;gap:24px;list-style:none}
-    footer nav a{color:rgba(255,255,255,.5);font-size:.9rem;transition:.2s}
-    footer nav a:hover{color:#fff}
-    .footer-copy{color:rgba(255,255,255,.3);font-size:.85rem}
-    @media(max-width:900px){
-      footer{flex-direction:column;gap:20px;align-items:flex-start;padding:32px 24px}
+    .ask-box { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.16); border-radius: 10px; padding: 1.5rem; text-align: left; max-width: 720px; margin: 0 auto; }
+    .ask-box h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .ask-box > p { font-size: 0.9rem; opacity: 0.88; margin-bottom: 1rem; }
+    .ask-form input { width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: #fff; padding: 0.7rem 0.85rem; font-family: inherit; font-size: 0.92rem; margin-bottom: 0.7rem; }
+    .ask-form input::placeholder { color: #cbd5e1; }
+    .ask-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .ask-submit { background: var(--accent-orange); color: #fff; border: none; padding: 0.65rem 1.3rem; border-radius: 4px; font-weight: 700; cursor: pointer; }
+    .ask-submit:hover { background: #c54f20; }
+    .ask-note { font-size: 0.8rem; opacity: 0.85; }
+
+    footer { background: #09111e; color: #94a3b8; padding: 2rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
+
+    @media (max-width: 767px) {
+      .nav-toggle { display: block; }
+      .nav-menu {
+        display: none; position: fixed; top: 68px; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 2px;
+        background: var(--primary-navy);
+        padding: 0.9rem 1.25rem 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.14);
+        max-height: calc(100vh - 68px); overflow-y: auto; z-index: 999;
+      }
+      .nav-menu.mobile-open { display: flex; }
+      .nav-link-item { width: 100%; justify-content: space-between; }
+      .nav-submenu {
+        position: static; opacity: 1; visibility: visible; transform: none;
+        display: none; box-shadow: none; background: rgba(255,255,255,0.05);
+        margin: 0.25rem 0 0.5rem;
+      }
+      .nav-item.open > .nav-submenu { display: block; }
+      .nav-item:hover > .nav-submenu { display: none; }
+      .nav-item.open:hover > .nav-submenu { display: block; }
     }
 
-    .reveal{opacity:0;transform:translateY(22px);transition:700ms cubic-bezier(.16,1,.3,1)}
-    .reveal.in{opacity:1;transform:none}
-
-    @media(max-width:900px){
-      nav{padding:16px 24px}
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.85rem; }
+      .section-title { font-size: 1.7rem; }
     }
   </style>
 </head>
 <body>
 
-<nav id="topnav">
-  <a href="index.html#hero" class="brand" aria-label="uPull.ai home">
-    <svg viewBox="-6 -26 172 84" role="img" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="upChrome" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"  stop-color="#ffffff"/>
-          <stop offset="46%" stop-color="#dbe2e8"/>
-          <stop offset="54%" stop-color="#ffffff"/>
-          <stop offset="100%" stop-color="#b9c4cd"/>
-        </linearGradient>
-        <linearGradient id="upOrange" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"  stop-color="#FFC066"/>
-          <stop offset="55%" stop-color="#ED8B00"/>
-          <stop offset="100%" stop-color="#b56600"/>
-        </linearGradient>
-        <linearGradient id="upShineGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%"  stop-color="#fff" stop-opacity="0"/>
-          <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
-          <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-        </linearGradient>
-        <filter id="upDrop" x="-60%" y="-60%" width="220%" height="220%">
-          <feDropShadow dx="0" dy="2.2" stdDeviation="2.1" flood-color="#000" flood-opacity=".4"/>
-        </filter>
-        <clipPath id="upWordClip">
-          <text x="3" y="40" font-family="'Inter',sans-serif" font-weight="900" font-size="38">uPull.ai</text>
-        </clipPath>
-        <mask id="upNoDot" maskUnits="userSpaceOnUse" x="-6" y="-26" width="172" height="84">
-          <rect x="-6" y="-26" width="172" height="84" fill="#fff"/>
-          <circle cx="130" cy="13.6" r="4.4" fill="#000"/>
-        </mask>
-      </defs>
-      <ellipse cx="62" cy="46" rx="66" ry="5" fill="#000" opacity=".18"/>
-      <path class="up-trail" d="M 78 -18 Q 95 -6 106 4"/>
-      <text class="up-l up-l1 up-base" x="3"     y="40">u</text>
-      <text class="up-l up-l2 up-base" x="25.7"  y="40">P</text>
-      <text class="up-l up-l3 up-base" x="49.1"  y="40">u</text>
-      <text class="up-l up-l4 up-base" x="71.8"  y="40">l</text>
-      <text class="up-l up-l5 up-base" x="82.1"  y="40">l</text>
-      <text class="up-l up-l6 up-acc"  x="92.4"  y="40">.</text>
-      <text class="up-l up-l7 up-acc"  x="103"   y="40">a</text>
-      <text class="up-l up-l8 up-acc"  x="124.6" y="40" mask="url(#upNoDot)">i</text>
-      <g class="up-ball-wrap">
-        <circle class="up-ball-pulse" cx="147" cy="9" r="5.5"/>
-      </g>
-      <g clip-path="url(#upWordClip)">
-        <g class="up-shine-g">
-          <rect x="-40" y="-26" width="40" height="84" fill="url(#upShineGrad)" transform="skewX(-18)"/>
-        </g>
-      </g>
-    </svg>
-  </a>
-  <div class="nav-right">
-    <ul class="nav-menu" id="navMenu">
-      <li class="nav-item">
-        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
-          Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
-        </button>
-        <ul class="nav-submenu">
-          <li><a href="index.html#problem">Challenge</a></li>
-          <li><a href="index.html#approach">Model</a></li>
-          <li><a href="index.html#results">Results</a></li>
-          <li><a href="faqs.html#leadership">Leadership</a></li>
+<header>
+  <div class="nav-container">
+    <a href="index.html" class="logo">uPull<span>.ai</span></a>
+    <div class="nav-right">
+      <nav aria-label="Primary">
+      <ul class="nav-menu" id="navMenu">
+
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="index.html#problem">Challenge</a></li>
+            <li><a href="index.html#approach">Model</a></li>
+            <li><a href="index.html#results">Results</a></li>
+            <li><a href="faqs.html#leadership">Leadership</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Community <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="community.html">Community</a></li>
+            <li><a href="academy.html#tab-learning">uGrowX</a></li>
+            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link-item" href="ucollabx.html" style="text-decoration:none">uCollabX</a>
+        </li>
+
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            FAQs <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="faqs.html#about">About uPull.ai</a></li>
+            <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
+            <li><a href="faqs.html#workflows">Workflow Delivery</a></li>
+            <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+            <li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
+            <li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link-item active-tab" href="pricing.html" style="text-decoration:none">Pricing</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link-item" href="compliance.html" style="text-decoration:none">Compliance</a>
+        </li>
+
+      </ul>
+      </nav>
+      <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
+      <a href="index.html#cta" class="cta-btn">Proof of Value</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="overview">
+    <h1>Pricing</h1>
+    <p>uPull.ai is priced as an enterprise transformation partner, not a low-cost consultancy. Our pricing reflects the senior expertise required to reduce risk, redesign workflows, and support adoption across frontline teams. We start with one critical workflow, prove value quickly, then scale what works.</p>
+    <div class="toc">
+      <a href="#stages">Three Stages</a>
+      <a href="#included">What's Included</a>
+      <a href="#notes">Engagement Notes</a>
+      <a href="#talk">Talk to Us</a>
+    </div>
+  </section>
+
+  <section id="stages">
+    <h2 class="section-title">A staged path from diagnosis to scale</h2>
+    <p class="section-subtitle">Each stage builds on the last — start where the risk is lowest, and only invest further once the case is proven.</p>
+
+    <div class="stage-grid">
+
+      <div class="stage-card">
+        <div class="stage-eyebrow">Stage A</div>
+        <h3>Discovery Sprint</h3>
+        <div class="stage-price">£35,000</div>
+        <div class="stage-duration">4-day intensive · two senior operators</div>
+        <p class="stage-desc">Covers organisational assessment, workflow discovery, AI readiness, and identification of wasted licence spend and operational friction. Designed to create a credible enterprise entry point and establish whether there is a strong case for deeper transformation work.</p>
+        <div class="best-for-label">Best for</div>
+        <ul>
+          <li>Organisations exploring AI adoption for the first time.</li>
+          <li>Teams that need to understand where existing digital investments are failing.</li>
+          <li>Leaders who want a low-risk way to identify high-value opportunities.</li>
         </ul>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
-          Community <span class="nav-chevron" aria-hidden="true"></span>
-        </button>
-        <ul class="nav-submenu">
-          <li><a href="community.html">Forum</a></li>
-          <li><a href="academy.html#tab-learning">uGrowX</a></li>
-          <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+      </div>
+
+      <div class="stage-card featured">
+        <div class="stage-eyebrow">Stage B</div>
+        <h3>Blueprint Enablement</h3>
+        <div class="stage-price">£75,000–£100,000</div>
+        <div class="stage-duration">Structured programme · 2–3 months</div>
+        <p class="stage-desc">Supports solution blueprinting, workforce enablement, and operating model design. Suitable for organisations ready to move from diagnostic insight into a practical transformation plan.</p>
+        <div class="best-for-label">Best for</div>
+        <ul>
+          <li>Organisations ready to turn discovery into action.</li>
+          <li>Teams that need a clear roadmap for adoption and implementation.</li>
+          <li>Leaders seeking a vendor-neutral operating model and workforce enablement plan.</li>
         </ul>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link-item" href="ucollabx.html">uCollabX</a>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
-          FAQs <span class="nav-chevron" aria-hidden="true"></span>
-        </button>
-        <ul class="nav-submenu">
-          <li><a href="faqs.html#about">About uPull.ai</a></li>
-          <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
-          <li><a href="faqs.html#workflows">Workflow Delivery</a></li>
-          <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
-          <li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
-          <li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-eyebrow">Stage C</div>
+        <h3>Deployment and Scale</h3>
+        <div class="stage-price">From £250,000</div>
+        <div class="stage-duration">Base fee + 10–15% of realised savings</div>
+        <p class="stage-desc">Supports long-term deployment, change management, governance, and scaling across multiple teams, sites, or business units. The fixed base fee covers core delivery, and the outcome-linked element aligns uPull.ai with measurable operational value.</p>
+        <div class="best-for-label">Best for</div>
+        <ul>
+          <li>Organisations ready for full transformation deployment.</li>
+          <li>Multi-team or multi-site programmes.</li>
+          <li>Leaders who want a long-term strategic partner focused on measurable value.</li>
         </ul>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link-item active" href="pricing.html">Pricing</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link-item" href="compliance.html">Compliance</a>
-      </li>
-    </ul>
-    <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly — read and subscribe to the newsletter" title="uPull.ai Weekly newsletter">📰</a>
-    <a href="#cta" class="nav-btn">Proof of Value</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+      </div>
 
-<!-- PAGE HEADER -->
-<section id="page-header">
-  <div class="tag reveal in">Investment</div>
-  <h1>Priced for <em>transformation</em>, not hours on a timesheet.</h1>
-  <p>uPull.ai is priced as an enterprise transformation partner, not a low-cost consultancy. Our pricing reflects the senior expertise required to reduce risk, redesign workflows, and support adoption across frontline teams. We start with one critical workflow, prove value quickly, then scale what works.</p>
-</section>
-
-<!-- STAGES -->
-<section id="stages">
-  <div class="numbers-intro reveal">
-    <div class="tag">Three stages</div>
-    <h2>A staged path from diagnosis to scale</h2>
-    <p>Each stage builds on the last — start where the risk is lowest, and only invest further once the case is proven.</p>
-  </div>
-
-  <div class="stages-grid reveal">
-
-    <div class="stage-card">
-      <div class="stage-eyebrow">Stage A</div>
-      <h3>Discovery Sprint</h3>
-      <div class="stage-price">£35,000</div>
-      <div class="stage-duration">4-day intensive · two senior operators</div>
-      <p class="stage-desc">Covers organisational assessment, workflow discovery, AI readiness, and identification of wasted licence spend and operational friction. Designed to create a credible enterprise entry point and establish whether there is a strong case for deeper transformation work.</p>
-      <div class="best-for-label">Best for</div>
-      <ul>
-        <li>Organisations exploring AI adoption for the first time.</li>
-        <li>Teams that need to understand where existing digital investments are failing.</li>
-        <li>Leaders who want a low-risk way to identify high-value opportunities.</li>
-      </ul>
     </div>
+  </section>
 
-    <div class="stage-card featured">
-      <div class="stage-eyebrow">Stage B</div>
-      <h3>Blueprint Enablement</h3>
-      <div class="stage-price">£75,000–£100,000</div>
-      <div class="stage-duration">Structured programme · 2–3 months</div>
-      <p class="stage-desc">Supports solution blueprinting, workforce enablement, and operating model design. Suitable for organisations ready to move from diagnostic insight into a practical transformation plan.</p>
-      <div class="best-for-label">Best for</div>
-      <ul>
-        <li>Organisations ready to turn discovery into action.</li>
-        <li>Teams that need a clear roadmap for adoption and implementation.</li>
-        <li>Leaders seeking a vendor-neutral operating model and workforce enablement plan.</li>
-      </ul>
+  <section id="included">
+    <h2 class="section-title">What is included, and why this model works</h2>
+    <p class="section-subtitle">Pricing is tied to the depth of intervention and the level of senior expertise required — not simply the number of hours delivered.</p>
+
+    <div class="two-col">
+      <div>
+        <ul class="included-list">
+          <li><span class="check">✓</span> Senior founder-led delivery.</li>
+          <li><span class="check">✓</span> Workflow and readiness assessment.</li>
+          <li><span class="check">✓</span> Transformation planning and implementation support.</li>
+          <li><span class="check">✓</span> Frontline adoption and enablement focus.</li>
+          <li><span class="check">✓</span> Executive reporting and value tracking.</li>
+        </ul>
+      </div>
+      <div class="why-copy">
+        <h3>Priced on depth, not hours</h3>
+        <p>uPull.ai is designed to solve high-friction operational problems where generic tools fail to deliver adoption. Our approach starts with one workflow, proves value quickly, then scales what works.</p>
+        <p>This means pricing is tied to the depth of intervention, the level of senior expertise required, and the scope of transformation — rather than simply the number of hours delivered.</p>
+      </div>
     </div>
+  </section>
 
-    <div class="stage-card">
-      <div class="stage-eyebrow">Stage C</div>
-      <h3>Deployment and Scale</h3>
-      <div class="stage-price">From £250,000</div>
-      <div class="stage-duration">Base fee + 10–15% of realised savings</div>
-      <p class="stage-desc">Supports long-term deployment, change management, governance, and scaling across multiple teams, sites, or business units. The fixed base fee covers core delivery, and the outcome-linked element aligns uPull.ai with measurable operational value.</p>
-      <div class="best-for-label">Best for</div>
-      <ul>
-        <li>Organisations ready for full transformation deployment.</li>
-        <li>Multi-team or multi-site programmes.</li>
-        <li>Leaders who want a long-term strategic partner focused on measurable value.</li>
-      </ul>
+  <section id="notes">
+    <h2 class="section-title">Engagement notes</h2>
+    <div class="notes-box">
+      <p>Pricing is indicative and final scope depends on organisational size, workflow complexity, delivery timeline, and implementation requirements.</p>
+      <p>For a tailored proposal, we begin with a short discovery conversation to assess fit and define the most appropriate stage.</p>
     </div>
+  </section>
 
-  </div>
-</section>
-
-<!-- INCLUDED / WHY -->
-<section id="included">
-  <div class="two-col">
-    <div class="reveal">
-      <div class="tag">Every stage includes</div>
-      <h2>What is included</h2>
-      <ul class="included-list">
-        <li><span class="check">✓</span> Senior founder-led delivery.</li>
-        <li><span class="check">✓</span> Workflow and readiness assessment.</li>
-        <li><span class="check">✓</span> Transformation planning and implementation support.</li>
-        <li><span class="check">✓</span> Frontline adoption and enablement focus.</li>
-        <li><span class="check">✓</span> Executive reporting and value tracking.</li>
-      </ul>
-    </div>
-    <div class="why-copy reveal">
-      <div class="tag">Why this model works</div>
-      <h2>Priced on depth, not hours</h2>
-      <p>uPull.ai is designed to solve high-friction operational problems where generic tools fail to deliver adoption. Our approach starts with one workflow, proves value quickly, then scales what works.</p>
-      <p>This means pricing is tied to the depth of intervention, the level of senior expertise required, and the scope of transformation — rather than simply the number of hours delivered.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ENGAGEMENT NOTES -->
-<section id="notes">
-  <div class="numbers-intro reveal" style="margin-bottom:32px">
-    <div class="tag">Before you scope a project</div>
-    <h2>Engagement notes</h2>
-  </div>
-  <div class="notes-box reveal">
-    <p>Pricing is indicative and final scope depends on organisational size, workflow complexity, delivery timeline, and implementation requirements.</p>
-    <p>For a tailored proposal, we begin with a short discovery conversation to assess fit and define the most appropriate stage.</p>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="cta">
-  <div class="bg-img">
-    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1800&q=80&auto=format&fit=crop" alt="Technology and healthcare">
-  </div>
-  <div class="bg-overlay"></div>
-  <div class="cta-inner">
-    <div class="reveal">
-      <div class="tag">Find your stage</div>
-      <h2>Talk through the right starting point.</h2>
+  <section id="talk">
+    <div class="contact-box">
+      <h2>Talk through the right starting stage</h2>
       <p>Tell us where you are today and we'll recommend the stage that fits — no obligation, no generic pitch.</p>
+      <div class="contact-actions">
+        <a href="mailto:info@upull.ai?subject=Pricing%20Enquiry" class="cta-btn">Email uPull.ai</a>
+        <a href="index.html#cta" class="secondary-btn">Register Interest</a>
+      </div>
+
+      <div class="ask-box">
+        <h3>Prefer to send your details directly?</h3>
+        <p>Leave your work email and a note on where you're starting from, and we'll come back to you within one working day.</p>
+        <form class="ask-form" onsubmit="submitPricingEnquiry(event)">
+          <input id="pricingEmail" type="email" placeholder="Work email address" required />
+          <div class="ask-actions">
+            <button class="ask-submit" type="submit">Register interest</button>
+            <div class="ask-note" id="pricingStatus">This opens an email to info@upull.ai with your details.</div>
+          </div>
+        </form>
+      </div>
     </div>
-    <form class="signup reveal" onsubmit="handlePricingEnquiry(event)">
-      <label for="email">Work email address</label>
-      <input id="email" class="cta-input" type="email" placeholder="name@nhs.net" aria-label="Work email">
-      <button type="submit" class="cta-btn">Register interest</button>
-      <p style="font-size:.8rem;color:rgba(255,255,255,.4);margin-top:14px;text-align:center">Prefer to talk it through first? <a href="mailto:info@upull.ai" style="color:var(--nhs-blue-light);text-decoration:underline">Email us directly</a> and we will get back to you within one working day.</p>
-    </form>
-  </div>
-</section>
+  </section>
+</main>
 
 <footer>
-  <div class="footer-brand">uPull<span>.ai</span> Ltd. &middot; London, UK</div>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="compliance.html">Compliance</a></li>
-      <li><a href="faqs.html">FAQs</a></li>
-      <li><a href="mailto:info@upull.ai">info@upull.ai</a></li>
-      <li><a href="news.html">Newsletter →</a></li>
-    </ul>
-  </nav>
-  <div class="footer-copy">© 2026 uPull.ai Ltd. All rights reserved.</div>
+  <p><strong>uPull.ai Ltd.</strong> • London, UK • <a href="mailto:info@upull.ai" style="color:#94a3b8;">info@upull.ai</a></p>
+  <p style="margin-top:0.6rem;"><a href="news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
+  <p style="margin-top:0.5rem; font-size:0.75rem; opacity:0.5;">© 2026 uPull.ai Ltd. All rights reserved.</p>
 </footer>
 
 <script>
-  const nav = document.getElementById('topnav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
-  }, {threshold: 0.1});
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-  function handlePricingEnquiry(e){
-    e.preventDefault();
-    const input = document.querySelector('.cta-input');
-    const btn = document.querySelector('.signup button');
-    if(!input.value || !input.value.includes('@')){ input.focus(); return; }
-    btn.textContent = 'Registered ✓';
-    input.value = '';
-    setTimeout(()=>{ btn.textContent = 'Register interest'; }, 2800);
+  function submitPricingEnquiry(event){
+    event.preventDefault();
+    const email = document.getElementById('pricingEmail').value.trim();
+    const status = document.getElementById('pricingStatus');
+    if(!email || !email.includes('@')){
+      status.textContent = 'Please enter a valid work email address.';
+      return;
+    }
+    const subject = encodeURIComponent('Pricing Enquiry');
+    const body = encodeURIComponent('Work email:\n' + email);
+    window.location.href = 'mailto:info@upull.ai?subject=' + subject + '&body=' + body;
+    status.textContent = 'Opening your email client to send your details.';
   }
 
   function closeAllSubmenus() {
@@ -585,6 +405,7 @@
       if (link) link.setAttribute('aria-expanded', 'false');
     });
   }
+
   function toggleSubmenu(btn) {
     const item = btn.closest('.nav-item');
     const wasOpen = item.classList.contains('open');
@@ -594,12 +415,14 @@
       btn.setAttribute('aria-expanded', 'true');
     }
   }
+
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.nav-item')) closeAllSubmenus();
   });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') { closeAllSubmenus(); closeMobileNav(); }
   });
+
   function toggleMobileNav() {
     const menu = document.getElementById('navMenu');
     const toggle = document.getElementById('navToggle');
@@ -608,6 +431,7 @@
     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     if (!isOpen) closeAllSubmenus();
   }
+
   function closeMobileNav() {
     const menu = document.getElementById('navMenu');
     const toggle = document.getElementById('navToggle');
