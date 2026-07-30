@@ -357,14 +357,8 @@
     <div class="contact-box">
       <h2>Talk through the right starting stage</h2>
       <p>Tell us where you are today and we'll recommend the stage that fits — no obligation, no generic pitch.</p>
-      <div class="contact-actions">
-        <a href="mailto:info@upull.ai?subject=Pricing%20Enquiry" class="cta-btn">Email uPull.ai</a>
-        <a href="index.html#cta" class="secondary-btn">Register Interest</a>
-      </div>
 
       <div class="ask-box">
-        <h3>Prefer to send your details directly?</h3>
-        <p>Leave your work email and a note on where you're starting from, and we'll come back to you within one working day.</p>
         <form class="ask-form" onsubmit="submitPricingEnquiry(event)">
           <input id="pricingEmail" type="email" placeholder="Work email address" required />
           <div class="ask-actions">
@@ -392,7 +386,7 @@
       status.textContent = 'Please enter a valid work email address.';
       return;
     }
-    const subject = encodeURIComponent('Pricing Enquiry');
+    const subject = encodeURIComponent('Register interests via pricing');
     const body = encodeURIComponent('Work email:\n' + email);
     window.location.href = 'mailto:info@upull.ai?subject=' + subject + '&body=' + body;
     status.textContent = 'Opening your email client to send your details.';
