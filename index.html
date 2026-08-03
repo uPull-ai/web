@@ -675,10 +675,11 @@
       <h2>One workflow.<br>Six weeks.</h2>
       <p>Register your interest for the next proof-of-value cohort.</p>
     </div>
-    <form class="signup reveal" onsubmit="handleWaitlist(event)">
+    <form class="signup reveal" id="waitlistForm" onsubmit="handleWaitlist(event)">
       <label for="email">Work email address</label>
-      <input id="email" class="cta-input" type="email" placeholder="name@nhs.net" aria-label="Work email">
+      <input id="email" class="cta-input" type="email" placeholder="name@nhs.net" aria-label="Work email" required>
       <button type="submit" class="cta-btn">Register interest</button>
+      <p class="signup-error" style="font-size:.8rem;color:#ff8a8a;margin-top:10px;text-align:center;display:none">Something went wrong — please try again or email us directly.</p>
       <p style="font-size:.8rem;color:rgba(255,255,255,.4);margin-top:14px;text-align:center">Prefer to talk it through first? <a href="mailto:info@upull.ai" style="color:var(--nhs-blue-light);text-decoration:underline">Email us directly</a> and we will get back to you within one working day.</p>
     </form>
   </div>
@@ -777,15 +778,58 @@
   }, {threshold: 0.1});
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // Waitlist
-  function handleWaitlist(e){
+  // Waitlist — sends a real notification email via Web3Forms when someone registers interest.
+  // Get a free access key (no signup, delivered instantly to your inbox) at https://web3forms.com
+  // then paste it in place of "YOUR_WEB3FORMS_ACCESS_KEY_HERE" below.
+  const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+
+  async function handleWaitlist(e){
     e.preventDefault();
     const input = document.querySelector('.cta-input');
     const btn = document.querySelector('.signup button');
+    const errorMsg = document.querySelector('.signup-error');
+    errorMsg.style.display = 'none';
+
     if(!input.value || !input.value.includes('@')){ input.focus(); return; }
-    btn.textContent = 'Registered ✓';
-    input.value = '';
-    setTimeout(()=>{ btn.textContent = 'Register interest'; }, 2800);
+
+    if(WEB3FORMS_ACCESS_KEY === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE'){
+      console.error('uPull.ai signup form: WEB3FORMS_ACCESS_KEY is not configured, so no notification email can be sent. Get a free key at https://web3forms.com and set it in index.html.');
+      errorMsg.style.display = 'block';
+      return;
+    }
+
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try{
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'New Proof of Value registration — uPull.ai',
+          from_name: 'uPull.ai website',
+          email: input.value,
+          message: `New proof-of-value cohort registration.\n\nWork email: ${input.value}\nSubmitted: ${new Date().toISOString()}\nPage: ${window.location.href}`
+        })
+      });
+      const data = await res.json();
+
+      if(data.success){
+        btn.textContent = 'Registered ✓';
+        input.value = '';
+      } else {
+        throw new Error(data.message || 'Web3Forms submission failed');
+      }
+    } catch(err){
+      console.error('uPull.ai signup form submission failed:', err);
+      errorMsg.style.display = 'block';
+      btn.textContent = originalText;
+    } finally {
+      btn.disabled = false;
+      setTimeout(()=>{ if(btn.textContent === 'Registered ✓') btn.textContent = originalText; }, 2800);
+    }
   }
 
   // ══ PRIMARY NAV DROPDOWNS ══
