@@ -781,6 +781,813 @@
   // Waitlist — sends a real notification email via Web3Forms when someone registers interest.
   // Get a free access key (no signup, delivered instantly to your inbox) at https://web3forms.com
   // then paste it in place of "YOUR_WEB3FORMS_ACCESS_KEY_HERE" below.
+  const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+
+  async function handleWaitlist(e){
+    e.preventDefault();
+    const input = document.querySelector('.cta-input');
+    const btn = document.querySelector('.signup button');
+    const errorMsg = document.querySelector('.signup-error');
+    errorMsg.style.display = 'none';
+
+    if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+
+    if(WEB3FORMS_ACCESS_KEY === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE'){
+      console.error('uPull.ai signup form: WEB3FORMS_ACCESS_KEY is not configured, so no notification email can be sent. Get a free key at https://web3forms.com and set it in index.html.');
+      errorMsg.style.display = 'block';
+      return;
+    }
+
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try{
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'New Proof of Value registration — uPull.ai',
+          from_name: 'uPull.ai website',
+          email: input.value,
+          message: `New proof-of-value cohort registration.\n\nWork email: ${input.value}\nSubmitted: ${new Date().toISOString()}\nPage: ${window.location.href}`
+        })
+      });
+      const data = await res.json();
+
+      if(data.success){
+        btn.textContent = 'Registered ✓';
+        input.value = '';
+      } else {
+        throw new Error(data.message || `Web3Forms submission failed (HTTP ${res.status})`);
+      }
+    } catch(err){
+      console.error('uPull.ai signup form submission failed:', err);
+      errorMsg.textContent = 'Something went wrong: ' + (err.message || err) + ' — please try again or email us directly.';
+      errorMsg.style.display = 'block';
+      btn.textContent = originalText;
+    } finally {
+      btn.disabled = false;
+      setTimeout(()=>{ if(btn.textContent === 'Registered ✓') btn.textContent = originalText; }, 2800);
+    }
+  }
+
+  // ══ PRIMARY NAV DROPDOWNS ══
+  function closeAllSubmenus() {
+    document.querySelectorAll('.nav-item.open').forEach(function(item) {
+      item.classList.remove('open');
+      const link = item.querySelector('.nav-link-item');
+      if (link) link.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function toggleSubmenu(btn) {
+    const item = btn.closest('.nav-item');
+    const wasOpen = item.classList.contains('open');
+    closeAllSubmenus();
+    if (!wasOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-item')) closeAllSubmenus();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeAllSubmenus(); closeMobileNav(); }
+  });
+
+  // ══ MOBILE MENU TOGGLE ══
+  function toggleMobileNav() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('navToggle');
+    const isOpen = menu.classList.toggle('mobile-open');
+    toggle.classList.toggle('active', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (!isOpen) closeAllSubmenus();
+  }
+
+  function closeMobileNav() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.getElementById('navToggle');
+    menu.classList.remove('mobile-open');
+    toggle.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+</script>
+</body>
+</html>    .up-ball-pulse{animation:upBallPulse 2.8s ease-in-out 1.3s infinite}
+
+    .up-trail{fill:none;stroke:var(--accent-orange);stroke-width:2;stroke-linecap:round;opacity:0}
+    @keyframes upTrailFade{0%{opacity:0}8%{opacity:.5}45%{opacity:0}100%{opacity:0}}
+    .up-trail{animation:upTrailFade .95s .32s ease-out both}
+
+    @keyframes upShineSweep{
+      0%,100%{transform:translateX(-90px)}
+      8%,92%{transform:translateX(-90px)}
+      45%{transform:translateX(90px)}
+    }
+    .up-shine-g{animation:upShineSweep 4.6s 1.1s ease-in-out infinite}
+
+    .brand:hover .up-l,.brand:hover .up-ball-wrap{animation-duration:.5s}
+    @media (prefers-reduced-motion:reduce){
+      .up-l,.up-ball-wrap,.up-ball-pulse,.up-trail,.up-shine-g{animation:none}
+      .up-trail{opacity:0}
+    }
+
+    /* PRIMARY DROPDOWN MENU */
+    .nav-menu{display:flex;align-items:center;gap:2px;list-style:none}
+    .nav-item{position:relative}
+    .nav-link-item{
+      display:flex;align-items:center;gap:6px;
+      padding:10px 16px;border-radius:999px;
+      background:none;border:none;cursor:pointer;
+      color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;font-family:inherit;
+      transition:color .2s, background .2s;
+    }
+    .nav-link-item:hover, .nav-item.open > .nav-link-item{ color:#fff; background:rgba(255,255,255,.08); }
+    .nav-chevron{
+      width:7px;height:7px;
+      border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+      transform:rotate(45deg);margin-top:-2px;transition:transform .2s;
+    }
+    .nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
+    .nav-submenu{
+      list-style:none;position:absolute;top:calc(100% + 10px);left:0;
+      min-width:230px;padding:10px;border-radius:16px;
+      background:rgba(14,14,14,.97);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,255,255,.1);
+      border-top:3px solid var(--nhs-blue);
+      box-shadow:0 20px 44px rgba(0,0,0,.5);
+      opacity:0;visibility:hidden;transform:translateY(-8px);
+      transition:opacity .18s ease, transform .18s ease, visibility .18s;
+      z-index:200;
+    }
+    .nav-item.open > .nav-submenu, .nav-item:hover > .nav-submenu{ opacity:1; visibility:visible; transform:translateY(0); }
+    .nav-submenu li a{
+      display:block;padding:10px 12px;border-radius:10px;
+      color:rgba(255,255,255,.68);font-size:.85rem;font-weight:500;
+      transition:background .15s, color .15s;
+    }
+    .nav-submenu li a:hover{ background:rgba(var(--nhs-blue-rgb),.25); color:#fff; }
+    .nav-toggle{
+      display:none;background:none;border:none;cursor:pointer;padding:8px;
+    }
+    .nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
+    .nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .nav-toggle.active span:nth-child(2){opacity:0}
+    .nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    .nav-btn{
+      padding:11px 22px;border-radius:999px;background:var(--accent-orange);color:#fff;
+      font-weight:800;font-size:.9rem;transition:.2s;white-space:nowrap;
+    }
+    .nav-btn:hover{background:var(--accent-orange-hover)}
+    .nav-icon-btn{
+      display:flex;align-items:center;justify-content:center;
+      width:38px;height:38px;border-radius:50%;
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+      font-size:1.1rem;transition:.2s;flex-shrink:0;
+    }
+    .nav-icon-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32)}
+    @media(max-width:900px){
+      .nav-toggle{display:block}
+      .nav-menu{
+        display:none;position:fixed;top:64px;left:0;right:0;
+        flex-direction:column;align-items:stretch;gap:2px;
+        background:rgba(14,14,14,.98);backdrop-filter:blur(18px);
+        padding:14px 24px 22px;border-bottom:1px solid rgba(255,255,255,.1);
+        max-height:calc(100vh - 64px);overflow-y:auto;
+      }
+      .nav-menu.mobile-open{display:flex}
+      .nav-link-item{width:100%;justify-content:space-between}
+      .nav-submenu{
+        position:static;opacity:1;visibility:visible;transform:none;
+        display:none;box-shadow:none;background:rgba(255,255,255,.04);
+        margin:4px 0 8px;
+      }
+      .nav-item.open > .nav-submenu{display:block}
+      .nav-item:hover > .nav-submenu{display:none}
+      .nav-item.open:hover > .nav-submenu{display:block}
+    }
+
+    /* HERO — full viewport image */
+    #hero{
+      position:relative;height:100vh;min-height:680px;
+      display:flex;align-items:flex-end;padding-top:0;
+    }
+    .hero-img{
+      position:absolute;inset:0;z-index:0;
+    }
+    .hero-img img{filter:brightness(.55)}
+    .hero-overlay{
+      position:absolute;inset:0;z-index:1;
+      background:linear-gradient(to top, rgba(14,14,14,.95) 0%, rgba(14,14,14,.3) 50%, transparent 100%)
+    }
+    .hero-content{
+      position:relative;z-index:2;
+      padding:100px 48px 80px;max-width:900px;
+    }
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 14px;border-radius:999px;
+      background:rgba(var(--nhs-blue-rgb),.18);border:1px solid rgba(var(--nhs-blue-rgb),.4);
+      color:var(--nhs-blue-light);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:22px;
+    }
+    .tag::before{content:'';width:7px;height:7px;border-radius:999px;background:var(--accent-orange)}
+    #hero h1{
+      font-size:clamp(1.9rem,3.4vw,3rem);font-weight:900;
+      letter-spacing:-.03em;line-height:1.1;
+      margin-bottom:18px;
+    }
+    #hero h1 em{color:var(--accent-orange);font-style:normal}
+    .train-expand{
+      display:flex;flex-wrap:wrap;gap:6px 10px;
+      font-size:.82rem;font-weight:700;letter-spacing:.02em;
+      color:rgba(255,255,255,.45);text-transform:uppercase;
+      margin-bottom:20px;
+    }
+    .train-expand strong{color:var(--nhs-blue-light);font-weight:800}
+    #hero p{font-size:1.2rem;color:rgba(255,255,255,.75);max-width:55ch;margin-bottom:32px}
+    #hero p.hero-lede{font-weight:800;font-size:clamp(1.3rem,2vw,1.7rem);color:#fff;letter-spacing:-.01em;line-height:1.3;margin-bottom:20px}
+    #hero p.hero-sub{font-size:.95rem;font-weight:400;color:rgba(255,255,255,.38);max-width:52ch;line-height:1.6;margin-bottom:28px}
+    .hero-keywords{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px}
+    .hero-keywords span{
+      padding:9px 16px;border-radius:999px;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+      font-size:.82rem;font-weight:700;color:rgba(255,255,255,.72);
+      letter-spacing:.01em;
+    }
+    .hero-keywords span::before{content:'';display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--nhs-blue-light);margin-right:8px}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+    .btn-g{
+      padding:16px 26px;border-radius:999px;background:var(--accent-orange);color:#fff;
+      font-weight:800;font-size:1rem;transition:.2s
+    }
+    .btn-g:hover{background:var(--accent-orange-hover);transform:translateY(-2px)}
+    .btn-outline{
+      padding:16px 26px;border-radius:999px;border:1px solid rgba(255,255,255,.3);
+      color:#fff;font-weight:600;font-size:1rem;transition:.2s
+    }
+    .btn-outline:hover{border-color:var(--nhs-blue-light);color:var(--nhs-blue-light)}
+
+    /* CHALLENGE — split image/text */
+    .split{
+      display:grid;grid-template-columns:1fr 1fr;min-height:600px;
+    }
+    .split.flip{direction:rtl}
+    .split.flip > *{direction:ltr}
+    .split-img{position:relative;overflow:hidden;min-height:500px}
+    .split-img img{transition:.6s}
+    .split-img:hover img{transform:scale(1.03)}
+    .split-text{
+      display:flex;flex-direction:column;justify-content:center;
+      padding:72px 64px;background:#111;
+    }
+    .split-text .tag{background:rgba(var(--nhs-blue-rgb),.14)}
+    .split-text h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 18px;line-height:1.05}
+    .split-text p{color:rgba(255,255,255,.62);font-size:1rem;max-width:44ch;line-height:1.7}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+    .pill{padding:10px 16px;border-radius:999px;background:#1a1a1a;border:1px solid #2a2a2a;font-size:.85rem;font-weight:700}
+
+    /* APPROACH — two-column card grid */
+    #approach{background:#0e0e0e;padding:100px 48px}
+    .approach-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:32px;flex-wrap:wrap}
+    #approach h2{font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;letter-spacing:-.03em;max-width:16ch;line-height:1.0}
+    .approach-sub{max-width:38ch;color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
+    .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,300px);gap:3px}
+    .step-tile{
+      position:relative;overflow:hidden;
+      background:#111;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
+    }
+    .step-tile:nth-child(1){border-radius:28px 4px 4px 4px}
+    .step-tile:nth-child(2){border-radius:4px 28px 4px 4px}
+    .step-tile:nth-child(3){border-radius:4px 4px 4px 28px}
+    .step-tile:nth-child(4){border-radius:4px 4px 28px 4px}
+    .step-tile-img{position:absolute;inset:0;z-index:0}
+    .step-tile-img img{filter:brightness(.28);transition:.5s}
+    .step-tile:hover .step-tile-img img{filter:brightness(.38);transform:scale(1.04)}
+    .step-tile-overlay{
+      position:absolute;inset:0;z-index:1;
+      background:linear-gradient(to top,rgba(14,14,14,.96) 0%,rgba(14,14,14,.1) 70%,transparent 100%)
+    }
+    .step-tile-content{position:relative;z-index:2}
+    .step-num{
+      width:42px;height:42px;border-radius:14px;background:rgba(var(--nhs-blue-rgb),.18);
+      border:1px solid rgba(var(--nhs-blue-rgb),.4);color:var(--nhs-blue-light);
+      display:grid;place-items:center;font-weight:900;font-size:.9rem;margin-bottom:14px
+    }
+    .step-tile h3{font-size:1.15rem;font-weight:800;margin-bottom:8px}
+    .step-tile p{font-size:.9rem;color:rgba(255,255,255,.58);line-height:1.6}
+    @media(max-width:900px){
+      #approach{padding:64px 24px}
+      .steps-grid{grid-template-columns:1fr}
+      .approach-top{flex-direction:column}
+    }
+
+    /* RESULTS — large mosaic with images */
+    #results{background:#0e0e0e;padding:0}
+    #theory{background:#0e0e0e}
+    .numbers-intro{padding:96px 48px}
+    .numbers-intro h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 32px;line-height:1.1;max-width:20ch}
+    .numbers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .number-card{background:#111;border:1px solid #222;border-radius:16px;padding:28px}
+    .number-card .num{font-size:2.2rem;font-weight:900;letter-spacing:-.03em;color:var(--accent-orange);margin-bottom:10px}
+    .number-card p{color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.65}
+    @media(max-width:1100px){
+      .numbers-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:900px){
+      .numbers-intro{padding:56px 24px}
+      .numbers-grid{grid-template-columns:1fr}
+    }
+    .mosaic-grid{
+      display:grid;
+      grid-template-columns:1.4fr 1fr;
+      grid-template-rows:500px 380px;
+      gap:3px;
+    }
+    .mosaic-tile{position:relative;overflow:hidden}
+    .mosaic-tile img{transition:.5s}
+    .mosaic-tile:hover img{transform:scale(1.04)}
+    .mosaic-tile.tall{grid-row:1 / 3}
+    .tile-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top, rgba(14,14,14,.92) 0%, rgba(14,14,14,.15) 60%, transparent 100%);
+      display:flex;flex-direction:column;justify-content:flex-end;padding:32px;
+    }
+    .tile-metric{font-size:3.6rem;font-weight:900;letter-spacing:-.04em;color:var(--accent-orange)}
+    .tile-title{font-size:1.25rem;font-weight:700;margin:4px 0 6px}
+    .tile-desc{font-size:.9rem;color:rgba(255,255,255,.62);max-width:36ch}
+
+    /* CTA — image with overlay form */
+    #cta{position:relative;min-height:540px;display:flex;align-items:center}
+    #cta .bg-img{position:absolute;inset:0;z-index:0}
+    #cta .bg-img img{filter:brightness(.28)}
+    #cta .bg-overlay{
+      position:absolute;inset:0;z-index:1;
+      background:radial-gradient(ellipse at center, rgba(var(--nhs-blue-rgb),.1) 0%, transparent 70%)
+    }
+    #cta .cta-inner{
+      position:relative;z-index:2;
+      display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+      padding:80px 48px;width:100%;max-width:1280px;margin:0 auto;
+    }
+    #cta h2{font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
+    #cta p{color:rgba(255,255,255,.6);max-width:44ch}
+    .signup{
+      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+      border-radius:28px;padding:32px;
+    }
+    .signup label{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:10px}
+    .signup input{
+      width:100%;padding:15px 16px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);
+      color:#fff;font:inherit;margin-bottom:12px;outline:none;font-size:1rem
+    }
+    .signup input::placeholder{color:rgba(255,255,255,.35)}
+    .signup input:focus{border-color:rgba(var(--nhs-blue-rgb),.6)}
+    .signup button{
+      width:100%;padding:16px;border:none;border-radius:999px;
+      background:var(--accent-orange);color:#fff;font-weight:900;font:inherit;font-size:1rem;
+      cursor:pointer;transition:.2s
+    }
+    .signup button:hover{background:var(--accent-orange-hover)}
+
+    /* WAITLIST */
+    #waitlist{background:#0e0e0e;padding:100px 48px}
+    .waitlist-header{margin-bottom:48px;max-width:640px}
+    .waitlist-header h2{font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 14px;line-height:1.05}
+    .waitlist-header p{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
+    .waitlist-table-wrap{background:#111;border-radius:20px;border:1px solid #222;overflow-x:auto}
+    .waitlist-table{width:100%;border-collapse:collapse;min-width:520px}
+    .waitlist-table th{text-align:left;padding:18px 24px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);border-bottom:1px solid #222;white-space:nowrap}
+    .waitlist-table td{padding:18px 24px;border-bottom:1px solid #1a1a1a;font-size:.95rem;font-weight:600;vertical-align:middle}
+    .waitlist-table tr:last-child td{border-bottom:none}
+    .org-type{color:rgba(255,255,255,.5);font-size:.85rem;font-weight:500}
+    .status-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:999px;background:rgba(var(--accent-orange-rgb),.14);border:1px solid rgba(var(--accent-orange-rgb),.35);color:var(--accent-orange);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+    .status-badge::before{content:'';width:6px;height:6px;border-radius:999px;background:var(--accent-orange)}
+    .waitlist-note{margin-top:24px;color:rgba(255,255,255,.4);font-size:.85rem}
+    @media(max-width:900px){
+      #waitlist{padding:64px 24px}
+    }
+
+    footer{
+      padding:40px 48px;background:#0a0a0a;
+      border-top:1px solid #1a1a1a;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .footer-brand{font-weight:900;font-size:1.1rem}
+    .footer-brand span{color:var(--accent-orange)}
+    footer nav ul{display:flex;gap:24px;list-style:none}
+    footer nav a{color:rgba(255,255,255,.5);font-size:.9rem;transition:.2s}
+    footer nav a:hover{color:#fff}
+    .footer-copy{color:rgba(255,255,255,.3);font-size:.85rem}
+
+    .reveal{opacity:0;transform:translateY(22px);transition:700ms cubic-bezier(.16,1,.3,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    @media(max-width:900px){
+      nav{padding:16px 24px}
+      .nav-links{display:none}
+    #hero h1{font-size:1.7rem}
+      .hero-content,.split-text,#approach .approach-content,#cta .cta-inner{padding:48px 24px}
+      .split,.mosaic-grid,#cta .cta-inner{grid-template-columns:1fr}
+      .mosaic-grid{grid-template-rows:auto}
+      .mosaic-tile.tall{grid-row:auto}
+      footer{flex-direction:column;gap:20px;align-items:flex-start;padding:32px 24px}
+      #hero .hero-content{padding-bottom:60px}
+    }
+  </style>
+</head>
+<body>
+
+<nav id="topnav">
+  <a href="#hero" class="brand" aria-label="uPull.ai home">
+    <svg viewBox="-6 -26 172 84" role="img" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="upChrome" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#ffffff"/>
+          <stop offset="46%" stop-color="#dbe2e8"/>
+          <stop offset="54%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#b9c4cd"/>
+        </linearGradient>
+        <linearGradient id="upOrange" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#FFC066"/>
+          <stop offset="55%" stop-color="#ED8B00"/>
+          <stop offset="100%" stop-color="#b56600"/>
+        </linearGradient>
+        <linearGradient id="upShineGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"  stop-color="#fff" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="upDrop" x="-60%" y="-60%" width="220%" height="220%">
+          <feDropShadow dx="0" dy="2.2" stdDeviation="2.1" flood-color="#000" flood-opacity=".4"/>
+        </filter>
+        <clipPath id="upWordClip">
+          <text x="3" y="40" font-family="'Inter',sans-serif" font-weight="900" font-size="38">uPull.ai</text>
+        </clipPath>
+        <mask id="upNoDot" maskUnits="userSpaceOnUse" x="-6" y="-26" width="172" height="84">
+          <rect x="-6" y="-26" width="172" height="84" fill="#fff"/>
+          <circle cx="130" cy="13.6" r="4.4" fill="#000"/>
+        </mask>
+      </defs>
+
+      <ellipse cx="62" cy="46" rx="66" ry="5" fill="#000" opacity=".18"/>
+      <path class="up-trail" d="M 78 -18 Q 95 -6 106 4"/>
+
+      <text class="up-l up-l1 up-base" x="3"     y="40">u</text>
+      <text class="up-l up-l2 up-base" x="25.7"  y="40">P</text>
+      <text class="up-l up-l3 up-base" x="49.1"  y="40">u</text>
+      <text class="up-l up-l4 up-base" x="71.8"  y="40">l</text>
+      <text class="up-l up-l5 up-base" x="82.1"  y="40">l</text>
+      <text class="up-l up-l6 up-acc"  x="92.4"  y="40">.</text>
+      <text class="up-l up-l7 up-acc"  x="103"   y="40">a</text>
+      <text class="up-l up-l8 up-acc"  x="124.6" y="40" mask="url(#upNoDot)">i</text>
+
+      <g class="up-ball-wrap">
+        <circle class="up-ball-pulse" cx="147" cy="9" r="5.5"/>
+      </g>
+
+      <g clip-path="url(#upWordClip)">
+        <g class="up-shine-g">
+          <rect x="-40" y="-26" width="40" height="84" fill="url(#upShineGrad)" transform="skewX(-18)"/>
+        </g>
+      </g>
+    </svg>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-menu" id="navMenu">
+
+      <!-- 1. STRATEGIC CORE -->
+      <li class="nav-item">
+        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+          Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-submenu">
+          <li><a href="#problem" onclick="closeAllSubmenus(); closeMobileNav();">Challenge</a></li>
+          <li><a href="#approach" onclick="closeAllSubmenus(); closeMobileNav();">Model</a></li>
+          <li><a href="#results" onclick="closeAllSubmenus(); closeMobileNav();">Results</a></li>
+          <li><a href="faqs.html#leadership">Leadership</a></li>
+        </ul>
+      </li>
+
+      <!-- 2. COMMUNITY -->
+      <li class="nav-item">
+        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+          Community <span class="nav-chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-submenu">
+          <li><a href="community.html">Forum</a></li>
+            <li><a href="academy.html#tab-learning">uGrowX</a></li>
+            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+        </ul>
+      </li>
+
+      <!-- 3. UCOLLABX -->
+      <li class="nav-item">
+        <a class="nav-link-item" href="ucollabx.html">uCollabX</a>
+      </li>
+
+      <!-- 4. FAQS -->
+      <li class="nav-item">
+        <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+          FAQs <span class="nav-chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-submenu">
+          <li><a href="https://upull.ai/faqs.html#about">About uPull.ai</a></li>
+          <li><a href="https://upull.ai/faqs.html#pilot">Pilot &amp; ROI</a></li>
+          <li><a href="https://upull.ai/faqs.html#workflows">Workflow Delivery</a></li>
+          <li><a href="https://upull.ai/faqs.html#governance">Safety &amp; Governance</a></li>
+          <li><a href="https://upull.ai/faqs.html#cases">Case Studies &amp; Evidence</a></li>
+          <li><a href="https://upull.ai/faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+        </ul>
+      </li>
+
+    </ul>
+    <!-- 5. NEWSLETTER -->
+    <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly — read and subscribe to the newsletter" title="uPull.ai Weekly newsletter">📰</a>
+    <!-- 6. PROOF OF VALUE -->
+    <a href="#cta" class="nav-btn">Proof of Value</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-img">
+    <img src="https://images.unsplash.com/photo-1653566031535-bcf33e1c2893?w=1800&q=80&auto=format&fit=crop" alt="NHS hospital team in a meeting">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="tag">Teams Ready for AI in the NHS</div>
+    <h1>Frontline ownership.<br>&emsp;<em>Bottom-line</em> results.</h1>
+    <p class="hero-lede">Stop pushing. <em style="color:var(--accent-orange)">Start pulling</em> AI.</p>
+    <p class="hero-sub">We don't parachute in to fix your workflows. Your people already know how. We simply provide the framework to redesign their own pathways and integrate AI naturally. It's the exact methodology your staff needs to transform their daily work and prove the ROI.</p>
+  </div>
+</section>
+
+<!-- CHALLENGE — split -->
+<section id="problem">
+  <div class="split">
+    <div class="split-img">
+      <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&auto=format&fit=crop" alt="NHS clinician under pressure">
+    </div>
+    <div class="split-text reveal">
+      <div class="tag">The challenge</div>
+      <h2>Why NHS AI deployments stall</h2>
+      <p>Most programmes fail not because the tools are weak — but because workflows stay unchanged and value is never proven.</p>
+      <div class="pill-row">
+        <div class="pill">Capacity pressure</div>
+        <div class="pill">Adoption gaps</div>
+        <div class="pill">Financial risk</div>
+        <div class="pill">Weak ROI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH — full-bleed image with steps overlay -->
+<section id="approach">
+  <div class="approach-top reveal">
+    <div>
+      <div class="tag">The model</div>
+      <h2>The pull<br>principle</h2>
+    </div>
+    <p class="approach-sub">Workflow first. AI second. Four focused steps to operational proof of value.</p>
+  </div>
+  <div class="steps-grid reveal">
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80&auto=format&fit=crop" alt="Finding bottleneck">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">01</div>
+        <h3>Find the bottleneck</h3>
+        <p>One real operational pain point, chosen with the frontline team.</p>
+      </div>
+    </div>
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=900&q=80&auto=format&fit=crop" alt="Redesign workflow">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">02</div>
+        <h3>Redesign the workflow</h3>
+        <p>Staff-led redesign before any AI is introduced.</p>
+      </div>
+    </div>
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&auto=format&fit=crop" alt="AI layer">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">03</div>
+        <h3>Add the right AI layer</h3>
+        <p>Technology that supports the redesigned process — not the reverse.</p>
+      </div>
+    </div>
+    <div class="step-tile">
+      <div class="step-tile-img">
+        <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="Prove ROI">
+      </div>
+      <div class="step-tile-overlay"></div>
+      <div class="step-tile-content">
+        <div class="step-num">04</div>
+        <h3>Prove ROI in 6 weeks</h3>
+        <p>One credible operational win in six weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEORY & TARGET -->
+<section id="theory">
+  <div class="numbers-intro reveal">
+    <div class="tag">Our theory. Our target.</div>
+    <h2>What the numbers mean</h2>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="num">45%</div>
+        <p>Documentation time we expect back once ambient voice AI drafts and validates notes in real time, so staff check and confirm instead of typing from scratch.</p>
+      </div>
+      <div class="number-card">
+        <div class="num">85%</div>
+        <p>Referral pathway steps we aim to automate end to end, so referrals move forward without waiting on manual triage and paperwork.</p>
+      </div>
+      <div class="number-card">
+        <div class="num">5:1</div>
+        <p>Return we target for every pound invested, measured in staff time, cost avoidance and capacity released back to patient care.</p>
+      </div>
+      <div class="number-card">
+        <div class="num">6 wks</div>
+        <p>Time it takes us to redesign one workflow, add the right AI layer, and prove measurable value, from kickoff to evidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS — mosaic tiles -->
+<section id="results">
+  <div class="numbers-intro reveal" style="padding-bottom:40px">
+    <div class="tag">Achievements in health and care</div>
+    <h2>Proof from the field, not a pitch deck</h2>
+    <p class="approach-sub">Three named deployments already running across health systems, each one a verifiable case study you can read in full.</p>
+  </div>
+  <div class="mosaic-grid">
+    <div class="mosaic-tile tall">
+      <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=80&auto=format&fit=crop" alt="Clinical documentation">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">94%</div>
+        <div class="tile-title">MedScribe AI &middot; Automated Clinical Documentation</div>
+        <div class="tile-desc">94% of clinicians saw out of hours chart dictation eliminated, with consultation to signature turnaround falling from 18 minutes to under 90 seconds. UK, London.</div>
+      </div>
+    </div>
+    <div class="mosaic-tile">
+      <img src="https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=900&q=80&auto=format&fit=crop" alt="Triage automation">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">52%</div>
+        <div class="tile-title">AuraCare Agent &middot; Psychiatric Intake and Patient Triaging</div>
+        <div class="tile-desc">Emergency psychiatric assessment processing time cut by 52% following ambient intake setup, easing waiting room pressure. Australia, Melbourne.</div>
+      </div>
+    </div>
+    <div class="mosaic-tile">
+      <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="ROI and proof of value">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">310%</div>
+        <div class="tile-title">PathoAgent &middot; Automating Histopathology Workflows</div>
+        <div class="tile-desc">Slide screening throughput increased 310% with zero reported false negatives during test registry validation. Germany, Heidelberg.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="bg-img">
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1800&q=80&auto=format&fit=crop" alt="Technology and healthcare">
+  </div>
+  <div class="bg-overlay"></div>
+  <div class="cta-inner">
+    <div class="reveal">
+      <div class="tag">Join the cohort</div>
+      <h2>One workflow.<br>Six weeks.</h2>
+      <p>Register your interest for the next proof-of-value cohort.</p>
+    </div>
+    <form class="signup reveal" id="waitlistForm" onsubmit="handleWaitlist(event)">
+      <label for="email">Work email address</label>
+      <input id="email" class="cta-input" type="email" placeholder="name@nhs.net" aria-label="Work email" required>
+      <button type="submit" class="cta-btn">Register interest</button>
+      <p class="signup-error" style="font-size:.8rem;color:#ff8a8a;margin-top:10px;text-align:center;display:none">Something went wrong — please try again or email us directly.</p>
+      <p style="font-size:.8rem;color:rgba(255,255,255,.4);margin-top:14px;text-align:center">Prefer to talk it through first? <a href="mailto:info@upull.ai" style="color:var(--nhs-blue-light);text-decoration:underline">Email us directly</a> and we will get back to you within one working day.</p>
+    </form>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist">
+  <div class="waitlist-header reveal">
+    <div class="tag">Early access</div>
+    <h2>Who's on the waitlist</h2>
+    <p>NHS organisations currently in discussion to join the next proof-of-value cohort.</p>
+  </div>
+  <div class="waitlist-table-wrap reveal">
+    <table class="waitlist-table">
+      <thead>
+        <tr>
+          <th>Organisation</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NHS England</td>
+          <td class="org-type">National body</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Greater Manchester ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>North East London ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Cheshire and Merseyside ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>South Yorkshire ICB</td>
+          <td class="org-type">Integrated Care Board</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Guy's and St Thomas' NHS Foundation Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Manchester University NHS Foundation Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Leeds Teaching Hospitals NHS Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>University Hospitals Birmingham NHS Foundation Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Imperial College Healthcare NHS Trust</td>
+          <td class="org-type">Acute Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Central London Community Healthcare NHS Trust</td>
+          <td class="org-type">Community Trust</td>
+          <td><span class="status-badge">Pending</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="waitlist-note">Illustrative list for demonstration purposes. Contact <a href="mailto:info@upull.ai" style="color:rgba(255,255,255,.6);text-decoration:underline">info@upull.ai</a> to register your organisation's interest.</p>
+</section>
+
+
+
+<script>
+  // Nav scroll style
+  const nav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+  }, {threshold: 0.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Waitlist — sends a real notification email via Web3Forms when someone registers interest.
+  // Get a free access key (no signup, delivered instantly to your inbox) at https://web3forms.com
+  // then paste it in place of "YOUR_WEB3FORMS_ACCESS_KEY_HERE" below.
   const WEB3FORMS_ACCESS_KEY = '1e316f99-cd46-430e-81c1-07a0461ae595';
 
   async function handleWaitlist(e){
