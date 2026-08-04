@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -159,7 +160,7 @@
     .ask-form textarea::placeholder, .ask-form input::placeholder { color: #cbd5e1; }
     .ask-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
     .ask-submit { background: var(--accent-orange); color: #fff; border: none; padding: 0.65rem 1.3rem; border-radius: 4px; font-weight: 700; cursor: pointer; }
-    .ask-submit:hover { background: #c54f20; }
+    .ask-submit:hover { background: var(--accent-orange-hover); }
     .ask-note { font-size: 0.8rem; opacity: 0.85; }
 
     footer { background: #09111e; color: #94a3b8; padding: 2rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
@@ -507,7 +508,7 @@
             Community <span class="nav-chevron" aria-hidden="true"></span>
           </button>
           <ul class="nav-submenu">
-           <li><a href="community.html">Community</a></li>
+            <li><a href="community.html">Forum</a></li>
             <li><a href="academy.html#tab-learning">uGrowX</a></li>
             <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
           </ul>
@@ -532,6 +533,11 @@
             <li><a href="#cases" onclick="closeAllSubmenus(); closeMobileNav();">Case Studies &amp; Evidence</a></li>
             <li><a href="#commercial" onclick="closeAllSubmenus(); closeMobileNav();">Commercial &amp; Next Steps</a></li>
           </ul>
+        </li>
+
+        <!-- 5. PRICING -->
+        <li class="nav-item">
+          <a class="nav-link-item" href="pricing.html" style="text-decoration:none">Pricing</a>
         </li>
 
       </ul>
@@ -792,7 +798,7 @@
     <div class="team-grid">
       <article class="team-card">
         <img src="/asset/images/alex.jpeg?raw=true&auto=format&fit=crop&w=200&h=200&q=80" alt="Alex" class="member-avatar" loading="lazy">
-        <h3>Alex Cheung</h3><div class="member-role">Co-Founder &amp; CEO</div><p style="font-size:0.9rem; color:var(--text-muted);">Community builder with technology and program management experience, delivering large-scale programs and digital transformation.</p>
+        <h3>Alex Cheung</h3><div class="member-role">Co-Founder &amp; CEO</div><p style="font-size:0.9rem; color:var(--text-muted);">Community builder with technology and programme management experience, delivering large-scale programmes and digital transformation.</p>
       </article>
       <article class="team-card">
         <img src="https://www.digitalhealth.net/wp-content/uploads/2025/11/Hassan-Chaudhury-1-1.jpeg.webp?auto=format&fit=crop&w=200&h=200&q=80" alt="Hassan" class="member-avatar" loading="lazy">
@@ -811,7 +817,7 @@
       <p>If your question is specific to a workflow, pilot, case study, or governance review, contact uPull.ai directly so the team can route it to the right discussion — or send a free-form question below.</p>
       <div class="contact-actions">
         <a href="mailto:info@upull.ai?subject=FAQ%20Enquiry" class="cta-btn">Email uPull.ai</a>
-        <a href="case-studies.html" class="secondary-btn">Submit a Case Study</a>
+        <a href="community.html#composer" class="secondary-btn">Submit a Case Study</a>
       </div>
 
       <div class="ask-box">
@@ -830,7 +836,7 @@
           <input id="questionEmail" type="email" placeholder="Your email address (optional)" />
           <div class="ask-actions">
             <button class="ask-submit" type="submit">Send question</button>
-            <div class="ask-note" id="askStatus">This opens an email to info@upull.ai with your question.</div>
+            <div class="ask-note" id="askStatus">This sends your question directly to the uPull.ai team.</div>
           </div>
         </form>
       </div>
@@ -860,21 +866,53 @@
     });
   });
 
-  function submitQuestion(event){
+  // Ask a question — sends a real notification email via Web3Forms, same account uPull.ai's waitlist form uses.
+  const WEB3FORMS_ACCESS_KEY = '1e316f99-cd46-430e-81c1-07a0461ae595';
+
+  async function submitQuestion(event){
     event.preventDefault();
     const question = document.getElementById('questionText').value.trim();
     const email = document.getElementById('questionEmail').value.trim();
     const status = document.getElementById('askStatus');
+    const btn = event.target.querySelector('.ask-submit');
 
     if(!question){
       status.textContent = 'Please enter a question before submitting.';
       return;
     }
 
-    const subject = encodeURIComponent('FAQ Question Submission');
-    const body = encodeURIComponent('Question:\n' + question + '\n\nEmail:\n' + (email || 'Not provided'));
-    window.location.href = 'mailto:info@upull.ai?subject=' + subject + '&body=' + body;
-    status.textContent = 'Opening your email client so you can send the question.';
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try{
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'FAQ Question Submission — uPull.ai',
+          from_name: 'uPull.ai FAQ page',
+          email: email || 'not-provided@upull.ai',
+          message: `New FAQ question submitted.\n\nQuestion:\n${question}\n\nReply-to email:\n${email || 'Not provided'}\n\nPage: ${window.location.href}`
+        })
+      });
+      const data = await res.json();
+
+      if(data.success){
+        status.textContent = 'Thanks — your question has been sent to the uPull.ai team.';
+        document.getElementById('questionText').value = '';
+        document.getElementById('questionEmail').value = '';
+      } else {
+        throw new Error(data.message || `Web3Forms submission failed (HTTP ${res.status})`);
+      }
+    } catch(err){
+      console.error('uPull.ai FAQ question submission failed:', err);
+      status.textContent = 'Something went wrong: ' + (err.message || err) + ' — please try again or email info@upull.ai directly.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
   }
 
   // ══ PRIMARY NAV DROPDOWNS ══
