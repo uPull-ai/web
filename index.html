@@ -781,7 +781,7 @@
   // Waitlist — sends a real notification email via Web3Forms when someone registers interest.
   // Get a free access key (no signup, delivered instantly to your inbox) at https://web3forms.com
   // then paste it in place of "YOUR_WEB3FORMS_ACCESS_KEY_HERE" below.
-  const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+  const WEB3FORMS_ACCESS_KEY = '1e316f99-cd46-430e-81c1-07a0461ae595';
 
   async function handleWaitlist(e){
     e.preventDefault();
@@ -792,7 +792,7 @@
 
     if(!input.value || !input.value.includes('@')){ input.focus(); return; }
 
-    if(WEB3FORMS_ACCESS_KEY === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE'){
+    if(WEB3FORMS_ACCESS_KEY === '1e316f99-cd46-430e-81c1-07a0461ae595'){
       console.error('uPull.ai signup form: WEB3FORMS_ACCESS_KEY is not configured, so no notification email can be sent. Get a free key at https://web3forms.com and set it in index.html.');
       errorMsg.style.display = 'block';
       return;
@@ -807,7 +807,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
+          access_key: '1e316f99-cd46-430e-81c1-07a0461ae595',
           subject: 'New Proof of Value registration — uPull.ai',
           from_name: 'uPull.ai website',
           email: input.value,
