@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -23,6 +24,7 @@
       --nhs-blue: #005EB8;
       --nhs-blue-rgb: 0,94,184;
       --accent-orange: #ED8B00;
+      --accent-orange-hover: #c26f00;
       --bg-light: #F8FAFC;
       --card-bg: #ffffff;
       --text-dark: #1E293B;
@@ -132,7 +134,7 @@
       font-size: 0.9rem;
       white-space: nowrap;
     }
-    .cta-btn:hover { background-color: #c54f20; transform: translateY(-1px); }
+    .cta-btn:hover { background-color: var(--accent-orange-hover, #c26f00); transform: translateY(-1px); }
     @media (max-width: 767px) {
       .nav-toggle { display: block; }
       .nav-menu {
@@ -409,12 +411,18 @@
             <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
             <li><a href="faqs.html#workflows">Workflow Delivery</a></li>
             <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+            <li><a href="faqs.html#gdpr">GDPR &amp; Compliance</a></li>
             <li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
             <li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
           </ul>
         </li>
 
-        <!-- 5. NEWSLETTER -->
+        <!-- 5. PRICING -->
+        <li class="nav-item">
+          <a class="nav-link-item" href="pricing.html" style="text-decoration:none">Pricing</a>
+        </li>
+
+        <!-- 6. NEWSLETTER -->
         <li class="nav-item">
           <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
         </li>
