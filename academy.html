@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -451,7 +452,7 @@
             Community <span class="nav-chevron" aria-hidden="true"></span>
           </button>
           <ul class="nav-submenu">
-            <li><a href="community.html">Community Forum</a></li>
+            <li><a href="community.html">Forum</a></li>
             <li><a href="#" onclick="showSection('chooser'); closeAllSubmenus(); closeMobileNav(); return false;">Learning Pathways</a></li>
             <li><a href="#" onclick="showSection('intrapreneur'); closeAllSubmenus(); closeMobileNav(); return false;">Intrapreneur Route</a></li>
             <li><a href="#" onclick="showSection('promptengineering'); closeAllSubmenus(); closeMobileNav(); return false;">Prompt Engineering</a></li>
@@ -475,12 +476,18 @@
             <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
             <li><a href="faqs.html#workflows">Workflow Delivery</a></li>
             <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+            <li><a href="faqs.html#gdpr">GDPR &amp; Compliance</a></li>
             <li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
             <li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
           </ul>
         </li>
 
-        <!-- 5. NEWSLETTER -->
+        <!-- 5. PRICING -->
+        <li class="nav-item">
+          <a class="nav-link-item" href="pricing.html" style="text-decoration:none">Pricing</a>
+        </li>
+
+        <!-- 6. NEWSLETTER -->
         <li class="nav-item">
           <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
         </li>
@@ -582,7 +589,7 @@
         <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.85rem">
           <a href="#" style="color:var(--blue);font-weight:600" onclick="openCPDModal(); return false;">💡 What is CPD?</a>
           <a href="#" style="color:var(--blue);font-weight:600" onclick="showSection('scores'); return false;">🏆 View score tables</a>
-          <a href="community.html#vendors" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">🔌 Suppliers &amp; vendors</a>
+          <a href="ucollabx.html#vendorDirectoryGrid" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">🔌 Suppliers &amp; vendors</a>
           <a href="community.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">💬 Community forum</a>
         </div>
       </div>
@@ -729,7 +736,7 @@
         <section style="padding-top:.5rem">
           <h2 class="section-title">✍️ The Prompt Engineering Pathway</h2>
           <p class="section-subtitle">A researched, beginner-to-advanced route for NHS and public sector staff who want to get the most out of AI tools — built entirely from free YouTube videos, open curricula and vendor training. Free for NHS and public sector, with CPD credits at every stage.</p>
-          <p style="margin-bottom:1.5rem"><a href="prompt-engineering.html" class="course-link">Read the full guide — CPD tiers, stage-by-stage detail and the NHS capstone brief →</a></p>
+          <p style="margin-bottom:1.5rem"><a href="#promptEngineeringTimeline" class="course-link" onclick="document.getElementById('promptEngineeringTimeline').scrollIntoView({behavior:'smooth', block:'start'}); return false;">Read the full guide — CPD tiers, stage-by-stage detail and the NHS capstone brief ↓</a></p>
           <div class="timeline" id="promptEngineeringTimeline"><!-- populated by JS: renderPromptEngineering() --></div>
         </section>
       </div>
@@ -867,8 +874,8 @@
             <article class="community-teaser-card">
               <span class="tag tag-agentic ctc-tag">Supplier update</span>
               <h4>New vendor recognition mapping</h4>
-              <p>Vendors and suppliers post product updates, integration notes and CPD-recognition mapping in the Community Hub's supplier feed.</p>
-              <a href="community.html#vendors" target="_blank" rel="noopener" class="btn-sm btn-blue">View suppliers &amp; vendors →</a>
+              <p>Vendors and suppliers post product updates, integration notes and CPD-recognition mapping in uCollabX's vendor updates feed.</p>
+              <a href="ucollabx.html#vendorDirectoryGrid" target="_blank" rel="noopener" class="btn-sm btn-blue">View suppliers &amp; vendors →</a>
             </article>
             <article class="community-teaser-card">
               <span class="tag tag-robotic ctc-tag">Community discussion</span>
