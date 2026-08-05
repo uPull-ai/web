@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Workflow Template — One workflow, one page | uPull.ai</title>
+<meta name="description" content="A one-page template for choosing and scoring a first AI workflow. The AI fit score uses the same 0–4 scale, 60% threshold and bands as the uPull AI Readiness Assessment.">
+<style>
+/* ============================================================
+   uPull.ai — AI Workflow Template
+   Single file, no dependencies. Styled to the same house theme
+   as readiness.html: orange on black, identical tokens.
+
+   The AI fit score deliberately reuses the readiness engine —
+   same 0–4 scale, same 60% threshold, same five bands — so a
+   workflow score and an organisation score read the same way.
+   ============================================================ */
+:root{
+  /* ---- uPull.ai house palette: orange on black ---- */
+  --accent:#ED8B00;        /* brand orange — fills, borders, text on dark */
+  --accent-dk:#B45309;     /* orange for TEXT on light (5.0:1 — AA) */
+  --accent-lt:#FBBF6B;     /* orange for text on black (11.5:1) */
+  --accent-hover:#C26F00;
+  --btn-ink:#09111E;       /* near-black text on orange buttons (7.5:1) */
+  --brand:#09111E;
+  --danger:#B91C1C;
+  /* dark surfaces */
+  --dark:#09111E;
+  --dark-2:#0F1A2B;
+  --dark-3:#1B2537;
+  --on-dark:#F1F5F9;
+  --on-dark-2:rgba(241,245,249,.72);
+  --dark-line:rgba(255,255,255,.14);
+  /* light surfaces */
+  --ink:#1E293B;
+  --ink-2:#4A5A68;
+  --line:#E8EDEE;
+  --bg:#F8FAFC;
+  --card:#FFFFFF;
+  --radius:12px;
+  --shadow:0 1px 2px rgba(9,17,30,.06), 0 10px 24px -3px rgba(9,17,30,.10);
+  --max:900px;
+  --max-wide:1200px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Segoe UI',Roboto,system-ui,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+.wrap-wide{max-width:var(--max-wide);margin:0 auto;padding:0 20px}
+
+/* ══════════════════════════════════════════════════════════════
+   SHARED HEADER — identical markup, CSS and behaviour to every
+   other uPull.ai page. Black + orange. Do not fork this block.
+   ══════════════════════════════════════════════════════════════ */
+header:not(.hero){
+  background:rgba(14,14,14,.97);
+  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.10);
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+  padding:1rem 5%; position:sticky; top:0; z-index:1000;
+}
+.nav-container{display:flex;align-items:center;justify-content:space-between;
+  max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.5rem 1rem}
+.logo{color:#fff;font-size:1.6rem;font-weight:800;text-decoration:none;letter-spacing:-.5px;
+  display:inline-flex;align-items:center}
+.logo span{color:var(--accent)}
+.logo:focus{outline:none}
+.logo:focus-visible{outline:2px solid var(--accent-hover);outline-offset:3px;border-radius:8px}
+.nav-right{display:flex;align-items:center;gap:18px}
+.nav-menu{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+.nav-item{position:relative}
+.nav-link-item{
+  display:flex;align-items:center;gap:6px;
+  padding:10px 16px;border-radius:999px;
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;font-family:inherit;
+  transition:color .2s, background .2s;text-decoration:none;
+}
+.nav-link-item:hover,.nav-item.open > .nav-link-item,.nav-link-item.active-tab{
+  color:#fff;background:rgba(255,255,255,.08)}
+.nav-chevron{width:7px;height:7px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(45deg);margin-top:-2px;transition:transform .2s}
+.nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
+.nav-submenu{
+  list-style:none;margin:0;position:absolute;top:calc(100% + 10px);left:0;
+  min-width:230px;padding:10px;border-radius:16px;
+  background:rgba(14,14,14,.97);
+  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.10);
+  border-top:3px solid var(--accent);
+  box-shadow:0 20px 44px rgba(0,0,0,.5);
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  z-index:1100;
+}
+.nav-item.open > .nav-submenu,.nav-item:hover > .nav-submenu{
+  opacity:1;visibility:visible;transform:translateY(0)}
+.nav-submenu li a{display:block;padding:10px 12px;border-radius:10px;
+  color:rgba(255,255,255,.68);text-decoration:none;font-size:.85rem;font-weight:500;
+  transition:background .15s, color .15s}
+.nav-submenu li a:hover{background:rgba(237,139,0,.22);color:#fff}
+.nav-icon-btn{display:flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:50%;font-size:1.1rem;text-decoration:none;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  transition:.2s;flex-shrink:0}
+.nav-icon-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32)}
+.cta-btn{padding:11px 22px;border-radius:999px;background:var(--accent);color:var(--btn-ink);
+  font-weight:800;font-size:.9rem;text-decoration:none;white-space:nowrap;border:none;
+  cursor:pointer;transition:.2s;display:inline-block}
+.cta-btn:hover{background:var(--accent-hover);color:#fff}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
+.nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:900px){
+  .nav-toggle{display:block}
+  .nav-menu{display:none;position:fixed;top:68px;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:2px;
+    background:rgba(14,14,14,.98);
+    -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+    padding:14px 24px 22px;border-bottom:1px solid rgba(255,255,255,.10);
+    max-height:calc(100vh - 68px);overflow-y:auto;z-index:999}
+  .nav-menu.mobile-open{display:flex}
+  .nav-link-item{width:100%;justify-content:space-between}
+  .nav-submenu{position:static;opacity:1;visibility:visible;transform:none;
+    display:none;box-shadow:none;background:rgba(255,255,255,.04);
+    border-radius:10px;margin:4px 0 8px}
+  .nav-item.open > .nav-submenu{display:block}
+  .nav-item:hover > .nav-submenu{display:none}
+  .nav-item.open:hover > .nav-submenu{display:block}
+}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:var(--dark);overflow:hidden;isolation:isolate;z-index:0}
+.hero-media{position:absolute;inset:0;z-index:0;
+  background:radial-gradient(120% 130% at 78% 12%, var(--dark-3) 0%, var(--dark-2) 45%, var(--dark) 100%);}
+.hero-veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(100deg, rgba(9,17,30,.92) 0%, rgba(9,17,30,.80) 42%, rgba(9,17,30,.44) 100%);}
+.hero-glow{position:absolute;z-index:1;right:-140px;top:-160px;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle, rgba(237,139,0,.28) 0%, rgba(237,139,0,0) 68%);pointer-events:none}
+.hero-in{position:relative;z-index:2;padding:66px 20px 56px}
+.hero h1{color:var(--on-dark);font-size:clamp(2rem,5vw,3.1rem);line-height:1.08;letter-spacing:-.032em;margin:0 0 14px;max-width:18ch}
+.hero h1 em{font-style:italic;color:var(--accent-lt);font-weight:inherit}
+.hero-sub{font-size:clamp(1.05rem,2.3vw,1.35rem);font-weight:600;color:var(--on-dark);margin:0 0 16px;letter-spacing:-.01em}
+.hero-sub em{font-style:italic;color:var(--accent-lt)}
+.hero-lede{color:var(--on-dark-2);font-size:1.02rem;max-width:58ch;margin:0 0 26px}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.hero-meta span{font-size:.78rem;font-weight:600;color:var(--on-dark);background:rgba(255,255,255,.09);
+  border:1px solid var(--dark-line);padding:7px 14px;border-radius:100px;backdrop-filter:blur(4px)}
+.hero-frameworks{border-top:1px solid var(--dark-line);padding-top:18px;margin-top:4px;
+  font-size:.79rem;color:var(--on-dark-2);letter-spacing:.01em;max-width:72ch}
+.hero-frameworks strong{color:var(--on-dark);font-weight:600}
+.hero-frameworks a{color:var(--accent-lt);font-weight:600}
+
+/* ---------- Dark band ---------- */
+.imgband{position:relative;overflow:hidden;background:var(--dark-2);isolation:isolate;z-index:0;
+  border-radius:var(--radius);margin-bottom:20px}
+.imgband-media{position:absolute;inset:0;z-index:0;background:linear-gradient(120deg,var(--dark-3),var(--dark))}
+.imgband-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(9,17,30,.95),rgba(9,17,30,.74))}
+.imgband-in{position:relative;z-index:2;padding:34px 20px}
+.imgband h2{color:var(--on-dark);margin:0 0 6px;letter-spacing:-.02em;font-size:1.4rem}
+.imgband h2 em{font-style:italic;color:var(--accent-lt);font-weight:inherit}
+.imgband p{color:var(--on-dark-2);margin:0;font-size:.92rem}
+
+/* ---------- Eyebrow + headings ---------- */
+.eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;font-weight:800;
+  color:var(--accent-dk);margin:0 0 7px;display:flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:18px;height:2px;background:var(--accent);border-radius:2px;flex:0 0 auto}
+.eyebrow.on-dark{color:var(--accent-lt)}
+.eyebrow.on-dark::before{background:var(--accent-lt)}
+h1 em, h2 em{font-style:italic;color:var(--accent-dk);font-weight:inherit}
+
+/* ---------- Layout ---------- */
+main{padding:28px 0 64px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px}
+h1{font-size:1.85rem;line-height:1.2;margin:0 0 12px;letter-spacing:-.5px;font-weight:800}
+h2{font-size:1.35rem;margin:0 0 6px;letter-spacing:-.5px;font-weight:800}
+h3{font-size:1rem;margin:0 0 8px}
+p{margin:0 0 14px;color:var(--ink-2)}
+.lede{font-size:1.05rem;color:var(--ink-2)}
+.muted{color:var(--ink-2);font-size:.87rem}
+.step-no{display:inline-block;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
+  font-weight:800;color:var(--accent-dk);background:#FDF0DC;padding:5px 10px;border-radius:6px;margin-bottom:10px}
+
+/* ---------- Buttons ---------- */
+button{font:inherit}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--accent);color:var(--btn-ink);border:none;border-radius:4px;
+  padding:13px 24px;font-weight:700;font-size:.95rem;cursor:pointer;
+  transition:background .2s ease, transform .1s ease;text-decoration:none;
+}
+.btn:hover{background:var(--accent-hover);color:#fff}
+.btn:active{transform:translateY(1px)}
+.btn-ghost{background:transparent;color:var(--brand);border:1.5px solid var(--line)}
+.btn-ghost:hover{background:#F1F5F9;color:var(--brand)}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
+
+/* ---------- Form fields ---------- */
+.field{margin-bottom:15px}
+label{display:block;font-weight:600;font-size:.88rem;margin-bottom:5px}
+.req{color:var(--danger)}
+input[type=text],input[type=date],select,textarea{
+  width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:9px;
+  font:inherit;font-size:.95rem;background:#fff;color:var(--ink);
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(237,139,0,.22)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.hint{font-size:.82rem;color:var(--ink-2);margin:4px 0 0}
+
+/* ---------- Fit scorer ---------- */
+.q{padding:16px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:none;padding-top:4px}
+.q-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+.q-text{font-weight:700;margin:0;color:var(--ink);font-size:1rem}
+.q-axis{font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;font-weight:800;
+  color:var(--accent-dk);background:#FDF0DC;padding:3px 8px;border-radius:6px}
+.q-help{font-size:.83rem;color:var(--ink-2);margin:0 0 11px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.opt{
+  border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:11px 6px;
+  cursor:pointer;text-align:center;transition:all .12s ease;
+}
+.opt:hover{border-color:var(--accent);background:#FFF8EE}
+.opt[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--btn-ink)}
+.opt[aria-pressed="true"] .opt-lbl{color:var(--btn-ink)}
+.opt-num{display:block;font-weight:800;font-size:1.05rem;line-height:1.1}
+.opt-lbl{display:block;font-size:.68rem;color:var(--ink-2);margin-top:3px;line-height:1.25}
+.scale-legend{font-size:.76rem;color:var(--ink-2);margin:0 0 16px}
+
+/* ---------- Result ---------- */
+.score-hero{text-align:center;padding:8px 0 18px}
+.score-num{font-size:4rem;font-weight:800;line-height:1;letter-spacing:-.04em;color:var(--brand)}
+.score-num small{font-size:1.5rem;font-weight:700;color:var(--ink-2)}
+.score-raw{font-size:.85rem;color:var(--ink-2);margin-top:6px}
+.band{display:inline-block;margin-top:12px;padding:8px 20px;border-radius:100px;font-weight:700;font-size:1rem}
+.b1{background:#FEE2E2;color:#991B1B}
+.b2{background:#FDEBD0;color:#9A3412}
+.b3{background:#FDF0DC;color:#92400E}
+.b4{background:#E7F5E4;color:#3F6212}
+.b5{background:#DCFCE7;color:#166534}
+.verdict{border-left:5px solid var(--accent);background:#FFF8EE;border-radius:0 10px 10px 0;
+  padding:15px 18px;margin:16px 0 0}
+.verdict h3{color:var(--brand);margin-bottom:6px}
+.verdict .pri{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;
+  color:var(--accent-dk);display:block;margin-bottom:3px}
+.radar-box{display:flex;justify-content:center;padding:6px 0 10px}
+svg{max-width:100%;height:auto}
+.bars{margin-top:6px}
+.bar-row{display:grid;grid-template-columns:1fr 96px 46px;gap:12px;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.bar-row:last-child{border-bottom:none}
+.bar-name{font-weight:600}
+.bar-track{height:8px;background:#E8EDEE;border-radius:100px;overflow:hidden}
+.bar-fill{height:100%;border-radius:100px}
+.bar-val{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.weak{border-left:5px solid var(--accent);background:#FFF8EE;border-radius:0 10px 10px 0;
+  padding:14px 18px;margin-bottom:12px}
+.weak ul{margin:8px 0 0;padding-left:19px;color:var(--ink-2);font-size:.9rem}
+
+/* ---------- Review points table ---------- */
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);font-weight:800}
+td input{padding:8px 10px;font-size:.9rem}
+.row-del{background:none;border:none;color:var(--ink-2);cursor:pointer;font-size:1.1rem;line-height:1;padding:4px 6px}
+.row-del:hover{color:var(--danger)}
+
+/* ---------- Decision ---------- */
+.decide{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.decide .box{border:1.5px solid var(--line);border-radius:10px;padding:15px}
+.decide .box h3{margin-bottom:6px}
+
+/* ---------- CTA ---------- */
+.cta{position:relative;overflow:hidden;isolation:isolate;z-index:0;color:#fff;
+  border-radius:var(--radius);text-align:center;background:var(--dark)}
+.cta-media{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,var(--dark-3),var(--dark))}
+.cta-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(9,17,30,.90),rgba(9,17,30,.96))}
+.cta-in{position:relative;z-index:2;padding:38px 28px}
+.cta .eyebrow{justify-content:center}
+.cta h2{color:#fff;font-size:1.6rem;letter-spacing:-.02em;margin-bottom:10px}
+.cta h2 em{font-style:italic;color:var(--accent-lt)}
+.cta p{color:rgba(255,255,255,.78);max-width:52ch;margin-left:auto;margin-right:auto}
+
+footer{background:var(--dark);padding:2rem 5%;font-size:.85rem;color:#94A3B8;text-align:center;margin-top:1rem}
+footer a{color:var(--accent-lt);text-decoration:none}
+footer a:hover{text-decoration:underline;color:var(--accent)}
+footer .foot-logo{font-weight:800;color:#ffffff;font-size:1.35rem;letter-spacing:-.5px;
+  display:inline-block;margin-bottom:10px}
+footer .foot-logo span{color:var(--accent)}
+
+@media (max-width:760px){ .hero-in{padding:46px 20px 40px} .hero h1{max-width:none} .imgband-in{padding:26px 20px} }
+@media (max-width:640px){
+  h1{font-size:1.45rem}
+  .card{padding:20px}
+  .cta-in{padding:28px 20px}
+  .hero-meta span{font-size:.72rem;padding:6px 11px}
+  .scale{gap:4px}
+  .opt{padding:9px 2px}
+  .opt-lbl{display:none}
+  .two-col,.decide{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:1fr 66px 42px;font-size:.85rem}
+  .score-num{font-size:3.2rem}
+}
+@media print{
+  header:not(.hero),.hero,.btn-row,.cta,footer,.no-print{display:none}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .eyebrow{color:#555}
+  .eyebrow::before{background:#555}
+  input,select,textarea{border:1px solid #ccc !important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <a href="index.html" class="logo" aria-label="uPull.ai home">uPull<span>.ai</span></a>
+    <div class="nav-right">
+      <ul class="nav-menu" id="navMenu">
+
+        <!-- 1. STRATEGIC CORE -->
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="index.html#problem">Challenge</a></li>
+            <li><a href="index.html#approach">Model</a></li>
+            <li><a href="index.html#results">Results</a></li>
+            <li><a href="faqs.html#leadership">Leadership</a></li>
+          </ul>
+        </li>
+
+        <!-- 2. COMMUNITY -->
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Community <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="community.html">Forum</a></li>
+            <li><a href="academy.html#tab-learning">uGrowX</a></li>
+            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+          </ul>
+        </li>
+
+        <!-- 3. FAQS -->
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            FAQs <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="faqs.html#about">About uPull.ai</a></li>
+            <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
+            <li><a href="faqs.html#workflows">Workflow Delivery</a></li>
+            <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+            <li><a href="faqs.html#gdpr">GDPR &amp; Compliance</a></li>
+            <li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
+            <li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link-item" href="readiness.html" style="text-decoration:none">AI Readiness</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link-item" href="pricing.html" style="text-decoration:none">Pricing</a>
+        </li>
+
+      </ul>
+      <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">&#128240;</a>
+      <a href="index.html#cta" class="cta-btn">Proof of Value</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<header class="hero">
+  <div class="hero-media"></div>
+  <div class="hero-veil"></div>
+  <div class="hero-glow"></div>
+  <div class="wrap-wide hero-in">
+    <p class="eyebrow on-dark">One workflow at a time</p>
+    <h1>Pick the right workflow <em>first</em>.</h1>
+    <p class="hero-sub">One page. <em>One decision.</em></p>
+    <p class="hero-lede">Most AI projects do not fail because of the model. They fail because the team picked the wrong workflow to automate. Fill this in before you build anything — the fit score uses the same scale, threshold and bands as the uPull AI Readiness Assessment, so a workflow score and an organisation score can be read side by side.</p>
+    <div class="hero-meta">
+      <span>8 domains</span>
+      <span>0–4 scale</span>
+      <span>32 points</span>
+      <span>60% is the bar</span>
+      <span>~5 minutes</span>
+    </div>
+    <p class="hero-frameworks"><strong>Scored on the same model as:</strong> the <a href="readiness.html">uPull AI Readiness Assessment</a> &middot; NHS <em>What Good Looks Like</em> &middot; NHS England / Health Foundation AI Readiness Checklist &middot; DTAC &middot; Artificial Intelligence Playbook for the UK Government</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ 1. THE WORKFLOW ============ -->
+<section>
+  <div class="card">
+    <p class="step-no">Step 1</p>
+    <p class="eyebrow">Find the bottleneck</p>
+    <h2>Name the <em>workflow</em></h2>
+    <p class="lede">Start with one painful, repeatable workflow: frequent and manual, slow, easy to describe, and annoying enough that the team wants it gone. If it happens rarely, skip it.</p>
+
+    <div class="two-col">
+      <div class="field">
+        <label for="f-workflow">Workflow name <span class="req">*</span></label>
+        <input type="text" id="f-workflow" placeholder="e.g. Triaging inbound referral letters">
+      </div>
+      <div class="field">
+        <label for="f-owner">Workflow owner <span class="req">*</span></label>
+        <input type="text" id="f-owner" placeholder="Name and role — someone who can change the process">
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label for="f-team">Team / service</label>
+        <input type="text" id="f-team" placeholder="e.g. Outpatients booking, Trust X">
+      </div>
+      <div class="field">
+        <label for="f-date">Date assessed</label>
+        <input type="date" id="f-date">
+      </div>
+    </div>
+    <div class="field">
+      <label for="f-problem">Problem statement <span class="req">*</span></label>
+      <textarea id="f-problem" rows="3" placeholder="One sentence: who is affected, what happens today, and why that is a problem. Do not mention AI."></textarea>
+      <p class="hint">If you cannot write it without naming a technology, it is not yet a use case.</p>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label for="f-volume">How often does it happen?</label>
+        <input type="text" id="f-volume" placeholder="e.g. ~400 letters a week">
+      </div>
+      <div class="field">
+        <label for="f-effort">Time it takes today</label>
+        <input type="text" id="f-effort" placeholder="e.g. 6 minutes each, 40 hours a week">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. AI FIT SCORE ============ -->
+<section>
+  <div class="imgband">
+    <div class="imgband-media"></div>
+    <div class="imgband-veil"></div>
+    <div class="imgband-in">
+      <p class="eyebrow on-dark">Step 2 — the same engine as the readiness index</p>
+      <h2>Score the <em>AI fit</em></h2>
+      <p>Eight domains, 0–4 each, 32 points. Answer as things actually are today. An optimistic score helps nobody.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">The fit score</p>
+    <h2>Eight domains. <em>One honest answer each.</em></h2>
+    <p class="scale-legend"><strong>0</strong> Not started &nbsp;·&nbsp; <strong>1</strong> Early / ad hoc &nbsp;·&nbsp; <strong>2</strong> Developing &nbsp;·&nbsp; <strong>3</strong> Established &nbsp;·&nbsp; <strong>4</strong> Embedded &amp; assured</p>
+    <div id="q-list"></div>
+    <div class="btn-row no-print">
+      <button class="btn" id="btn-score">Score this workflow</button>
+      <button class="btn btn-ghost" id="btn-clear">Clear scores</button>
+    </div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <p class="eyebrow">The result</p>
+    <h2>Where this workflow <em>stands</em></h2>
+    <div class="score-hero">
+      <p class="muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.09em;font-size:.75rem;font-weight:700">uPull AI Fit Score</p>
+      <div class="score-num"><span id="r-score">0</span><small>%</small></div>
+      <div class="score-raw" id="r-raw">0 / 32</div>
+      <div class="band" id="r-band">Band</div>
+      <p class="muted" style="margin-top:14px;max-width:620px;margin-left:auto;margin-right:auto" id="r-band-desc"></p>
+    </div>
+    <div class="verdict" id="r-verdict"></div>
+    <div class="radar-box" id="radar-box"></div>
+    <div class="bars" id="bars"></div>
+    <div id="weakest" style="margin-top:18px"></div>
+    <p class="muted" style="margin-top:16px">Same 0–4 scale, same 60% threshold and same five bands as the organisation-level assessment at <a href="readiness.html">upull.ai/readiness.html</a>. A workflow can score well inside an organisation that does not — and the reverse. Run both.</p>
+  </div>
+</section>
+
+<!-- ============ 3. HANDOFFS ============ -->
+<section>
+  <div class="card">
+    <p class="step-no">Step 3</p>
+    <p class="eyebrow">Map the handoffs</p>
+    <h2>Human <em>review points</em></h2>
+    <p class="lede">Do not ask AI to own the whole process. Split it into inputs, decision points, outputs and human review moments. The best systems are not AI-only — they are human + AI by design.</p>
+
+    <table>
+      <thead>
+        <tr><th style="width:26%">Stage</th><th style="width:24%">Who reviews</th><th>What they check, and how the override is recorded</th><th style="width:34px"></th></tr>
+      </thead>
+      <tbody id="review-rows"></tbody>
+    </table>
+    <div class="btn-row no-print">
+      <button class="btn btn-ghost" id="btn-add-row">+ Add a review point</button>
+    </div>
+    <div class="field" style="margin-top:18px">
+      <label for="f-escalation">Escalation route</label>
+      <input type="text" id="f-escalation" placeholder="Who does a case go to when the reviewer disagrees with the output?">
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. SUCCESS METRIC ============ -->
+<section>
+  <div class="card">
+    <p class="step-no">Step 4</p>
+    <p class="eyebrow">Define success early</p>
+    <h2>One metric, and its <em>baseline</em></h2>
+    <p class="lede">Decide what "better" means before you build. Capture the baseline before deployment — it is cheap now and impossible later. No metric means no proof.</p>
+
+    <div class="two-col">
+      <div class="field">
+        <label for="f-metric">Success metric <span class="req">*</span></label>
+        <select id="f-metric">
+          <option value="">Please select…</option>
+          <option>Time saved per case</option>
+          <option>Response speed / waiting time</option>
+          <option>Error or rework reduction</option>
+          <option>Cost per task (fully loaded)</option>
+          <option>Team capacity recovered</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-measure">How it is measured</label>
+        <input type="text" id="f-measure" placeholder="e.g. mean minutes per referral, from the PAS timestamp">
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label for="f-baseline">Baseline today <span class="req">*</span></label>
+        <input type="text" id="f-baseline" placeholder="e.g. 6.2 minutes, sampled over 4 weeks">
+      </div>
+      <div class="field">
+        <label for="f-target">Target</label>
+        <input type="text" id="f-target" placeholder="e.g. under 3 minutes by week 6">
+      </div>
+    </div>
+    <div class="field">
+      <label for="f-guard">Guardrail metric <span class="muted">(what must not get worse)</span></label>
+      <input type="text" id="f-guard" placeholder="e.g. no increase in mis-triaged urgent referrals">
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. KILL / SCALE ============ -->
+<section>
+  <div class="card">
+    <p class="step-no">Step 5</p>
+    <p class="eyebrow">Decide in advance</p>
+    <h2>Kill or <em>scale</em></h2>
+    <p class="lede">Write the decision before you start, not after. Defining in advance what performance means switching it off is the single cheapest piece of governance you will ever do.</p>
+
+    <div class="decide">
+      <div class="box">
+        <h3>Scale if…</h3>
+        <div class="field" style="margin:0">
+          <textarea id="f-scale" rows="3" placeholder="e.g. metric improves 30%+ with no guardrail breach, and reviewers accept 90% of outputs unchanged"></textarea>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Kill if…</h3>
+        <div class="field" style="margin:0">
+          <textarea id="f-kill" rows="3" placeholder="e.g. any guardrail breach, or metric fails to move by week 6"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top:15px">
+      <div class="field">
+        <label for="f-review-date">Decision date</label>
+        <input type="date" id="f-review-date">
+      </div>
+      <div class="field">
+        <label for="f-decider">Who makes the call</label>
+        <input type="text" id="f-decider" placeholder="Name and role">
+      </div>
+    </div>
+
+    <div class="btn-row no-print">
+      <button class="btn" onclick="window.print()">Print / save as PDF</button>
+      <button class="btn btn-ghost" id="btn-copy">Copy as text</button>
+      <button class="btn btn-ghost" id="btn-reset">Start a new workflow</button>
+    </div>
+    <p class="muted no-print" id="copy-note" style="margin-top:10px"></p>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<div class="cta">
+  <div class="cta-media"></div>
+  <div class="cta-veil"></div>
+  <div class="cta-in">
+    <p class="eyebrow on-dark">Next step</p>
+    <h2>One workflow. <em>Six weeks.</em></h2>
+    <p>Scored the workflow? Score the organisation underneath it. The full assessment is 32 questions across the same eight domains, free and with no obligation.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
+      <a class="btn" href="readiness.html">Take the AI Readiness Assessment</a>
+      <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" href="mailto:info@upull.ai?subject=AI%20Workflow%20Template%20-%20follow%20up">Talk it through</a>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-logo">uPull<span>.ai</span></div>
+    <p style="color:inherit;margin:0 0 4px">Frontline-led AI for the NHS and public sector.</p>
+    <p style="color:inherit;margin:0">© <span id="yr"></span> uPull.ai — AI Workflow Template. Free, no obligation. <a href="mailto:info@upull.ai">info@upull.ai</a></p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   THE FIT MODEL
+   Eight domains, one question each, 0–4 — the workflow-level
+   read of the eight domains in the uPull AI Readiness Index.
+   Axis names, weights, scale, threshold and bands are copied
+   from readiness.html so the two scores are directly comparable.
+   ============================================================ */
+const SCALE = [
+  {v:0,l:'Not started'},
+  {v:1,l:'Early'},
+  {v:2,l:'Developing'},
+  {v:3,l:'Established'},
+  {v:4,l:'Embedded'}
+];
+
+const MODEL = [
+  { id:'lead', axis:'Leadership', name:'Leadership & ownership', weight:1.25,
+    q:'A named owner is accountable for this workflow and has the authority to change the process.',
+    h:'Not a working group. One person who can say yes.',
+    fix:'Name the owner before anything else. An unowned workflow cannot be changed, only discussed.' },
+  { id:'data', axis:'Data', name:'Data foundations', weight:1.20,
+    q:'The inputs this workflow needs are accessible, and you know their completeness and accuracy.',
+    h:'You have profiled them, rather than assuming.',
+    fix:'Profile the inputs and publish the completeness and accuracy figures before you procure anything.' },
+  { id:'gov', axis:'Governance', name:'Governance & assurance', weight:1.30,
+    q:'There is a known approval route for this use case, and a DPIA and equality impact assessment are in scope before go-live.',
+    h:'And people use the route rather than routing around it.',
+    fix:'Put the use case through the approval route now, and write the decommission trigger at the same time as the business case.' },
+  { id:'safety', axis:'Safety', name:'Safety & clinical assurance', weight:1.30,
+    q:'You know what happens if the output is wrong, and the risk is proportionate and controlled.',
+    h:'NHS: DCB0160 hazard log started, MHRA device status checked. Wider public sector: the decision is explainable and challengeable.',
+    fix:'Start the hazard log or risk assessment at problem definition, not at sign-off. Confirm device status with the supplier in writing.' },
+  { id:'sec', axis:'Security', name:'Data protection & security', weight:1.20,
+    q:'The lawful basis is clear, and nothing confidential leaves your control through this workflow.',
+    h:'Including what staff may paste into public AI tools — enforced technically, not just in policy.',
+    fix:'Identify the lawful basis for this specific use, and confirm where training and inference physically happen.' },
+  { id:'work', axis:'Workforce', name:'Workforce capability & culture', weight:1.15,
+    q:'The team can run this, has been engaged on it, and actually wants the change.',
+    h:'Silence from staff-side is read as bad news, not consent.',
+    fix:'Engage the team and staff-side on role impact before you announce anything. Add baseline AI literacy training.' },
+  { id:'inter', axis:'Interoperability', name:'Integration', weight:1.10,
+    q:'This can connect to the systems you already run without lengthy bespoke development.',
+    h:'Open APIs and standards; weeks rather than quarters. And you can get your data back out.',
+    fix:'Check the exit and data-portability clauses in the contracts this workflow depends on before you commit.' },
+  { id:'value', axis:'Value', name:'Value & adoption', weight:1.15,
+    q:'There is a defined problem, a measurable benefit, a named beneficiary and meaningful human control.',
+    h:'"We should do something with AI" is not a use case.',
+    fix:'Rewrite the use case as a problem statement with a measurable benefit. If it cannot be written that way, drop it.' }
+];
+
+/* Identical to readiness.html */
+const BANDS = [
+  {min:0,  max:24,  name:'Exploring',  cls:'b1', desc:'The foundations for this workflow are not in place. This is a common and entirely recoverable position — but building now would carry material governance, safety and reputational risk. The priority is foundations, not tooling.'},
+  {min:25, max:44,  name:'Emerging',   cls:'b2', desc:'There is some capability here but the connective tissue is missing. Pick off the two weakest domains below before you commit any build effort to this workflow.'},
+  {min:45, max:64,  name:'Developing', cls:'b3', desc:'Meaningful foundations exist. With appropriate assurance this could work as a well-chosen, low-risk first workflow — but the gaps below are what would stop you scaling beyond it.'},
+  {min:65, max:84,  name:'Established',cls:'b4', desc:'This is a strong first candidate. The remaining risk is concentrated rather than systemic. Focus on the specific weak domains below and on post-deployment monitoring, which is the most commonly under-built capability at this level.'},
+  {min:85, max:100, name:'Leading',    cls:'b5', desc:'An unusually well-prepared workflow. Build it, measure it against the baseline you captured, and use it as the reference pattern for the next one.'}
+];
+
+const THRESHOLD = 60; // % — the minimum safe base, as used in the readiness assessment
+
+/* ------------------------------------------------------------ state */
+let answers = {};
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ------------------------------------------------------------ scorer UI */
+function renderQuestions(){
+  $('q-list').innerHTML = MODEL.map((d,i) => {
+    const opts = SCALE.map(s =>
+      '<button type="button" class="opt" data-key="'+d.id+'" data-val="'+s.v+'" aria-pressed="'+
+      (answers[d.id] === s.v ? 'true' : 'false')+'">'+
+      '<span class="opt-num">'+s.v+'</span><span class="opt-lbl">'+s.l+'</span></button>'
+    ).join('');
+    return '<div class="q">' +
+      '<div class="q-head"><span class="q-axis">'+esc(d.axis)+'</span>' +
+      '<p class="q-text">'+(i+1)+'. '+esc(d.q)+'</p></div>' +
+      (d.h ? '<p class="q-help">'+esc(d.h)+'</p>' : '') +
+      '<div class="scale">'+opts+'</div></div>';
+  }).join('');
+}
+
+$('q-list').addEventListener('click', e => {
+  const b = e.target.closest('.opt');
+  if(!b) return;
+  answers[b.dataset.key] = parseInt(b.dataset.val,10);
+  b.parentElement.querySelectorAll('.opt').forEach(o => o.setAttribute('aria-pressed','false'));
+  b.setAttribute('aria-pressed','true');
+});
+
+/* ------------------------------------------------------------ scoring
+   Same arithmetic as readiness.html: percentage of the available points,
+   priority = gap below the threshold, weighted by how much the domain
+   blocks everything downstream.                                        */
+function computeResults(){
+  const perDomain = MODEL.map(d => {
+    const raw = answers[d.id] || 0;
+    return { id:d.id, name:d.name, axis:d.axis, weight:d.weight, fix:d.fix,
+             raw:raw, max:4, pct: Math.round(raw / 4 * 100) };
+  });
+  const rawTotal = perDomain.reduce((s,d) => s + d.raw, 0);
+  const maxTotal = perDomain.reduce((s,d) => s + d.max, 0);
+  const overall = Math.round(rawTotal / maxTotal * 100);
+  const band = BANDS.find(b => overall >= b.min && overall <= b.max) || BANDS[0];
+  const ranked = perDomain
+    .map(d => ({...d, priority: Math.max(0, THRESHOLD - d.pct) * d.weight}))
+    .sort((a,b) => b.priority - a.priority || a.pct - b.pct);
+  return {perDomain, rawTotal, maxTotal, overall, band, ranked};
+}
+
+/* ------------------------------------------------------------ radar
+   Same geometry, colours and threshold ring as readiness.html.        */
+function radar(perDomain){
+  const n = perDomain.length, size = 460, cx = size/2, cy = size/2 + 6, R = 148;
+  const pt = (i, r) => {
+    const a = -Math.PI/2 + i * (2*Math.PI/n);
+    return [cx + Math.cos(a)*r, cy + Math.sin(a)*r];
+  };
+  let g = '';
+  [0.25,0.5,0.75,1].forEach(f => {
+    const pts = perDomain.map((_,i) => pt(i, R*f).map(v=>v.toFixed(1)).join(',')).join(' ');
+    g += '<polygon points="'+pts+'" fill="none" stroke="#E8EDEE" stroke-width="1"/>';
+  });
+  const th = perDomain.map((_,i) => pt(i, R*(THRESHOLD/100)).map(v=>v.toFixed(1)).join(',')).join(' ');
+  g += '<polygon points="'+th+'" fill="none" stroke="#64748B" stroke-width="1.5" stroke-dasharray="5 4"/>';
+  perDomain.forEach((_,i) => {
+    const [x,y] = pt(i,R);
+    g += '<line x1="'+cx+'" y1="'+cy+'" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="#E8EDEE" stroke-width="1"/>';
+  });
+  const dp = perDomain.map((d,i) => pt(i, R*(d.pct/100)).map(v=>v.toFixed(1)).join(',')).join(' ');
+  g += '<polygon points="'+dp+'" fill="rgba(237,139,0,.30)" stroke="#ED8B00" stroke-width="2.5" stroke-linejoin="round"/>';
+  perDomain.forEach((d,i) => {
+    const [x,y] = pt(i, R*(d.pct/100));
+    g += '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4" fill="#B45309"/>';
+  });
+  perDomain.forEach((d,i) => {
+    const [x,y] = pt(i, R+26);
+    let anchor = 'middle';
+    if(x > cx + 6) anchor = 'start';
+    else if(x < cx - 6) anchor = 'end';
+    g += '<text x="'+x.toFixed(1)+'" y="'+(y+4).toFixed(1)+'" text-anchor="'+anchor+
+         '" font-size="12" font-weight="600" fill="#4A5A68">'+esc(d.axis)+'</text>';
+    g += '<text x="'+x.toFixed(1)+'" y="'+(y+18).toFixed(1)+'" text-anchor="'+anchor+
+         '" font-size="11.5" font-weight="700" fill="#09111E">'+d.pct+'%</text>';
+  });
+  return '<svg viewBox="0 0 '+size+' '+(size+30)+'" width="'+size+'" role="img" aria-label="AI fit radar chart">'+g+'</svg>';
+}
+
+function barColour(p){
+  if(p < 25) return '#B91C1C';
+  if(p < 45) return '#C26F00';
+  if(p < 65) return '#ED8B00';
+  if(p < 85) return '#78BE20';
+  return '#16A34A';
+}
+
+function renderResults(r){
+  $('r-score').textContent = r.overall;
+  $('r-raw').textContent = r.rawTotal + ' / ' + r.maxTotal + ' points';
+  $('r-band').textContent = r.band.name;
+  $('r-band').className = 'band ' + r.band.cls;
+  $('r-band-desc').textContent = r.band.desc;
+
+  const below = r.perDomain.filter(d => d.pct < THRESHOLD);
+  const verdict = r.overall >= THRESHOLD && below.length === 0
+    ? {h:'Good first candidate — build it', p:'Every domain is at or above the 60% bar. Capture the baseline, agree the kill/scale decision below, and start.'}
+    : r.overall >= THRESHOLD
+      ? {h:'Build it, but close these gaps first', p:'The overall score clears the 60% bar, but ' + below.length + ' domain' + (below.length===1?'':'s') + ' sit' + (below.length===1?'s':'') + ' below it. Those are where this workflow will fail if it fails.'}
+      : {h:'Not yet — fix the foundation first', p:'This workflow scores below the 60% minimum. Building now would carry avoidable governance and safety risk. Work the priorities below, then rescore.'};
+  $('r-verdict').innerHTML = '<span class="pri">Verdict · ' + r.overall + '% · ' + esc(r.band.name) + '</span>' +
+    '<h3>' + esc(verdict.h) + '</h3><p style="margin:0">' + esc(verdict.p) + '</p>';
+
+  $('radar-box').innerHTML = radar(r.perDomain);
+
+  $('bars').innerHTML = r.perDomain.map(d =>
+    '<div class="bar-row"><span class="bar-name">'+esc(d.name)+'</span>'+
+    '<span class="bar-track"><span class="bar-fill" style="width:'+d.pct+'%;background:'+barColour(d.pct)+'"></span></span>'+
+    '<span class="bar-val">'+d.pct+'%</span></div>'
+  ).join('');
+
+  const top = r.ranked.filter(d => d.priority > 0).slice(0,3);
+  $('weakest').innerHTML = top.length
+    ? '<h3 style="margin-bottom:10px">Do these first</h3>' + top.map((d,i) =>
+        '<div class="weak"><span class="pri" style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--accent-dk);display:block;margin-bottom:3px">Priority '+(i+1)+' · '+esc(d.name)+' · '+d.pct+'%</span>'+
+        '<p style="margin:0;color:var(--ink-2);font-size:.92rem">'+esc(d.fix)+'</p></div>').join('')
+    : '<div class="weak"><p style="margin:0;color:var(--ink-2);font-size:.92rem">Every domain is at or above the threshold. Focus on post-deployment monitoring and on capturing the baseline before go-live.</p></div>';
+
+  $('result-card').style.display = '';
+  $('result-card').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+$('btn-score').addEventListener('click', () => renderResults(computeResults()));
+$('btn-clear').addEventListener('click', () => {
+  answers = {};
+  renderQuestions();
+  $('result-card').style.display = 'none';
+});
+
+/* ------------------------------------------------------------ review points */
+function addReviewRow(stage, who, what){
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><input type="text" value="'+esc(stage||'')+'" placeholder="e.g. Before the letter is sent"></td>' +
+    '<td><input type="text" value="'+esc(who||'')+'" placeholder="Role"></td>' +
+    '<td><input type="text" value="'+esc(what||'')+'" placeholder="What they check, and where the override is logged"></td>' +
+    '<td><button type="button" class="row-del no-print" aria-label="Remove this row">&times;</button></td>';
+  tr.querySelector('.row-del').addEventListener('click', () => tr.remove());
+  $('review-rows').appendChild(tr);
+}
+$('btn-add-row').addEventListener('click', () => addReviewRow());
+
+/* ------------------------------------------------------------ export */
+function buildText(){
+  const r = computeResults();
+  const v = id => ($(id) && $(id).value ? $(id).value : '—');
+  const rows = [...$('review-rows').querySelectorAll('tr')].map(tr => {
+    const c = [...tr.querySelectorAll('input')].map(i => i.value.trim());
+    return c.some(x => x) ? '  · ' + (c[0]||'—') + ' — ' + (c[1]||'—') + ' — ' + (c[2]||'—') : null;
+  }).filter(Boolean);
+
+  return 'uPull.ai — AI Workflow Template\n' +
+    '=====================================\n' +
+    'Workflow:      ' + v('f-workflow') + '\n' +
+    'Owner:         ' + v('f-owner') + '\n' +
+    'Team:          ' + v('f-team') + '\n' +
+    'Date:          ' + v('f-date') + '\n\n' +
+    'PROBLEM STATEMENT\n  ' + v('f-problem') + '\n' +
+    '  Frequency: ' + v('f-volume') + '   Time today: ' + v('f-effort') + '\n\n' +
+    'AI FIT SCORE\n' +
+    '  Overall: ' + r.overall + '% (' + r.rawTotal + '/' + r.maxTotal + ') — ' + r.band.name +
+      '   [threshold ' + THRESHOLD + '%]\n' +
+    r.perDomain.map(d => '  · ' + d.axis.padEnd(17) + ' ' + d.raw + '/4  (' + d.pct + '%)').join('\n') + '\n\n' +
+    'PRIORITIES\n' +
+    (r.ranked.filter(d => d.priority > 0).slice(0,3)
+      .map((d,i) => '  ' + (i+1) + '. ' + d.name + ' (' + d.pct + '%) — ' + d.fix)
+      .join('\n') || '  All domains at or above threshold.') + '\n\n' +
+    'HUMAN REVIEW POINTS\n' + (rows.length ? rows.join('\n') : '  —') + '\n' +
+    '  Escalation: ' + v('f-escalation') + '\n\n' +
+    'SUCCESS METRIC\n' +
+    '  Metric:    ' + v('f-metric') + '\n' +
+    '  Measured:  ' + v('f-measure') + '\n' +
+    '  Baseline:  ' + v('f-baseline') + '\n' +
+    '  Target:    ' + v('f-target') + '\n' +
+    '  Guardrail: ' + v('f-guard') + '\n\n' +
+    'KILL / SCALE DECISION\n' +
+    '  Scale if:  ' + v('f-scale') + '\n' +
+    '  Kill if:   ' + v('f-kill') + '\n' +
+    '  Decided:   ' + v('f-review-date') + ' by ' + v('f-decider') + '\n\n' +
+    'Scored on the uPull AI Readiness model — https://upull.ai/readiness.html\n';
+}
+
+$('btn-copy').addEventListener('click', async () => {
+  const text = buildText();
+  try{
+    await navigator.clipboard.writeText(text);
+    $('copy-note').textContent = 'Copied to your clipboard.';
+  }catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); ta.remove();
+    $('copy-note').textContent = 'Copied to your clipboard.';
+  }
+  setTimeout(() => { $('copy-note').textContent = ''; }, 4000);
+});
+
+$('btn-reset').addEventListener('click', () => {
+  if(!confirm('Clear this workflow and start a new one?')) return;
+  document.querySelectorAll('input, select, textarea').forEach(el => { el.value = ''; });
+  $('review-rows').innerHTML = '';
+  addReviewRow(); addReviewRow();
+  answers = {};
+  renderQuestions();
+  $('result-card').style.display = 'none';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* ------------------------------------------------------------ nav (shared) */
+function toggleSubmenu(btn){
+  const item = btn.closest('.nav-item');
+  const open = item.classList.contains('open');
+  document.querySelectorAll('.nav-item.open').forEach(i => {
+    i.classList.remove('open');
+    const b = i.querySelector('.nav-link-item');
+    if(b && b.tagName === 'BUTTON') b.setAttribute('aria-expanded','false');
+  });
+  if(!open){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
+function toggleMobileNav(){
+  const menu = $('navMenu'), tog = $('navToggle');
+  const open = menu.classList.toggle('mobile-open');
+  tog.classList.toggle('active', open);
+  tog.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.addEventListener('click', e => {
+  if(!e.target.closest('.nav-item')){
+    document.querySelectorAll('.nav-item.open').forEach(i => {
+      i.classList.remove('open');
+      const b = i.querySelector('.nav-link-item');
+      if(b && b.tagName === 'BUTTON') b.setAttribute('aria-expanded','false');
+    });
+  }
+});
+
+/* ------------------------------------------------------------ init */
+renderQuestions();
+addReviewRow('Before the output is used', '', '');
+addReviewRow('', '', '');
+$('yr').textContent = new Date().getFullYear();
+$('f-date').valueAsDate = new Date();
+</script>
+</body>
+</html>
