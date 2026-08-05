@@ -25,6 +25,11 @@ governed AI adoption rather than abstract AI strategy.
   Safety & Governance, Case Studies & Evidence, Commercial & Next Steps, Leadership
 - [Case Studies](https://upull.ai/case-studies.html): MedScribe AI (clinical documentation),
   AuraCare Agent (psychiatric intake/triage), PathoAgent (histopathology workflow automation)
+- [AI Readiness Assessment](https://upull.ai/readiness.html): free, no-obligation
+  self-assessment of organisational AI readiness across 8 domains (32 questions),
+  mapped to NHS What Good Looks Like, the NHS England / Health Foundation AI Readiness
+  Checklist, DTAC, and the UK Government AI Playbook. Returns a score, a domain
+  breakdown and three prioritised actions.
 - [uGrowX / Academy](https://upull.ai/academy.html): learning content and case-study library
 - [Community](https://upull.ai/community.html): forum for NHS/health-and-care AI adoption
 - [uCollabX](https://upull.ai/ucollabx.html)
