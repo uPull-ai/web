@@ -605,6 +605,36 @@
     /* <nav aria-label="Primary"> wraps the menu on this page; keep it a flex row
        so the newsletter icon sits inline with the menu, as on every other page */
     header .nav-right > nav{display:flex;align-items:center;gap:18px}
+  
+    /* ══ BLOG FEED (auto-populated from the weekly newsletter) ══ */
+    .blog-head{display:flex;align-items:flex-end;justify-content:space-between;
+      gap:1.5rem;flex-wrap:wrap;margin-bottom:1.75rem}
+    .blog-title{color:var(--text-dark);font-size:1.6rem;font-weight:800;letter-spacing:-.5px;margin:0 0 .35rem}
+    .blog-sub{color:var(--text-muted);font-size:.92rem;margin:0;max-width:62ch}
+    .blog-head-cta{flex-shrink:0}
+    .blog-card.blog-later{display:none}
+    .blog-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
+    @media(min-width:640px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1000px){.blog-grid{grid-template-columns:repeat(3,1fr)}}
+    .blog-card{background:#fff;border:1px solid var(--border-color);border-radius:8px;
+      overflow:hidden;display:flex;flex-direction:column;
+      transition:transform .15s ease, box-shadow .15s ease;text-decoration:none;color:inherit}
+    .blog-card:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(9,17,30,.18)}
+    .blog-card:focus-visible{outline:2px solid var(--accent-orange);outline-offset:2px}
+    .blog-accent{height:4px;width:100%}
+    .blog-body{padding:1.35rem;display:flex;flex-direction:column;flex:1}
+    .blog-cat{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+    .blog-card h4{color:var(--text-dark);font-size:1.1rem;font-weight:800;letter-spacing:-.3px;margin:0 0 .55rem;line-height:1.3}
+    .blog-card p{color:var(--text-muted);font-size:.88rem;margin:0 0 1rem;flex:1}
+    .blog-meta{display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+      font-size:.78rem;color:var(--text-muted);border-top:1px solid var(--border-color);padding-top:.85rem}
+    .blog-read{color:#b45309;font-weight:700;white-space:nowrap}
+    .blog-more-wrap{text-align:center;margin-top:1.75rem}
+    .blog-more{background:none;border:1.5px solid var(--border-color);color:var(--text-dark);
+      padding:.7rem 1.5rem;border-radius:999px;font-weight:700;font-size:.88rem;cursor:pointer;
+      font-family:inherit;transition:.2s}
+    .blog-more:hover{border-color:var(--accent-orange);color:#b45309}
+    .blog-more.hidden{display:none}
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
@@ -814,56 +844,218 @@
 </div>
 
 <!-- VIEW: INSIGHTS & MEDIA -->
+<!-- ══════════════════════════════════════════════════════════════════════════
+     BLOG HIGHLIGHTS — static content, written straight into the page.
+     No fetch, no manifest, nothing to fail: these cards render even if the
+     newsletter files move, the network blocks, or the page is opened locally.
+
+     TO ADD A NEW WEEK: copy any a.blog-card block below, paste it at
+     the TOP of the grid, and edit the five bits — href, colour, category,
+     heading, summary and date. Then add class="blog-later" to whichever cards
+     fall past the ninth so they sit behind the "Show earlier weeks" button.
+
+     Theme colours: Agentic #AE2573 · Robotics #DA291C · Ambient #41B6E6
+                    Clinical #00A499 · Learning & Development #78BE20
+
+     The "Interviews & Podcasts" column was removed on 5 Aug 2026 pending
+     content; its .podcast-row / .play-btn CSS is retained above to restore it.
+     ══════════════════════════════════════════════════════════════════════════ -->
 <div id="view-insights">
   <main>
     <section>
-      <div class="media-layout">
-        <!-- Blogs -->
+      <div class="blog-head">
         <div>
-          <h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.6rem;">Recent Strategy Inoculations (Blogs).</h3>
-          
-          <article class="insight-card">
-            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80" class="insight-img" alt="Blog 1">
-            <div class="insight-body">
-              <span style="color: var(--accent-orange); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Pathway Optimisation</span>
-              <h4 style="color: var(--primary-navy); margin: 0.25rem 0 0.5rem 0; font-size: 1.3rem;">Breaking the Delivery Vise: Why Procurement Rushing Fails.</h4>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">An extensive analysis by the uPull.ai intrapreneurial network regarding why generic tool 'push' structures drop ROI, and how localised pathway adjustments solve workforce bottlenecks.</p>
-              <a href="#" style="color: var(--nhs-blue); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Read Full Insight →</a>
-            </div>
-          </article>
-
-          <article class="insight-card">
-            <div class="insight-body">
-              <span style="color: var(--clinical); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Governance</span>
-              <h4 style="color: var(--primary-navy); margin: 0.25rem 0 0.5rem 0; font-size: 1.3rem;">Constructing Localised Safety Envelopes for Acoustic AI</h4>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Practical parameters around multi-layer validation strategies, human sign-offs, and zero data-retention rules within multi-disciplinary teams.</p>
-              <a href="#" style="color: var(--nhs-blue); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Read Full Insight →</a>
-            </div>
-          </article>
+          <h3 class="blog-title">Recent Strategy Inoculations (Blogs).</h3>
+          <p class="blog-sub">Highlights from the uPull.ai Weekly newsletter. Each one links to the full briefing, its sources and the "try this in a workflow" prompt.</p>
         </div>
+        <a href="news.html" class="cta-btn blog-head-cta">All newsletters &rarr;</a>
+      </div>
 
-        <!-- Podcasts & Interviews -->
-        <div>
-          <h3 style="color: var(--primary-navy); margin-bottom: 1.5rem; font-size: 1.6rem;">Interviews & Podcasts[cite: 1]</h3>
-          
-          <div class="podcast-row">
-            <div class="play-btn">▶</div>
-            <div>
-              <h5 style="color: var(--primary-navy); font-weight: 700; font-size: 0.95rem;">Episode 14: The Self-Funding Flywheel[cite: 1]</h5>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">Discussing systematic pathway evolution with key Intrapreneurs from pioneering acute trusts.</p>
-              <span style="font-size: 0.75rem; color: var(--accent-orange); font-weight: 600;">Runtime: 24 mins</span>
+      <div class="blog-grid" id="blog-grid">
+          <a class="blog-card" href="news/weekly20260804.html#agentic">
+            <span class="blog-accent" style="background:#AE2573"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
+              <h4>The question is no longer whether AI agents can act — it&#39;s whether you can prove what they…</h4>
+              <p>NHS England&#39;s 505,000-seat Microsoft Copilot rollout entered its distribution phase this week, with trusts receiving ~2,000 licenses each and full deployment targeted for October 2026…</p>
+              <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
-          </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260804.html#robotics">
+            <span class="blog-accent" style="background:#DA291C"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
+              <h4>Robotic surgery is now a national priority — but without a national funding or distribution…</h4>
+              <p>The Royal College of Surgeons of England published the first publicly-available national dataset on robotic surgery access, confirming stark regional disparities: London trusts have 28…</p>
+              <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260804.html#ambient">
+            <span class="blog-accent" style="background:#41B6E6"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
+              <h4>Ambient scribing is now mainstream. This week the regulator finally drew the line between…</h4>
+              <p>The MHRA, working closely with NHS England, published guidance clarifying how medical device law applies to ambient voice technology (AVT). Tools intended solely for transcription…</p>
+              <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260804.html#clinical">
+            <span class="blog-accent" style="background:#00A499"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#00A499">Clinical AI</span>
+              <h4>Diagnostic AI is moving from retrospective accuracy claims to prospective, real-world…</h4>
+              <p>The MHRA launched its London Region I regulatory sandbox for AI-enabled medical devices on 30 July 2026, inviting manufacturers and NHS trusts to deploy live AI diagnostics under…</p>
+              <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260804.html#learning">
+            <span class="blog-accent" style="background:#78BE20"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
+              <h4>NHS England: Microsoft Copilot &amp; Agent 365 Governance</h4>
+              <p>The definitive reference for how NHS England is governing the 505,000-seat Copilot rollout and the custom agents built on top — this week&#39;s learning resource for Agentic AI.</p>
+              <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260728.html#agentic">
+            <span class="blog-accent" style="background:#AE2573"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
+              <h4>Autonomous, tool-using AI is moving fast in the enterprise. The safe-deployment question…</h4>
+              <p>Health AI commentators are converging on the same point this week: the central challenge in agentic AI healthcare deployments is no longer whether a system can carry out multi-step…</p>
+              <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260728.html#robotics">
+            <span class="blog-accent" style="background:#DA291C"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
+              <h4>Physical AI is entering hospitals for surgery and sampling. Deploying it safely means…</h4>
+              <p>NHS England&#39;s 10 Year Health Plan targets robotic assistance in 9 out of 10 keyhole surgeries by 2035, lifting annual robotic-assisted procedures from around 70,000 in 2023–24 to…</p>
+              <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260728.html#ambient">
+            <span class="blog-accent" style="background:#41B6E6"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
+              <h4>Ambient scribing is now mainstream across the NHS. The safe-deployment bar is consent…</h4>
+              <p>An NHS England region has signed its largest-ever regional ambient voice technology deal, covering roughly 70,000 clinicians across 15 trusts and 1,239 GP practices — by far the…</p>
+              <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card" href="news/weekly20260728.html#clinical">
+            <span class="blog-accent" style="background:#00A499"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#00A499">Clinical AI</span>
+              <h4>Diagnostic and triage AI is being rolled out nationally at pace. The harder work for a real…</h4>
+              <p>The Articulate Pro study — described as a landmark for AI in NHS histopathology — shows AI can be safely deployed in prostate cancer diagnosis, with real potential to improve and…</p>
+              <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260728.html#learning">
+            <span class="blog-accent" style="background:#78BE20"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
+              <h4>Health AI Insights weekly digest</h4>
+              <p>A running weekly digest tracking agentic and health AI developments, including the accountability debate at the centre of this week&#39;s agentic AI story.</p>
+              <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260721.html#agentic">
+            <span class="blog-accent" style="background:#AE2573"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
+              <h4>Autonomous, tool-using AI is moving fast in the enterprise. The safe-deployment question…</h4>
+              <p>Enterprise and public-sector AI is moving from experimentation toward controlled deployment, but agent-style systems still need clearer identity, authorisation and audit controls…</p>
+              <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260721.html#robotics">
+            <span class="blog-accent" style="background:#DA291C"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
+              <h4>Physical AI is entering hospitals for surgery and sampling. Deploying it safely means…</h4>
+              <p>Robotics AI continues to shift from prototype to regulated clinical infrastructure, with the NHS and medtech vendors both pushing toward higher-precision, procedure-level use cases.</p>
+              <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260721.html#ambient">
+            <span class="blog-accent" style="background:#41B6E6"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
+              <h4>Ambient scribing is now mainstream across the NHS. The safe-deployment bar is consent…</h4>
+              <p>Ambient voice tech just got a major regulatory clarification: lower-risk transcription and summarisation tools are not treated as medical devices, while tools that influence diagnosis…</p>
+              <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260721.html#clinical">
+            <span class="blog-accent" style="background:#00A499"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#00A499">Clinical AI</span>
+              <h4>Diagnostic and triage AI is being rolled out nationally at pace. The harder work for a real…</h4>
+              <p>Clinical AI is still being pushed into the NHS at scale, but the real challenge isn&#39;t rollout speed — it&#39;s proving safety, fairness and workflow fit across the patient groups actually…</p>
+              <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260721.html#learning">
+            <span class="blog-accent" style="background:#78BE20"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
+              <h4>BlueDot Impact: Technical AI Safety course</h4>
+              <p>Still the strongest short-form learning pick for autonomous and agentic systems — a free, pay-what-you-want course covering how to reason about and reduce risk in autonomous AI systems.</p>
+              <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260714.html#agentic">
+            <span class="blog-accent" style="background:#AE2573"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
+              <h4>Autonomous, tool-using AI is moving fast in the enterprise. The safe-deployment question…</h4>
+              <p>Enterprise agentic AI has a large adoption-versus-production gap: roughly four in five enterprises have adopted AI agents in some form, but only around one in nine runs them fully in…</p>
+              <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260714.html#robotics">
+            <span class="blog-accent" style="background:#DA291C"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
+              <h4>Physical AI is entering hospitals for surgery and sampling. Deploying it safely means…</h4>
+              <p>Medtronic unveiled Touch Surgery™ Aide at the Society of Robotic Surgery&#39;s 2026 Annual Meeting (21–26 July) — an AI-native surgical computing platform combining computer vision and…</p>
+              <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260714.html#ambient">
+            <span class="blog-accent" style="background:#41B6E6"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
+              <h4>Ambient scribing is now mainstream across the NHS. The safe-deployment bar is consent…</h4>
+              <p>Ambient AI scribing has scaled fast in 2026: one large NHS deployment on its own will put ambient scribing in front of 10,000 clinicians in its first year, scaling to 20,000 within…</p>
+              <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260714.html#clinical">
+            <span class="blog-accent" style="background:#00A499"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#00A499">Clinical AI</span>
+              <h4>Diagnostic AI is being funded and rolled out nationally. The harder work for a real…</h4>
+              <p>A near-£30m government package announced in mid-2026 is accelerating NHS AI diagnostics: £20m to extend AI-assisted chest X-ray analysis — already used by roughly half of NHS trusts…</p>
+              <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+          <a class="blog-card blog-later" href="news/weekly20260714.html#learning">
+            <span class="blog-accent" style="background:#78BE20"></span>
+            <div class="blog-body">
+              <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
+              <h4>BlueDot Impact: Technical AI Safety course</h4>
+              <p>A free, pay-what-you-want course covering how to reason about and reduce risk in autonomous AI systems — this week&#39;s learning resource for Agentic AI.</p>
+              <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
+            </div>
+          </a>
+      </div>
 
-          <div class="podcast-row">
-            <div class="play-btn">▶</div>
-            <div>
-              <h5 style="color: var(--primary-navy); font-weight: 700; font-size: 0.95rem;">Frontline Interview: Transitioning from Retrospective Typing</h5>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">A candid conversation with clinical staff members who automated 45% of daily administrative documentation windows.</p>
-              <span style="font-size: 0.75rem; color: var(--accent-orange); font-weight: 600;">Runtime: 18 mins</span>
-            </div>
-          </div>
-        </div>
+      <div class="blog-more-wrap">
+        <button id="blog-more" class="blog-more" onclick="showMoreBlogs()">Show earlier weeks</button>
       </div>
     </section>
   </main>
@@ -1338,6 +1530,19 @@
     toggle.classList.remove('active');
     toggle.setAttribute('aria-expanded', 'false');
   }
+</script>
+
+<script>
+/* Blog highlights are static HTML above. This only reveals the older cards. */
+function showMoreBlogs(){
+  document.querySelectorAll('#blog-grid .blog-later').forEach(function(c){ c.classList.remove('blog-later'); });
+  var btn = document.getElementById('blog-more');
+  if(btn) btn.style.display = 'none';
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.getElementById('blog-more');
+  if(btn && !document.querySelector('#blog-grid .blog-later')) btn.style.display = 'none';
+});
 </script>
 </body>
 </html>
