@@ -14,7 +14,7 @@
    same photo IDs already used on upull.ai. If a network blocks that
    host, every image degrades to a brand gradient — nothing breaks.
    To go fully self-contained, delete the <img> tags in .hero-media
-   and .band-media; the gradients underneath carry the design.
+   and .imgband-media; the gradients underneath carry the design.
    ============================================================ */
 :root{
   /* ---- uPull.ai house palette: orange on black ---- */
@@ -61,7 +61,10 @@ body{
    other uPull.ai page. Black + orange. Do not fork this block:
    if the site header changes, change it here too.
    ══════════════════════════════════════════════════════════════ */
-header{
+/* :not(.hero) matters — the banner below is also a <header>, so a bare
+   header{} rule styles it too. That gave the banner z-index:1000 as well,
+   and being later in the DOM it painted over the nav's dropdown. */
+header:not(.hero){
   background:rgba(14,14,14,.97);
   -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(255,255,255,.10);
@@ -144,7 +147,7 @@ header{
 }
 
 /* ---------- Hero banner ---------- */
-.hero{position:relative;background:var(--dark);overflow:hidden;isolation:isolate}
+.hero{position:relative;background:var(--dark);overflow:hidden;isolation:isolate;z-index:0}
 .hero-media{position:absolute;inset:0;z-index:0;
   background:radial-gradient(120% 130% at 78% 12%, var(--dark-3) 0%, var(--dark-2) 45%, var(--dark) 100%);}
 .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 32%;opacity:.42;display:block}
@@ -166,14 +169,14 @@ header{
 .hero-frameworks strong{color:var(--on-dark);font-weight:600}
 
 /* ---------- Dark band (section divider with image) ---------- */
-.band{position:relative;overflow:hidden;background:var(--dark-2);isolation:isolate}
-.band-media{position:absolute;inset:0;z-index:0;background:linear-gradient(120deg,var(--dark-3),var(--dark))}
-.band-media img{width:100%;height:100%;object-fit:cover;opacity:.30;display:block}
-.band-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(9,17,30,.95),rgba(9,17,30,.74))}
-.band-in{position:relative;z-index:2;padding:34px 20px}
-.band h2{color:var(--on-dark);margin:0 0 6px;letter-spacing:-.02em;font-size:1.4rem}
-.band h2 em{font-style:italic;color:var(--accent-lt);font-weight:inherit}
-.band p{color:var(--on-dark-2);margin:0;font-size:.92rem}
+.imgband{position:relative;overflow:hidden;background:var(--dark-2);isolation:isolate;z-index:0}
+.imgband-media{position:absolute;inset:0;z-index:0;background:linear-gradient(120deg,var(--dark-3),var(--dark))}
+.imgband-media img{width:100%;height:100%;object-fit:cover;opacity:.30;display:block}
+.imgband-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(9,17,30,.95),rgba(9,17,30,.74))}
+.imgband-in{position:relative;z-index:2;padding:34px 20px}
+.imgband h2{color:var(--on-dark);margin:0 0 6px;letter-spacing:-.02em;font-size:1.4rem}
+.imgband h2 em{font-style:italic;color:var(--accent-lt);font-weight:inherit}
+.imgband p{color:var(--on-dark-2);margin:0;font-size:.92rem}
 
 /* ---------- Eyebrow + section heading (uPull house pattern) ---------- */
 .eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;font-weight:800;
@@ -264,6 +267,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 .score-hero{text-align:center;padding:8px 0 22px}
 .score-num{font-size:4.2rem;font-weight:800;line-height:1;letter-spacing:-.04em;color:var(--brand)}
 .score-num small{font-size:1.6rem;font-weight:700;color:var(--ink-2)}
+/* score-band pill on the results screen (distinct from .imgband) */
 .band{display:inline-block;margin-top:12px;padding:8px 20px;border-radius:100px;font-weight:700;font-size:1rem}
 .b1{background:#FEE2E2;color:#991B1B}
 .b2{background:#FDEBD0;color:#9A3412}
@@ -284,7 +288,7 @@ svg{max-width:100%;height:auto}
 .rec ul{margin:8px 0 0;padding-left:19px;color:var(--ink-2);font-size:.9rem}
 .rec li{margin-bottom:5px}
 .rec .pri{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--accent-dk);display:block;margin-bottom:3px}
-.cta{position:relative;overflow:hidden;isolation:isolate;color:#fff;border-radius:var(--radius);text-align:center;background:var(--dark)}
+.cta{position:relative;overflow:hidden;isolation:isolate;z-index:0;color:#fff;border-radius:var(--radius);text-align:center;background:var(--dark)}
 .cta-media{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,var(--dark-3),var(--dark))}
 .cta-media img{width:100%;height:100%;object-fit:cover;opacity:.38;display:block}
 .cta-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(9,17,30,.90),rgba(9,17,30,.96))}
@@ -307,7 +311,7 @@ footer .foot-logo span{color:var(--accent)}
 @media (max-width:760px){
   .hero-in{padding:46px 20px 40px}
   .hero h1{max-width:none}
-  .band-in{padding:26px 20px}
+  .imgband-in{padding:26px 20px}
 }
 @media (max-width:640px){
   h1{font-size:1.45rem}
@@ -322,7 +326,7 @@ footer .foot-logo span{color:var(--accent)}
   .score-num{font-size:3.2rem}
 }
 @media print{
-  header,.hero,.btn-row,.cta,footer{display:none}
+  header:not(.hero),.hero,.btn-row,.cta,footer{display:none}
   body{background:#fff}
   .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
   .eyebrow{color:#555}
@@ -467,13 +471,13 @@ footer .foot-logo span{color:var(--accent)}
 
 <!-- ============ SCREEN 2: QUESTIONS ============ -->
 <section id="s-quiz" class="hide">
-  <div class="band" style="border-radius:var(--radius);margin-bottom:20px">
-    <div class="band-media">
+  <div class="imgband" style="border-radius:var(--radius);margin-bottom:20px">
+    <div class="imgband-media">
       <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&amp;q=80&amp;auto=format&amp;fit=crop"
            alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">
     </div>
-    <div class="band-veil"></div>
-    <div class="band-in">
+    <div class="imgband-veil"></div>
+    <div class="imgband-in">
       <p class="eyebrow on-dark">The assessment</p>
       <h2>Eight domains. <em>One honest answer each.</em></h2>
       <p>Answer as things actually are today, not as they are meant to be. An optimistic score helps nobody.</p>
@@ -505,13 +509,13 @@ footer .foot-logo span{color:var(--accent)}
 
 <!-- ============ SCREEN 3: DETAILS ============ -->
 <section id="s-details" class="hide">
-  <div class="band" style="border-radius:var(--radius);margin-bottom:20px">
-    <div class="band-media">
+  <div class="imgband" style="border-radius:var(--radius);margin-bottom:20px">
+    <div class="imgband-media">
       <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&amp;q=80&amp;auto=format&amp;fit=crop"
            alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">
     </div>
-    <div class="band-veil"></div>
-    <div class="band-in">
+    <div class="imgband-veil"></div>
+    <div class="imgband-in">
       <p class="eyebrow on-dark">Nearly done</p>
       <h2>Your results are <em>ready</em></h2>
       <p>They appear on screen the moment you continue. Nothing is held back behind a call.</p>
@@ -597,13 +601,13 @@ footer .foot-logo span{color:var(--accent)}
 <section id="s-results" class="hide">
   <div id="send-status" class="status pending hide"></div>
 
-  <div class="band" style="border-radius:var(--radius);margin-bottom:20px">
-    <div class="band-media">
+  <div class="imgband" style="border-radius:var(--radius);margin-bottom:20px">
+    <div class="imgband-media">
       <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=1200&amp;q=80&amp;auto=format&amp;fit=crop"
            alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">
     </div>
-    <div class="band-veil"></div>
-    <div class="band-in">
+    <div class="imgband-veil"></div>
+    <div class="imgband-in">
       <p class="eyebrow on-dark">Your result</p>
       <h2>Where you stand <em>today</em></h2>
       <p>A score, a profile across eight domains, and the three things worth doing first.</p>
