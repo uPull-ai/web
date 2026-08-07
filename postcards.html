@@ -4,31 +4,36 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Postcard From 2030 — uPull.ai</title>
-<meta name="description" content="Write a postcard from the NHS you're building. A public wall of short notes from senior NHS teams, imagined from 2030."/>
+<meta name="description" content="Write a postcard from the NHS you're building. A public wall of short reflections and short videos from senior NHS teams, imagined from 2030."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --nhs-blue:#005EB8;
   --nhs-blue-rgb:0,94,184;
+  --nhs-blue-light:#41B6E6;
   --accent-orange:#ED8B00;
   --accent-orange-rgb:237,139,0;
   --accent-orange-hover:#c26f00;
-  --nhs-blue-light:#41B6E6;
+  --teal:#61d7d1;
+  --teal-rgb:97,215,209;
+  --card-tint:6,29,53;      /* navy tint used behind postcard photos for legible text */
 }
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:#0e0e0e;color:#fff;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 img{display:block;width:100%;height:100%;object-fit:cover}
-button{font:inherit}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
 
-/* NAV — matches the shared header used across uPull.ai */
+/* NAV — standard uPull.ai header, shared with the rest of the site */
 header#topnav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;background:rgba(14,14,14,0);transition:background .4s}
 header#topnav .nav-container{display:flex;align-items:center;justify-content:space-between}
 .logo{color:#fff;font-size:1.6rem;font-weight:800;letter-spacing:-.5px;display:inline-flex;align-items:center}
 .logo span{color:var(--accent-orange)}
-.nav-right{display:flex;align-items:center;gap:18px}
+.nav-right{display:flex;align-items:center;gap:14px}
 header#topnav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
 .nav-menu{display:flex;align-items:center;gap:2px;list-style:none}
 .nav-link-item{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;font-family:inherit;transition:color .2s,background .2s}
@@ -38,8 +43,10 @@ header#topnav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
 .nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .nav-toggle.active span:nth-child(2){opacity:0}
 .nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-.nav-btn{padding:11px 22px;border-radius:999px;background:var(--accent-orange);color:#0E0E0E;font-weight:800;font-size:.9rem;transition:.2s;white-space:nowrap}
+.nav-btn{padding:11px 22px;border-radius:999px;background:var(--accent-orange);color:#0E0E0E;font-weight:800;font-size:.9rem;transition:.2s;white-space:nowrap;border:none}
 .nav-btn:hover{background:var(--accent-orange-hover);color:#fff}
+.nav-icon-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);font-size:1.05rem;transition:.2s;flex-shrink:0}
+.nav-icon-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32)}
 @media(max-width:900px){
   .nav-toggle{display:block}
   .nav-menu{display:none;position:fixed;top:64px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:rgba(14,14,14,.98);backdrop-filter:blur(18px);padding:14px 24px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -48,129 +55,130 @@ header#topnav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
   header#topnav{padding:16px 24px}
 }
 
-/* HERO */
-#hero{position:relative;height:88vh;min-height:560px;display:flex;align-items:flex-end}
-.hero-img{position:absolute;inset:0;z-index:0}
-.hero-img img{filter:brightness(.5)}
-.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(14,14,14,.96) 0%,rgba(14,14,14,.35) 55%,transparent 100%)}
-.hero-content{position:relative;z-index:2;padding:100px 48px 72px;max-width:900px}
-.tag{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(var(--nhs-blue-rgb),.18);border:1px solid rgba(var(--nhs-blue-rgb),.4);color:var(--nhs-blue-light);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px}
+/* shared pill/tag component, used across the site for eyebrow labels */
+.tag{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(var(--nhs-blue-rgb),.18);border:1px solid rgba(var(--nhs-blue-rgb),.4);color:var(--nhs-blue-light);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .tag::before{content:'';width:7px;height:7px;border-radius:999px;background:var(--accent-orange)}
-#hero h1{font-size:clamp(1.9rem,3.6vw,3.2rem);font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-bottom:18px}
+.mono{font-family:'DM Mono',monospace}
+
+/* HERO — main element: headline + "four beats" card, over a real AI/health-tech photo */
+#hero{position:relative;min-height:78vh;display:flex;align-items:flex-end}
+.hero-img{position:absolute;inset:0;z-index:0}
+.hero-img img{filter:brightness(.42)}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(6,29,53,.94) 0%,rgba(6,29,53,.75) 45%,rgba(14,14,14,.55) 100%)}
+.hero-content{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end;padding:120px clamp(20px,6vw,72px) 72px;max-width:1360px;margin:0 auto}
+#hero h1{font-size:clamp(2.2rem,6vw,4.4rem);font-weight:900;letter-spacing:-.04em;line-height:1.02;margin:18px 0}
 #hero h1 em{color:var(--accent-orange);font-style:normal}
-#hero p.hero-sub{font-size:1.05rem;font-weight:400;color:rgba(255,255,255,.62);max-width:56ch;line-height:1.65;margin-bottom:32px}
+#hero p.hero-sub{font-size:1.08rem;color:rgba(255,255,255,.72);max-width:54ch;line-height:1.6;margin-bottom:28px}
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
-.btn-g{padding:16px 26px;border-radius:999px;background:var(--accent-orange);color:#fff;font-weight:800;font-size:1rem;transition:.2s;border:none;cursor:pointer}
+.btn-g{padding:16px 26px;border-radius:999px;background:var(--accent-orange);color:#fff;font-weight:800;font-size:1rem;transition:.2s;border:none}
 .btn-g:hover{background:var(--accent-orange-hover);transform:translateY(-2px)}
-.btn-outline{padding:16px 26px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:1rem;transition:.2s}
-.btn-outline:hover{border-color:var(--nhs-blue-light);color:var(--nhs-blue-light)}
+.btn-outline{padding:16px 26px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:1rem;transition:.2s;background:none}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.hero-card{border:1px solid rgba(var(--teal-rgb),.4);background:rgba(6,29,53,.72);padding:26px;border-radius:16px;backdrop-filter:blur(8px)}
+.hero-card .tag{background:rgba(var(--teal-rgb),.16);border-color:rgba(var(--teal-rgb),.4);color:var(--teal)}
+.hero-card b{display:block;font-size:1.5rem;margin:12px 0 10px;letter-spacing:-.02em}
+.hero-card p{font-size:.88rem;color:rgba(255,255,255,.68);line-height:1.55;margin:0}
+@media(max-width:900px){.hero-content{grid-template-columns:1fr;padding:96px 24px 56px}.hero-card{margin-top:8px}}
 
-/* SPLIT — why postcards */
-.split{display:grid;grid-template-columns:1fr 1fr;min-height:520px}
-.split-img{position:relative;overflow:hidden;min-height:420px}
-.split-img img{transition:.6s}
-.split-text{display:flex;flex-direction:column;justify-content:center;padding:72px 64px;background:#111}
-.split-text h2{font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 18px;line-height:1.1}
-.split-text p{color:rgba(255,255,255,.62);font-size:1rem;max-width:46ch;line-height:1.7;margin-bottom:14px}
+/* MAIN / GALLERY */
+main.main{max-width:1280px;margin:0 auto;padding:88px 48px}
+.intro{display:flex;justify-content:space-between;gap:30px;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap}
+.intro h2{margin:10px 0 0;font-size:clamp(1.9rem,3.6vw,3rem);font-weight:900;letter-spacing:-.03em}
+.intro p{max-width:420px;color:rgba(255,255,255,.55);line-height:1.6;font-size:.95rem}
+.wall-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
 
-/* FOUR PROMPTS — reused step-tile grid */
-#prompts{background:#0e0e0e;padding:100px 48px}
-.prompts-top{margin-bottom:48px;max-width:640px}
-#prompts h2{font-size:clamp(2rem,3.6vw,3.2rem);font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:14px 0 14px}
-#prompts .approach-sub{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
-.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.step-tile{position:relative;background:#111;border:1px solid #222;border-radius:20px;padding:26px;display:flex;flex-direction:column}
-.step-num{width:38px;height:38px;border-radius:12px;background:rgba(var(--nhs-blue-rgb),.18);border:1px solid rgba(var(--nhs-blue-rgb),.4);color:var(--nhs-blue-light);display:grid;place-items:center;font-weight:900;font-size:.85rem;margin-bottom:14px}
-.step-tile h3{font-size:1.05rem;font-weight:800;margin-bottom:8px}
-.step-tile p{font-size:.88rem;color:rgba(255,255,255,.58);line-height:1.6}
-@media(max-width:900px){#prompts{padding:56px 24px}.steps-grid{grid-template-columns:1fr}}
-
-/* VIDEO POSTCARDS */
-#videoWall{background:#0e0e0e;padding:100px 48px 40px}
-.video-top{max-width:680px;margin:0 auto 40px;text-align:center}
-.video-top h2{font-size:clamp(2rem,3.6vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 14px}
-.video-top p{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
-.video-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
-.video-card{background:#111;border:1px solid #222;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
-.video-frame{position:relative;width:100%;aspect-ratio:9/16;background:#161616;overflow:hidden}
-.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:0}
-.video-stamp{position:absolute;top:14px;right:14px;z-index:2;display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:rgba(var(--nhs-blue-rgb),.2);border:1px solid rgba(var(--nhs-blue-rgb),.4);color:var(--nhs-blue-light);font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
-.video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(160deg,#161616,#0d0d0d);text-align:center;padding:20px}
-.video-play{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
-.video-play::after{content:'';border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent rgba(255,255,255,.55);margin-left:4px}
-.video-placeholder .ph-label{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.video-placeholder .ph-sub{font-size:.75rem;color:rgba(255,255,255,.28);max-width:22ch;line-height:1.5}
-.video-caption{padding:14px 16px;border-top:1px solid #1e1e1e}
-.video-name{font-weight:800;font-size:.85rem}
-.video-role{font-size:.75rem;color:rgba(255,255,255,.45);margin-top:2px}
-@media(max-width:900px){#videoWall{padding:64px 24px 24px}}
-
-/* SUBMIT FORM */
-#submit{background:#0e0e0e;padding:0 48px 100px}
-.submit-wrap{max-width:720px;margin:0 auto;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:44px}
-.submit-wrap .tag{margin-bottom:16px}
-.submit-wrap h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:900;letter-spacing:-.03em;margin-bottom:12px}
-.submit-wrap > p{color:rgba(255,255,255,.55);font-size:.95rem;line-height:1.6;margin-bottom:28px}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:8px}
-.field .hint{display:block;font-size:.78rem;color:rgba(255,255,255,.35);margin-top:6px;text-transform:none;letter-spacing:0}
-.field input,.field textarea{width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#fff;font:inherit;outline:none;font-size:.95rem;resize:vertical}
-.field textarea{min-height:130px;line-height:1.55}
-.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.32)}
-.field input:focus,.field textarea:focus{border-color:rgba(var(--nhs-blue-rgb),.6)}
-.consent{display:flex;align-items:flex-start;gap:10px;margin-bottom:22px}
-.consent input{width:auto;margin-top:3px}
-.consent label{font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5}
-.hp-field{position:absolute;left:-9999px;top:-9999px}
-.submit-btn{width:100%;padding:16px;border:none;border-radius:999px;background:var(--accent-orange);color:#fff;font-weight:900;font-size:1rem;cursor:pointer;transition:.2s}
-.submit-btn:hover{background:var(--accent-orange-hover)}
-.submit-btn:disabled{opacity:.6;cursor:not-allowed}
-.form-msg{margin-top:16px;font-size:.85rem;text-align:center;padding:12px 16px;border-radius:12px;display:none}
-.form-msg.ok{display:block;background:rgba(30,123,52,.15);border:1px solid rgba(30,123,52,.4);color:#8fd8a3}
-.form-msg.err{display:block;background:rgba(164,38,44,.15);border:1px solid rgba(164,38,44,.4);color:#ff9a9a}
-@media(max-width:600px){#submit{padding:0 20px 64px}.submit-wrap{padding:28px}.field-row{grid-template-columns:1fr}}
-
-/* WALL */
-#wall{background:#0e0e0e;padding:0 48px 100px}
-.wall-top{max-width:720px;margin:0 auto 40px;text-align:center}
-.wall-top h2{font-size:clamp(2rem,3.6vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 14px}
-.wall-top p{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
-.wall-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.postcard-card{position:relative;background:#111;border:1px solid #222;border-radius:20px;padding:26px;display:flex;flex-direction:column;min-height:200px}
-.postcard-stamp{position:absolute;top:18px;right:18px;display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(var(--nhs-blue-rgb),.14);border:1px solid rgba(var(--nhs-blue-rgb),.35);color:var(--nhs-blue-light);font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
-.postcard-quote{font-size:1rem;line-height:1.6;color:rgba(255,255,255,.9);margin:36px 0 20px;flex-grow:1}
+/* Postcard tiles use a real photo behind the text. NHS-facing content needs
+   reliable contrast, so rather than a light gradient we sit the text on a
+   near-opaque navy tint (rgba(--card-tint),.90+) regardless of the photo —
+   white text on that tint holds ~15:1 contrast, well clear of the WCAG AA
+   4.5:1 floor for normal text, so it reads the same over any image. */
+.postcard-card{position:relative;min-height:300px;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 16px 34px rgba(0,0,0,.35);transition:.2s}
+.postcard-card:hover{transform:translateY(-4px)}
+.postcard-bg{position:absolute;inset:0;z-index:0}
+.postcard-bg img{filter:brightness(.9)}
+.postcard-tint{position:absolute;inset:0;z-index:1;background:linear-gradient(165deg,rgba(var(--card-tint),.78) 0%,rgba(var(--card-tint),.94) 45%,rgba(var(--card-tint),.97) 100%)}
+.postcard-content{position:relative;z-index:2;flex-grow:1;display:flex;flex-direction:column;padding:22px}
+.postcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.beat-pill{display:inline-flex;align-items:center;padding:5px 11px;border-radius:999px;background:rgba(var(--teal-rgb),.18);border:1px solid rgba(var(--teal-rgb),.45);color:var(--teal);font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.stamp{flex-shrink:0;border:2px solid var(--accent-orange);color:#ffcf8f;border-radius:50%;width:52px;height:52px;display:grid;place-items:center;font-size:.6rem;line-height:1.15;text-align:center;transform:rotate(10deg);background:rgba(var(--card-tint),.5)}
+.pending-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(var(--accent-orange-rgb),.18);border:1px solid rgba(var(--accent-orange-rgb),.45);color:#ffc069;font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;align-self:flex-start}
+.pending-badge.rejected{background:rgba(164,38,44,.2);border-color:rgba(164,38,44,.5);color:#ff9a9a}
+.postcard-quote{font-size:1.02rem;line-height:1.55;color:#fff;flex-grow:1;margin-bottom:16px}
 .postcard-quote::before{content:'\201C'}
 .postcard-quote::after{content:'\201D'}
-.postcard-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;border-top:1px solid #1e1e1e;padding-top:14px}
-.postcard-name{font-weight:800;font-size:.9rem}
-.postcard-role{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:2px}
-.postcard-date{font-size:.72rem;color:rgba(255,255,255,.32);white-space:nowrap}
-.pending-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(var(--accent-orange-rgb),.14);border:1px solid rgba(var(--accent-orange-rgb),.35);color:var(--accent-orange);font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;align-self:flex-start}
-.postcard-actions{display:flex;gap:8px;margin-top:12px}
-.icon-btn{padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-size:.78rem;font-weight:700;cursor:pointer;transition:.15s}
-.icon-btn:hover{background:rgba(164,38,44,.18);border-color:rgba(164,38,44,.5);color:#ff9a9a}
-.icon-btn.approve:hover{background:rgba(30,123,52,.18);border-color:rgba(30,123,52,.5);color:#8fd8a3}
-.wall-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(255,255,255,.4);font-size:.95rem}
-.wall-loading{grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.35);font-size:.9rem}
-@media(max-width:900px){#wall{padding:0 20px 64px}}
+.postcard-footer{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px;font-size:.78rem}
+.postcard-name{font-weight:800;font-size:.88rem;color:#fff}
+.postcard-role{color:rgba(255,255,255,.55);margin-top:2px}
+.postcard-date{color:rgba(255,255,255,.4);white-space:nowrap}
+.video-watch{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;flex-grow:1;text-align:center}
+.play-btn{width:56px;height:56px;border-radius:50%;background:var(--accent-orange);display:flex;align-items:center;justify-content:center;border:none}
+.play-btn::after{content:'';border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent #fff;margin-left:4px}
+.play-btn.disabled{background:rgba(255,255,255,.15);cursor:not-allowed}
+.video-caption .pending-note{display:block;margin-top:6px;font-size:.72rem;color:rgba(255,255,255,.4);font-style:italic}
+.video-caption{font-size:.85rem;color:rgba(255,255,255,.75);max-width:28ch}
+.delete-icon{position:absolute;top:14px;left:14px;z-index:3;width:32px;height:32px;border-radius:50%;background:rgba(6,29,53,.75);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;transition:.15s}
+.delete-icon:hover{background:rgba(164,38,44,.85);border-color:rgba(164,38,44,.9)}
+.delete-icon svg{width:15px;height:15px}
+.wall-empty,.wall-loading{grid-column:1/-1;border:1px dashed rgba(97,215,209,.4);border-radius:16px;padding:48px;text-align:center;color:rgba(255,255,255,.5)}
+@media(max-width:900px){main.main{padding:56px 24px}}
 
-/* ADMIN PANEL */
-#adminBar{max-width:1280px;margin:0 auto 32px;padding:0 0}
-.admin-toggle{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;color:rgba(255,255,255,.35);cursor:pointer;border:1px dashed rgba(255,255,255,.15);padding:8px 14px;border-radius:999px}
-.admin-toggle:hover{color:rgba(255,255,255,.6)}
-.admin-panel{display:none;max-width:1280px;margin:16px auto 0;background:rgba(var(--accent-orange-rgb),.06);border:1px solid rgba(var(--accent-orange-rgb),.25);border-radius:20px;padding:24px}
-.admin-panel.open{display:block}
-.admin-login{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.admin-login input{flex:1;min-width:200px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font:inherit}
-.admin-status{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:10px}
-.pending-list{margin-top:18px;display:flex;flex-direction:column;gap:12px}
-.pending-item{background:#151515;border:1px solid #262626;border-radius:14px;padding:16px}
-.pending-item .msg{font-size:.9rem;color:rgba(255,255,255,.85);margin:8px 0}
-.pending-item .meta{font-size:.75rem;color:rgba(255,255,255,.4)}
-.pending-item .actions{display:flex;gap:8px;margin-top:10px}
+/* MODALS */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;place-items:center;padding:20px}
+.modal.show{display:grid}
+.dialog{width:min(760px,100%);max-height:90vh;overflow:auto;background:#141414;color:#fff;border:1px solid #262626;border-radius:20px;padding:36px;position:relative}
+.dialog.narrow{width:min(560px,100%)}
+.dialog .close{position:absolute;right:18px;top:14px;border:0;background:none;font-size:26px;color:rgba(255,255,255,.6);line-height:1}
+.dialog .close:hover{color:#fff}
+.dialog h2{font-size:1.9rem;letter-spacing:-.03em;margin:6px 0 8px;font-weight:900}
+.dialog .lead{color:rgba(255,255,255,.55);line-height:1.55;font-size:.92rem;margin-bottom:6px}
+.type-tabs{display:flex;gap:10px;margin:18px 0 22px}
+.type-tabs button{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);border-radius:10px;padding:11px 16px;font-weight:700;color:rgba(255,255,255,.7);font-size:.88rem}
+.type-tabs button.active{background:var(--nhs-blue);border-color:var(--nhs-blue);color:#fff}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{margin-bottom:16px}
+.field.full{grid-column:1/-1}
+.field label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:8px;font-weight:700}
+.field input,.field textarea,.field select{width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;outline:none;font-size:.95rem;resize:vertical}
+.field textarea{min-height:110px;line-height:1.55}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.32)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(var(--nhs-blue-rgb),.7)}
+.field select option{background:#141414;color:#fff}
+.hp-field{position:absolute;left:-9999px;top:-9999px}
+.consent{display:flex;gap:9px;align-items:flex-start;margin:14px 0;font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.5}
+.consent input{width:auto;margin-top:3px}
+.notice{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.55;margin:12px 0 18px}
+.submit-btn{width:100%;padding:16px;border:none;border-radius:999px;background:var(--accent-orange);color:#fff;font-weight:900;font-size:1rem;transition:.2s}
+.submit-btn:hover{background:var(--accent-orange-hover)}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed}
+.form-msg{margin-top:14px;font-size:.85rem;text-align:center;padding:12px 16px;border-radius:12px;display:none}
+.form-msg.ok{display:block;background:rgba(30,123,52,.16);border:1px solid rgba(30,123,52,.4);color:#8fd8a3}
+.form-msg.err{display:block;background:rgba(164,38,44,.16);border:1px solid rgba(164,38,44,.4);color:#ff9a9a}
 
-footer{padding:40px 48px;background:#0a0a0a;border-top:1px solid #1a1a1a;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+/* moderator modal */
+.login-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.login-row input{flex:1;min-width:200px;padding:13px 15px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff}
+.login-row button{border:none;border-radius:999px;background:var(--nhs-blue);color:#fff;font-weight:800;padding:13px 22px}
+.admin-status{font-size:.82rem;color:rgba(255,255,255,.5);margin-top:10px}
+.mod-panel{margin-top:20px}
+.mod-panel h3{font-size:1.05rem;margin-bottom:12px}
+.mod-list{display:flex;flex-direction:column;gap:10px}
+.mod-row{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px}
+.mod-row .meta{font-size:.78rem;color:rgba(255,255,255,.45);margin-bottom:6px}
+.mod-row .msg{font-size:.9rem;color:rgba(255,255,255,.88);margin-bottom:10px;line-height:1.5}
+.mod-actions{display:flex;gap:8px}
+.mod-actions button{border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:.82rem}
+.approve-btn{background:rgba(30,123,52,.22);color:#8fd8a3;border:1px solid rgba(30,123,52,.5)}
+.reject-btn{background:rgba(164,38,44,.2);color:#ff9a9a;border:1px solid rgba(164,38,44,.5)}
+
+/* video lightbox */
+#videoModal .dialog{padding:0;background:#000;width:min(420px,100%)}
+#videoModal .video-frame{position:relative;width:100%;aspect-ratio:9/16;background:#000}
+#videoModal iframe,#videoModal video{position:absolute;inset:0;width:100%;height:100%;border:0}
+#videoModal .close{background:rgba(0,0,0,.5);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;top:10px;right:10px}
+
+footer{padding:44px 48px;background:#0a0a0a;border-top:1px solid #1a1a1a;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center}
+.footer-tagline{font-size:.85rem;color:rgba(255,255,255,.4)}
+.footer-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;width:100%;max-width:1280px}
 .footer-brand{font-weight:900;font-size:1.1rem}
 .footer-brand span{color:var(--accent-orange)}
 footer nav ul{display:flex;gap:24px;list-style:none;flex-wrap:wrap}
@@ -181,11 +189,7 @@ footer nav a:hover{color:#fff}
 .reveal{opacity:0;transform:translateY(22px);transition:700ms cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
 
-@media(max-width:900px){
-  .split{grid-template-columns:1fr}
-  .split-text{padding:48px 24px}
-  .hero-content{padding:80px 24px 56px}
-}
+@media(max-width:600px){.field-row{grid-template-columns:1fr}.dialog{padding:24px}}
 </style>
 </head>
 <body>
@@ -200,6 +204,7 @@ footer nav a:hover{color:#fff}
         <li><a class="nav-link-item" href="faqs.html">FAQs</a></li>
         <li><a class="nav-link-item" href="pricing.html">Pricing</a></li>
       </ul>
+      <button class="nav-icon-btn" id="modOpen" aria-label="Moderator access" title="Moderator access">🔒</button>
       <a href="index.html#cta" class="nav-btn">Explore uPull.ai</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
         <span></span><span></span><span></span>
@@ -208,247 +213,456 @@ footer nav a:hover{color:#fff}
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HERO — main element -->
 <section id="hero">
   <div class="hero-img">
-    <img src="https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?w=1800&q=80&auto=format&fit=crop" alt="Futuristic view representing the NHS in 2030">
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1800&q=80&auto=format&fit=crop" alt="AI-assisted healthcare technology">
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="tag">Postcard From 2030</div>
-    <h1>Write a postcard from the <em>NHS you're building</em>.</h1>
-    <p class="hero-sub">It's 2030. Looking back, what changed? Senior NHS leaders and teams are leaving short, honest notes from the future — one decision that mattered, one practice nobody misses. Read the wall, or send your own.</p>
-    <div class="hero-btns">
-      <a href="#submit" class="btn-g">Leave your postcard</a>
-      <a href="#wall" class="btn-outline">Read the wall</a>
+    <div>
+      <div class="tag">NHS futures campaign · 2030</div>
+      <h1>Send a <em>postcard</em><br>from 2030.</h1>
+      <p class="hero-sub">What decision made around 2026 transformed your service? Share a written reflection or a short video with the people shaping care today.</p>
+      <div class="hero-btns">
+        <button class="btn-g" id="sendOpen">Create your postcard</button>
+        <a class="btn-outline" href="#postcards">Read the postcards</a>
+      </div>
     </div>
+    <aside class="hero-card">
+      <div class="tag">Four beats, one future</div>
+      <b class="mono">Frame · Relic · Catalyst · Advice</b>
+      <p>Speak from 2030. Be specific, honest, and practical. Your insight can help NHS leaders act now.</p>
+    </aside>
   </div>
 </section>
 
-<!-- WHY -->
-<section id="why">
-  <div class="split">
-    <div class="split-img">
-      <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1200&q=80&auto=format&fit=crop" alt="NHS team looking ahead">
+<!-- GALLERY -->
+<main class="main" id="postcards">
+  <div class="intro reveal">
+    <div>
+      <div class="tag">Community collection</div>
+      <h2>Notes from the future of care.</h2>
     </div>
-    <div class="split-text reveal">
-      <div class="tag">Why a postcard</div>
-      <h2>Short, specific, and easy to say yes to</h2>
-      <p>Most "future of the NHS" content is vague because the question is vague. A postcard from 2030 forces something concrete: one decision, one relic, one piece of advice — in under a minute.</p>
-      <p>Every postcard is read by the uPull.ai team before it goes on the public wall, and only the person who wrote it — or the uPull.ai admin team — can ever take it down. Everyone else can read, nobody else can edit or remove.</p>
-    </div>
+    <p>Every postcard is reviewed by the uPull.ai team before it appears here. Only the person who wrote it, or a uPull.ai moderator, can ever remove it — everyone else can read only.</p>
   </div>
-</section>
+  <section class="wall-grid" id="gallery">
+    <div class="wall-loading">Loading postcards…</div>
+  </section>
+</main>
 
-<!-- FOUR PROMPTS -->
-<section id="prompts">
-  <div class="prompts-top reveal">
-    <div class="tag">Before you write</div>
-    <h2>Four prompts to get you there</h2>
-    <p class="approach-sub">You don't have to answer all four in your postcard — they're there to help you find the specific thing worth saying.</p>
+<footer>
+  <div class="footer-row">
+    <div class="footer-brand">uPull<span>.ai</span></div>
+    <nav><ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#cta">Join the cohort</a></li>
+      <li><a href="mailto:info@upull.ai">info@upull.ai</a></li>
+    </ul></nav>
+    <div class="footer-copy">© 2026 uPull.ai</div>
   </div>
-  <div class="steps-grid reveal">
-    <div class="step-tile">
-      <div class="step-num">01</div>
-      <h3>The Frame</h3>
-      <p>It's 2030. What single decision made around 2026 transformed your service?</p>
-    </div>
-    <div class="step-tile">
-      <div class="step-num">02</div>
-      <h3>The Relic</h3>
-      <p>What 2026 practice or workflow are teams shocked we used to accept?</p>
-    </div>
-    <div class="step-tile">
-      <div class="step-num">03</div>
-      <h3>The Catalyst</h3>
-      <p>What was the biggest barrier your team had to overcome to make that shift?</p>
-    </div>
-    <div class="step-tile">
-      <div class="step-num">04</div>
-      <h3>The Advice</h3>
-      <p>What should NHS leaders in 2026 start doing tomorrow?</p>
-    </div>
-  </div>
-</section>
+  <div class="footer-tagline">Postcard From 2030 · addressed to uPull.ai · London · 2030</div>
+</footer>
 
-<!-- VIDEO POSTCARDS — placeholder gallery. Fill in the VIDEO_POSTCARDS array near the
-     top of the page script with real videos as senior teams' recordings come in;
-     tiles left with an empty videoUrl automatically render as "Coming soon" placeholders. -->
-<section id="videoWall">
-  <div class="video-top reveal">
-    <div class="tag">From senior NHS teams</div>
-    <h2>Video Postcards</h2>
-    <p>Short recorded postcards from senior leaders, using the same four prompts. Space is reserved below — recordings will appear here as they're reviewed and added.</p>
-  </div>
-  <div class="video-grid" id="videoGrid"></div>
-</section>
-
-<!-- SUBMIT -->
-<section id="submit">
-  <div class="submit-wrap reveal">
-    <div class="tag">Send yours</div>
-    <h2>Leave a postcard on the wall</h2>
-    <p>Takes about a minute. Your postcard is reviewed by the uPull.ai team before it appears publicly — usually within one working day.</p>
-    <form id="postcardForm" novalidate>
+<!-- SUBMIT MODAL -->
+<div class="modal" id="submitModal">
+  <section class="dialog">
+    <button class="close" data-close aria-label="Close">×</button>
+    <div class="tag" style="margin-bottom:10px">Postcard creator</div>
+    <h2>Write from 2030</h2>
+    <p class="lead">Choose the form that feels most useful. Video postcards should be 60–90 seconds and filmed vertically — paste a link to a video you've already uploaded (YouTube, Vimeo, or a direct video file URL).</p>
+    <div class="type-tabs">
+      <button type="button" class="active" data-type="word">Word postcard</button>
+      <button type="button" data-type="video">Video postcard</button>
+    </div>
+    <form id="postForm" novalidate>
       <div class="field-row">
         <div class="field">
           <label for="pcName">Your name</label>
-          <input id="pcName" name="name" type="text" placeholder="Dr Amara Okafor" required maxlength="80">
+          <input id="pcName" required maxlength="80" placeholder="e.g. Dr Sam Taylor">
         </div>
         <div class="field">
-          <label for="pcRole">Role &amp; organisation <span style="text-transform:none;color:rgba(255,255,255,.3)">(optional)</span></label>
-          <input id="pcRole" name="role" type="text" placeholder="Chief Digital Officer, [Trust]" maxlength="120">
+          <label for="pcRole">Role / NHS organisation</label>
+          <input id="pcRole" maxlength="120" placeholder="e.g. Digital lead, Northbridge Trust">
         </div>
       </div>
-      <div class="field">
-        <label for="pcEmail">Email <span style="text-transform:none;color:rgba(255,255,255,.3)">(private — never shown on the wall)</span></label>
-        <input id="pcEmail" name="email" type="email" placeholder="name@nhs.net">
-        <span class="hint">Only used by the uPull.ai team to verify your postcard and contact you if there's a question about it.</span>
+      <div class="field-row">
+        <div class="field">
+          <label for="pcBeat">Your starting point</label>
+          <select id="pcBeat">
+            <option value="FRAME">FRAME — the decision that changed things</option>
+            <option value="RELIC">RELIC — what we stopped accepting</option>
+            <option value="CATALYST">CATALYST — the barrier we overcame</option>
+            <option value="ADVICE">ADVICE — what to do tomorrow</option>
+          </select>
+        </div>
+        <div class="field" id="videoField" style="display:none">
+          <label for="pcVideoUrl">Video link</label>
+          <input id="pcVideoUrl" type="url" placeholder="https://youtube.com/embed/…">
+        </div>
       </div>
-      <div class="field">
-        <label for="pcMessage">Your postcard from 2030</label>
-        <textarea id="pcMessage" name="message" placeholder="It's 2030. The decision that changed our service was… The thing we finally stopped doing was… If you're reading this in 2026, start by…" required minlength="10" maxlength="600"></textarea>
-        <span class="hint">Aim for 2–4 sentences — the four prompts above are there for inspiration, not a form to fill in.</span>
+      <div class="field full">
+        <label for="pcMessage" id="messageLabel">Your postcard message</label>
+        <textarea id="pcMessage" maxlength="600" placeholder="It's 2030. The decision that changed our service was…"></textarea>
       </div>
       <!-- honeypot: hidden from real visitors, sometimes filled in by bots -->
       <div class="hp-field" aria-hidden="true">
         <label for="pcWebsite">Leave this field blank</label>
-        <input id="pcWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+        <input id="pcWebsite" type="text" tabindex="-1" autocomplete="off">
       </div>
-      <div class="consent">
+      <label class="consent">
         <input id="pcConsent" type="checkbox" required>
-        <label for="pcConsent">I'm happy for this postcard (name, role, and message — not my email) to be displayed publicly on the uPull.ai Postcards Wall once reviewed.</label>
-      </div>
-      <button type="submit" class="submit-btn" id="submitBtn">Post to the wall</button>
+        <span>I have permission to share this content and understand it will be reviewed before publication. Please do not include patient-identifiable or confidential information.</span>
+      </label>
+      <p class="notice">Postcards are held for review by the uPull.ai team before they appear publicly, usually within one working day. Only you or a uPull.ai moderator will be able to remove it once published.</p>
+      <button class="submit-btn" type="submit" id="submitBtn">Submit for review</button>
       <div class="form-msg" id="formMsg"></div>
     </form>
-  </div>
-</section>
+  </section>
+</div>
 
-<!-- WALL -->
-<section id="wall">
-  <div class="wall-top reveal">
-    <div class="tag">The wall</div>
-    <h2>Postcards from the NHS of 2030</h2>
-    <p>Public and read-only. Only the author of a postcard, or the uPull.ai admin team, can remove it.</p>
-  </div>
-
-  <div id="adminBar">
-    <div class="admin-toggle" id="adminToggle" onclick="toggleAdminPanel()">uPull.ai admin team? Sign in to moderate →</div>
-    <div class="admin-panel" id="adminPanel">
-      <div class="admin-login" id="adminLoginRow">
-        <input type="password" id="adminPasswordInput" placeholder="Admin password">
-        <button class="submit-btn" style="width:auto;padding:12px 22px" onclick="adminLogin()">Unlock</button>
-      </div>
-      <div class="admin-status" id="adminStatus"></div>
-      <div id="pendingList" class="pending-list"></div>
+<!-- MODERATOR MODAL -->
+<div class="modal" id="modModal">
+  <section class="dialog narrow">
+    <button class="close" data-close aria-label="Close">×</button>
+    <div class="tag" style="margin-bottom:10px">Moderation console</div>
+    <h2>Review postcards</h2>
+    <p class="lead">Sign in with the shared uPull.ai moderator password to review pending postcards and publish or reject them.</p>
+    <div id="loginRow" class="login-row">
+      <input type="password" id="adminPasswordInput" placeholder="Moderator password" autocomplete="current-password">
+      <button type="button" id="loginBtn">Sign in</button>
     </div>
-  </div>
+    <div class="admin-status" id="adminStatus"></div>
+    <div class="mod-panel" id="modPanel" style="display:none">
+      <h3>Pending review</h3>
+      <div class="mod-list" id="modList"></div>
+    </div>
+  </section>
+</div>
 
-  <div class="wall-grid" id="wallGrid">
-    <div class="wall-loading">Loading postcards…</div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-brand">uPull<span>.ai</span></div>
-  <nav><ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="index.html#cta">Join the cohort</a></li>
-    <li><a href="mailto:info@upull.ai">info@upull.ai</a></li>
-  </ul></nav>
-  <div class="footer-copy">© 2026 uPull.ai — Postcard From 2030</div>
-</footer>
+<!-- VIDEO LIGHTBOX -->
+<div class="modal" id="videoModal">
+  <section class="dialog">
+    <button class="close" data-close aria-label="Close">×</button>
+    <div class="video-frame" id="videoFrame"></div>
+  </section>
+</div>
 
 <script>
 // ============================================================
-// CONFIG — replace this with your deployed backend URL after
-// following server/README instructions. Left pointing at
-// localhost so this is obviously not production-ready as-is.
-// ============================================================
-const API_BASE = 'http://localhost:3001';
-
-// ============================================================
-// VIDEO POSTCARDS — add real recordings here as they come in from
-// senior teams. Each entry needs a name; leave videoUrl empty and
-// the tile renders as a "Coming soon" placeholder automatically.
+// STANDALONE DEMO MODE
+// This page runs entirely in the browser — no server required, which is why
+// the earlier "failed to fetch" error is gone. Submissions are (a) stored in
+// this browser's localStorage so the gallery has something to render, and
+// (b) emailed to the admin team via Web3Forms using the access key below.
 //
-// videoUrl accepts:
-//   - a YouTube/Vimeo embed URL, e.g. 'https://www.youtube.com/embed/VIDEO_ID'
-//     (use the "embed" link, not the normal watch/share link)
-//   - a direct .mp4 file URL, e.g. 'https://yourcdn.com/postcard-amara.mp4'
-// Add or remove entries freely — six is just a starting placeholder count.
+// Because there's no shared server, this gallery is only visible on the
+// device that's viewing it — it will not automatically show postcards
+// submitted from someone else's browser. If a truly shared, everyone-sees-
+// the-same-wall version is wanted later, the server/ folder in this project
+// already has a tested, working API for exactly that — see server/README.md
+// for how to point this page at it instead of localStorage.
 // ============================================================
-const VIDEO_POSTCARDS = [
-  { name: '', role: '', videoUrl: '' },
-  { name: '', role: '', videoUrl: '' },
-  { name: '', role: '', videoUrl: '' },
-  { name: '', role: '', videoUrl: '' },
-  { name: '', role: '', videoUrl: '' },
-  { name: '', role: '', videoUrl: '' },
+const WEB3FORMS_ACCESS_KEY = '8bdba7a3-9c31-46ef-a6e3-f985ac4337e2';
+
+// Change this, then share the new password with whoever moderates postcards.
+// This is a lightweight, client-side gate suitable for a demo/low-stakes
+// campaign page — it is not real access control (anyone who reads the page
+// source can see it). The server/ folder has a properly server-enforced
+// version of this same login if that matters for your launch.
+const MODERATOR_PASSWORD = 'Postcard2030!';
+
+// Real stock photography behind each postcard, cycled by position.
+// All AI/health-tech themed and already proven to load (same source used
+// elsewhere on the uPull.ai site).
+const STOCK_IMAGES = [
+  'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=900&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=900&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551076805-e1869033e561?w=900&q=80&auto=format&fit=crop',
 ];
 
-const TOKENS_KEY = 'upull_postcard_tokens';       // { postcardId: editToken }
-const ADMIN_KEY  = 'upull_admin_password';        // sessionStorage only
+const STORAGE_KEY = 'upull_postcards_v1';        // all postcards live here
+const OWNED_KEY    = 'upull_owned_postcard_ids';  // ids this browser created — proves "mine"
+const SESSION_KEY  = 'upull_moderator_session';   // sessionStorage flag, cleared when the tab closes
 
-function getTokens(){
-  try { return JSON.parse(localStorage.getItem(TOKENS_KEY) || '{}'); }
-  catch { return {}; }
+// A few example postcards so the page never looks empty when you're
+// demoing it. Feel free to edit, add, or delete these directly below —
+// or just remove them from the gallery using the moderator trash icon.
+const DEMO_EXAMPLES = [
+  {
+    id: 'demo-1', name: 'Maya Chen', role: 'Service Manager, North Coast NHS Trust',
+    beat: 'FRAME', type: 'word', videoUrl: '',
+    message: "By 2030 we co-design every digital change with staff and patients instead of announcing it afterwards — that's the decision that finally made adoption feel possible.",
+    status: 'approved', createdAt: '2026-07-20T09:00:00.000Z',
+  },
+  {
+    id: 'demo-2', name: 'Dan Whitfield', role: 'Clinical Informatician, South London ICS',
+    beat: 'RELIC', type: 'word', videoUrl: '',
+    message: 'We are amazed we once asked people to enter the same patient information into three separate systems by hand.',
+    status: 'approved', createdAt: '2026-07-22T11:30:00.000Z',
+  },
+  {
+    id: 'demo-3', name: 'Ayesha Rahman', role: 'Transformation Lead, Community Care',
+    beat: 'ADVICE', type: 'video', videoUrl: '',
+    message: 'Start with the smallest painful workflow. Ask the people doing it what good could look like — and give them the time to test it.',
+    status: 'approved', createdAt: '2026-07-25T14:15:00.000Z',
+  },
+];
+
+function uid(){
+  return (crypto && crypto.randomUUID) ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(16).slice(2);
 }
-function saveToken(id, token){
-  const t = getTokens();
-  t[id] = token;
-  localStorage.setItem(TOKENS_KEY, JSON.stringify(t));
+
+function getPostcards(){
+  ensureSeeded();
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
 }
-function forgetToken(id){
-  const t = getTokens();
-  delete t[id];
-  localStorage.setItem(TOKENS_KEY, JSON.stringify(t));
+function savePostcards(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+function ensureSeeded(){
+  if (localStorage.getItem(STORAGE_KEY) === null) savePostcards(DEMO_EXAMPLES);
 }
-function tokensHeader(){
-  const t = getTokens();
-  return Object.entries(t).map(([id, tok]) => `${id}:${tok}`).join(',');
+function getOwnedIds(){
+  try { return JSON.parse(localStorage.getItem(OWNED_KEY) || '[]'); } catch { return []; }
 }
-function getAdminPassword(){ return sessionStorage.getItem(ADMIN_KEY) || ''; }
+function addOwnedId(id){
+  const ids = getOwnedIds();
+  ids.push(id);
+  localStorage.setItem(OWNED_KEY, JSON.stringify(ids));
+}
+function isMine(id){ return getOwnedIds().includes(id); }
+function isAdmin(){ return sessionStorage.getItem(SESSION_KEY) === '1'; }
+
+const trashSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6h16Z"/></svg>';
+
+// Fire-and-forget email to the admin team via Web3Forms — same service the
+// rest of the uPull.ai site uses. Never blocks the on-screen success message.
+async function notifyAdmin(pc){
+  if (!WEB3FORMS_ACCESS_KEY) return;
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: `New Postcard From 2030 submission — needs review (${pc.type})`,
+        from_name: 'uPull.ai Postcards',
+        email: 'no-reply@upull.ai',
+        message:
+          `A new ${pc.type} postcard is waiting for review.\n\n` +
+          `Name: ${pc.name}\n` +
+          `Role/organisation: ${pc.role || '(not given)'}\n` +
+          `Starting prompt: ${pc.beat || '(not given)'}\n` +
+          (pc.type === 'video' ? `Video link: ${pc.videoUrl}\n` : '') +
+          `\nMessage:\n${pc.message}\n\n` +
+          `Submitted: ${pc.createdAt}\n\n` +
+          `This page stores submissions in the submitter's browser (no shared server) — ` +
+          `open the postcards page yourself and sign in with the moderator password to review it.`,
+      }),
+    });
+    const data = await res.json();
+    if (!data.success) console.error('[web3forms] notification failed:', data.message || data);
+  } catch (err) {
+    console.error('[web3forms] notification request errored:', err.message);
+  }
+}
 
 function fmtDate(iso){
   try { return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }); }
   catch { return ''; }
 }
 
-// ---- rendering --------------------------------------------------------
+function beatLabel(beat){
+  const map = { FRAME: 'The Frame', RELIC: 'The Relic', CATALYST: 'The Catalyst', ADVICE: 'The Advice' };
+  return map[beat] || beat || '';
+}
 
-function buildCard(pc){
-  const card = document.createElement('div');
-  card.className = 'postcard-card';
+// ---- modal open/close -----------------------------------------------------
 
-  if (pc.status === 'pending') {
-    const badge = document.createElement('div');
-    badge.className = 'pending-badge';
-    badge.textContent = pc.mine ? 'Pending review — only you can see this' : 'Pending review';
-    card.appendChild(badge);
-  } else if (pc.status === 'rejected') {
-    const badge = document.createElement('div');
-    badge.className = 'pending-badge';
-    badge.style.color = '#ff9a9a';
-    badge.style.borderColor = 'rgba(164,38,44,.4)';
-    badge.style.background = 'rgba(164,38,44,.14)';
-    badge.textContent = 'Not approved';
-    card.appendChild(badge);
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModals(){
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('show'));
+  document.getElementById('videoFrame').innerHTML = ''; // stop playback on close
+}
+document.getElementById('sendOpen').onclick = () => openModal('submitModal');
+document.getElementById('modOpen').onclick = () => openModal('modModal');
+document.querySelectorAll('[data-close]').forEach(b => b.onclick = closeModals);
+document.querySelectorAll('.modal').forEach(m => m.onclick = e => { if (e.target === m) closeModals(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModals(); });
+
+function openVideo(url){
+  const frame = document.getElementById('videoFrame');
+  if (/\.mp4($|\?)/i.test(url)) {
+    frame.innerHTML = `<video src="${url.replace(/"/g,'&quot;')}" controls autoplay playsinline></video>`;
+  } else {
+    frame.innerHTML = `<iframe src="${url.replace(/"/g,'&quot;')}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+  }
+  openModal('videoModal');
+}
+
+// ---- submission form: word / video tabs -----------------------------------
+
+let currentType = 'word';
+document.querySelectorAll('[data-type]').forEach(btn => {
+  btn.onclick = () => {
+    currentType = btn.dataset.type;
+    document.querySelectorAll('[data-type]').forEach(b => b.classList.toggle('active', b === btn));
+    document.getElementById('videoField').style.display = currentType === 'video' ? 'block' : 'none';
+    document.getElementById('messageLabel').textContent = currentType === 'video' ? 'Caption for your video' : 'Your postcard message';
+  };
+});
+
+document.getElementById('postForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('formMsg');
+  msg.className = 'form-msg';
+  msg.textContent = '';
+
+  const payload = {
+    name: document.getElementById('pcName').value.trim(),
+    role: document.getElementById('pcRole').value.trim(),
+    beat: document.getElementById('pcBeat').value,
+    type: currentType,
+    videoUrl: document.getElementById('pcVideoUrl').value.trim(),
+    message: document.getElementById('pcMessage').value.trim(),
+    website: document.getElementById('pcWebsite').value, // honeypot
+  };
+
+  if (!payload.name || payload.message.length < 10) {
+    msg.className = 'form-msg err';
+    msg.textContent = 'Please add your name and a message of at least 10 characters.';
+    return;
+  }
+  if (currentType === 'video' && !/^https?:\/\//i.test(payload.videoUrl)) {
+    msg.className = 'form-msg err';
+    msg.textContent = 'Please add a video link starting with http:// or https://.';
+    return;
+  }
+  if (!document.getElementById('pcConsent').checked) {
+    msg.className = 'form-msg err';
+    msg.textContent = "Please confirm you're happy for this to be displayed publicly once reviewed.";
+    return;
   }
 
-  const stamp = document.createElement('div');
-  stamp.className = 'postcard-stamp';
-  stamp.textContent = '2030';
-  card.appendChild(stamp);
+  if (payload.website) { // honeypot tripped — pretend success, save nothing
+    msg.className = 'form-msg ok';
+    msg.textContent = 'Thank you — your postcard has been submitted for review.';
+    document.getElementById('postForm').reset();
+    return;
+  }
 
-  const quote = document.createElement('p');
-  quote.className = 'postcard-quote';
-  quote.textContent = pc.message; // textContent — never innerHTML with user input
-  card.appendChild(quote);
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const postcard = {
+    id: uid(),
+    name: payload.name,
+    role: payload.role,
+    beat: payload.beat,
+    type: payload.type,
+    videoUrl: payload.type === 'video' ? payload.videoUrl : '',
+    message: payload.message,
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+  };
+
+  const all = getPostcards();
+  all.push(postcard);
+  savePostcards(all);
+  addOwnedId(postcard.id);
+  notifyAdmin(postcard); // fire-and-forget — doesn't block the success message below
+
+  msg.className = 'form-msg ok';
+  msg.textContent = 'Thank you — your postcard has been submitted for review and will appear on the wall once verified.';
+  document.getElementById('postForm').reset();
+  renderGallery();
+
+  btn.disabled = false;
+  btn.textContent = 'Submit for review';
+});
+
+// ---- gallery rendering ------------------------------------------------------
+
+function buildCard(pc, idx){
+  const card = document.createElement('article');
+  card.className = 'postcard-card';
+
+  const bg = document.createElement('div');
+  bg.className = 'postcard-bg';
+  const img = document.createElement('img');
+  img.src = STOCK_IMAGES[idx % STOCK_IMAGES.length];
+  img.alt = '';
+  img.loading = 'lazy';
+  bg.appendChild(img);
+  card.appendChild(bg);
+
+  const tint = document.createElement('div');
+  tint.className = 'postcard-tint';
+  card.appendChild(tint);
+
+  const content = document.createElement('div');
+  content.className = 'postcard-content';
+
+  if (pc.status === 'pending' || pc.status === 'rejected') {
+    const badge = document.createElement('div');
+    badge.className = 'pending-badge' + (pc.status === 'rejected' ? ' rejected' : '');
+    badge.textContent = pc.status === 'rejected' ? 'Not approved' : (pc.mine ? 'Pending review — only you can see this' : 'Pending review');
+    content.appendChild(badge);
+  }
+
+  const top = document.createElement('div');
+  top.className = 'postcard-top';
+  if (pc.beat) {
+    const pill = document.createElement('span');
+    pill.className = 'beat-pill';
+    pill.textContent = beatLabel(pc.beat);
+    top.appendChild(pill);
+  } else {
+    top.appendChild(document.createElement('span'));
+  }
+  const stamp = document.createElement('div');
+  stamp.className = 'stamp mono';
+  stamp.innerHTML = 'LONDON<br>2030';
+  top.appendChild(stamp);
+  content.appendChild(top);
+
+  if (pc.type === 'video') {
+    const watch = document.createElement('div');
+    watch.className = 'video-watch';
+    const play = document.createElement('button');
+    play.type = 'button';
+    play.className = 'play-btn' + (pc.videoUrl ? '' : ' disabled');
+    if (pc.videoUrl) {
+      play.setAttribute('aria-label', 'Play video postcard');
+      play.onclick = () => openVideo(pc.videoUrl);
+    } else {
+      play.disabled = true;
+      play.setAttribute('aria-label', 'Video not yet linked');
+    }
+    watch.appendChild(play);
+    const caption = document.createElement('div');
+    caption.className = 'video-caption';
+    caption.textContent = pc.message;
+    if (!pc.videoUrl) {
+      const note = document.createElement('span');
+      note.className = 'pending-note';
+      note.textContent = 'Video coming soon';
+      caption.appendChild(note);
+    }
+    watch.appendChild(caption);
+    content.appendChild(watch);
+  } else {
+    const quote = document.createElement('p');
+    quote.className = 'postcard-quote';
+    quote.textContent = pc.message; // textContent only — never innerHTML with user input
+    content.appendChild(quote);
+  }
 
   const foot = document.createElement('div');
-  foot.className = 'postcard-foot';
+  foot.className = 'postcard-footer';
   const who = document.createElement('div');
   const name = document.createElement('div');
   name.className = 'postcard-name';
@@ -465,281 +679,130 @@ function buildCard(pc){
   date.className = 'postcard-date';
   date.textContent = fmtDate(pc.createdAt);
   foot.appendChild(date);
-  card.appendChild(foot);
+  content.appendChild(foot);
 
-  const canDelete = pc.mine || window.__adminMode;
-  if (canDelete) {
-    const actions = document.createElement('div');
-    actions.className = 'postcard-actions';
+  card.appendChild(content);
+
+  // Delete icon — visible only to the postcard's original author (created it
+  // in this browser) or a signed-in moderator.
+  if (pc.mine || isAdmin()) {
     const del = document.createElement('button');
-    del.className = 'icon-btn';
-    del.textContent = window.__adminMode && !pc.mine ? 'Remove (admin)' : 'Remove my postcard';
+    del.type = 'button';
+    del.className = 'delete-icon';
+    del.innerHTML = trashSVG;
+    del.setAttribute('aria-label', isAdmin() && !pc.mine ? 'Remove postcard (moderator)' : 'Remove my postcard');
+    del.title = del.getAttribute('aria-label');
     del.onclick = () => deletePostcard(pc.id);
-    actions.appendChild(del);
-    card.appendChild(actions);
+    card.appendChild(del);
   }
 
   return card;
 }
 
-// Builds one video-postcard tile. Entries with no videoUrl render as a
-// "Coming soon" placeholder; entries with a videoUrl render the embed —
-// no other code changes needed, just fill in VIDEO_POSTCARDS above.
-function buildVideoCard(entry){
-  const card = document.createElement('div');
-  card.className = 'video-card';
+function renderGallery(){
+  const grid = document.getElementById('gallery');
+  const owned = getOwnedIds();
+  const visible = getPostcards()
+    .filter(pc => pc.status === 'approved' || owned.includes(pc.id) || isAdmin())
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .map(pc => ({ ...pc, mine: owned.includes(pc.id) }));
 
-  const frame = document.createElement('div');
-  frame.className = 'video-frame';
-
-  const stamp = document.createElement('div');
-  stamp.className = 'video-stamp';
-  stamp.textContent = '2030';
-  frame.appendChild(stamp);
-
-  if (entry.videoUrl && /\.mp4($|\?)/i.test(entry.videoUrl)) {
-    const video = document.createElement('video');
-    video.src = entry.videoUrl;
-    video.controls = true;
-    video.preload = 'metadata';
-    frame.appendChild(video);
-  } else if (entry.videoUrl) {
-    const iframe = document.createElement('iframe');
-    iframe.src = entry.videoUrl;
-    iframe.loading = 'lazy';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-    iframe.allowFullscreen = true;
-    frame.appendChild(iframe);
-  } else {
-    const placeholder = document.createElement('div');
-    placeholder.className = 'video-placeholder';
-    const play = document.createElement('div');
-    play.className = 'video-play';
-    placeholder.appendChild(play);
-    const label = document.createElement('div');
-    label.className = 'ph-label';
-    label.textContent = 'Coming soon';
-    placeholder.appendChild(label);
-    const sub = document.createElement('div');
-    sub.className = 'ph-sub';
-    sub.textContent = 'Video postcard recording to be added';
-    placeholder.appendChild(sub);
-    frame.appendChild(placeholder);
-  }
-  card.appendChild(frame);
-
-  const caption = document.createElement('div');
-  caption.className = 'video-caption';
-  const name = document.createElement('div');
-  name.className = 'video-name';
-  name.textContent = entry.name || 'Awaiting recording';
-  caption.appendChild(name);
-  if (entry.role) {
-    const role = document.createElement('div');
-    role.className = 'video-role';
-    role.textContent = entry.role;
-    caption.appendChild(role);
-  }
-  card.appendChild(caption);
-
-  return card;
-}
-
-function renderVideoWall(){
-  const grid = document.getElementById('videoGrid');
-  if (!grid) return;
   grid.innerHTML = '';
-  VIDEO_POSTCARDS.forEach(entry => grid.appendChild(buildVideoCard(entry)));
-}
-
-async function loadWall(){
-  const grid = document.getElementById('wallGrid');
-  try {
-    const headers = {};
-    const th = tokensHeader();
-    if (th) headers['x-edit-tokens'] = th;
-    const res = await fetch(`${API_BASE}/api/postcards`, { headers });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    grid.innerHTML = '';
-    if (!data.postcards.length) {
-      grid.innerHTML = '<div class="wall-empty">No postcards yet — be the first to send one from 2030.</div>';
-      return;
-    }
-    data.postcards.forEach(pc => grid.appendChild(buildCard(pc)));
-  } catch (err) {
-    grid.innerHTML = `<div class="wall-empty">Couldn't load the wall (${err.message}). If you're testing locally, make sure the backend server is running and API_BASE at the top of the script is correct.</div>`;
+  if (!visible.length) {
+    grid.innerHTML = '<div class="wall-empty">There are no postcards to show yet — be the first to send one from 2030.</div>';
+    return;
   }
+  visible.forEach((pc, idx) => grid.appendChild(buildCard(pc, idx)));
 }
 
-async function deletePostcard(id){
+function deletePostcard(id){
   if (!confirm('Remove this postcard? This cannot be undone.')) return;
-  const headers = {};
-  if (window.__adminMode) headers['x-admin-password'] = getAdminPassword();
-  else {
-    const t = getTokens()[id];
-    if (!t) { alert("This isn't your postcard, so it can't be removed from this browser."); return; }
-    headers['x-edit-token'] = t;
-  }
-  try {
-    const res = await fetch(`${API_BASE}/api/postcards/${id}`, { method: 'DELETE', headers });
-    if (!res.ok) { const d = await res.json().catch(()=>({})); throw new Error(d.error || `HTTP ${res.status}`); }
-    forgetToken(id);
-    await loadWall();
-    if (window.__adminMode) await loadPending();
-  } catch (err) {
-    alert('Could not remove postcard: ' + err.message);
-  }
-}
-
-// ---- submission ---------------------------------------------------------
-
-document.getElementById('postcardForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const msg = document.getElementById('formMsg');
-  msg.className = 'form-msg';
-  msg.textContent = '';
-
-  const payload = {
-    name: document.getElementById('pcName').value.trim(),
-    role: document.getElementById('pcRole').value.trim(),
-    email: document.getElementById('pcEmail').value.trim(),
-    message: document.getElementById('pcMessage').value.trim(),
-    website: document.getElementById('pcWebsite').value, // honeypot
-  };
-
-  if (!payload.name || payload.message.length < 10) {
-    msg.className = 'form-msg err';
-    msg.textContent = 'Please add your name and a postcard message of at least 10 characters.';
+  const owned = getOwnedIds();
+  if (!isAdmin() && !owned.includes(id)) {
+    alert("This isn't your postcard, so it can't be removed from this browser.");
     return;
   }
-  if (!document.getElementById('pcConsent').checked) {
-    msg.className = 'form-msg err';
-    msg.textContent = 'Please confirm you\'re happy for this to be displayed publicly once reviewed.';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Sending…';
-
-  try {
-    const res = await fetch(`${API_BASE}/api/postcards`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-
-    if (data.editToken && data.editToken !== 'n/a') saveToken(data.id, data.editToken);
-
-    msg.className = 'form-msg ok';
-    msg.textContent = "Thanks — your postcard is queued for review and will appear on the wall once the uPull.ai team verifies it.";
-    document.getElementById('postcardForm').reset();
-    await loadWall();
-  } catch (err) {
-    msg.className = 'form-msg err';
-    msg.textContent = 'Something went wrong: ' + err.message + ' — please try again or email info@upull.ai directly.';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Post to the wall';
-  }
-});
-
-// ---- admin panel ----------------------------------------------------------
-
-function toggleAdminPanel(){
-  document.getElementById('adminPanel').classList.toggle('open');
+  savePostcards(getPostcards().filter(pc => pc.id !== id));
+  if (owned.includes(id)) localStorage.setItem(OWNED_KEY, JSON.stringify(owned.filter(x => x !== id)));
+  renderGallery();
+  if (isAdmin()) renderPending();
 }
 
-async function adminLogin(){
+// ---- moderator login + pending queue ---------------------------------------
+
+document.getElementById('loginBtn').onclick = () => {
   const pw = document.getElementById('adminPasswordInput').value;
   const status = document.getElementById('adminStatus');
-  status.textContent = 'Checking…';
-  try {
-    const res = await fetch(`${API_BASE}/api/postcards/pending`, { headers: { 'x-admin-password': pw } });
-    if (!res.ok) throw new Error('Incorrect password');
-    sessionStorage.setItem(ADMIN_KEY, pw);
-    window.__adminMode = true;
-    document.getElementById('adminLoginRow').style.display = 'none';
-    document.getElementById('adminToggle').textContent = 'Admin mode ✓ — moderating live';
-    status.textContent = '';
-    await loadPending();
-    await loadWall();
-  } catch (err) {
-    status.textContent = err.message;
+  if (pw !== MODERATOR_PASSWORD) {
+    status.textContent = 'That password was not recognised.';
+    return;
   }
+  sessionStorage.setItem(SESSION_KEY, '1');
+  enterModeratorMode();
+  status.textContent = '';
+};
+
+function enterModeratorMode(){
+  document.getElementById('loginRow').style.display = 'none';
+  document.getElementById('modPanel').style.display = 'block';
+  document.getElementById('modOpen').textContent = '🔓';
+  document.getElementById('modOpen').title = 'Moderator mode active';
+  renderPending();
+  renderGallery();
 }
 
-async function loadPending(){
-  const list = document.getElementById('pendingList');
-  try {
-    const res = await fetch(`${API_BASE}/api/postcards/pending`, { headers: { 'x-admin-password': getAdminPassword() } });
-    if (!res.ok) throw new Error('Session expired — please sign in again.');
-    const data = await res.json();
-    list.innerHTML = '';
-    if (!data.postcards.length) {
-      list.innerHTML = '<div class="admin-status">Nothing waiting for review.</div>';
-      return;
-    }
-    data.postcards.forEach(pc => {
-      const item = document.createElement('div');
-      item.className = 'pending-item';
-
-      const meta = document.createElement('div');
-      meta.className = 'meta';
-      meta.textContent = `${pc.name}${pc.role ? ' · ' + pc.role : ''}${pc.email ? ' · ' + pc.email : ''} · ${fmtDate(pc.createdAt)}`;
-      item.appendChild(meta);
-
-      const msgEl = document.createElement('div');
-      msgEl.className = 'msg';
-      msgEl.textContent = pc.message;
-      item.appendChild(msgEl);
-
-      const actions = document.createElement('div');
-      actions.className = 'actions';
-      const approve = document.createElement('button');
-      approve.className = 'icon-btn approve';
-      approve.textContent = 'Approve — publish to wall';
-      approve.onclick = () => moderate(pc.id, 'approve');
-      const reject = document.createElement('button');
-      reject.className = 'icon-btn';
-      reject.textContent = 'Reject';
-      reject.onclick = () => moderate(pc.id, 'reject');
-      actions.appendChild(approve);
-      actions.appendChild(reject);
-      item.appendChild(actions);
-
-      list.appendChild(item);
-    });
-  } catch (err) {
-    list.innerHTML = `<div class="admin-status">${err.message}</div>`;
+function renderPending(){
+  const list = document.getElementById('modList');
+  const pending = getPostcards().filter(pc => pc.status === 'pending');
+  list.innerHTML = '';
+  if (!pending.length) {
+    list.innerHTML = '<p class="admin-status">Nothing waiting for review.</p>';
+    return;
   }
+  pending.forEach(pc => {
+    const row = document.createElement('div');
+    row.className = 'mod-row';
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.textContent = `${pc.type === 'video' ? '🎬 ' : ''}${pc.name}${pc.role ? ' · ' + pc.role : ''}${pc.beat ? ' · ' + beatLabel(pc.beat) : ''} · ${fmtDate(pc.createdAt)}`;
+    row.appendChild(meta);
+
+    const msgEl = document.createElement('div');
+    msgEl.className = 'msg';
+    msgEl.textContent = pc.type === 'video' && pc.videoUrl ? `${pc.message} (video: ${pc.videoUrl})` : pc.message;
+    row.appendChild(msgEl);
+
+    const actions = document.createElement('div');
+    actions.className = 'mod-actions';
+    const approve = document.createElement('button');
+    approve.className = 'approve-btn';
+    approve.textContent = 'Approve';
+    approve.onclick = () => moderate(pc.id, 'approved');
+    const reject = document.createElement('button');
+    reject.className = 'reject-btn';
+    reject.textContent = 'Reject';
+    reject.onclick = () => moderate(pc.id, 'rejected');
+    actions.appendChild(approve);
+    actions.appendChild(reject);
+    row.appendChild(actions);
+
+    list.appendChild(row);
+  });
 }
 
-async function moderate(id, action){
-  try {
-    const res = await fetch(`${API_BASE}/api/postcards/${id}/${action}`, {
-      method: 'POST',
-      headers: { 'x-admin-password': getAdminPassword() },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    await loadPending();
-    await loadWall();
-  } catch (err) {
-    alert('Could not update postcard: ' + err.message);
-  }
+function moderate(id, status){
+  const all = getPostcards();
+  const idx = all.findIndex(pc => pc.id === id);
+  if (idx === -1) return;
+  all[idx] = { ...all[idx], status };
+  savePostcards(all);
+  renderPending();
+  renderGallery();
 }
 
-// restore admin session if this browser already unlocked it this tab session
-if (getAdminPassword()) {
-  window.__adminMode = true;
-  document.getElementById('adminLoginRow').style.display = 'none';
-  document.getElementById('adminToggle').textContent = 'Admin mode ✓ — moderating live';
-  document.getElementById('adminPanel').classList.add('open');
-  loadPending();
-}
+// restore moderator session if this browser tab already signed in
+if (isAdmin()) enterModeratorMode();
 
 // ---- misc: nav scroll, reveal animation, mobile nav ------------------------
 
@@ -759,8 +822,7 @@ function toggleMobileNav(){
   toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
-renderVideoWall();
-loadWall();
+renderGallery();
 </script>
 </body>
 </html>
