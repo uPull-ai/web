@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The NHS AI Graveyard — uPull.ai</title>
+<meta name="description" content="An anonymous, moderated record of NHS AI pilots that died, and what killed them. No trusts named. No suppliers named. No individuals named.">
+<style>
+  :root{
+    --ink:#12161A;
+    --slate:#1E262E;
+    --slate-2:#2A343E;
+    --stone:#6E7A85;
+    --paper:#F7F6F3;
+    --paper-2:#EDEBE5;
+    --headstone:#D8D4CB;
+    --nhs:#005EB8;
+    --nhs-dk:#00437F;
+    --moss:#4C6152;
+    --rust:#A8322D;
+    --amber:#B47612;
+    --line:#D5D1C8;
+    --radius:4px;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{line-height:1.18;margin:0 0 .5em;font-weight:700;letter-spacing:-.015em}
+  h1{font-size:clamp(2.4rem,6vw,4.2rem)}
+  h2{font-size:clamp(1.65rem,3.4vw,2.5rem)}
+  h3{font-size:1.22rem}
+  p{margin:0 0 1em}
+  a{color:var(--nhs)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .narrow{max-width:760px}
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+    color:var(--nhs);margin:0 0 14px
+  }
+  .lede{font-size:1.18rem;color:#3C464F}
+  section{padding:76px 0;border-top:1px solid var(--line)}
+  .btn{
+    display:inline-block;background:var(--nhs);color:#fff;text-decoration:none;font-weight:600;
+    padding:14px 26px;border-radius:var(--radius);border:0;font-size:1rem;cursor:pointer;
+    font-family:inherit;transition:background .15s
+  }
+  .btn:hover{background:var(--nhs-dk)}
+  .btn.ghost{background:transparent;color:var(--nhs);box-shadow:inset 0 0 0 2px var(--nhs)}
+  .btn.ghost:hover{background:rgba(0,94,184,.07)}
+  .btn.light{background:#fff;color:var(--ink)}
+  .btn.light:hover{background:var(--paper-2)}
+
+  /* ---------- demo banner ---------- */
+  #demoBar{
+    background:var(--amber);color:#fff;font-size:.86rem;padding:10px 24px;
+    display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center
+  }
+  #demoBar strong{letter-spacing:.04em}
+  #demoBar button{
+    background:rgba(0,0,0,.22);color:#fff;border:0;padding:5px 12px;border-radius:3px;
+    cursor:pointer;font:inherit;font-size:.8rem
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:40;background:rgba(18,22,26,.96);backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(255,255,255,.09)
+  }
+  nav .wrap{display:flex;align-items:center;gap:28px;height:60px}
+  .brand{color:#fff;font-weight:700;text-decoration:none;letter-spacing:-.02em;white-space:nowrap}
+  .brand span{color:var(--stone);font-weight:400}
+  nav ul{list-style:none;display:flex;gap:22px;margin:0;padding:0;overflow-x:auto}
+  nav a{color:#C6CCD2;text-decoration:none;font-size:.9rem;white-space:nowrap}
+  nav a:hover{color:#fff}
+  nav .spacer{flex:1}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      radial-gradient(1100px 460px at 50% -12%, #2E3A45 0%, transparent 62%),
+      linear-gradient(180deg,#1A222A 0%, #12161A 100%);
+    color:#fff;padding:96px 0 0;border-top:0;text-align:center;position:relative;overflow:hidden
+  }
+  .hero h1{color:#fff;margin-bottom:.35em}
+  .hero .lede{color:#B9C2CA;max-width:660px;margin:0 auto 34px;font-size:1.2rem}
+  .hero .eyebrow{color:#7FB2E4}
+  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:64px}
+  .rule-line{
+    display:inline-block;color:#8E9AA5;font-size:.82rem;letter-spacing:.04em;
+    border:1px solid rgba(255,255,255,.16);border-radius:100px;padding:7px 18px;margin-bottom:30px
+  }
+
+  /* ---------- counter ---------- */
+  .counter{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.12);
+    border-top:1px solid rgba(255,255,255,.12)
+  }
+  .counter div{background:#12161A;padding:26px 18px}
+  .counter .n{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:700;color:#fff;line-height:1;letter-spacing:-.03em}
+  .counter .l{font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;color:#8E9AA5;margin-top:9px}
+
+  /* ---------- game ---------- */
+  #game{background:var(--paper-2)}
+  .game-shell{
+    background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(0,0,0,.05);max-width:820px;margin:0 auto
+  }
+  .game-head{
+    background:var(--slate);color:#fff;padding:16px 26px;display:flex;justify-content:space-between;
+    align-items:center;gap:14px;flex-wrap:wrap
+  }
+  .game-head .rnd{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#9DAAB6}
+  .game-head .score{font-size:.9rem;font-weight:600}
+  .progress{height:3px;background:var(--paper-2)}
+  .progress i{display:block;height:100%;background:var(--nhs);width:0;transition:width .3s}
+  .game-body{padding:30px 26px 34px}
+  .case{
+    border-left:4px solid var(--stone);background:var(--paper);padding:18px 20px;
+    border-radius:0 var(--radius) var(--radius) 0;margin-bottom:26px
+  }
+  .case h3{font-family:var(--serif);font-size:1.4rem;margin-bottom:14px;font-weight:600}
+  .case dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 20px;margin:0}
+  .case dt{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--stone);margin-bottom:2px}
+  .case dd{margin:0;font-size:.94rem;font-weight:600}
+  .q{font-weight:700;margin-bottom:14px}
+  .opts{display:grid;gap:9px;margin-bottom:8px}
+  .opt{
+    text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);
+    padding:14px 16px;font:inherit;font-size:.97rem;cursor:pointer;transition:all .12s;color:var(--ink);
+    display:flex;gap:12px;align-items:flex-start
+  }
+  .opt:hover:not(:disabled){border-color:var(--nhs);background:rgba(0,94,184,.04)}
+  .opt:disabled{cursor:default}
+  .opt .mark{
+    flex:0 0 22px;height:22px;border-radius:50%;border:1.5px solid var(--line);
+    display:grid;place-items:center;font-size:.74rem;font-weight:700;color:var(--stone);margin-top:1px
+  }
+  .opt.correct{border-color:var(--moss);background:rgba(76,97,82,.09)}
+  .opt.correct .mark{background:var(--moss);border-color:var(--moss);color:#fff}
+  .opt.wrong{border-color:var(--rust);background:rgba(168,50,45,.07)}
+  .opt.wrong .mark{background:var(--rust);border-color:var(--rust);color:#fff}
+  .reveal{margin-top:22px;border-top:1px solid var(--line);padding-top:22px}
+  .reveal .verdict{font-weight:700;margin-bottom:10px;font-size:1.05rem}
+  .reveal .verdict.hit{color:var(--moss)}
+  .reveal .verdict.miss{color:var(--rust)}
+  .stat-pill{
+    display:inline-block;background:var(--slate);color:#fff;font-size:.84rem;padding:7px 14px;
+    border-radius:100px;margin-bottom:14px;font-weight:600
+  }
+  .lesson{background:var(--paper);border-left:4px solid var(--nhs);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;font-size:.96rem;margin-bottom:20px}
+  .result{text-align:center;padding:14px 0}
+  .result .big{font-size:3.4rem;font-weight:700;letter-spacing:-.03em;line-height:1}
+  .result .band{font-family:var(--serif);font-size:1.5rem;margin:8px 0 14px}
+
+  /* ---------- wall ---------- */
+  #wall{background:var(--slate);color:#fff;border-top:0}
+  #wall h2{color:#fff}
+  #wall .lede{color:#AEB9C3}
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 8px;align-items:center}
+  .filters select{
+    background:var(--slate-2);color:#fff;border:1px solid rgba(255,255,255,.18);
+    border-radius:var(--radius);padding:10px 13px;font:inherit;font-size:.88rem
+  }
+  .filters button{
+    background:transparent;color:#9DAAB6;border:1px solid rgba(255,255,255,.18);
+    border-radius:var(--radius);padding:10px 14px;font:inherit;font-size:.86rem;cursor:pointer
+  }
+  .filters button:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+  .count-note{color:#8E9AA5;font-size:.86rem;margin:0 0 22px}
+  .stones{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:18px}
+  .stone{
+    background:linear-gradient(180deg,#DEDAD1 0%, #CFCAC0 100%);
+    color:#26292C;border-radius:120px 120px 6px 6px;padding:34px 22px 22px;
+    text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.22), 0 12px 26px rgba(0,0,0,.3);
+    display:flex;flex-direction:column;min-height:262px
+  }
+  .stone .rip{font-size:.66rem;letter-spacing:.28em;color:#7C7669;margin-bottom:12px;font-weight:700}
+  .stone .insc{font-family:var(--serif);font-size:1.03rem;font-weight:600;line-height:1.34;margin-bottom:12px;flex:1}
+  .stone .meta{font-size:.72rem;color:#5E5A52;line-height:1.5;border-top:1px solid rgba(0,0,0,.14);padding-top:10px}
+  .stone .cause{
+    margin-top:11px;font-size:.76rem;font-weight:700;color:#7A2622;
+    border-top:1px solid rgba(0,0,0,.14);padding-top:10px
+  }
+  .empty{color:#8E9AA5;padding:40px 0;text-align:center;grid-column:1/-1}
+
+  /* ---------- findings ---------- */
+  .bars{display:grid;gap:16px;margin-top:26px}
+  .bar-row .top{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:6px;gap:14px}
+  .bar-row .top b{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .track{height:11px;background:var(--paper-2);border-radius:100px;overflow:hidden}
+  .track i{display:block;height:100%;background:var(--nhs);border-radius:100px}
+  .track i.alt{background:var(--rust)}
+
+  /* ---------- generic layout bits ---------- */
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:26px 0 0;display:grid;gap:18px}
+  .steps li{counter-increment:s;display:flex;gap:16px;align-items:flex-start}
+  .steps li::before{
+    content:counter(s);flex:0 0 34px;height:34px;border-radius:50%;background:var(--nhs);color:#fff;
+    display:grid;place-items:center;font-weight:700;font-size:.9rem
+  }
+  .steps li b{display:block}
+  .card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:24px 26px}
+  .absolutes{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:14px}
+  .absolutes li{
+    background:#fff;border-left:4px solid var(--rust);padding:16px 20px;border-radius:0 var(--radius) var(--radius) 0;
+    border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)
+  }
+  .absolutes b{display:block;margin-bottom:3px}
+  .note{font-size:.9rem;color:#54606A}
+
+  /* ---------- form ---------- */
+  #bury{background:var(--paper-2)}
+  form{max-width:760px;margin:26px auto 0}
+  .field{margin-bottom:20px}
+  .field label{display:block;font-weight:600;font-size:.95rem;margin-bottom:6px}
+  .field .hint{font-size:.84rem;color:var(--stone);font-weight:400;margin-top:-2px;margin-bottom:7px}
+  .field input[type=text],.field input[type=email],.field select,.field textarea{
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius);
+    font:inherit;font-size:.97rem;background:#fff;color:var(--ink)
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--nhs);outline-offset:1px;border-color:var(--nhs)}
+  .field textarea{min-height:84px;resize:vertical}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+  .checks{display:grid;gap:8px;margin-top:4px}
+  .checks label{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:.95rem;cursor:pointer}
+  .checks input{margin-top:4px;flex:0 0 auto}
+  fieldset{border:1px solid var(--line);border-radius:6px;padding:20px 22px;margin:0 0 22px;background:#fff}
+  legend{font-weight:700;padding:0 8px;font-size:.95rem}
+  .optional-tag{
+    display:inline-block;background:var(--paper-2);color:var(--stone);font-size:.7rem;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px;margin-left:8px;vertical-align:middle
+  }
+  .err{color:var(--rust);font-size:.86rem;margin-top:5px;display:none}
+  .field.invalid .err{display:block}
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--rust)}
+  #formMsg{
+    display:none;background:#fff;border:1px solid var(--moss);border-left:5px solid var(--moss);
+    border-radius:var(--radius);padding:22px 24px;margin-top:22px
+  }
+  #formMsg h3{color:var(--moss)}
+  #formErr{
+    display:none;background:#fff;border:1px solid var(--rust);border-left:5px solid var(--rust);
+    border-radius:var(--radius);padding:22px 24px;margin-top:22px
+  }
+  #formErr h3{color:var(--rust)}
+
+  /* ---------- next / footer ---------- */
+  #next{background:var(--slate);color:#fff;border-top:0}
+  #next h2{color:#fff}
+  #next .lede{color:#AEB9C3}
+  #next .card{background:var(--slate-2);border-color:rgba(255,255,255,.14);color:#fff}
+  #next .card p{color:#AEB9C3;font-size:.96rem}
+  footer{background:var(--ink);color:#8E9AA5;padding:52px 0;font-size:.86rem}
+  footer a{color:#B9C2CA}
+  footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px;margin-bottom:30px}
+  footer h4{color:#fff;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+  .fine{border-top:1px solid rgba(255,255,255,.12);padding-top:22px;line-height:1.7}
+
+  @media(max-width:720px){
+    section{padding:56px 0}
+    .counter{grid-template-columns:repeat(2,1fr)}
+    .hero{padding-top:64px}
+    nav ul{gap:16px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- ══════════ DEMO NOTICE — DELETE THIS ENTIRE BLOCK BEFORE THE SITE GOES LIVE ══════════ -->
+<div id="demoBar" role="region" aria-label="Demo notice">
+  <span><strong>INTERNAL PREVIEW.</strong> Every headstone below is invented sample data written to demonstrate the format. Nothing here is a real submission. Remove this banner and all seeded entries before launch.</span>
+  <button type="button" onclick="document.getElementById('demoBar').remove()">Hide</button>
+</div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">uPull.ai <span>/ Graveyard</span></a>
+    <div class="spacer"></div>
+    <ul>
+      <li><a href="#game">Diagnose a pilot</a></li>
+      <li><a href="#wall">The wall</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#rules">The rules</a></li>
+      <li><a href="#bury">Bury a pilot</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">An anonymous record, kept in public</p>
+    <h1>The NHS AI Graveyard</h1>
+    <p class="lede">Every dead pilot has a cause of death. Nobody writes it down. So we are going to.</p>
+    <div class="rule-line">No trusts named &nbsp;·&nbsp; No suppliers named &nbsp;·&nbsp; No individuals named &nbsp;·&nbsp; Every entry moderated by hand</div>
+    <div class="hero-cta">
+      <a class="btn" href="#bury">Bury a pilot</a>
+      <a class="btn light" href="#game">Can you diagnose one?</a>
+    </div>
+  </div>
+  <div class="counter" id="counter">
+    <div><div class="n" id="cPilots">—</div><div class="l">Pilots buried</div></div>
+    <div><div class="n" id="cSpend">—</div><div class="l">Estimated spend</div></div>
+    <div><div class="n" id="cCause">—</div><div class="l">Leading cause of death</div></div>
+    <div><div class="n" id="cDep">—</div><div class="l">Couldn't have run it alone</div></div>
+  </div>
+</header>
+
+<!-- ══════════ GAME ══════════ -->
+<section id="game">
+  <div class="wrap">
+    <div class="narrow" style="margin:0 auto 34px;text-align:center">
+      <p class="eyebrow">The game</p>
+      <h2>Diagnose the Pilot</h2>
+      <p class="lede">Six real-shaped pilots. You get the same information a board paper would have given you. Work out what killed each one.</p>
+      <p class="note">Most people who have worked in NHS digital get about half of these. That is the point — the causes are rarely the ones we assume.</p>
+    </div>
+
+    <div class="game-shell">
+      <div class="game-head">
+        <span class="rnd" id="gRound">Case 1 of 6</span>
+        <span class="score" id="gScore">Correct: 0</span>
+      </div>
+      <div class="progress"><i id="gProg"></i></div>
+      <div class="game-body" id="gBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ THE WALL ══════════ -->
+<section id="wall">
+  <div class="wrap">
+    <p class="eyebrow" style="color:#7FB2E4">The wall</p>
+    <h2>What has been buried so far</h2>
+    <p class="lede narrow">Each headstone is one pilot, submitted anonymously and checked by a human before it appeared. Cost is self-reported and banded. Nothing here is audited.</p>
+
+    <div class="filters">
+      <select id="fCause" aria-label="Filter by cause of death"><option value="">All causes of death</option></select>
+      <select id="fOrg" aria-label="Filter by organisation type"><option value="">All organisation types</option></select>
+      <select id="fSpec" aria-label="Filter by specialty"><option value="">All specialties</option></select>
+      <select id="fCost" aria-label="Filter by cost band"><option value="">All cost bands</option></select>
+      <button type="button" id="fReset">Reset</button>
+    </div>
+    <p class="count-note" id="wallCount"></p>
+    <div class="stones" id="stones"></div>
+  </div>
+</section>
+
+<!-- ══════════ FINDINGS ══════════ -->
+<section id="findings">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="eyebrow">What the wall shows</p>
+      <h2>The pattern, so far</h2>
+      <p class="lede">Read these as a signal, not as research. This is a self-selecting sample — people with dead pilots submit, people with living ones mostly do not.</p>
+    </div>
+    <div class="grid-2" style="margin-top:34px">
+      <div>
+        <h3>Cause of death</h3>
+        <div class="bars" id="barsCause"></div>
+      </div>
+      <div>
+        <h3>Three questions we asked everyone</h3>
+        <div class="bars" id="barsQ"></div>
+        <p class="note" style="margin-top:20px">The last two are the ones we did not expect. In most of these cases the money did not buy a capability — it rented one, and then the rental ended.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section id="how">
+  <div class="wrap">
+    <div class="grid-2">
+      <div>
+        <p class="eyebrow">Instructions</p>
+        <h2>How this works</h2>
+        <p class="lede">It takes about three minutes, and you never have to say who you are.</p>
+        <ol class="steps">
+          <li><b>Tell us what it was meant to do</b>One sentence. That sentence becomes the inscription on the headstone.</li>
+          <li><b>Give us the shape, not the identity</b>Organisation type, specialty, a cost band, roughly how long it ran. Never the name of a trust, a supplier or a person.</li>
+          <li><b>Say what you think killed it</b>Pick from the list, or write your own. You can pick more than one.</li>
+          <li><b>Answer the two questions everyone skips</b>Who actually ran it day to day, and could your own team have kept it going without the supplier.</li>
+          <li><b>A human reads it before anyone else does</b>We check every entry by hand, twice a day. Anything identifying is removed, or the entry is rejected.</li>
+          <li><b>Your headstone goes up</b>Usually within a day. Then it becomes part of the pattern.</li>
+        </ol>
+      </div>
+      <div>
+        <div class="card">
+          <h3>What we do with it</h3>
+          <p>At the end of the campaign we publish The Graveyard Report: every cause of death, with counts rather than percentages, and the full method and limitations written out.</p>
+          <p>It goes out free, to everyone, whether you have ever spoken to us or not. It is not gated behind a form and there is no call to book to read it.</p>
+          <p class="note">If we ever quote a rate from this data, we publish the denominator next to it. "48% engagement" on 64 impressions is 31 actions, and we would rather say both.</p>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <h3>What we will not do with it</h3>
+          <p>We will not sell it, licence it, or use it to build a target list. Submitting a headstone does not put you on a mailing list and does not mean anyone will contact you.</p>
+          <p style="margin:0">The only exception is the optional box at the very end, where you can ask us to come back to you. That one is opt-in, and it is genuinely optional.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ RULES ══════════ -->
+<section id="rules">
+  <div class="wrap narrow">
+    <p class="eyebrow">The rules</p>
+    <h2>Three absolutes</h2>
+    <p class="lede">These are not guidelines. If we cannot hold them, we take the wall down.</p>
+    <ul class="absolutes">
+      <li><b>No organisation is ever named.</b>Not the trust, not the ICB, not the region if the region would make it obvious.</li>
+      <li><b>No supplier or product is ever named.</b>This wall is about a pattern, not about blame, and naming vendors would turn it into something else entirely.</li>
+      <li><b>No individual is ever named.</b>Not the executive who cancelled it, not the person who left.</li>
+    </ul>
+
+    <h3 style="margin-top:44px">How moderation actually works</h3>
+    <p>Nothing publishes automatically. Every submission sits in a queue until a named person at uPull.ai has read it. We do two passes a day, at 08:00 and 16:00.</p>
+    <p>If an entry names an organisation, a supplier or a person, we remove that detail. If the combination of specialty, cost band and timeframe would make the organisation obvious to someone in the sector, we either generalise it or reject the entry. When we are unsure, we reject.</p>
+
+    <h3 style="margin-top:34px">If you think an entry identifies you</h3>
+    <p>Email <a href="mailto:info@upull.ai?subject=Graveyard%20takedown%20request">info@upull.ai</a> with the words "takedown" in the subject line. We will remove it within four hours, and we will not ask you to justify the request.</p>
+
+    <h3 style="margin-top:34px">What not to put in the box</h3>
+    <p class="note">Please do not enter anything patient-identifiable, commercially sensitive, or covered by a confidentiality clause. The free-text fields are read by a human, but they are not a safe place for information you are not free to share.</p>
+  </div>
+</section>
+
+<!-- ══════════ FORM ══════════ -->
+<section id="bury">
+  <div class="wrap">
+    <div class="narrow" style="margin:0 auto;text-align:center">
+      <p class="eyebrow">Your turn</p>
+      <h2>Bury a pilot</h2>
+      <p class="lede">Anonymous by default. Moderated by hand. Roughly three minutes.</p>
+    </div>
+
+    <form id="buryForm" novalidate action="https://api.web3forms.com/submit" method="POST">
+      <!-- Web3Forms: honeypot. Must stay hidden. -->
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+
+      <!-- ── IF SPAM APPEARS: uncomment the div below AND the script tag at the
+           very bottom of this file, then set "Block Spam" to hCaptcha in the
+           Web3Forms dashboard. Free plan includes hCaptcha.
+           Left off by default on purpose: this form depends on people not
+           abandoning it halfway, and a captcha costs completions. Turn it on
+           in response to spam, not in anticipation of it.
+      <div class="h-captcha" data-captcha="true" style="margin-bottom:20px"></div>
+      ── -->
+      <fieldset>
+        <legend>The pilot</legend>
+
+        <div class="field" id="f-what">
+          <label for="what">What was it meant to do?</label>
+          <p class="hint">One sentence, up to 200 characters. This becomes the inscription.</p>
+          <input type="text" id="what" name="what" maxlength="200" placeholder="e.g. Draft ward round notes automatically so nurses stopped writing up after shift">
+          <p class="err">Please tell us what it was meant to do.</p>
+        </div>
+
+        <div class="row">
+          <div class="field" id="f-org">
+            <label for="org">Organisation type</label>
+            <select id="org" name="org">
+              <option value="">Choose…</option>
+              <option>Acute trust</option>
+              <option>Community trust</option>
+              <option>Mental health trust</option>
+              <option>Primary care / PCN</option>
+              <option>Integrated care board</option>
+              <option>National body</option>
+              <option>Ambulance trust</option>
+              <option>Social care provider</option>
+              <option>Supplier to the NHS</option>
+              <option>Other</option>
+            </select>
+            <p class="err">Please choose an organisation type.</p>
+          </div>
+
+          <div class="field" id="f-spec">
+            <label for="spec">Specialty or service</label>
+            <select id="spec" name="spec">
+              <option value="">Choose…</option>
+              <option>Pharmacy / medicines management</option>
+              <option>Emergency department</option>
+              <option>Discharge</option>
+              <option>Surgery / theatres</option>
+              <option>Elective care / outpatients</option>
+              <option>Imaging / radiology</option>
+              <option>General medicine</option>
+              <option>Mental health</option>
+              <option>Corporate / back office</option>
+              <option>Cross-cutting / whole organisation</option>
+              <option>Other</option>
+            </select>
+            <p class="err">Please choose a specialty or service.</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field" id="f-cost">
+            <label for="cost">Roughly what did it cost?</label>
+            <p class="hint">Banded on purpose, so no contract can be reverse-engineered.</p>
+            <select id="cost" name="cost">
+              <option value="">Choose…</option>
+              <option>Under £25k</option>
+              <option>£25k–£100k</option>
+              <option>£100k–£500k</option>
+              <option>£500k–£1m</option>
+              <option>Over £1m</option>
+              <option>Don't know</option>
+            </select>
+            <p class="err">Please choose a cost band.</p>
+          </div>
+
+          <div class="field" id="f-dur">
+            <label for="dur">How long did it run?</label>
+            <p class="hint">From go-live to the day it effectively stopped.</p>
+            <select id="dur" name="dur">
+              <option value="">Choose…</option>
+              <option>Under 3 months</option>
+              <option>3–6 months</option>
+              <option>6–12 months</option>
+              <option>1–2 years</option>
+              <option>Over 2 years</option>
+            </select>
+            <p class="err">Please choose how long it ran.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>The cause of death</legend>
+        <div class="field" id="f-cause">
+          <label>What killed it? <span class="optional-tag">Pick all that apply</span></label>
+          <div class="checks" id="causeChecks"></div>
+          <p class="err">Please choose at least one cause.</p>
+        </div>
+        <div class="field">
+          <label for="causeOther">Anything the list above misses?</label>
+          <textarea id="causeOther" name="causeOther" maxlength="600" placeholder="Optional. In your own words."></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>The three questions everyone skips</legend>
+        <div class="field" id="f-wf">
+          <label for="wf">Did the workflow change before the AI went in?</label>
+          <select id="wf" name="wf">
+            <option value="">Choose…</option>
+            <option>Yes — the process was redesigned first</option>
+            <option>Partly</option>
+            <option>No — the technology went into the existing process</option>
+            <option>Not sure</option>
+          </select>
+          <p class="err">Please answer this one — it is the most useful question on the form.</p>
+        </div>
+        <div class="field" id="f-ran">
+          <label for="ran">Who actually ran it, day to day?</label>
+          <select id="ran" name="ran">
+            <option value="">Choose…</option>
+            <option>Our own substantive staff</option>
+            <option>The supplier</option>
+            <option>A seconded or fixed-term project team</option>
+            <option>A mix</option>
+            <option>Not sure</option>
+          </select>
+          <p class="err">Please tell us who ran it.</p>
+        </div>
+        <div class="field" id="f-sust">
+          <label for="sust">Could your own team have kept it running without the supplier?</label>
+          <select id="sust" name="sust">
+            <option value="">Choose…</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option>Not sure</option>
+          </select>
+          <p class="err">Please answer yes, no or not sure.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Want us to come back to you? <span class="optional-tag">Entirely optional</span></legend>
+        <p class="note" style="margin-top:-4px">Leave this blank and your entry stays anonymous — we will have no idea who sent it. If you do fill it in, nothing you enter here is ever published: the headstone that goes on the wall never carries your name, your role or your organisation.</p>
+        <div class="row">
+          <div class="field"><label for="name">Your name</label><input type="text" id="name" name="name" autocomplete="name"></div>
+          <div class="field"><label for="role">Job title / role</label><input type="text" id="role" name="role" autocomplete="organization-title"></div>
+        </div>
+        <div class="field" id="f-email">
+          <label for="email">Work email</label>
+          <input type="email" id="email" name="email" autocomplete="email" placeholder="you@nhs.net">
+          <p class="err">That does not look like a valid email address.</p>
+        </div>
+        <div class="checks">
+          <label><input type="checkbox" id="wantsDx"> Send me a short, honest read on why this one probably died. No sales call attached.</label>
+          <label><input type="checkbox" id="wantsReport"> Send me The Graveyard Report when it is published.</label>
+        </div>
+      </fieldset>
+
+      <div class="field" id="f-consent">
+        <div class="checks">
+          <label><input type="checkbox" id="consent"> I agree that uPull.ai may store this submission and publish a moderated version of it anonymously. <span aria-hidden="true">*</span></label>
+        </div>
+        <p class="err">We need this one before we can accept the entry.</p>
+      </div>
+
+      <button class="btn" type="submit" style="width:100%;padding:16px">Send it to the moderation queue</button>
+      <p class="note" style="text-align:center;margin-top:12px">A human reads it before it appears. Usually within a day.</p>
+
+      <div id="formErr" role="alert" aria-live="assertive">
+        <h3>That didn't send.</h3>
+        <p>Something went wrong between your browser and our inbox — which is our problem, not yours, and we would rather you didn't lose what you just wrote.</p>
+        <p style="margin-bottom:0"><a id="errMailto" href="#">Send it to us by email instead</a> — the link opens a message with your answers already in it. Or try the button again in a moment.</p>
+      </div>
+
+      <div id="formMsg" role="status" aria-live="polite">
+        <h3>Received. It is in the queue.</h3>
+        <p id="formMsgBody"></p>
+        <p class="note" style="margin:0">Changed your mind? Email <a href="mailto:info@upull.ai?subject=Graveyard%20takedown%20request">info@upull.ai</a> and we will delete it, no questions asked.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════ NEXT ══════════ -->
+<section id="next">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="eyebrow" style="color:#7FB2E4">If this is uncomfortably familiar</p>
+      <h2>Two things worth doing next</h2>
+      <p class="lede">Neither of them is a sales call, and neither of them is gated.</p>
+    </div>
+    <div class="grid-2" style="margin-top:30px">
+      <div class="card">
+        <h3>Check your own foundations</h3>
+        <p>Thirty-two questions across eight domains, mapped to <em>What Good Looks Like</em>, DTAC and the Government AI Playbook. Ten minutes. Your score appears on screen at the end — there is no call to book before you see it, and no card.</p>
+        <a class="btn" href="https://upull.ai/readiness.html">Take the readiness assessment</a>
+      </div>
+      <div class="card">
+        <h3>Be the one we prove it on</h3>
+        <p>We are looking for one organisation to run a proof of value with. One workflow, six weeks, a number your finance director will accept — and, the part we actually care about, your own people able to run the next one without us.</p>
+        <p style="color:#fff"><strong>We think pharmacy is the right place to start.</strong> Measurable savings, clinical leadership already in place, ROI you can benchmark.</p>
+        <a class="btn light" href="mailto:info@upull.ai?subject=Proof%20of%20value%20-%20demonstrator">Start that conversation</a>
+      </div>
+    </div>
+    <p class="note" style="color:#8E9AA5;margin-top:26px;max-width:760px">
+      In the interest of practising what this whole wall preaches: uPull.ai is a young company and we do not yet have a decade-long NHS case study. What we have is a method, founders who have spent their careers in and around this problem, and now the most honest dataset we know of on why it keeps happening. We would rather tell you that than let you find out later.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>The Graveyard</h4>
+        <p style="margin:0">An anonymous, moderated record of NHS AI pilots that did not survive — kept in public so the next team does not repeat them.</p>
+      </div>
+      <div>
+        <h4>Jump to</h4>
+        <p style="margin:0">
+          <a href="#game">Diagnose a pilot</a><br>
+          <a href="#wall">The wall</a><br>
+          <a href="#how">How it works</a><br>
+          <a href="#rules">The rules</a><br>
+          <a href="#bury">Bury a pilot</a>
+        </p>
+      </div>
+      <div>
+        <h4>uPull.ai</h4>
+        <p style="margin:0">
+          <a href="https://upull.ai/">Home</a><br>
+          <a href="https://upull.ai/readiness.html">AI readiness assessment</a><br>
+          <a href="mailto:info@upull.ai">info@upull.ai</a>
+        </p>
+      </div>
+    </div>
+    <div class="fine">
+      <p>uPull.ai Ltd is the data controller for information submitted through this page. Submissions are delivered to a monitored uPull.ai inbox by our form-processing provider, <a href="https://web3forms.com/privacy">Web3Forms</a>, whose servers are in the United States — so your submission is processed outside the UK in transit. Web3Forms does not retain submission content, and their <a href="https://web3forms.com/dpa">data processing agreement</a> sets out the terms. Each entry is then read by a named person at uPull.ai before anything is published. Any contact details you choose to give are used only to reply to you: they are never published, never attached to a headstone on the wall, and never sold. We process this under legitimate interests, and under consent where you have opted in. To have your submission deleted, email <a href="mailto:info@upull.ai">info@upull.ai</a>.</p>
+      <p style="margin:0">Cost figures are self-reported and banded. Nothing on this page is audited or independently verified, and the sample is self-selecting. Treat it as a signal, not as research. &nbsp;·&nbsp; © 2026 uPull.ai Ltd, London.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ══════════════════════════════════════════════════════════════════════
+     WEB3FORMS — LIVE. Submissions are emailed to the address this access
+     key is registered to (should be info@upull.ai — verify in the dashboard
+     at https://app.web3forms.com before launch).
+
+     The key is public by design. It only permits sending email to the
+     registered address, so exposing it in this file is expected and safe.
+
+     FREE PLAN LIMITS THAT MATTER FOR THIS CAMPAIGN:
+       · 250 submissions per month. Warning emails at 90% and 100%, then
+         submissions are REJECTED until the next month. If the wall works,
+         this is the thing that breaks first — watch it from day 2.
+       · 30 days of submission history in the dashboard, and no CSV export
+         on the free tier. The inbox is therefore the system of record.
+         Do not delete the notification emails; they are the dataset you
+         publish on day 7.
+       · One notification recipient on free. If more than one person needs
+         to see submissions, set up a forwarding rule on info@upull.ai
+         rather than adding a second key.
+     ══════════════════════════════════════════════════════════════════════ */
+  var WEB3FORMS_KEY  = "06645626-3d23-4b62-84f4-798852e1e30f";
+  var WEB3FORMS_URL  = "https://api.web3forms.com/submit";
+  var NOTIFY_ADDRESS = "info@upull.ai";
+  var LIVE = /^[0-9a-f-]{30,}$/i.test(WEB3FORMS_KEY);
+
+  /* ────────────────────────────────────────────────────────────────
+     SAMPLE DATA — every entry below is invented for demonstration.
+     Replace this array with real moderated submissions before launch.
+     ──────────────────────────────────────────────────────────────── */
+  var CAUSES = [
+    "The workflow never actually changed",
+    "No clinical owner — nobody senior owned it day to day",
+    "Data wasn't ready, or we couldn't get access",
+    "Funding ended before value was proven",
+    "Governance or information governance stalled it",
+    "Staff didn't use it",
+    "It worked — and nobody scaled it",
+    "The person driving it left",
+    "The supplier ran it, and when the contract ended it stopped",
+    "Nobody inside the organisation could keep it running"
+  ];
+
+  var WALL = [
+    {i:"Ambient note-taking on ward rounds, so nurses stopped writing up after shift",o:"Acute trust",s:"General medicine",c:"£100k–£500k",d:"6–12 months",k:"The workflow never actually changed",ran:"The supplier",sust:"No",wf:"No"},
+    {i:"Automated triage of outpatient referrals to cut the waiting list",o:"Integrated care board",s:"Elective care / outpatients",c:"£500k–£1m",d:"1–2 years",k:"The supplier ran it, and when the contract ended it stopped",ran:"The supplier",sust:"No",wf:"Partly"},
+    {i:"Dashboard flagging high-cost prescribing variation across the trust",o:"Acute trust",s:"Pharmacy / medicines management",c:"£25k–£100k",d:"6–12 months",k:"It worked — and nobody scaled it",ran:"Our own substantive staff",sust:"Yes",wf:"Yes"},
+    {i:"Drafting discharge summaries so patients left before the afternoon",o:"Acute trust",s:"Discharge",c:"£100k–£500k",d:"6–12 months",k:"No clinical owner — nobody senior owned it day to day",ran:"A seconded or fixed-term project team",sust:"No",wf:"No"},
+    {i:"Prioritising chest X-rays so urgent findings surfaced first",o:"Acute trust",s:"Imaging / radiology",c:"Over £1m",d:"1–2 years",k:"Governance or information governance stalled it",ran:"A mix",sust:"No",wf:"No"},
+    {i:"Chatbot answering routine patient enquiries out of hours",o:"Community trust",s:"Corporate / back office",c:"£25k–£100k",d:"3–6 months",k:"Staff didn't use it",ran:"The supplier",sust:"No",wf:"No"},
+    {i:"Predicting which patients would miss appointments so we could call them",o:"Acute trust",s:"Elective care / outpatients",c:"£100k–£500k",d:"6–12 months",k:"Data wasn't ready, or we couldn't get access",ran:"A seconded or fixed-term project team",sust:"No",wf:"No"},
+    {i:"Automating medicines reconciliation on admission",o:"Acute trust",s:"Pharmacy / medicines management",c:"£100k–£500k",d:"3–6 months",k:"The workflow never actually changed",ran:"The supplier",sust:"No",wf:"No"},
+    {i:"Streaming ED arrivals to the right clinician at the front door",o:"Acute trust",s:"Emergency department",c:"£500k–£1m",d:"6–12 months",k:"The workflow never actually changed",ran:"A mix",sust:"No",wf:"No"},
+    {i:"Theatre list optimisation to recover lost operating minutes",o:"Acute trust",s:"Surgery / theatres",c:"£100k–£500k",d:"1–2 years",k:"The person driving it left",ran:"Our own substantive staff",sust:"Not sure",wf:"Partly"},
+    {i:"Transcribing therapy session notes for community mental health teams",o:"Mental health trust",s:"Mental health",c:"£25k–£100k",d:"3–6 months",k:"Funding ended before value was proven",ran:"The supplier",sust:"No",wf:"No"},
+    {i:"Flagging patients for pharmacist review before they were discharged",o:"Acute trust",s:"Pharmacy / medicines management",c:"Under £25k",d:"6–12 months",k:"It worked — and nobody scaled it",ran:"Our own substantive staff",sust:"Yes",wf:"Yes"},
+    {i:"Coding clinical notes automatically to improve tariff capture",o:"Acute trust",s:"Corporate / back office",c:"£500k–£1m",d:"1–2 years",k:"Nobody inside the organisation could keep it running",ran:"The supplier",sust:"No",wf:"No"},
+    {i:"Summarising GP referral letters for consultant triage",o:"Primary care / PCN",s:"Elective care / outpatients",c:"£25k–£100k",d:"Under 3 months",k:"Data wasn't ready, or we couldn't get access",ran:"A mix",sust:"Not sure",wf:"No"},
+    {i:"Rota and demand forecasting across four community teams",o:"Community trust",s:"Cross-cutting / whole organisation",c:"£100k–£500k",d:"6–12 months",k:"Funding ended before value was proven",ran:"A seconded or fixed-term project team",sust:"No",wf:"Partly"},
+    {i:"Regional platform to share AI models between trusts",o:"National body",s:"Cross-cutting / whole organisation",c:"Over £1m",d:"Over 2 years",k:"No clinical owner — nobody senior owned it day to day",ran:"A mix",sust:"No",wf:"No"},
+    {i:"Automating pre-op assessment questionnaires",o:"Acute trust",s:"Surgery / theatres",c:"£25k–£100k",d:"3–6 months",k:"Staff didn't use it",ran:"The supplier",sust:"No",wf:"No"},
+    {i:"Ambulance handover delay prediction for the receiving ED",o:"Ambulance trust",s:"Emergency department",c:"£100k–£500k",d:"6–12 months",k:"The supplier ran it, and when the contract ended it stopped",ran:"The supplier",sust:"No",wf:"Partly"}
+  ];
+
+  var MID = {"Under £25k":15000,"£25k–£100k":62500,"£100k–£500k":300000,"£500k–£1m":750000,"Over £1m":1400000,"Don't know":0};
+
+  /* ────────────────────────── COUNTER ────────────────────────── */
+  function tally(arr,key){
+    var m={};arr.forEach(function(x){m[x[key]]=(m[x[key]]||0)+1});
+    return Object.keys(m).map(function(k){return {k:k,n:m[k]}}).sort(function(a,b){return b.n-a.n});
+  }
+  function money(v){
+    if(v>=1e6) return "£"+(v/1e6).toFixed(1).replace(/\.0$/,"")+"m";
+    if(v>=1e3) return "£"+Math.round(v/1e3)+"k";
+    return "£"+v;
+  }
+  function shortCause(s){ return s.split(" — ")[0].split(", and")[0].split(", or")[0]; }
+  function count(key,val){ return WALL.filter(function(x){return x[key]===val}).length; }
+  function countRan(){ return WALL.filter(function(x){
+    return x.ran==="The supplier"||x.ran==="A seconded or fixed-term project team"; }).length; }
+
+  var spend = WALL.reduce(function(t,x){return t+(MID[x.c]||0)},0);
+  var topCause = tally(WALL,"k")[0];
+  var noSust = WALL.filter(function(x){return x.sust==="No"}).length;
+
+  document.getElementById("cPilots").textContent = WALL.length;
+  document.getElementById("cSpend").textContent  = money(spend);
+  document.getElementById("cCause").textContent  = "Workflow";
+  document.getElementById("cCause").title        = topCause.k;
+  document.getElementById("cDep").textContent    = noSust + " of " + WALL.length;
+
+  /* ────────────────────────── THE WALL ────────────────────────── */
+  var fCause=document.getElementById("fCause"),fOrg=document.getElementById("fOrg"),
+      fSpec=document.getElementById("fSpec"),fCost=document.getElementById("fCost"),
+      stones=document.getElementById("stones"),wallCount=document.getElementById("wallCount");
+
+  function fill(sel,vals){
+    vals.forEach(function(v){ var o=document.createElement("option");o.value=v;o.textContent=v;sel.appendChild(o); });
+  }
+  function uniq(key){
+    var seen={},out=[];
+    WALL.forEach(function(x){ if(!seen[x[key]]){seen[x[key]]=1;out.push(x[key])} });
+    return out.sort();
+  }
+  fill(fCause,uniq("k")); fill(fOrg,uniq("o")); fill(fSpec,uniq("s"));
+  fill(fCost,["Under £25k","£25k–£100k","£100k–£500k","£500k–£1m","Over £1m"]);
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]}); }
+
+  function renderWall(){
+    var list = WALL.filter(function(x){
+      return (!fCause.value||x.k===fCause.value) && (!fOrg.value||x.o===fOrg.value)
+          && (!fSpec.value||x.s===fSpec.value) && (!fCost.value||x.c===fCost.value);
+    });
+    wallCount.textContent = list.length===WALL.length
+      ? "Showing all "+WALL.length+" headstones."
+      : "Showing "+list.length+" of "+WALL.length+" headstones.";
+    if(!list.length){ stones.innerHTML='<p class="empty">No headstones match those filters. Try resetting.</p>'; return; }
+    stones.innerHTML = list.map(function(x){
+      return '<article class="stone">'
+        + '<div class="rip">R I P</div>'
+        + '<p class="insc">'+esc(x.i)+'</p>'
+        + '<div class="meta">'+esc(x.o)+' &nbsp;·&nbsp; '+esc(x.s)+'<br>'+esc(x.c)+' &nbsp;·&nbsp; ran '+esc(x.d)+'</div>'
+        + '<div class="cause">'+esc(shortCause(x.k))+'</div>'
+        + '</article>';
+    }).join("");
+  }
+  [fCause,fOrg,fSpec,fCost].forEach(function(s){ s.addEventListener("change",renderWall) });
+  document.getElementById("fReset").addEventListener("click",function(){
+    fCause.value=fOrg.value=fSpec.value=fCost.value=""; renderWall();
+  });
+  renderWall();
+
+  /* ────────────────────────── FINDINGS ────────────────────────── */
+  function bars(el,rows,total,alt){
+    el.innerHTML = rows.map(function(r){
+      var pct = Math.round(r.n/total*100);
+      return '<div class="bar-row"><div class="top"><span>'+esc(r.label)+'</span><b>'+r.n+' of '+total+'</b></div>'
+           + '<div class="track"><i class="'+(alt?"alt":"")+'" style="width:'+pct+'%"></i></div></div>';
+    }).join("");
+  }
+  bars(document.getElementById("barsCause"),
+       tally(WALL,"k").slice(0,6).map(function(r){return {label:shortCause(r.k),n:r.n}}),
+       WALL.length,false);
+
+  var qRows = [
+    {label:"Workflow was NOT redesigned before the AI went in", n:WALL.filter(function(x){return x.wf==="No"}).length},
+    {label:"Run by a supplier or a temporary project team",     n:WALL.filter(function(x){return x.ran==="The supplier"||x.ran==="A seconded or fixed-term project team"}).length},
+    {label:"Own team could NOT have kept it running alone",     n:noSust}
+  ];
+  bars(document.getElementById("barsQ"),qRows,WALL.length,true);
+
+  /* ────────────────────────── THE GAME ────────────────────────── */
+  var CASES = [
+    {
+      title:"Ambient note-taking on ward rounds",
+      facts:{"Organisation":"Acute trust","Specialty":"General medicine","Spend":"£100k–£500k","Ran for":"8 months","Day-to-day owner":"The supplier"},
+      brief:"Clinicians liked it in the demo. Accuracy tested well. Adoption was strong for six weeks, then fell away.",
+      options:["Staff didn't use it","The workflow never actually changed","Data wasn't ready, or we couldn't get access","Funding ended before value was proven"],
+      answer:1,
+      statFn:function(){return count("k","The workflow never actually changed")+" of "+WALL.length+" headstones name this. It is the single most common cause on the wall.";},
+      lesson:"Adoption did not fail. The ward round did not change, so the notes still had to be checked, corrected and signed in exactly the same slot as before. The tool added a step to a process nobody had redesigned. If the work keeps its old shape, the technology becomes extra work."
+    },
+    {
+      title:"Automated triage of outpatient referrals",
+      facts:{"Organisation":"Integrated care board","Specialty":"Elective care","Spend":"£500k–£1m","Ran for":"14 months","Day-to-day owner":"The supplier"},
+      brief:"It hit its targets. Waiting list movement was real and measurable. The programme still stopped dead in month fourteen.",
+      options:["The workflow never actually changed","Governance or information governance stalled it","The supplier ran it, and when the contract ended it stopped","Staff didn't use it"],
+      answer:2,
+      statFn:function(){return countRan()+" of "+WALL.length+" entries were run by a supplier or a temporary project team.";},
+      lesson:"This one worked, which is what makes it the most expensive kind of failure. Every person who understood the model sat outside the organisation. When the contract ended, the capability left with them — and nothing was transferred, because nobody had been asked to transfer it."
+    },
+    {
+      title:"High-cost prescribing variation dashboard",
+      facts:{"Organisation":"Acute trust","Specialty":"Pharmacy","Spend":"£25k–£100k","Ran for":"9 months","Day-to-day owner":"Own substantive staff"},
+      brief:"Built cheaply by the pharmacy team themselves. Saved a documented amount in year one. Still running on one ward, three years later.",
+      options:["It worked — and nobody scaled it","The person driving it left","Funding ended before value was proven","No clinical owner"],
+      answer:0,
+      statFn:function(){return count("k","It worked — and nobody scaled it")+" of "+WALL.length+" headstones say the pilot worked and was never spread. Both were built by in-house staff.";},
+      lesson:"The cheapest thing on this wall is also the only kind that survived — because the capability was internal from day one. What failed was not the pilot, it was the organisation's ability to notice a success and spread it. Nobody is promoted for scaling somebody else's good idea."
+    },
+    {
+      title:"AI-drafted discharge summaries",
+      facts:{"Organisation":"Acute trust","Specialty":"Discharge","Spend":"£100k–£500k","Ran for":"11 months","Day-to-day owner":"Seconded project team"},
+      brief:"Sponsored by a director who moved on in month four. The project team kept going. Nobody clinical ever took the decisions.",
+      options:["Data wasn't ready, or we couldn't get access","No clinical owner — nobody senior owned it day to day","The workflow never actually changed","Governance stalled it"],
+      answer:1,
+      statFn:function(){return count("k","No clinical owner — nobody senior owned it day to day")+" of "+WALL.length+" name this outright — but it sits underneath several of the others.";},
+      lesson:"A project team can run a pilot. It cannot decide that consultants will work differently. Without a clinician senior enough to make that call and stay in post to enforce it, the pilot has no route into business as usual, however well it performs."
+    },
+    {
+      title:"Chest X-ray prioritisation",
+      facts:{"Organisation":"Acute trust","Specialty":"Radiology","Spend":"Over £1m","Ran for":"2 years","Day-to-day owner":"A mix"},
+      brief:"Clinically validated. Radiologists wanted it. Two years in, it had never processed a live image outside the test environment.",
+      options:["Staff didn't use it","The workflow never actually changed","Governance or information governance stalled it","It worked — and nobody scaled it"],
+      answer:2,
+      statFn:function(){return count("k","Governance or information governance stalled it")+" of "+WALL.length+" on the wall — but the most expensive single entry we hold.";},
+      lesson:"Nobody was against it. The DPIA, the clinical safety case and the integration approval each sat with a different team, none of whom owned the deadline. Assurance is not an obstacle to plan around afterwards; it is part of the workflow, and it needs an owner from week one."
+    },
+    {
+      title:"Out-of-hours patient enquiry chatbot",
+      facts:{"Organisation":"Community trust","Specialty":"Corporate","Spend":"£25k–£100k","Ran for":"4 months","Day-to-day owner":"The supplier"},
+      brief:"Procured centrally after a conference demo. The teams whose calls it was meant to absorb first heard about it at go-live.",
+      options:["Staff didn't use it","Funding ended before value was proven","Data wasn't ready","The person driving it left"],
+      answer:0,
+      statFn:function(){return count("k","Staff didn't use it")+" of "+WALL.length+". In each case the frontline team was told about the tool rather than asked about the problem.";},
+      lesson:"The people who could have told you it would fail were never asked. Staff did not reject the technology — they had never agreed that this was the problem worth solving, so nothing about their day changed to make room for it."
+    }
+  ];
+
+  var gi=0, gScore=0, answered=false;
+  var gBody=document.getElementById("gBody"), gRound=document.getElementById("gRound"),
+      gScoreEl=document.getElementById("gScore"), gProg=document.getElementById("gProg");
+
+  function renderCase(){
+    answered=false;
+    var c=CASES[gi];
+    gRound.textContent="Case "+(gi+1)+" of "+CASES.length;
+    gScoreEl.textContent="Correct: "+gScore;
+    gProg.style.width=(gi/CASES.length*100)+"%";
+
+    var dl="";
+    Object.keys(c.facts).forEach(function(k){ dl+="<dt>"+esc(k)+"</dt><dd>"+esc(c.facts[k])+"</dd>"; });
+
+    gBody.innerHTML =
+      '<div class="case"><h3>'+esc(c.title)+'</h3><dl>'+dl+'</dl></div>'
+      + '<p>'+esc(c.brief)+'</p>'
+      + '<p class="q">What killed it?</p>'
+      + '<div class="opts" id="opts"></div>'
+      + '<div id="reveal"></div>';
+
+    var wrap=document.getElementById("opts");
+    c.options.forEach(function(txt,idx){
+      var b=document.createElement("button");
+      b.type="button"; b.className="opt";
+      b.innerHTML='<span class="mark">'+String.fromCharCode(65+idx)+'</span><span>'+esc(txt)+'</span>';
+      b.addEventListener("click",function(){ choose(idx) });
+      wrap.appendChild(b);
+    });
+  }
+
+  function choose(idx){
+    if(answered) return;
+    answered=true;
+    var c=CASES[gi], hit=(idx===c.answer);
+    if(hit) gScore++;
+    gScoreEl.textContent="Correct: "+gScore;
+
+    var btns=document.querySelectorAll("#opts .opt");
+    Array.prototype.forEach.call(btns,function(b,i){
+      b.disabled=true;
+      if(i===c.answer){ b.classList.add("correct"); b.querySelector(".mark").textContent="✓"; }
+      else if(i===idx){ b.classList.add("wrong"); b.querySelector(".mark").textContent="✕"; }
+    });
+
+    document.getElementById("reveal").innerHTML =
+      '<div class="reveal">'
+      + '<p class="verdict '+(hit?"hit":"miss")+'">'+(hit?"Correct.":"Not this time.")+' The cause of death was: '+esc(c.options[c.answer])+'</p>'
+      + '<span class="stat-pill">'+esc(c.statFn())+'</span>'
+      + '<div class="lesson">'+esc(c.lesson)+'</div>'
+      + '<button class="btn" type="button" id="gNext">'+(gi<CASES.length-1?"Next case":"See how you did")+'</button>'
+      + '</div>';
+    document.getElementById("gNext").addEventListener("click",function(){
+      gi++; (gi<CASES.length) ? renderCase() : renderResult();
+    });
+  }
+
+  function renderResult(){
+    gProg.style.width="100%";
+    gRound.textContent="Complete";
+    gScoreEl.textContent="Correct: "+gScore+" of "+CASES.length;
+    var band, note;
+    if(gScore<=2){
+      band="You are in good company.";
+      note="Most people get two or three. The causes are counter-intuitive precisely because the sector keeps assuming the problem is the technology. It almost never is.";
+    } else if(gScore<=4){
+      band="About par for someone who has lived this.";
+      note="You spotted the obvious ones. The ones people miss are the pilots that worked — and still died, because the capability sat outside the organisation.";
+    } else {
+      band="You have clearly buried a few of these yourself.";
+      note="Then you already know the argument this wall is making. The useful thing you can do now is add the one you are thinking about.";
+    }
+    gBody.innerHTML =
+      '<div class="result">'
+      + '<div class="big">'+gScore+'/'+CASES.length+'</div>'
+      + '<p class="band">'+band+'</p>'
+      + '<p class="narrow" style="margin:0 auto 20px">'+note+'</p>'
+      + '<p style="font-weight:600;margin-bottom:18px">Every one of these six died for a reason that had nothing to do with whether the AI worked.</p>'
+      + '<a class="btn" href="#bury">Bury one of your own</a> '
+      + '<button class="btn ghost" type="button" id="gAgain" style="margin-left:8px">Play again</button>'
+      + '</div>';
+    document.getElementById("gAgain").addEventListener("click",function(){
+      gi=0; gScore=0; renderCase();
+    });
+  }
+  renderCase();
+
+  /* ────────────────────────── FORM ────────────────────────── */
+  var checksWrap=document.getElementById("causeChecks");
+  CAUSES.forEach(function(c,i){
+    var l=document.createElement("label");
+    l.innerHTML='<input type="checkbox" name="cause" value="'+esc(c)+'" id="cause'+i+'"><span>'+esc(c)+'</span>';
+    checksWrap.appendChild(l);
+  });
+
+  var form=document.getElementById("buryForm");
+
+  function setErr(id,bad){
+    var el=document.getElementById(id);
+    if(el) el.classList.toggle("invalid",!!bad);
+    return !bad;
+  }
+
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var ok=true;
+    ok = setErr("f-what",  !document.getElementById("what").value.trim()) && ok;
+    ok = setErr("f-org",   !document.getElementById("org").value)  && ok;
+    ok = setErr("f-spec",  !document.getElementById("spec").value) && ok;
+    ok = setErr("f-cost",  !document.getElementById("cost").value) && ok;
+    ok = setErr("f-dur",   !document.getElementById("dur").value)  && ok;
+    ok = setErr("f-wf",    !document.getElementById("wf").value)   && ok;
+    ok = setErr("f-ran",   !document.getElementById("ran").value)  && ok;
+    ok = setErr("f-sust",  !document.getElementById("sust").value) && ok;
+    ok = setErr("f-consent", !document.getElementById("consent").checked) && ok;
+
+    var picked = form.querySelectorAll('input[name="cause"]:checked').length;
+    ok = setErr("f-cause", picked===0) && ok;
+
+    var email = document.getElementById("email").value.trim();
+    ok = setErr("f-email", email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && ok;
+
+    if(!ok){
+      var first=form.querySelector(".field.invalid");
+      if(first){ first.scrollIntoView({block:"center"}); var inp=first.querySelector("input,select,textarea"); if(inp) inp.focus(); }
+      return;
+    }
+
+    var val = function(id){ var el=document.getElementById(id); return el ? el.value.trim() : ""; };
+    var causes = Array.prototype.map.call(
+      form.querySelectorAll('input[name="cause"]:checked'), function(i){ return i.value; });
+    var wantsDx     = document.getElementById("wantsDx").checked;
+    var wantsReport = document.getElementById("wantsReport").checked;
+    var hasContact  = !!email;
+    var ref = "G-" + Date.now().toString(36).toUpperCase().slice(-6);
+
+    /* Subject line is what Alex sees in the moderation inbox, so make it sortable. */
+    var subject = "[GRAVEYARD " + ref + "] " + val("org") + " · " + val("spec") + " · " + val("cost")
+                + (wantsDx ? "  ·  WANTS A REPLY" : "");
+
+    /* Field names become the row labels in the notification email. */
+    var payload = {
+      access_key : WEB3FORMS_KEY,
+      subject    : subject,
+      from_name  : "The NHS AI Graveyard",
+      replyto    : hasContact ? email : NOTIFY_ADDRESS,
+
+      "Reference"                          : ref,
+      "── THE HEADSTONE ──"                : "",
+      "Inscription (what it was meant to do)": val("what"),
+      "Organisation type"                  : val("org"),
+      "Specialty or service"               : val("spec"),
+      "Cost band"                          : val("cost"),
+      "How long it ran"                    : val("dur"),
+      "Cause of death"                     : causes.join("  |  "),
+      "In their own words"                 : val("causeOther") || "—",
+      "── THE THREE QUESTIONS ──"          : "",
+      "Workflow changed before the AI?"    : val("wf"),
+      "Who ran it day to day"              : val("ran"),
+      "Could own team have sustained it?"  : val("sust"),
+      "── CONTACT ──"                      : "",
+      "Anonymous?"                         : hasContact ? "No — details below. Never publish these." : "Yes — no contact details given.",
+      "Name"                               : hasContact ? (val("name") || "not given") : "—",
+      "Role"                               : hasContact ? (val("role") || "not given") : "—",
+      "Email"                              : hasContact ? email : "—",
+      "Wants a diagnosis reply"            : hasContact && wantsDx     ? "YES — respond within 4 working hours" : "no",
+      "Wants The Graveyard Report"         : hasContact && wantsReport ? "yes" : "no",
+      "── ADMIN ──"                        : "",
+      "Submitted"                          : new Date().toISOString(),
+      "Moderation"                         : "DO NOT PUBLISH until a human has stripped any organisation, supplier or individual named above."
+    };
+
+    var btn = form.querySelector('button[type="submit"]');
+    var msg = document.getElementById("formMsg");
+    var err = document.getElementById("formErr");
+    err.style.display = "none";
+
+    function succeed(demo){
+      document.getElementById("formMsgBody").textContent =
+        (demo ? "DEMO MODE — nothing was actually sent, because no Web3Forms access key has been added yet. " : "")
+        + (hasContact
+            ? "A human will read it before it appears — usually within a day. You asked us to come back to you, so we will, once we have read it properly. Your details will not appear on the wall."
+            : "A human will read it before it appears — usually within a day. You left no contact details, so this is completely anonymous and nobody will be in touch.");
+      msg.style.display = "block";
+      msg.scrollIntoView({ block: "center" });
+      btn.disabled = true;
+      btn.textContent = demo ? "Not sent — demo mode" : "Sent to the queue";
+    }
+
+    function fail(){
+      /* Never lose a submission. Offer the same content as a pre-filled email. */
+      var body = Object.keys(payload).filter(function(k){
+        return ["access_key","subject","from_name","replyto"].indexOf(k) === -1;
+      }).map(function(k){
+        return /^──/.test(k) ? "\n" + k : k + ": " + payload[k];
+      }).join("\n");
+      document.getElementById("errMailto").href =
+        "mailto:" + NOTIFY_ADDRESS + "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+      err.style.display = "block";
+      err.scrollIntoView({ block: "center" });
+      btn.disabled = false;
+      btn.textContent = "Try again";
+    }
+
+    if(!LIVE){
+      if(window.console) console.log("Graveyard submission (demo — no access key, not sent):", payload);
+      succeed(true);
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+
+    fetch(WEB3FORMS_URL, {
+      method : "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body   : JSON.stringify(payload)
+    })
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.status === 200 && j.success, json: j }; }); })
+    .then(function(res){
+      if(res.ok){ succeed(false); }
+      else { if(window.console) console.warn("Web3Forms rejected the submission:", res.json); fail(); }
+    })
+    .catch(function(e){ if(window.console) console.warn("Web3Forms request failed:", e); fail(); });
+  });
+
+  /* clear a field's error state as soon as the user fixes it */
+  form.addEventListener("input",function(e){
+    var f=e.target.closest(".field"); if(f) f.classList.remove("invalid");
+  });
+  form.addEventListener("change",function(e){
+    var f=e.target.closest(".field"); if(f) f.classList.remove("invalid");
+  });
+
+})();
+</script>
+
+<!-- ── hCaptcha loader. Uncomment together with the div in the form above.
+<script src="https://web3forms.com/client/script.js" async defer></script>
+── -->
+</body>
+</html>
