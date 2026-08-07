@@ -1,0 +1,20 @@
+{
+  "name": "upull-postcards-server",
+  "version": "1.0.0",
+  "description": "Backend API for the uPull.ai Postcard From 2030 wall — moderation queue, author/admin-only delete, Web3Forms admin notification.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0"
+  }
+}
