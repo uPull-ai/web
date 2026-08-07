@@ -85,6 +85,26 @@ header#topnav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
 .step-tile p{font-size:.88rem;color:rgba(255,255,255,.58);line-height:1.6}
 @media(max-width:900px){#prompts{padding:56px 24px}.steps-grid{grid-template-columns:1fr}}
 
+/* VIDEO POSTCARDS */
+#videoWall{background:#0e0e0e;padding:100px 48px 40px}
+.video-top{max-width:680px;margin:0 auto 40px;text-align:center}
+.video-top h2{font-size:clamp(2rem,3.6vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 14px}
+.video-top p{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.65}
+.video-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.video-card{background:#111;border:1px solid #222;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.video-frame{position:relative;width:100%;aspect-ratio:9/16;background:#161616;overflow:hidden}
+.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-stamp{position:absolute;top:14px;right:14px;z-index:2;display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:rgba(var(--nhs-blue-rgb),.2);border:1px solid rgba(var(--nhs-blue-rgb),.4);color:var(--nhs-blue-light);font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(160deg,#161616,#0d0d0d);text-align:center;padding:20px}
+.video-play{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
+.video-play::after{content:'';border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent rgba(255,255,255,.55);margin-left:4px}
+.video-placeholder .ph-label{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.video-placeholder .ph-sub{font-size:.75rem;color:rgba(255,255,255,.28);max-width:22ch;line-height:1.5}
+.video-caption{padding:14px 16px;border-top:1px solid #1e1e1e}
+.video-name{font-weight:800;font-size:.85rem}
+.video-role{font-size:.75rem;color:rgba(255,255,255,.45);margin-top:2px}
+@media(max-width:900px){#videoWall{padding:64px 24px 24px}}
+
 /* SUBMIT FORM */
 #submit{background:#0e0e0e;padding:0 48px 100px}
 .submit-wrap{max-width:720px;margin:0 auto;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:44px}
@@ -251,6 +271,18 @@ footer nav a:hover{color:#fff}
   </div>
 </section>
 
+<!-- VIDEO POSTCARDS — placeholder gallery. Fill in the VIDEO_POSTCARDS array near the
+     top of the page script with real videos as senior teams' recordings come in;
+     tiles left with an empty videoUrl automatically render as "Coming soon" placeholders. -->
+<section id="videoWall">
+  <div class="video-top reveal">
+    <div class="tag">From senior NHS teams</div>
+    <h2>Video Postcards</h2>
+    <p>Short recorded postcards from senior leaders, using the same four prompts. Space is reserved below — recordings will appear here as they're reviewed and added.</p>
+  </div>
+  <div class="video-grid" id="videoGrid"></div>
+</section>
+
 <!-- SUBMIT -->
 <section id="submit">
   <div class="submit-wrap reveal">
@@ -335,6 +367,26 @@ footer nav a:hover{color:#fff}
 // localhost so this is obviously not production-ready as-is.
 // ============================================================
 const API_BASE = 'http://localhost:3001';
+
+// ============================================================
+// VIDEO POSTCARDS — add real recordings here as they come in from
+// senior teams. Each entry needs a name; leave videoUrl empty and
+// the tile renders as a "Coming soon" placeholder automatically.
+//
+// videoUrl accepts:
+//   - a YouTube/Vimeo embed URL, e.g. 'https://www.youtube.com/embed/VIDEO_ID'
+//     (use the "embed" link, not the normal watch/share link)
+//   - a direct .mp4 file URL, e.g. 'https://yourcdn.com/postcard-amara.mp4'
+// Add or remove entries freely — six is just a starting placeholder count.
+// ============================================================
+const VIDEO_POSTCARDS = [
+  { name: '', role: '', videoUrl: '' },
+  { name: '', role: '', videoUrl: '' },
+  { name: '', role: '', videoUrl: '' },
+  { name: '', role: '', videoUrl: '' },
+  { name: '', role: '', videoUrl: '' },
+  { name: '', role: '', videoUrl: '' },
+];
 
 const TOKENS_KEY = 'upull_postcard_tokens';       // { postcardId: editToken }
 const ADMIN_KEY  = 'upull_admin_password';        // sessionStorage only
@@ -428,6 +480,76 @@ function buildCard(pc){
   }
 
   return card;
+}
+
+// Builds one video-postcard tile. Entries with no videoUrl render as a
+// "Coming soon" placeholder; entries with a videoUrl render the embed —
+// no other code changes needed, just fill in VIDEO_POSTCARDS above.
+function buildVideoCard(entry){
+  const card = document.createElement('div');
+  card.className = 'video-card';
+
+  const frame = document.createElement('div');
+  frame.className = 'video-frame';
+
+  const stamp = document.createElement('div');
+  stamp.className = 'video-stamp';
+  stamp.textContent = '2030';
+  frame.appendChild(stamp);
+
+  if (entry.videoUrl && /\.mp4($|\?)/i.test(entry.videoUrl)) {
+    const video = document.createElement('video');
+    video.src = entry.videoUrl;
+    video.controls = true;
+    video.preload = 'metadata';
+    frame.appendChild(video);
+  } else if (entry.videoUrl) {
+    const iframe = document.createElement('iframe');
+    iframe.src = entry.videoUrl;
+    iframe.loading = 'lazy';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    frame.appendChild(iframe);
+  } else {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'video-placeholder';
+    const play = document.createElement('div');
+    play.className = 'video-play';
+    placeholder.appendChild(play);
+    const label = document.createElement('div');
+    label.className = 'ph-label';
+    label.textContent = 'Coming soon';
+    placeholder.appendChild(label);
+    const sub = document.createElement('div');
+    sub.className = 'ph-sub';
+    sub.textContent = 'Video postcard recording to be added';
+    placeholder.appendChild(sub);
+    frame.appendChild(placeholder);
+  }
+  card.appendChild(frame);
+
+  const caption = document.createElement('div');
+  caption.className = 'video-caption';
+  const name = document.createElement('div');
+  name.className = 'video-name';
+  name.textContent = entry.name || 'Awaiting recording';
+  caption.appendChild(name);
+  if (entry.role) {
+    const role = document.createElement('div');
+    role.className = 'video-role';
+    role.textContent = entry.role;
+    caption.appendChild(role);
+  }
+  card.appendChild(caption);
+
+  return card;
+}
+
+function renderVideoWall(){
+  const grid = document.getElementById('videoGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  VIDEO_POSTCARDS.forEach(entry => grid.appendChild(buildVideoCard(entry)));
 }
 
 async function loadWall(){
@@ -637,6 +759,7 @@ function toggleMobileNav(){
   toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
+renderVideoWall();
 loadWall();
 </script>
 </body>
