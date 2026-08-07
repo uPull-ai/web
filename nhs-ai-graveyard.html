@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -269,6 +270,48 @@
     nav ul{gap:16px}
   }
   @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+
+  /* ---------- uPull campaign refresh ---------- */
+  :root{--upull-blue:#1769E0;--upull-electric:#94F6C4;--upull-navy:#06172B;--upull-ink:#0B1320}
+  body{background:#F6F8FC}
+  .brand{font-size:1.05rem;letter-spacing:-.05em}.brand em{font-style:normal;color:var(--upull-electric)}
+  nav{background:rgba(6,23,43,.95)}
+  .hero{
+    isolation:isolate;text-align:left;padding:0;border:0;min-height:650px;display:flex;align-items:stretch;
+    background:#06172B;position:relative
+  }
+  .hero::before{content:"";position:absolute;inset:0;z-index:-2;background:
+    linear-gradient(90deg,rgba(6,23,43,.98) 0%,rgba(6,23,43,.92) 35%,rgba(6,23,43,.56) 67%,rgba(6,23,43,.44) 100%),
+    url('https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=2200&q=86') center/cover}
+  .hero::after{content:"";position:absolute;z-index:-1;width:620px;height:620px;right:-210px;top:-170px;border-radius:50%;border:1px solid rgba(148,246,196,.3);box-shadow:0 0 0 70px rgba(23,105,224,.08),0 0 0 140px rgba(23,105,224,.05)}
+  .hero .wrap{width:100%;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr);gap:36px;align-items:center;padding-top:66px;padding-bottom:150px}
+  .hero-copy{max-width:655px}.hero h1{font-size:clamp(3.4rem,6.6vw,6.25rem);line-height:.93;letter-spacing:-.065em;margin:.12em 0 .26em}.hero h1 .accent{color:var(--upull-electric)}
+  .hero .eyebrow{color:var(--upull-electric);font-size:.76rem;letter-spacing:.17em}.hero .lede{font-size:1.18rem;line-height:1.52;margin:0 0 26px;color:#D8E5F0}
+  .hero .rule-line{border-color:rgba(148,246,196,.42);color:#C8D8E7;background:rgba(6,23,43,.5);margin-bottom:25px}
+  .hero-cta{justify-content:flex-start;margin-bottom:0}.hero .btn{background:var(--upull-electric);color:var(--upull-navy);border-radius:2px;font-weight:800}.hero .btn:hover{background:#C5FFE2}.hero .btn.light{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.45)}.hero .btn.light:hover{background:rgba(255,255,255,.1)}
+  .hero-map{position:relative;min-height:430px;display:flex;align-items:center;justify-content:center}.hero-map svg{width:min(100%,510px);filter:drop-shadow(0 22px 22px rgba(0,0,0,.32))}.map-tag{position:absolute;background:#fff;color:var(--upull-navy);font-size:.75rem;font-weight:800;padding:9px 12px;box-shadow:0 10px 22px rgba(0,0,0,.22);border-radius:2px}.map-tag.one{right:0;top:52px}.map-tag.two{left:8px;bottom:73px}.map-tag b{color:#D64443}
+  .counter{width:100%;position:absolute;bottom:0;left:0;grid-template-columns:repeat(4,1fr);background:rgba(148,246,196,.35);border-top:1px solid rgba(148,246,196,.35)}.counter div{background:rgba(6,23,43,.86);padding:19px 18px}.counter .n{font-size:1.55rem;color:var(--upull-electric)}.counter .l{color:#CBD8E4;font-size:.66rem}
+  #game{background:#F6F8FC;background-image:radial-gradient(rgba(23,105,224,.11) 1px,transparent 1px);background-size:18px 18px}.game-shell{border-radius:12px;border-color:#D6E0EE;box-shadow:0 18px 50px rgba(14,42,78,.11)}.game-head{background:var(--upull-navy)}.progress i,.track i{background:var(--upull-blue)}
+  #wall{background:var(--upull-navy);background-image:linear-gradient(rgba(148,246,196,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(148,246,196,.045) 1px,transparent 1px);background-size:38px 38px}.stone{border:1px solid rgba(148,246,196,.45)}
+  #next{background:linear-gradient(120deg,#071A30,#0B2C51);border-top:0}.card{border-radius:10px}.card:last-child{background:var(--upull-electric);color:var(--upull-navy);border:0}.card:last-child .btn.light{background:var(--upull-navy);color:#fff}.card:last-child p[style]{color:var(--upull-navy)!important}
+  @media(max-width:820px){.hero{min-height:0}.hero .wrap{grid-template-columns:1fr;padding-top:62px;padding-bottom:144px}.hero-map{min-height:260px;max-width:500px;margin:0 auto}.hero h1{font-size:clamp(3.25rem,14vw,5.3rem)}.counter{grid-template-columns:repeat(2,1fr)}.hero::before{background:linear-gradient(180deg,rgba(6,23,43,.96),rgba(6,23,43,.82)),url('https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=1400&q=86') center/cover}}
+
+  /* ---------- Match uPull landing + community pages ---------- */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  :root{--nhs-blue:#005EB8;--nhs-blue-light:#41B6E6;--accent-orange:#ED8B00;--accent-orange-hover:#C26F00;--primary-navy:#003087;--upull-navy:#003087;--upull-blue:#005EB8;--upull-electric:#ED8B00;--ink:#1E293B;--paper:#F8FAFC;--paper-2:#EEF3F7;--line:#E1E8EE}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--paper)}
+  nav{background:rgba(0,48,135,.96);border-bottom:3px solid var(--nhs-blue)}.brand em{color:var(--accent-orange)}
+  .hero::before{background:linear-gradient(90deg,rgba(0,32,83,.98) 0%,rgba(0,48,135,.9) 40%,rgba(0,48,135,.48) 100%),url('https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=2200&q=86') center/cover}.hero::after{border-color:rgba(65,182,230,.38);box-shadow:0 0 0 70px rgba(0,94,184,.11),0 0 0 140px rgba(0,94,184,.07)}
+  .hero h1 .accent,.hero .eyebrow{color:var(--accent-orange)}.hero .rule-line{border-color:rgba(65,182,230,.52);color:#E6F4FB}.hero .btn{background:var(--accent-orange);color:#fff;border-radius:999px}.hero .btn:hover{background:var(--accent-orange-hover)}.hero .btn.light{border-radius:999px}.counter{background:rgba(65,182,230,.42);border-color:rgba(65,182,230,.42)}.counter div{background:rgba(0,48,135,.92)}.counter .n{color:#fff}
+  #game{background:#F8FAFC;background-image:radial-gradient(rgba(0,94,184,.12) 1px,transparent 1px)}.game-head{background:var(--primary-navy)}.progress i,.track i{background:var(--nhs-blue)}.eyebrow{color:var(--nhs-blue)}
+  #wall{position:relative;overflow:hidden;background:#061D3C;background-image:radial-gradient(circle at 18% 15%,rgba(65,182,230,.22) 0 2px,transparent 3px),radial-gradient(circle at 74% 12%,rgba(255,255,255,.35) 0 1px,transparent 2px),linear-gradient(rgba(65,182,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(65,182,230,.05) 1px,transparent 1px);background-size:auto,auto,38px 38px,38px 38px}
+  #wall::before{content:'✦  ✦';position:absolute;right:7%;top:62px;color:rgba(255,255,255,.25);font-size:3rem;letter-spacing:2rem;transform:rotate(-12deg)}
+  .stones{position:relative;align-items:end;gap:26px 18px;padding:20px 0 30px}.stones::after{content:'';position:absolute;bottom:0;left:-8%;width:116%;height:25px;background:repeating-radial-gradient(ellipse at 10% 100%,#215e40 0 7px,transparent 8px 22px),linear-gradient(#13452f,#0b3423);z-index:0}
+  .stone{position:relative;z-index:1;overflow:hidden;border:1px solid rgba(65,182,230,.52);border-bottom:6px solid #a3a094;border-radius:110px 110px 9px 9px;min-height:278px;transform:translateY(0);transition:transform .22s,box-shadow .22s}.stone:hover{transform:translateY(-10px) rotate(-.5deg);box-shadow:0 13px 0 rgba(0,0,0,.22),0 24px 38px rgba(0,0,0,.34)}.stone:nth-child(3n+2){border-radius:42px 42px 8px 8px;min-height:252px}.stone:nth-child(3n){border-radius:130px 130px 8px 8px;min-height:300px}.stone::before{content:'✦';position:absolute;top:13px;right:19px;color:var(--accent-orange);font-size:1rem}.stone .rip{color:#005EB8}.stone .cause{color:#B42318;border-color:rgba(0,48,135,.14)}.stone .meta{border-color:rgba(0,48,135,.14)}
+  .stone-mark{width:30px;height:30px;margin:0 auto 9px;display:grid;place-items:center;border-radius:50%;background:rgba(0,94,184,.1);color:var(--primary-navy);font-weight:900;font-size:1rem}
+  #bury{background:linear-gradient(135deg,#EFF7FC,#F8FAFC)}#bury form{max-width:820px;background:#fff;border:1px solid #D9E5EF;border-radius:20px;padding:26px;box-shadow:0 18px 44px rgba(0,48,135,.11)}.form-intro{background:var(--primary-navy);border-left:6px solid var(--accent-orange);border-radius:12px;padding:25px 27px;margin-bottom:22px;color:#fff;text-align:left}.form-intro .eyebrow{color:#41B6E6;margin-bottom:8px}.form-intro h2{color:#fff;margin-bottom:8px}.form-intro .lede{color:rgba(255,255,255,.76);margin:0}
+  #bury fieldset{position:relative;padding:24px 22px 10px;margin:0 0 18px;border:1px solid #D6E2EC;border-radius:12px;background:#FBFDFF;box-shadow:inset 4px 0 0 rgba(0,94,184,.72)}#bury legend{display:inline-block;background:#E5F2FB;color:var(--primary-navy);border-radius:7px;padding:8px 12px;margin:0 0 12px;font-size:.96rem;font-weight:800;letter-spacing:-.01em}#bury .optional-tag{background:#FFF1DF;color:#9A5700}#bury .btn{background:var(--accent-orange);border-radius:999px;font-weight:800}#bury .btn:hover{background:var(--accent-orange-hover)}
+  @media(max-width:720px){#bury form{padding:14px}.form-intro{padding:21px}.stone,.stone:nth-child(3n),.stone:nth-child(3n+2){min-height:244px}}
 </style>
 </head>
 <body>
@@ -281,7 +324,7 @@
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#top">uPull.ai <span>/ Graveyard</span></a>
+    <a class="brand" href="#top">uPull<em>.ai</em> <span>/ Graveyard</span></a>
     <div class="spacer"></div>
     <ul>
       <li><a href="#game">Diagnose a pilot</a></li>
@@ -296,13 +339,28 @@
 <!-- ══════════ HERO ══════════ -->
 <header class="hero" id="top">
   <div class="wrap">
-    <p class="eyebrow">An anonymous record, kept in public</p>
-    <h1>The NHS AI Graveyard</h1>
-    <p class="lede">Every dead pilot has a cause of death. Nobody writes it down. So we are going to.</p>
-    <div class="rule-line">No trusts named &nbsp;·&nbsp; No suppliers named &nbsp;·&nbsp; No individuals named &nbsp;·&nbsp; Every entry moderated by hand</div>
-    <div class="hero-cta">
-      <a class="btn" href="#bury">Bury a pilot</a>
-      <a class="btn light" href="#game">Can you diagnose one?</a>
+    <div class="hero-copy">
+      <p class="eyebrow">A uPull.ai learning campaign for NHS teams</p>
+      <h1>The NHS AI<br><span class="accent">Graveyard.</span></h1>
+      <p class="lede">Every stalled pilot carries a lesson. Help the next NHS team avoid the same plot twist — anonymously, constructively and in public.</p>
+      <div class="rule-line">No trusts named &nbsp;·&nbsp; No suppliers named &nbsp;·&nbsp; Moderated by people</div>
+      <div class="hero-cta">
+        <a class="btn" href="#bury">Add a lesson</a>
+        <a class="btn light" href="#game">Diagnose a pilot →</a>
+      </div>
+    </div>
+    <div class="hero-map" aria-label="Illustration showing a cemetery of failed AI pilot headstones and a pathway towards proof of value">
+      <div class="map-tag one"><b>CAUSE OF DEATH</b><br>Workflow never changed</div>
+      <div class="map-tag two">The way out: <b>start with the bottleneck</b></div>
+      <svg viewBox="0 0 560 470" role="img" aria-hidden="true">
+        <defs><linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#1C4F82"/><stop offset="1" stop-color="#0B2139"/></linearGradient><linearGradient id="hill" x1="0" x2="1"><stop stop-color="#103B5E"/><stop offset="1" stop-color="#0A2744"/></linearGradient></defs>
+        <rect width="560" height="470" rx="12" fill="url(#sky)"/><circle cx="438" cy="70" r="34" fill="#94F6C4" opacity=".9"/><path d="M0 225C100 165 150 250 250 205S420 165 560 236V470H0Z" fill="url(#hill)"/><path d="M0 313c84-35 137 37 245-4s195 8 315-23v184H0Z" fill="#092038"/>
+        <path d="M250 470c-11-71 5-115 58-158 49-40 62-77 63-126" fill="none" stroke="#94F6C4" stroke-width="10" opacity=".95"/><path d="M251 470c-11-71 5-115 58-158 49-40 62-77 63-126" fill="none" stroke="#DDFEEB" stroke-width="3" stroke-dasharray="5 11"/>
+        <g fill="#D7D5CD" stroke="#ABC8D1" stroke-width="2"><path d="M70 340v-74c0-28 23-50 50-50s50 22 50 50v74z"/><path d="M382 368v-62c0-24 19-43 43-43s43 19 43 43v62z"/><path d="M162 408v-52c0-20 16-36 36-36s36 16 36 36v52z"/></g>
+        <g fill="#193047" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700"><text x="120" y="280" font-size="14">RIP</text><text x="120" y="303" font-size="12">THE PILOT</text><text x="120" y="321" font-size="10">2024–2024</text><text x="425" y="322" font-size="12">NO OWNER</text><text x="198" y="375" font-size="11">NO ROI</text></g>
+        <g transform="translate(344 111)"><path d="M0 36 20 0l20 36-20 35z" fill="#94F6C4"/><path d="M13 21h14v16H13z" fill="#0B2139"/><text x="20" y="87" text-anchor="middle" fill="#DDFEEB" font-family="Arial, sans-serif" font-size="11" font-weight="700">PROOF OF VALUE</text></g>
+        <g fill="#94F6C4"><circle cx="292" cy="262" r="5"/><circle cx="308" cy="246" r="5"/><circle cx="325" cy="228" r="5"/></g>
+      </svg>
     </div>
   </div>
   <div class="counter" id="counter">
@@ -436,13 +494,12 @@
 <!-- ══════════ FORM ══════════ -->
 <section id="bury">
   <div class="wrap">
-    <div class="narrow" style="margin:0 auto;text-align:center">
-      <p class="eyebrow">Your turn</p>
-      <h2>Bury a pilot</h2>
-      <p class="lede">Anonymous by default. Moderated by hand. Roughly three minutes.</p>
-    </div>
-
     <form id="buryForm" novalidate action="https://api.web3forms.com/submit" method="POST">
+      <div class="form-intro">
+        <p class="eyebrow">Your turn</p>
+        <h2>Bury a pilot</h2>
+        <p class="lede">Anonymous by default. Moderated by hand. Roughly three minutes.</p>
+      </div>
       <!-- Web3Forms: honeypot. Must stay hidden. -->
       <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
 
@@ -800,6 +857,15 @@
 
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]}); }
 
+  function causeMark(s){
+    if(s.indexOf("workflow")>-1) return "↺";
+    if(s.indexOf("Data")>-1) return "⌁";
+    if(s.indexOf("Funding")>-1) return "£";
+    if(s.indexOf("Staff")>-1) return "◌";
+    if(s.indexOf("Governance")>-1) return "⚑";
+    return "✦";
+  }
+
   function renderWall(){
     var list = WALL.filter(function(x){
       return (!fCause.value||x.k===fCause.value) && (!fOrg.value||x.o===fOrg.value)
@@ -810,8 +876,9 @@
       : "Showing "+list.length+" of "+WALL.length+" headstones.";
     if(!list.length){ stones.innerHTML='<p class="empty">No headstones match those filters. Try resetting.</p>'; return; }
     stones.innerHTML = list.map(function(x){
-      return '<article class="stone">'
+      return '<article class="stone" title="Cause of death: '+esc(shortCause(x.k))+'">'
         + '<div class="rip">R I P</div>'
+        + '<div class="stone-mark" aria-hidden="true">'+causeMark(x.k)+'</div>'
         + '<p class="insc">'+esc(x.i)+'</p>'
         + '<div class="meta">'+esc(x.o)+' &nbsp;·&nbsp; '+esc(x.s)+'<br>'+esc(x.c)+' &nbsp;·&nbsp; ran '+esc(x.d)+'</div>'
         + '<div class="cause">'+esc(shortCause(x.k))+'</div>'
