@@ -1,45 +1,84 @@
 # upull.ai — robots.txt
-# Goal: allow all standard search crawlers AND AI/answer-engine crawlers so
-# uPull.ai can be indexed by Google/Bing and cited by ChatGPT/Perplexity/Copilot/Gemini.
+# Updated 9 August 2026.
+# Goal: allow standard search crawlers AND AI/answer-engine crawlers so
+# uPull.ai can be indexed by Google/Bing and cited by ChatGPT/Perplexity/Copilot/Gemini,
+# while keeping internal and non-uPull material out of every index.
 
+# --- Blocked for ALL crawlers -------------------------------------------------
+# /private/ contains internal governance, draft contracts, financial and
+# commercial evidence, sales and admin material. It is served publicly by the
+# host, so this Disallow is the only thing keeping it out of search results.
+# NOTE: robots.txt is not access control. Anyone with the URL can still read
+# these files. The real fix is to stop deploying /private/ to the public site.
 User-agent: *
+Disallow: /private/
+Disallow: /.backup-prenav/
+Disallow: /schema-snippets.html
+Disallow: /20260801HVRANL01.html
 Allow: /
 
-# --- AI crawlers (explicitly allowed for visibility in AI answers) ---
+# --- AI crawlers (explicitly allowed for visibility in AI answers) ------------
+# Each repeats the Disallow rules: a crawler obeys only the block that matches
+# its own user-agent, so rules in the "*" block above do not apply to these.
+
 User-agent: GPTBot
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: OAI-SearchBot
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: ChatGPT-User
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: ClaudeBot
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: Claude-User
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: anthropic-ai
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: PerplexityBot
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: Perplexity-User
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: Google-Extended
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: GoogleOther
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: Bingbot
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 User-agent: cohere-ai
+Disallow: /private/
+Disallow: /.backup-prenav/
 Allow: /
 
 Sitemap: https://upull.ai/sitemap.xml
