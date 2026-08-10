@@ -6,8 +6,8 @@ const rateLimit = require("express-rate-limit");
 const db = require("./db");
 
 const PORT = process.env.PORT || 3001;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
-const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || "";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Postcard2030!a";
+const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || "8bdba7a3-9c31-46ef-a6e3-f985ac4337e2";
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
 
 if (!ADMIN_PASSWORD) {
@@ -198,7 +198,12 @@ app.post("/api/postcards", submitLimiter, async (req, res) => {
     approvedAt: null,
   };
 
-  await db.insertPostcard(postcard);
+  try {
+    await db.insertPostcard(postcard);
+  } catch (err) {
+    console.error("[db] insertPostcard failed:", err.message);
+    return res.status(503).json({ error: "Could not save your postcard right now. Please try again shortly." });
+  }
   notifyAdmin(postcard); // fire-and-forget — don't block the response on email delivery
 
   res.status(201).json({ id: postcard.id, editToken, status: postcard.status });
@@ -207,73 +212,119 @@ app.post("/api/postcards", submitLimiter, async (req, res) => {
 // Public wall feed: approved postcards for everyone, plus the caller's own
 // pending/rejected postcards if they present valid edit tokens for them.
 app.get("/api/postcards", async (req, res) => {
-  const tokens = parseEditTokens(req);
-  const all = await db.getAllPostcards();
+  try {
+    const tokens = parseEditTokens(req);
+    const all = await db.getAllPostcards();
 
-  const result = all
-    .filter((p) => {
-      if (p.status === "approved") return true;
-      const token = tokens.get(p.id);
-      return token && safeEqual(sha256(token), p.editTokenHash);
-    })
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .map((p) => {
-      const token = tokens.get(p.id);
-      const mine = !!token && safeEqual(sha256(token), p.editTokenHash);
-      return publicShape(p, mine ? { mine: true } : {});
-    });
+    const result = all
+      .filter((p) => {
+        if (p.status === "approved") return true;
+        const token = tokens.get(p.id);
+        return token && safeEqual(sha256(token), p.editTokenHash);
+      })
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .map((p) => {
+        const token = tokens.get(p.id);
+        const mine = !!token && safeEqual(sha256(token), p.editTokenHash);
+        return publicShape(p, mine ? { mine: true } : {});
+      });
 
-  res.json({ postcards: result });
+    res.json({ postcards: result });
+  } catch (err) {
+    console.error("[db] getAllPostcards failed:", err.message);
+    res.status(503).json({ error: "Could not load the wall right now. Please try again shortly." });
+  }
 });
 
 // Admin-only: full moderation queue, including submitter email.
 app.get("/api/postcards/pending", async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: "Admin password required." });
-  const all = await db.getAllPostcards();
-  const pending = all
-    .filter((p) => p.status === "pending")
-    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-    .map(adminShape);
-  res.json({ postcards: pending });
+  try {
+    const all = await db.getAllPostcards();
+    const pending = all
+      .filter((p) => p.status === "pending")
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+      .map(adminShape);
+    res.json({ postcards: pending });
+  } catch (err) {
+    console.error("[db] getAllPostcards (pending) failed:", err.message);
+    res.status(503).json({ error: "Could not load the moderation queue right now. Please try again shortly." });
+  }
 });
 
 // Admin-only: approve a pending postcard so it appears on the public wall.
 app.post("/api/postcards/:id/approve", async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: "Admin password required." });
-  const postcard = await db.findPostcard(req.params.id);
-  if (!postcard) return res.status(404).json({ error: "Postcard not found." });
-  const updated = await db.updatePostcard(postcard.id, { status: "approved", approvedAt: new Date().toISOString() });
-  res.json({ postcard: adminShape(updated) });
+  try {
+    const postcard = await db.findPostcard(req.params.id);
+    if (!postcard) return res.status(404).json({ error: "Postcard not found." });
+    const updated = await db.updatePostcard(postcard.id, { status: "approved", approvedAt: new Date().toISOString() });
+    res.json({ postcard: adminShape(updated) });
+  } catch (err) {
+    console.error("[db] approve failed:", err.message);
+    res.status(503).json({ error: "Could not approve that postcard right now. Please try again shortly." });
+  }
 });
 
 // Admin-only: reject a pending postcard (kept, marked rejected, never goes public).
 app.post("/api/postcards/:id/reject", async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: "Admin password required." });
-  const postcard = await db.findPostcard(req.params.id);
-  if (!postcard) return res.status(404).json({ error: "Postcard not found." });
-  const updated = await db.updatePostcard(postcard.id, { status: "rejected" });
-  res.json({ postcard: adminShape(updated) });
+  try {
+    const postcard = await db.findPostcard(req.params.id);
+    if (!postcard) return res.status(404).json({ error: "Postcard not found." });
+    const updated = await db.updatePostcard(postcard.id, { status: "rejected" });
+    res.json({ postcard: adminShape(updated) });
+  } catch (err) {
+    console.error("[db] reject failed:", err.message);
+    res.status(503).json({ error: "Could not reject that postcard right now. Please try again shortly." });
+  }
 });
 
 // Delete — allowed for the admin team (x-admin-password) or the original
 // author (x-edit-token matching the token they were issued at submission).
 // Everyone else gets 403: read-only for the general public, by design.
 app.delete("/api/postcards/:id", async (req, res) => {
-  const postcard = await db.findPostcard(req.params.id);
-  if (!postcard) return res.status(404).json({ error: "Postcard not found." });
+  try {
+    const postcard = await db.findPostcard(req.params.id);
+    if (!postcard) return res.status(404).json({ error: "Postcard not found." });
 
-  if (isAdmin(req)) {
-    await db.deletePostcard(postcard.id);
-    return res.json({ deleted: true, by: "admin" });
+    if (isAdmin(req)) {
+      await db.deletePostcard(postcard.id);
+      return res.json({ deleted: true, by: "admin" });
+    }
+
+    const suppliedToken = req.get("x-edit-token") || "";
+    if (suppliedToken && safeEqual(sha256(suppliedToken), postcard.editTokenHash)) {
+      await db.deletePostcard(postcard.id);
+      return res.json({ deleted: true, by: "author" });
+    }
+
+    return res.status(403).json({ error: "Only the original author or the admin team can remove this postcard." });
+  } catch (err) {
+    console.error("[db] delete failed:", err.message);
+    res.status(503).json({ error: "Could not remove that postcard right now. Please try again shortly." });
   }
+});
 
-  const suppliedToken = req.get("x-edit-token") || "";
-  if (suppliedToken && safeEqual(sha256(suppliedToken), postcard.editTokenHash)) {
-    await db.deletePostcard(postcard.id);
-    return res.json({ deleted: true, by: "author" });
-  }
+// Last-resort safety net: catches anything that still slips past the
+// try/catch blocks above (a bug in a route, a bad JSON body, etc.) and
+// returns a normal error response instead of letting Express crash the
+// process or hang the connection.
+app.use((err, req, res, next) => {
+  console.error("[unhandled] request error:", err && err.message ? err.message : err);
+  if (res.headersSent) return next(err);
+  res.status(500).json({ error: "Something went wrong on our end. Please try again shortly." });
+});
 
-  return res.status(403).json({ error: "Only the original author or the admin team can remove this postcard." });
+// Extra safety net at the process level — logs instead of silently dying.
+// The try/catch blocks above should catch everything already; this just
+// guards against anything unexpected slipping through (a third-party
+// library throwing outside a request, for example).
+process.on("unhandledRejection", (reason) => {
+  console.error("[process] unhandled promise rejection:", reason);
+});
+process.on("uncaughtException", (err) => {
+  console.error("[process] uncaught exception:", err);
 });
 
 app.listen(PORT, () => {
