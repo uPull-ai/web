@@ -165,8 +165,9 @@ app.post("/api/postcards", submitLimiter, async (req, res) => {
   if (cleanName.length < 2 || cleanName.length > 80) {
     return res.status(400).json({ error: "Name must be between 2 and 80 characters." });
   }
-  if (cleanMessage.length < 10 || cleanMessage.length > 600) {
-    return res.status(400).json({ error: "Postcard message must be between 10 and 600 characters." });
+  const messageWordCount = cleanMessage ? cleanMessage.split(/\s+/).filter(Boolean).length : 0;
+  if (cleanMessage.length < 10 || messageWordCount > 250 || cleanMessage.length > 2000) {
+    return res.status(400).json({ error: "Postcard message must be at least 10 characters and no more than 250 words." });
   }
   if (cleanRole.length > 120) {
     return res.status(400).json({ error: "Role/organisation is too long." });
