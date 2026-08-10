@@ -65,13 +65,36 @@ function parseEditTokens(req) {
 }
 
 function publicShape(postcard, extra = {}) {
-  const { id, name, role, message, status, createdAt } = postcard;
-  return { id, name, role: role || "", message, status, createdAt, ...extra };
+  const { id, name, role, beat, type, videoUrl, message, status, createdAt } = postcard;
+  return {
+    id,
+    name,
+    role: role || "",
+    beat: beat || "",
+    type: type || "word",
+    videoUrl: videoUrl || "",
+    message,
+    status,
+    createdAt,
+    ...extra,
+  };
 }
 
 function adminShape(postcard) {
-  const { id, name, role, email, message, status, createdAt, approvedAt } = postcard;
-  return { id, name, role: role || "", email: email || "", message, status, createdAt, approvedAt: approvedAt || null };
+  const { id, name, role, beat, type, videoUrl, email, message, status, createdAt, approvedAt } = postcard;
+  return {
+    id,
+    name,
+    role: role || "",
+    beat: beat || "",
+    type: type || "word",
+    videoUrl: videoUrl || "",
+    email: email || "",
+    message,
+    status,
+    createdAt,
+    approvedAt: approvedAt || null,
+  };
 }
 
 async function notifyAdmin(postcard) {
@@ -86,11 +109,13 @@ async function notifyAdmin(postcard) {
         from_name: "uPull.ai Postcards Wall",
         email: postcard.email || "no-email-given@upull.ai",
         message:
-          `A new postcard is waiting for verification before it can appear on the public wall.\n\n` +
+          `A new ${postcard.type === "video" ? "video" : "word"} postcard is waiting for verification before it can appear on the public wall.\n\n` +
           `Name: ${postcard.name}\n` +
           `Role/organisation: ${postcard.role || "(not given)"}\n` +
-          `Submitter email: ${postcard.email || "(not given)"}\n\n` +
-          `Postcard text:\n${postcard.message}\n\n` +
+          `Starting prompt: ${postcard.beat || "(not given)"}\n` +
+          `Submitter email: ${postcard.email || "(not given)"}\n` +
+          (postcard.type === "video" ? `Video link: ${postcard.videoUrl}\n` : "") +
+          `\nPostcard text:\n${postcard.message}\n\n` +
           `Submitted: ${postcard.createdAt}\n` +
           `Postcard ID: ${postcard.id}\n\n` +
           `Review it from the wall page using the admin panel (unlock with the admin password) before it goes public.`,
@@ -105,7 +130,7 @@ async function notifyAdmin(postcard) {
   }
 }
 
-// ---- rate limiting (basic spam control on submissions) -------------------
+// ---- rate limiting (basic spam control on submissions) ------------------
 
 const submitLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
@@ -124,15 +149,18 @@ app.get("/api/health", (req, res) => res.json({ ok: true }));
 // approves it. The response includes a one-time editToken the browser must
 // hang on to (e.g. in localStorage) to prove authorship later.
 app.post("/api/postcards", submitLimiter, async (req, res) => {
-  const { name, role, email, message, website } = req.body || {};
+  const { name, role, beat, type, videoUrl, email, message, website } = req.body || {};
 
   // honeypot: real users never fill this hidden field, bots often do
   if (website) return res.status(201).json({ id: crypto.randomUUID(), editToken: "n/a", status: "pending" });
 
   const cleanName = String(name || "").trim();
   const cleanRole = String(role || "").trim();
+  const cleanBeat = String(beat || "").trim();
   const cleanEmail = String(email || "").trim();
   const cleanMessage = String(message || "").trim();
+  const cleanType = type === "video" ? "video" : "word";
+  const cleanVideoUrl = String(videoUrl || "").trim();
 
   if (cleanName.length < 2 || cleanName.length > 80) {
     return res.status(400).json({ error: "Name must be between 2 and 80 characters." });
@@ -143,8 +171,14 @@ app.post("/api/postcards", submitLimiter, async (req, res) => {
   if (cleanRole.length > 120) {
     return res.status(400).json({ error: "Role/organisation is too long." });
   }
+  if (cleanBeat.length > 40) {
+    return res.status(400).json({ error: "Starting prompt value is too long." });
+  }
   if (cleanEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
     return res.status(400).json({ error: "That email address doesn't look valid." });
+  }
+  if (cleanType === "video" && !/^https?:\/\/.+/i.test(cleanVideoUrl)) {
+    return res.status(400).json({ error: "Video postcards need a valid video link starting with http:// or https://." });
   }
 
   const editToken = crypto.randomBytes(24).toString("hex");
@@ -152,6 +186,9 @@ app.post("/api/postcards", submitLimiter, async (req, res) => {
     id: crypto.randomUUID(),
     name: cleanName,
     role: cleanRole,
+    beat: cleanBeat,
+    type: cleanType,
+    videoUrl: cleanType === "video" ? cleanVideoUrl : "",
     email: cleanEmail,
     message: cleanMessage,
     status: "pending",
