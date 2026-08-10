@@ -666,9 +666,12 @@
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
 
-    // Only these email domains may hold an academy/community profile.
+    // Sign-in is open to any email domain (NHS, company, or personal —
+    // e.g. gmail.com, icloud.com, outlook.com) once the address is
+    // verified via the magic-link flow or Google sign-in. '*' is a
+    // wildcard recognised by isAllowedEmail() below.
     // Shared with academy.html — keep both lists identical.
-    window.__ALLOWED_EMAIL_DOMAINS = ['nhs.net', 'nhs.uk'];
+    window.__ALLOWED_EMAIL_DOMAINS = ['*'];
 
     // Expose what the rest of the page's plain <script> needs, since that
     // script isn't a module and can't use import/export directly.
@@ -782,8 +785,8 @@
         </div>
         <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.8rem;">Connecting clinicians, operations leads, and technical system architects.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem; font-weight: 600;">
-          <div>1,420+ Members</div>
-          <div>84 Active Today</div>
+          <div>120+ Members</div>
+          <div>23 Active Today</div>
         </div>
       </div>
     </section>
@@ -805,11 +808,11 @@
           <!-- Auth Status Bar -->
           <div id="authBar" style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
             <div id="authSignedOut" style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
-              <span style="font-size:0.88rem; color:var(--text-muted);">Sign in with your NHS email:</span>
-              <input type="email" id="nhsEmailInputCommunity" placeholder="you@nhs.net" style="padding:0.4rem 0.6rem; border:1.5px solid var(--border-color); border-radius:6px; font-size:0.82rem; width:170px;">
+              <span style="font-size:0.88rem; color:var(--text-muted);">Sign in with your email:</span>
+              <input type="email" id="nhsEmailInputCommunity" placeholder="you@yourorg.com" style="padding:0.4rem 0.6rem; border:1.5px solid var(--border-color); border-radius:6px; font-size:0.82rem; width:170px;">
               <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="sendNhsSignInLinkCommunity()">Send link</button>
               <span style="font-size:0.8rem; color:var(--text-muted);">or</span>
-              <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="setSignInRole('learner'); signInWithGoogle();" title="Requires a Google account whose email ends in @nhs.net or @nhs.uk">Sign in with Google</button>
+              <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="setSignInRole('learner'); signInWithGoogle();" title="Sign in with any Google account">Sign in with Google</button>
               <span id="nhsEmailStatusCommunity" style="font-size:0.78rem; font-weight:700; width:100%;"></span>
             </div>
             <div id="authSignedIn" style="display:none; align-items:center; gap:0.7rem; width:100%; justify-content:space-between;">
@@ -1099,14 +1102,21 @@
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // NHS EMAIL DOMAIN GATE — only @nhs.net / @nhs.uk addresses may sign in
-  // at all, whether as a member or a vendor. No exemptions. This
-  // client-side check is defence in depth — the real gate is the
-  // Firestore Security Rules / an Auth Blocking Function, since dev tools can bypass JS.
+  // EMAIL GATE — open to any domain (NHS, company, or personal webmail
+  // such as gmail.com, icloud.com, outlook.com). The actual "validation"
+  // is the sign-in method itself: the magic-link flow proves ownership
+  // of the address, and Google sign-in proves ownership of the Google
+  // account. To re-restrict later, replace '*' in
+  // window.__ALLOWED_EMAIL_DOMAINS with an explicit domain list — this
+  // client-side check is defence in depth either way; the real gate is
+  // the Firestore Security Rules / an Auth Blocking Function, since dev
+  // tools can bypass JS.
   function isAllowedEmail(email) {
     if (!email) return false;
     const domain = email.split('@')[1]?.toLowerCase().trim() || '';
-    const allowed = window.__ALLOWED_EMAIL_DOMAINS || ['nhs.net', 'nhs.uk'];
+    if (!domain) return false;
+    const allowed = window.__ALLOWED_EMAIL_DOMAINS || ['*'];
+    if (allowed.includes('*')) return true;
     return allowed.some(d => domain === d || domain.endsWith('.' + d));
   }
 
@@ -1124,7 +1134,7 @@
     const input = document.getElementById('nhsEmailInputCommunity');
     const email = (input?.value || '').trim();
     if (!isAllowedEmail(email)) {
-      setNhsEmailStatusCommunity('Please enter a valid @nhs.net or @nhs.uk address.', true);
+      setNhsEmailStatusCommunity('Please enter a valid email address.', true);
       return;
     }
     const actionCodeSettings = {
@@ -1149,10 +1159,10 @@
 
     let email = window.localStorage.getItem('upullEmailForSignIn');
     if (!email) {
-      email = window.prompt('Please confirm the NHS email address you used to request this link:');
+      email = window.prompt('Please confirm the email address you used to request this link:');
     }
     if (!isAllowedEmail(email)) {
-      alert('Sign-in blocked: only @nhs.net and @nhs.uk email addresses are accepted.');
+      alert('Sign-in blocked: no email address was provided.');
       return;
     }
     f.signInWithEmailLink(f.auth, email, window.location.href).then(() => {
@@ -1188,12 +1198,13 @@
   }
 
   function updateAuthUI(user) {
-    // NHS domain gate — applies to every sign-in path, member or vendor.
-    // There is no role-based exemption.
+    // Email gate — open to any domain now (NHS, company, or personal).
+    // This only catches the edge case of a signed-in account with no
+    // usable email address at all.
     if (user && !isAllowedEmail(user.email)) {
       const f = fb();
       if (f) f.signOut(f.auth);
-      const msg = 'That account (' + (user.email || 'no email') + ') is not an @nhs.net or @nhs.uk address, so it has been signed out. Sign-in requires an NHS email, for members and vendor representatives alike.';
+      const msg = 'That account (' + (user.email || 'no email') + ') has no usable email address, so it has been signed out.';
       setNhsEmailStatusCommunity(msg, true);
       return;
     }
