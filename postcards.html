@@ -105,7 +105,7 @@ main.main{max-width:1280px;margin:0 auto;padding:88px 48px}
    the WCAG AA 4.5:1 contrast floor expected of NHS-facing content. The
    emphasis is on the postcard itself, not the photo — content takes the
    left 3/4 of the card, a small blurred photo strip takes the right 1/4. */
-.postcard-card{position:relative;background:#fffdf8;border:1px solid #e5ddc9;border-radius:20px;box-shadow:0 14px 30px rgba(0,0,0,.3);transition:.2s;display:flex;flex-direction:row;align-items:stretch;min-height:280px}
+.postcard-card{position:relative;background:#fffdf8;border:1px solid #e5ddc9;border-radius:20px;box-shadow:0 14px 30px rgba(0,0,0,.3);transition:.2s;display:flex;flex-direction:row;align-items:stretch;min-height:280px;cursor:pointer}
 .postcard-card:hover{transform:translateY(-4px)}
 .postcard-content{position:relative;flex:1 1 75%;max-width:75%;padding:22px 22px 20px 24px;display:flex;flex-direction:column}
 /* Photo strip: 1/4 of the card width, spanning its full height (flex
@@ -151,9 +151,7 @@ main.main{max-width:1280px;margin:0 auto;padding:88px 48px}
 .wall-empty,.wall-loading{grid-column:1/-1;border:1px dashed rgba(97,215,209,.4);border-radius:16px;padding:48px;text-align:center;color:rgba(255,255,255,.5)}
 @media(max-width:900px){main.main{padding:56px 24px}}
 
-/* Hover (or tap, for touch) expands a postcard to a full-text overlay. The
-   overlay is a DOM child of the card, so hovering it keeps the card's
-   :hover state active even though it's rendered fixed/centred on screen. */
+/* Click (or tap) expands a postcard to a full-text overlay. */
 /* Full-text overlay. Built once per card and appended to #expandLayer at
    the very end of <body> — deliberately NOT nested inside .postcard-card.
    A position:fixed element is positioned relative to the viewport only if
@@ -441,31 +439,11 @@ const STORAGE_KEY = 'upull_postcards_v1';        // all postcards live here
 const OWNED_KEY    = 'upull_owned_postcard_ids';  // ids this browser created — proves "mine"
 const SESSION_KEY  = 'upull_moderator_session';   // sessionStorage flag, cleared when the tab closes
 
-// A few example postcards so the page never looks empty when you're
-// demoing it. They're flagged isDemo:true, which shows an "Example — for
-// illustration" badge instead of a status badge, so nobody mistakes them
-// for real submissions. Edit, add, or delete these any time — or remove
-// them from the gallery using the moderator trash icon once signed in.
-const DEMO_EXAMPLES = [
-  {
-    id: 'demo-1', name: 'Maya Chen', role: 'Service Manager, North Coast NHS Trust',
-    type: 'word', videoUrl: '', isDemo: true,
-    message: "By 2030 we co-design every digital change with staff and patients instead of announcing it afterwards. It used to be that a new system arrived, a memo went round, and everyone was expected to adapt overnight. That's the decision that finally made adoption feel possible — not a better tool, but a different relationship with the people using it.",
-    status: 'approved', createdAt: '2026-07-20T09:00:00.000Z',
-  },
-  {
-    id: 'demo-2', name: 'Dan Whitfield', role: 'Clinical Informatician, South London ICS',
-    type: 'word', videoUrl: '', isDemo: true,
-    message: 'We are amazed we once asked people to enter the same patient information into three separate systems by hand.',
-    status: 'approved', createdAt: '2026-07-22T11:30:00.000Z',
-  },
-  {
-    id: 'demo-3', name: 'Ayesha Rahman', role: 'Transformation Lead, Community Care',
-    type: 'video', videoUrl: '', isDemo: true,
-    message: 'Start with the smallest painful workflow. Ask the people doing it what good could look like — and give them the time to test it.',
-    status: 'approved', createdAt: '2026-07-25T14:15:00.000Z',
-  },
-];
+// Example postcards used to seed the wall during setup/demoing — removed
+// for launch so only real submissions appear. The isDemo flag and the
+// "Example — for illustration" badge logic are left in place below in case
+// example content is ever wanted again for local testing.
+const DEMO_EXAMPLES = [];
 
 function uid(){
   return (crypto && crypto.randomUUID) ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(16).slice(2);
@@ -704,7 +682,7 @@ function buildQuote(pc, onReadMore, full){
     const more = document.createElement('button');
     more.type = 'button';
     more.className = 'read-more';
-    more.textContent = 'Read more';
+    more.textContent = 'Click to read more';
     more.onclick = (e) => { e.stopPropagation(); onReadMore(); };
     quote.appendChild(more);
   }
@@ -733,7 +711,7 @@ function buildVideoWatch(pc, onReadMore, full){
     const more = document.createElement('button');
     more.type = 'button';
     more.className = 'read-more';
-    more.textContent = 'Read more';
+    more.textContent = 'Click to read more';
     more.onclick = (e) => { e.stopPropagation(); onReadMore(); };
     caption.appendChild(more);
   }
@@ -799,15 +777,11 @@ function buildCard(pc, idx){
   panel.appendChild(body);
   expand.appendChild(panel);
 
-  let hideTimer = null;
-  const openExpand = () => { clearTimeout(hideTimer); expand.classList.add('show'); };
-  const scheduleHide = () => { hideTimer = setTimeout(() => expand.classList.remove('show'), 150); };
-  const closeExpandNow = () => { clearTimeout(hideTimer); expand.classList.remove('show'); };
+  const openExpand = () => { expand.classList.add('show'); };
+  const closeExpandNow = () => { expand.classList.remove('show'); };
 
   closeBtn.onclick = (e) => { e.stopPropagation(); closeExpandNow(); };
   expand.onclick = (e) => { if (e.target === expand) closeExpandNow(); }; // click on backdrop, not the panel
-  expand.addEventListener('mouseenter', () => clearTimeout(hideTimer));
-  expand.addEventListener('mouseleave', scheduleHide);
 
   document.getElementById('expandLayer').appendChild(expand);
 
@@ -844,12 +818,10 @@ function buildCard(pc, idx){
     card.appendChild(del);
   }
 
-  // Hover opens the full postcard on desktop; a plain click/tap opens it
-  // too, which is what actually matters on touch devices (no real hover).
+  // Click (or tap) opens the full postcard — same behaviour on desktop and
+  // touch, and no more accidental pop-open while scrolling past a card.
   // The close button above is always reachable — it lives in a header row
   // that never scrolls, even if the postcard text is long.
-  card.addEventListener('mouseenter', openExpand);
-  card.addEventListener('mouseleave', scheduleHide);
   card.addEventListener('click', () => openExpand());
 
   return card;
