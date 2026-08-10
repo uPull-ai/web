@@ -401,26 +401,28 @@ footer nav a:hover{color:#fff}
 
 <script>
 // ============================================================
-// STANDALONE DEMO MODE
-// This page runs entirely in the browser — no server required, which is why
-// the earlier "failed to fetch" error is gone. Submissions are (a) stored in
-// this browser's localStorage so the gallery has something to render, and
-// (b) emailed to the admin team via Web3Forms using the access key below.
+// TWO MODES — set API_BASE_URL below to switch from local demo mode to a
+// real, shared wall backed by the server/ folder in this project.
 //
-// Because there's no shared server, this gallery is only visible on the
-// device that's viewing it — it will not automatically show postcards
-// submitted from someone else's browser. If a truly shared, everyone-sees-
-// the-same-wall version is wanted later, the server/ folder in this project
-// already has a tested, working API for exactly that — see server/README.md
-// for how to point this page at it instead of localStorage.
+//   Blank (as shipped): standalone demo mode. Submissions are stored only in
+//   this browser's localStorage — nobody else sees them — and the page
+//   emails the admin team via Web3Forms directly from the browser.
+//
+//   Filled in with a deployed backend URL (see server/README.md): shared-wall
+//   mode. Every read/write goes through that backend instead of localStorage,
+//   so the wall is genuinely the same for every visitor, on every device.
+//   The backend sends the admin notification itself, so nothing else changes.
 // ============================================================
-const WEB3FORMS_ACCESS_KEY = '8bdba7a3-9c31-46ef-a6e3-f985ac4337e2';
+const API_BASE_URL = ''; // e.g. 'https://upull-postcards-api.onrender.com'
+
+const WEB3FORMS_ACCESS_KEY = '8bdba7a3-9c31-46ef-a6e3-f985ac4337e2'; // demo mode only — backend mode sends its own notification
 
 // Change this, then share the new password with whoever moderates postcards.
-// This is a lightweight, client-side gate suitable for a demo/low-stakes
-// campaign page — it is not real access control (anyone who reads the page
-// source can see it). The server/ folder has a properly server-enforced
-// version of this same login if that matters for your launch.
+// Demo mode only — a lightweight, client-side gate suitable for a demo/
+// low-stakes page, not real access control (anyone who reads the page
+// source can see it). In backend mode, whatever password is typed at
+// sign-in is sent to the server and checked for real against ADMIN_PASSWORD
+// on every admin request — this constant is unused then.
 const MODERATOR_PASSWORD = 'Postcard2030!';
 
 // Real stock photography behind each postcard, cycled by position.
@@ -435,38 +437,65 @@ const STOCK_IMAGES = [
   'https://images.unsplash.com/photo-1551076805-e1869033e561?w=900&q=80&auto=format&fit=crop',
 ];
 
-const STORAGE_KEY = 'upull_postcards_v1';        // all postcards live here
-const OWNED_KEY    = 'upull_owned_postcard_ids';  // ids this browser created — proves "mine"
-const SESSION_KEY  = 'upull_moderator_session';   // sessionStorage flag, cleared when the tab closes
+const STORAGE_KEY  = 'upull_postcards_v1';           // demo mode: all postcards live here
+const TOKENS_KEY   = 'upull_owned_postcard_tokens';  // { id: editToken } for postcards this browser created — proves "mine" in both modes
+const SESSION_KEY  = 'upull_moderator_session';      // sessionStorage flag, cleared when the tab closes
+const ADMIN_PW_KEY = 'upull_admin_password';         // backend mode only: the password typed at sign-in, resent on every admin request
 
 // Example postcards used to seed the wall during setup/demoing — removed
 // for launch so only real submissions appear. The isDemo flag and the
 // "Example — for illustration" badge logic are left in place below in case
-// example content is ever wanted again for local testing.
+// example content is ever wanted again for local testing. Demo mode only.
 const DEMO_EXAMPLES = [];
 
 function uid(){
   return (crypto && crypto.randomUUID) ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(16).slice(2);
 }
 
-function getPostcards(){
+// ---- local storage helpers (demo mode data, plus token bookkeeping used by both modes) ----
+
+function getLocalPostcards(){
   ensureSeeded();
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
 }
-function savePostcards(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+function saveLocalPostcards(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
 function ensureSeeded(){
-  if (localStorage.getItem(STORAGE_KEY) === null) savePostcards(DEMO_EXAMPLES);
+  if (localStorage.getItem(STORAGE_KEY) === null) saveLocalPostcards(DEMO_EXAMPLES);
 }
-function getOwnedIds(){
-  try { return JSON.parse(localStorage.getItem(OWNED_KEY) || '[]'); } catch { return []; }
+function getOwnedTokens(){
+  try { return JSON.parse(localStorage.getItem(TOKENS_KEY) || '{}'); } catch { return {}; }
 }
-function addOwnedId(id){
-  const ids = getOwnedIds();
-  ids.push(id);
-  localStorage.setItem(OWNED_KEY, JSON.stringify(ids));
+function addOwnedToken(id, token){
+  const tokens = getOwnedTokens();
+  tokens[id] = token;
+  localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
 }
-function isMine(id){ return getOwnedIds().includes(id); }
+function removeOwnedToken(id){
+  const tokens = getOwnedTokens();
+  delete tokens[id];
+  localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
+}
+function isMine(id){ return Object.prototype.hasOwnProperty.call(getOwnedTokens(), id); }
 function isAdmin(){ return sessionStorage.getItem(SESSION_KEY) === '1'; }
+function getAdminPassword(){ return sessionStorage.getItem(ADMIN_PW_KEY) || ''; }
+
+// ---- backend API helper (shared-wall mode only) ----------------------------
+
+async function apiRequest(path, opts = {}){
+  const res = await fetch(API_BASE_URL + path, opts);
+  let data = null;
+  try { data = await res.json(); } catch { /* no body */ }
+  if (!res.ok) {
+    const err = new Error((data && data.error) || `Request failed (${res.status})`);
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+function editTokensHeader(){
+  const tokens = getOwnedTokens();
+  return Object.entries(tokens).map(([id, t]) => `${id}:${t}`).join(',');
+}
 
 const trashSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6h16Z"/></svg>';
 
@@ -604,27 +633,40 @@ document.getElementById('postForm').addEventListener('submit', async (e) => {
   btn.disabled = true;
   btn.textContent = 'Sending…';
 
-  const postcard = {
-    id: uid(),
-    name: payload.name,
-    role: payload.role,
-    type: payload.type,
-    videoUrl: payload.type === 'video' ? payload.videoUrl : '',
-    message: payload.message,
-    status: 'pending',
-    createdAt: new Date().toISOString(),
-  };
+  try {
+    if (API_BASE_URL) {
+      const data = await apiRequest('/api/postcards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      addOwnedToken(data.id, data.editToken);
+    } else {
+      const postcard = {
+        id: uid(),
+        name: payload.name,
+        role: payload.role,
+        type: payload.type,
+        videoUrl: payload.type === 'video' ? payload.videoUrl : '',
+        message: payload.message,
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+      };
+      const all = getLocalPostcards();
+      all.push(postcard);
+      saveLocalPostcards(all);
+      addOwnedToken(postcard.id, 'local'); // demo mode: value is unused, presence is what matters
+      notifyAdmin(postcard); // fire-and-forget — doesn't block the success message below
+    }
 
-  const all = getPostcards();
-  all.push(postcard);
-  savePostcards(all);
-  addOwnedId(postcard.id);
-  notifyAdmin(postcard); // fire-and-forget — doesn't block the success message below
-
-  msg.className = 'form-msg ok';
-  msg.textContent = 'Thank you — your postcard has been submitted for review and will appear on the wall once verified.';
-  document.getElementById('postForm').reset();
-  renderGallery();
+    msg.className = 'form-msg ok';
+    msg.textContent = 'Thank you — your postcard has been submitted for review and will appear on the wall once verified.';
+    document.getElementById('postForm').reset();
+    await renderGallery();
+  } catch (err) {
+    msg.className = 'form-msg err';
+    msg.textContent = err.message || 'Something went wrong sending your postcard — please try again.';
+  }
 
   btn.disabled = false;
   btn.textContent = 'Submit for review';
@@ -805,8 +847,8 @@ function buildCard(pc, idx){
   card.appendChild(photo);
   card.appendChild(buildStamp());
 
-  // Delete icon — visible only to the postcard's original author (created it
-  // in this browser) or a signed-in moderator.
+  // Delete icon — visible only to the postcard's original author (this
+  // browser holds a valid edit token for it) or a signed-in moderator.
   if (pc.mine || isAdmin()) {
     const del = document.createElement('button');
     del.type = 'button';
@@ -827,14 +869,30 @@ function buildCard(pc, idx){
   return card;
 }
 
-function renderGallery(){
+async function renderGallery(){
   const grid = document.getElementById('gallery');
   document.getElementById('expandLayer').innerHTML = ''; // drop last render's overlays before rebuilding
-  const owned = getOwnedIds();
-  const visible = getPostcards()
-    .filter(pc => pc.status === 'approved' || owned.includes(pc.id) || isAdmin())
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .map(pc => ({ ...pc, mine: owned.includes(pc.id) }));
+  grid.innerHTML = '<div class="wall-loading">Loading postcards…</div>';
+
+  let visible;
+  try {
+    if (API_BASE_URL) {
+      const headers = {};
+      const tokenHeader = editTokensHeader();
+      if (tokenHeader) headers['x-edit-tokens'] = tokenHeader;
+      const data = await apiRequest('/api/postcards', { headers });
+      visible = data.postcards;
+    } else {
+      const owned = getOwnedTokens();
+      visible = getLocalPostcards()
+        .filter(pc => pc.status === 'approved' || Object.prototype.hasOwnProperty.call(owned, pc.id) || isAdmin())
+        .map(pc => ({ ...pc, mine: Object.prototype.hasOwnProperty.call(owned, pc.id) }));
+    }
+    visible = visible.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  } catch (err) {
+    grid.innerHTML = `<div class="wall-empty">Couldn't load postcards right now (${err.message}). Try refreshing.</div>`;
+    return;
+  }
 
   grid.innerHTML = '';
   if (!visible.length) {
@@ -844,45 +902,85 @@ function renderGallery(){
   visible.forEach((pc, idx) => grid.appendChild(buildCard(pc, idx)));
 }
 
-function deletePostcard(id){
+async function deletePostcard(id){
   if (!confirm('Remove this postcard? This cannot be undone.')) return;
-  const owned = getOwnedIds();
-  if (!isAdmin() && !owned.includes(id)) {
-    alert("This isn't your postcard, so it can't be removed from this browser.");
-    return;
+  try {
+    if (API_BASE_URL) {
+      const headers = {};
+      if (isAdmin() && getAdminPassword()) {
+        headers['x-admin-password'] = getAdminPassword();
+      } else {
+        const tokens = getOwnedTokens();
+        if (!tokens[id]) { alert("This isn't your postcard, so it can't be removed from this browser."); return; }
+        headers['x-edit-token'] = tokens[id];
+      }
+      await apiRequest(`/api/postcards/${id}`, { method: 'DELETE', headers });
+    } else {
+      const owned = getOwnedTokens();
+      if (!isAdmin() && !Object.prototype.hasOwnProperty.call(owned, id)) {
+        alert("This isn't your postcard, so it can't be removed from this browser.");
+        return;
+      }
+      saveLocalPostcards(getLocalPostcards().filter(pc => pc.id !== id));
+    }
+    removeOwnedToken(id);
+    await renderGallery();
+    if (isAdmin()) await renderPending();
+  } catch (err) {
+    alert(err.message || "Couldn't remove that postcard — please try again.");
   }
-  savePostcards(getPostcards().filter(pc => pc.id !== id));
-  if (owned.includes(id)) localStorage.setItem(OWNED_KEY, JSON.stringify(owned.filter(x => x !== id)));
-  renderGallery();
-  if (isAdmin()) renderPending();
 }
 
 // ---- moderator login + pending queue ---------------------------------------
 
-document.getElementById('loginBtn').onclick = () => {
+document.getElementById('loginBtn').onclick = async () => {
   const pw = document.getElementById('adminPasswordInput').value;
   const status = document.getElementById('adminStatus');
+  status.textContent = '';
+
+  if (API_BASE_URL) {
+    try {
+      await apiRequest('/api/postcards/pending', { headers: { 'x-admin-password': pw } });
+      sessionStorage.setItem(ADMIN_PW_KEY, pw);
+      sessionStorage.setItem(SESSION_KEY, '1');
+      await enterModeratorMode();
+    } catch (err) {
+      status.textContent = err.status === 401 ? 'That password was not recognised.' : (err.message || 'Sign-in failed — please try again.');
+    }
+    return;
+  }
+
   if (pw !== MODERATOR_PASSWORD) {
     status.textContent = 'That password was not recognised.';
     return;
   }
   sessionStorage.setItem(SESSION_KEY, '1');
-  enterModeratorMode();
-  status.textContent = '';
+  await enterModeratorMode();
 };
 
-function enterModeratorMode(){
+async function enterModeratorMode(){
   document.getElementById('loginRow').style.display = 'none';
   document.getElementById('modPanel').style.display = 'block';
   document.getElementById('modOpen').textContent = '🔓';
   document.getElementById('modOpen').title = 'Moderator mode active';
-  renderPending();
-  renderGallery();
+  await renderPending();
+  await renderGallery();
 }
 
-function renderPending(){
+async function renderPending(){
   const list = document.getElementById('modList');
-  const pending = getPostcards().filter(pc => pc.status === 'pending');
+  let pending;
+  try {
+    if (API_BASE_URL) {
+      const data = await apiRequest('/api/postcards/pending', { headers: { 'x-admin-password': getAdminPassword() } });
+      pending = data.postcards;
+    } else {
+      pending = getLocalPostcards().filter(pc => pc.status === 'pending');
+    }
+  } catch (err) {
+    list.innerHTML = `<p class="admin-status">Couldn't load the queue (${err.message}).</p>`;
+    return;
+  }
   list.innerHTML = '';
   if (!pending.length) {
     list.innerHTML = '<p class="admin-status">Nothing waiting for review.</p>';
@@ -920,18 +1018,29 @@ function renderPending(){
   });
 }
 
-function moderate(id, status){
-  const all = getPostcards();
-  const idx = all.findIndex(pc => pc.id === id);
-  if (idx === -1) return;
-  // Rejected postcards are kept (so the author sees "Not approved" and the
-  // moderator has a record) but renderGallery() only shows non-approved
-  // postcards to their own author or a signed-in admin — the public wall
-  // never sees them.
-  all[idx] = { ...all[idx], status };
-  savePostcards(all);
-  renderPending();
-  renderGallery();
+async function moderate(id, status){
+  try {
+    if (API_BASE_URL) {
+      await apiRequest(`/api/postcards/${id}/${status === 'approved' ? 'approve' : 'reject'}`, {
+        method: 'POST',
+        headers: { 'x-admin-password': getAdminPassword() },
+      });
+    } else {
+      // Rejected postcards are kept (so the author sees "Not approved" and
+      // the moderator has a record) but renderGallery() only shows
+      // non-approved postcards to their own author or a signed-in admin —
+      // the public wall never sees them.
+      const all = getLocalPostcards();
+      const idx = all.findIndex(pc => pc.id === id);
+      if (idx === -1) return;
+      all[idx] = { ...all[idx], status };
+      saveLocalPostcards(all);
+    }
+    await renderPending();
+    await renderGallery();
+  } catch (err) {
+    alert(err.message || "Couldn't update that postcard — please try again.");
+  }
 }
 
 // restore moderator session if this browser tab already signed in
