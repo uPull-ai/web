@@ -6,7 +6,7 @@ const rateLimit = require("express-rate-limit");
 const db = require("./db");
 
 const PORT = process.env.PORT || 3001;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "comgyv-saRcuv-4setfo";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "fivba3-hobNes-vyzdod@";
 const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || "8bdba7a3-9c31-46ef-a6e3-f985ac4337e2";
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
 
