@@ -349,8 +349,8 @@ footer nav a:hover{color:#fff}
       </div>
       <div class="field full">
         <label for="pcMessage" id="messageLabel">Your postcard message</label>
-        <textarea id="pcMessage" maxlength="500" placeholder="It's 2030. The decision that changed our service was…"></textarea>
-        <span class="hint" style="display:block;margin-top:6px;font-size:.78rem;color:rgba(255,255,255,.4)">Up to 500 characters.</span>
+        <textarea id="pcMessage" maxlength="2000" placeholder="It's 2030. The decision that changed our service was…"></textarea>
+        <span class="hint" id="wordCountHint" style="display:block;margin-top:6px;font-size:.78rem;color:rgba(255,255,255,.4)">Up to 250 words.</span>
       </div>
       <!-- honeypot: hidden from real visitors, sometimes filled in by bots -->
       <div class="hp-field" aria-hidden="true">
@@ -576,6 +576,24 @@ function openVideo(url){
 
 // ---- submission form: word / video tabs -----------------------------------
 
+const MAX_MESSAGE_WORDS = 250;
+function countWords(text){
+  const trimmed = (text || '').trim();
+  return trimmed ? trimmed.split(/\s+/).length : 0;
+}
+
+const pcMessageEl = document.getElementById('pcMessage');
+const wordCountHintEl = document.getElementById('wordCountHint');
+function updateWordCountHint(){
+  const n = countWords(pcMessageEl.value);
+  wordCountHintEl.textContent = n > MAX_MESSAGE_WORDS
+    ? `${n} / ${MAX_MESSAGE_WORDS} words. Please trim it down.`
+    : `${n} / ${MAX_MESSAGE_WORDS} words.`;
+  wordCountHintEl.style.color = n > MAX_MESSAGE_WORDS ? '#ff8b8b' : 'rgba(255,255,255,.4)';
+}
+pcMessageEl.addEventListener('input', updateWordCountHint);
+updateWordCountHint();
+
 let currentType = 'word';
 document.querySelectorAll('[data-type]').forEach(btn => {
   btn.onclick = () => {
@@ -607,9 +625,9 @@ document.getElementById('postForm').addEventListener('submit', async (e) => {
     msg.textContent = 'Please add your name and a message of at least 10 characters.';
     return;
   }
-  if (payload.message.length > 500) {
+  if (countWords(payload.message) > MAX_MESSAGE_WORDS) {
     msg.className = 'form-msg err';
-    msg.textContent = 'Your postcard message is over 500 characters — please trim it down.';
+    msg.textContent = `Your postcard message is over ${MAX_MESSAGE_WORDS} words. Please trim it down.`;
     return;
   }
   if (currentType === 'video' && !/^https?:\/\//i.test(payload.videoUrl)) {
