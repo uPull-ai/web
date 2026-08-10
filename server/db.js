@@ -16,6 +16,14 @@ const pool = new Pool({
     : { rejectUnauthorized: false },
 });
 
+// Without this listener, a network-level error on an idle pooled connection
+// (a dropped connection, a host that can't be reached, etc.) throws as an
+// uncaught exception and takes the entire Node process down. This is what
+// was crashing the whole server, not just the request that hit it.
+pool.on("error", (err) => {
+  console.error("[db] unexpected error on idle client:", err.message);
+});
+
 let readyPromise = null;
 
 function ensureStore() {
