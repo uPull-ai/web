@@ -309,28 +309,6 @@
     .tl-course .tl-desc{font-size:.78rem;color:var(--muted);line-height:1.45;margin-bottom:.5rem}
     .tl-course .tl-foot{display:flex;justify-content:space-between;align-items:center;gap:.4rem;flex-wrap:wrap}
 
-    /* Leaderboards */
-    .lb-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-    @media(max-width:800px){.lb-grid{grid-template-columns:1fr}}
-    .lb-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.5rem}
-    .lb-card h3{color:var(--navy);font-size:1.1rem;margin-bottom:.2rem}
-    .lb-card .lb-sub{color:var(--muted);font-size:.82rem;margin-bottom:1rem}
-    .lb-table{width:100%;border-collapse:collapse}
-    .lb-table th,.lb-table td{text-align:left;padding:.55rem .5rem;border-bottom:1px solid var(--border);font-size:.85rem}
-    .lb-table th{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
-    .lb-rank{font-weight:800;color:var(--navy);width:2.2rem}
-    .lb-you{background:#fff7ed}
-    .lb-note{font-size:.76rem;color:var(--muted);margin-top:.8rem}
-
-    /* Community teaser */
-    .community-teaser-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-    @media(max-width:850px){.community-teaser-grid{grid-template-columns:1fr}}
-    .community-teaser-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.3rem;display:flex;flex-direction:column;gap:.5rem}
-    .community-teaser-card .ctc-tag{align-self:flex-start}
-    .community-teaser-card h4{color:var(--navy);font-size:.98rem}
-    .community-teaser-card p{color:var(--muted);font-size:.85rem;line-height:1.5;flex:1}
-    .community-cta-row{display:flex;justify-content:center;margin-top:1.6rem}
-
     /* Login / profile */
     .login-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
     @media(max-width:850px){.login-layout{grid-template-columns:1fr}}
@@ -519,7 +497,6 @@
             <li><a href="#" onclick="showSection('intrapreneur'); closeAllSubmenus(); closeMobileNav(); return false;">Intrapreneur Route</a></li>
             <li><a href="#" onclick="showSection('promptengineering'); closeAllSubmenus(); closeMobileNav(); return false;">Prompt Engineering</a></li>
             <li><a href="#" onclick="jumpToTab('casestudies'); return false;">Case Studies</a></li>
-            <li><a href="#" onclick="showSection('scores'); closeAllSubmenus(); closeMobileNav(); return false;">Score Tables</a></li>
             <li><a href="readiness.html">AI Readiness</a></li>
           </ul>
         </li>
@@ -597,7 +574,7 @@
     <div class="sidebar-sticky">
       <div class="sidebar-card sidebar-card-main" id="loginSignedOut">
         <h4>🔐 Log in for tailored benefits</h4>
-        <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">Same profile as the Community Hub. Unlock a personal route, CPD tracking and a place on the score tables.</p>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">Same profile as the Community Hub. Unlock a personal route and CPD tracking.</p>
 
         <label for="nhsEmailInput" style="font-size:.75rem;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.03em">Sign in with your email</label>
         <div style="display:flex;gap:.4rem;margin-top:.4rem">
@@ -643,7 +620,6 @@
         <h4>Quick links</h4>
         <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.85rem">
           <a href="#" style="color:var(--blue);font-weight:600" onclick="openCPDModal(); return false;">💡 What is CPD?</a>
-          <a href="#" style="color:var(--blue);font-weight:600" onclick="showSection('scores'); return false;">🏆 View score tables</a>
           <a href="community.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">💬 Community forum</a>
         </div>
       </div>
@@ -655,7 +631,7 @@
     <h3>Who is uGrowX for?</h3>
     <div class="role-mini-grid" style="margin-top:0">
       <div class="role-mini-card"><strong>Learner</strong>Personal route, CPD credits, badges and saved courses.</div>
-      <div class="role-mini-card"><strong>Leader</strong>Team uptake, organisation scores, pathway planning.</div>
+      <div class="role-mini-card"><strong>Leader</strong>Team uptake, CPD tracking, pathway planning.</div>
       <div class="role-mini-card"><strong>Supplier</strong>Updates &amp; recognition mapping in the Community Hub.</div>
     </div>
   </section>
@@ -670,7 +646,6 @@
         <button class="section-nav-btn" data-section="intrapreneur" onclick="showSection('intrapreneur')">🚀 Intrapreneur Route</button>
         <button class="section-nav-btn" data-section="promptengineering" onclick="showSection('promptengineering')">✍️ Prompt Engineering</button>
         <button class="section-nav-btn" data-section="library" onclick="showSection('library')">📚 Course Library</button>
-        <button class="section-nav-btn" data-section="scores" onclick="showSection('scores')">🏆 Scores &amp; Community</button>
       </nav>
 
       <!-- ══════════════ VIEW 1: OVERVIEW + CPD ══════════════ -->
@@ -886,56 +861,6 @@
             </div>
           </section>
         </div>
-      </div>
-
-      <!-- ══════════════ VIEW 5: SCORES & COMMUNITY ══════════════ -->
-      <div id="section-scores" class="academy-view">
-        <section style="padding-top:.5rem" id="leaderboards">
-          <h2 class="section-title">Score tables</h2>
-          <p class="section-subtitle">Friendly competition keeps learning enjoyable — track organisation uptake and individual progress as points and CPD credits are logged.</p>
-          <div class="lb-grid">
-            <div class="lb-card">
-              <h3>🏥 Organisation score table</h3>
-              <div class="lb-sub">Ranked by total points logged by staff at each organisation.</div>
-              <table class="lb-table">
-                <thead><tr><th>#</th><th>Organisation</th><th>Points</th><th>Badges</th></tr></thead>
-                <tbody id="orgBoardBody"></tbody>
-              </table>
-              <div class="lb-note" id="orgBoardNote"></div>
-            </div>
-            <div class="lb-card">
-              <h3>🙋 Individual score table</h3>
-              <div class="lb-sub">Ranked by personal points earned across pathways.</div>
-              <table class="lb-table">
-                <thead><tr><th>#</th><th>Learner</th><th>Points</th><th>Route</th></tr></thead>
-                <tbody id="individualBoardBody"></tbody>
-              </table>
-              <div class="lb-note" id="individualBoardNote"></div>
-            </div>
-          </div>
-        </section>
-
-        <section id="community">
-          <h2 class="section-title">Built for learners, leaders and suppliers</h2>
-          <p class="section-subtitle">The academy sits inside the wider uPull.ai Community — discussion, case studies and supplier updates all live there.</p>
-          <div class="community-teaser-grid">
-            <article class="community-teaser-card">
-              <span class="tag tag-clinical ctc-tag">Case study spotlight</span>
-              <h4>Ambient documentation pilot</h4>
-              <p>An ambient documentation pilot reduced duplicated note-writing time and improved clinician satisfaction — read the full case study and its linked courses.</p>
-              <a href="#" class="btn-sm btn-blue" onclick="jumpToCS('CS1'); return false;">Read the case study →</a>
-            </article>
-            <article class="community-teaser-card">
-              <span class="tag tag-robotic ctc-tag">Community discussion</span>
-              <h4>Join the live forum</h4>
-              <p>Share validation insights, ask workflow questions and connect with other learners, leaders and suppliers across the NHS and public sector.</p>
-              <a href="community.html" target="_blank" rel="noopener" class="btn-sm btn-blue">Open the Community Hub →</a>
-            </article>
-          </div>
-          <div class="community-cta-row">
-            <a href="community.html" target="_blank" rel="noopener" class="cta-btn">Visit the full uPull.ai Community Hub →</a>
-          </div>
-        </section>
       </div>
 
     </div><!-- /.academy-content -->
@@ -1268,7 +1193,6 @@ window.onload = function() {
   showExplorer('agentic');
   renderIntrapreneur();
   renderPromptEngineering();
-  initLeaderboards();
   initAuth();
 };
 
@@ -1414,7 +1338,7 @@ function closeMobileNav() {
 
 /* ══════════════════════════════════════════════════════════════════
    TOP-LEVEL SECTION NAVIGATION — Overview / Find My Pathway /
-   Intrapreneur / Course Library / Scores & Community.
+   Intrapreneur / Course Library.
    ══════════════════════════════════════════════════════════════════ */
 function showSection(name) {
   document.querySelectorAll('.academy-view').forEach(v => v.classList.remove('active-view'));
@@ -1759,69 +1683,6 @@ function renderPromptEngineering() {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   LEADERBOARDS — organisation and individual score tables. Falls back
-   to sample rows until real learners appear in Firestore.
-   ══════════════════════════════════════════════════════════════════ */
-const sampleOrgBoard = [
-  {name:'Great Ormond Street Hospital', points:2850, badges:14},
-  {name:'University College London NHS Trust', points:2530, badges:12},
-  {name:'Royal Free London', points:2280, badges:11},
-  {name:'Barts Health NHS Trust', points:2120, badges:10}
-];
-const sampleIndividualBoard = [
-  {name:'Dr S. Chen', points:345, route:'Clinical'},
-  {name:'J. Mitchell', points:328, route:'Agentic'},
-  {name:'E. Robinson', points:312, route:'Ambience'},
-  {name:'D. Patel', points:272, route:'Robotic'}
-];
-
-function renderOrgBoard(rows, isLive) {
-  const tbody = document.getElementById('orgBoardBody');
-  if (!tbody) return;
-  tbody.innerHTML = rows.map((r,i) => `<tr><td class="lb-rank">${i+1}</td><td>${r.name}</td><td>${r.points.toLocaleString('en-GB')}</td><td>${r.badges}</td></tr>`).join('');
-  const note = document.getElementById('orgBoardNote');
-  if (note) note.textContent = isLive ? 'Live scores from signed-in learners.' : 'Sample scores — sign in and log an organisation to join the table.';
-}
-
-function renderIndividualBoard(rows, isLive, currentUid) {
-  const tbody = document.getElementById('individualBoardBody');
-  if (!tbody) return;
-  tbody.innerHTML = rows.map((r,i) => `<tr class="${r.uid && r.uid === currentUid ? 'lb-you' : ''}"><td class="lb-rank">${i+1}</td><td>${r.name}${r.uid && r.uid === currentUid ? ' (you)' : ''}</td><td>${r.points.toLocaleString('en-GB')}</td><td>${r.route || '—'}</td></tr>`).join('');
-  const note = document.getElementById('individualBoardNote');
-  if (note) note.textContent = isLive ? 'Live scores from signed-in learners.' : 'Sample scores — sign in below and mark a course complete to join the table.';
-}
-
-function initLeaderboards() {
-  renderOrgBoard(sampleOrgBoard, false);
-  renderIndividualBoard(sampleIndividualBoard, false, null);
-
-  const tryLive = () => {
-    const f = window.__firebase;
-    if (!f) return;
-    try {
-      const orgQ = f.query(f.collection(f.db, 'academyOrgScores'), f.orderBy('points','desc'), f.limit(8));
-      f.onSnapshot(orgQ, snap => {
-        if (snap.empty) { renderOrgBoard(sampleOrgBoard, false); return; }
-        const rows = [];
-        snap.forEach(d => rows.push(d.data()));
-        renderOrgBoard(rows, true);
-      }, () => renderOrgBoard(sampleOrgBoard, false));
-
-      const indQ = f.query(f.collection(f.db, 'academyProfiles'), f.orderBy('points','desc'), f.limit(10));
-      f.onSnapshot(indQ, snap => {
-        if (snap.empty) { renderIndividualBoard(sampleIndividualBoard, false, window.__currentUid); return; }
-        const rows = [];
-        snap.forEach(d => rows.push(d.data()));
-        renderIndividualBoard(rows, true, window.__currentUid);
-      }, () => renderIndividualBoard(sampleIndividualBoard, false, window.__currentUid));
-    } catch (err) {
-      console.error('Leaderboard live sync unavailable:', err);
-    }
-  };
-  if (window.__firebaseReady) tryLive(); else window.addEventListener('firebaseReady', tryLive);
-}
-
-/* ══════════════════════════════════════════════════════════════════
    LOG IN, PROFILE &amp; POINTS — shared Firebase project with
    community.html, so signing in on either page gives the same profile.
    ══════════════════════════════════════════════════════════════════ */
@@ -1974,12 +1835,6 @@ async function saveOrganisation() {
   if (!org) return;
   const ref = f.doc(f.db, 'academyProfiles', window.__currentUid);
   await f.updateDoc(ref, { organisation: org });
-  const slug = org.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'organisation';
-  const orgRef = f.doc(f.db, 'academyOrgScores', slug);
-  const orgSnap = await f.getDoc(orgRef);
-  if (!orgSnap.exists()) {
-    await f.setDoc(orgRef, { name: org, points: 0, badges: 0 });
-  }
   showPointsToast(`Organisation set to ${org}`);
 }
 
@@ -1996,18 +1851,6 @@ async function awardPoints(courseId, points, cpd, label) {
     cpd: f.increment(cpd),
     completedCourses: f.arrayUnion(courseId)
   });
-
-  const org = snap.exists() ? snap.data().organisation : '';
-  if (org) {
-    const slug = org.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'organisation';
-    const orgRef = f.doc(f.db, 'academyOrgScores', slug);
-    const orgSnap = await f.getDoc(orgRef);
-    if (orgSnap.exists()) {
-      await f.updateDoc(orgRef, { points: f.increment(points), badges: f.increment(points >= 30 ? 1 : 0) });
-    } else {
-      await f.setDoc(orgRef, { name: org, points: points, badges: 0 });
-    }
-  }
 
   document.querySelectorAll(`.mark-complete-btn[data-course="${courseId}"]`).forEach(btn => {
     btn.classList.add('done');
