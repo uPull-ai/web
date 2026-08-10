@@ -198,7 +198,7 @@ app.post("/api/postcards", submitLimiter, async (req, res) => {
     approvedAt: null,
   };
 
-  db.insertPostcard(postcard);
+  await db.insertPostcard(postcard);
   notifyAdmin(postcard); // fire-and-forget — don't block the response on email delivery
 
   res.status(201).json({ id: postcard.id, editToken, status: postcard.status });
@@ -206,9 +206,9 @@ app.post("/api/postcards", submitLimiter, async (req, res) => {
 
 // Public wall feed: approved postcards for everyone, plus the caller's own
 // pending/rejected postcards if they present valid edit tokens for them.
-app.get("/api/postcards", (req, res) => {
+app.get("/api/postcards", async (req, res) => {
   const tokens = parseEditTokens(req);
-  const all = db.getAllPostcards();
+  const all = await db.getAllPostcards();
 
   const result = all
     .filter((p) => {
@@ -227,10 +227,10 @@ app.get("/api/postcards", (req, res) => {
 });
 
 // Admin-only: full moderation queue, including submitter email.
-app.get("/api/postcards/pending", (req, res) => {
+app.get("/api/postcards/pending", async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: "Admin password required." });
-  const pending = db
-    .getAllPostcards()
+  const all = await db.getAllPostcards();
+  const pending = all
     .filter((p) => p.status === "pending")
     .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
     .map(adminShape);
@@ -238,38 +238,38 @@ app.get("/api/postcards/pending", (req, res) => {
 });
 
 // Admin-only: approve a pending postcard so it appears on the public wall.
-app.post("/api/postcards/:id/approve", (req, res) => {
+app.post("/api/postcards/:id/approve", async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: "Admin password required." });
-  const postcard = db.findPostcard(req.params.id);
+  const postcard = await db.findPostcard(req.params.id);
   if (!postcard) return res.status(404).json({ error: "Postcard not found." });
-  const updated = db.updatePostcard(postcard.id, { status: "approved", approvedAt: new Date().toISOString() });
+  const updated = await db.updatePostcard(postcard.id, { status: "approved", approvedAt: new Date().toISOString() });
   res.json({ postcard: adminShape(updated) });
 });
 
 // Admin-only: reject a pending postcard (kept, marked rejected, never goes public).
-app.post("/api/postcards/:id/reject", (req, res) => {
+app.post("/api/postcards/:id/reject", async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: "Admin password required." });
-  const postcard = db.findPostcard(req.params.id);
+  const postcard = await db.findPostcard(req.params.id);
   if (!postcard) return res.status(404).json({ error: "Postcard not found." });
-  const updated = db.updatePostcard(postcard.id, { status: "rejected" });
+  const updated = await db.updatePostcard(postcard.id, { status: "rejected" });
   res.json({ postcard: adminShape(updated) });
 });
 
 // Delete — allowed for the admin team (x-admin-password) or the original
 // author (x-edit-token matching the token they were issued at submission).
 // Everyone else gets 403: read-only for the general public, by design.
-app.delete("/api/postcards/:id", (req, res) => {
-  const postcard = db.findPostcard(req.params.id);
+app.delete("/api/postcards/:id", async (req, res) => {
+  const postcard = await db.findPostcard(req.params.id);
   if (!postcard) return res.status(404).json({ error: "Postcard not found." });
 
   if (isAdmin(req)) {
-    db.deletePostcard(postcard.id);
+    await db.deletePostcard(postcard.id);
     return res.json({ deleted: true, by: "admin" });
   }
 
   const suppliedToken = req.get("x-edit-token") || "";
   if (suppliedToken && safeEqual(sha256(suppliedToken), postcard.editTokenHash)) {
-    db.deletePostcard(postcard.id);
+    await db.deletePostcard(postcard.id);
     return res.json({ deleted: true, by: "author" });
   }
 
