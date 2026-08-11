@@ -1,519 +1,539 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>uPull.ai Weekly — Agentic, Robotics, Ambient &amp; Clinical AI News for NHS Teams</title>
-  <meta name="description" content="uPull.ai Weekly tracks Agentic, Robotics, Ambient and Clinical AI in the NHS — every issue pairs a headline development with a real NHS use case, a governance or ethics note, and a workflow to try. Read the latest issue or browse the archive.">
-  <meta property="og:title" content="uPull.ai Weekly — Agentic, Robotics, Ambient &amp; Clinical AI News for NHS Teams">
-  <meta property="og:description" content="A headline, an NHS use case, a governance note and a workflow to try — for Agentic, Robotics, Ambient and Clinical AI, every week.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1666971618809-4ab00b6b31c7?auto=format&fit=crop&w=1200&h=630&q=80">
-  <meta property="og:type" content="website">
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;scroll-behavior:smooth}
-    body{background:#F8FAFC;color:#1E293B;line-height:1.6}
-    :root{
-      --navy:#003087;--blue:#005EB8;--blue-rgb:0,94,184;--orange:#ED8B00;--orange-hover:#c26f00;--bg:#F8FAFC;
-      --card:#ffffff;--muted:#768692;--border:#E8EDEE;
-      --agentic:#AE2573;--ambient:#41B6E6;--clinical:#00A499;--robotic:#DA291C;--learning:#FFB81C;
-    }
-    header{background:var(--navy);padding:1rem 5%;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--blue);box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
-    .nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.5rem}
-    .nav-right{display:flex;align-items:center;gap:18px}
-    .logo{color:#fff;font-size:1.6rem;font-weight:800;text-decoration:none;letter-spacing:-0.5px}
-    .logo span{color:var(--orange)}
-    .nav-menu{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
-    .nav-item{position:relative}
-    .nav-link-item{display:flex;align-items:center;gap:6px;padding:.6rem .9rem;border-radius:999px;background:none;border:none;cursor:pointer;color:#fff;font-size:.9rem;font-weight:600;font-family:inherit;transition:color .2s,background .2s}
-    .nav-link-item:hover,.nav-item.open>.nav-link-item,.nav-link-item.active-tab{color:var(--orange);background:rgba(255,255,255,.08)}
-    .nav-chevron{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-2px;transition:transform .2s}
-    .nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
-    .nav-submenu{list-style:none;margin:0;position:absolute;top:calc(100% + 10px);left:0;min-width:230px;padding:.5rem;border-radius:12px;background:var(--navy);border:1px solid rgba(255,255,255,.14);border-top:3px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s ease,transform .18s ease,visibility .18s;z-index:1100}
-    .nav-item.open>.nav-submenu,.nav-item:hover>.nav-submenu{opacity:1;visibility:visible;transform:translateY(0)}
-    .nav-submenu li a{display:block;padding:.6rem .75rem;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:.85rem;font-weight:500;transition:background .15s,color .15s}
-    .nav-submenu li a:hover{background:rgba(var(--blue-rgb),.28);color:#fff}
-    .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
-    .nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
-    .nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
-    .nav-toggle.active span:nth-child(2){opacity:0}
-    .nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-    .nav-icon-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;font-size:1.05rem;text-decoration:none;background:rgba(255,255,255,.08);transition:background .2s,transform .15s}
-    .nav-icon-btn:hover,.nav-icon-btn.active-tab{background:var(--orange);transform:translateY(-1px)}
-    .cta-btn{background:var(--orange);color:#fff;padding:.6rem 1.2rem;border-radius:4px;font-weight:600;border:none;cursor:pointer;transition:background .2s,transform .1s;text-decoration:none;display:inline-block;font-size:.9rem;white-space:nowrap}
-    .cta-btn:hover{background:var(--orange-hover);transform:translateY(-1px)}
-    @media(max-width:767px){
-      .nav-toggle{display:block}
-      .nav-menu{display:none;position:fixed;top:68px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:var(--navy);padding:.9rem 1.25rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.14);max-height:calc(100vh - 68px);overflow-y:auto;z-index:999}
-      .nav-menu.mobile-open{display:flex}
-      .nav-link-item{width:100%;justify-content:space-between}
-      .nav-submenu{position:static;opacity:1;visibility:visible;transform:none;display:none;box-shadow:none;background:rgba(255,255,255,.05);margin:.25rem 0 .5rem}
-      .nav-item.open>.nav-submenu{display:block}
-    }
-    .breadcrumb{background:#eef2f7;border-bottom:1px solid var(--border);padding:.55rem 5%}
-    .breadcrumb-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
-    .breadcrumb-inner a{color:var(--blue);text-decoration:none;font-weight:600}
-    .breadcrumb-inner a:hover{color:var(--orange)}
-    .breadcrumb-inner .bc-sep{color:#94a3b8}
-    .breadcrumb-inner .bc-current{color:var(--navy);font-weight:700}
-    main{max-width:1000px;margin:0 auto;padding:0 5%}
-    section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
-    .section-title{font-size:1.9rem;color:var(--navy);margin-bottom:.4rem;font-weight:800;display:flex;align-items:center;gap:.6rem}
-    .section-subtitle{color:var(--muted);font-size:.95rem;max-width:700px;margin-bottom:2rem;line-height:1.55}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>uPull.ai Weekly — Agentic, Robotics, Ambient &amp; Clinical AI News for NHS Teams</title>
+<meta name="description" content="uPull.ai Weekly tracks Agentic, Robotics, Ambient and Clinical AI in the NHS — every issue pairs a headline development with a real NHS use case, a governance or ethics note, and a workflow to try. Read the latest issue or browse the archive.">
+<meta property="og:title" content="uPull.ai Weekly — Agentic, Robotics, Ambient &amp; Clinical AI News for NHS Teams">
+<meta property="og:description" content="A headline, an NHS use case, a governance note and a workflow to try — for Agentic, Robotics, Ambient and Clinical AI, every week.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1666971618809-4ab00b6b31c7?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta property="og:type" content="website">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;scroll-behavior:smooth}
+body{background:#F8FAFC;color:#1E293B;line-height:1.6}
+:root{
+--navy:#003087;--blue:#005EB8;--blue-rgb:0,94,184;--orange:#ED8B00;--orange-hover:#c26f00;--bg:#F8FAFC;
+--card:#ffffff;--muted:#768692;--border:#E8EDEE;
+--agentic:#AE2573;--ambient:#41B6E6;--clinical:#00A499;--robotic:#DA291C;--learning:#FFB81C;
+}
+header{background:var(--navy);padding:1rem 5%;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--blue);box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
+.nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.5rem}
+.nav-right{display:flex;align-items:center;gap:18px}
+.logo{color:#fff;font-size:1.6rem;font-weight:800;text-decoration:none;letter-spacing:-0.5px}
+.logo span{color:var(--orange)}
+.nav-menu{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+.nav-item{position:relative}
+.nav-link-item{display:flex;align-items:center;gap:6px;padding:.6rem .9rem;border-radius:999px;background:none;border:none;cursor:pointer;color:#fff;font-size:.9rem;font-weight:600;font-family:inherit;transition:color .2s,background .2s}
+.nav-link-item:hover,.nav-item.open>.nav-link-item,.nav-link-item.active-tab{color:var(--orange);background:rgba(255,255,255,.08)}
+.nav-chevron{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-2px;transition:transform .2s}
+.nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
+.nav-submenu{list-style:none;margin:0;position:absolute;top:calc(100% + 10px);left:0;min-width:230px;padding:.5rem;border-radius:12px;background:var(--navy);border:1px solid rgba(255,255,255,.14);border-top:3px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s ease,transform .18s ease,visibility .18s;z-index:1100}
+.nav-item.open>.nav-submenu,.nav-item:hover>.nav-submenu{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-submenu li a{display:block;padding:.6rem .75rem;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:.85rem;font-weight:500;transition:background .15s,color .15s}
+.nav-submenu li a:hover{background:rgba(var(--blue-rgb),.28);color:#fff}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
+.nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.nav-icon-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;font-size:1.05rem;text-decoration:none;background:rgba(255,255,255,.08);transition:background .2s,transform .15s}
+.nav-icon-btn:hover,.nav-icon-btn.active-tab{background:var(--orange);transform:translateY(-1px)}
+.cta-btn{background:var(--orange);color:#fff;padding:.6rem 1.2rem;border-radius:4px;font-weight:600;border:none;cursor:pointer;transition:background .2s,transform .1s;text-decoration:none;display:inline-block;font-size:.9rem;white-space:nowrap}
+.cta-btn:hover{background:var(--orange-hover);transform:translateY(-1px)}
+@media(max-width:767px){
+.nav-toggle{display:block}
+.nav-menu{display:none;position:fixed;top:68px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:var(--navy);padding:.9rem 1.25rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.14);max-height:calc(100vh - 68px);overflow-y:auto;z-index:999}
+.nav-menu.mobile-open{display:flex}
+.nav-link-item{width:100%;justify-content:space-between}
+.nav-submenu{position:static;opacity:1;visibility:visible;transform:none;display:none;box-shadow:none;background:rgba(255,255,255,.05);margin:.25rem 0 .5rem}
+.nav-item.open>.nav-submenu{display:block}
+}
+.breadcrumb{background:#eef2f7;border-bottom:1px solid var(--border);padding:.55rem 5%}
+.breadcrumb-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
+.breadcrumb-inner a{color:var(--blue);text-decoration:none;font-weight:600}
+.breadcrumb-inner a:hover{color:var(--orange)}
+.breadcrumb-inner .bc-sep{color:#94a3b8}
+.breadcrumb-inner .bc-current{color:var(--navy);font-weight:700}
+main{max-width:1000px;margin:0 auto;padding:0 5%}
+section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
+.section-title{font-size:1.9rem;color:var(--navy);margin-bottom:.4rem;font-weight:800;display:flex;align-items:center;gap:.6rem}
+.section-subtitle{color:var(--muted);font-size:.95rem;max-width:700px;margin-bottom:2rem;line-height:1.55}
 
-    /* Hero */
-    .weekly-hero{position:relative;border-radius:14px;overflow:hidden;margin-top:1.5rem;color:#fff;min-height:320px;display:flex;align-items:center}
-    .weekly-hero svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-    .weekly-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,rgba(0,48,135,.72) 0%,rgba(0,48,135,.4) 55%,rgba(0,48,135,.85) 100%);z-index:1}
-    .weekly-hero-content{position:relative;z-index:2;padding:2.4rem 2rem}
-    .weekly-eyebrow{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:.3rem .8rem;border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
-    .weekly-hero h1{font-size:2.1rem;font-weight:900;line-height:1.2;margin-bottom:.7rem}
-    .weekly-hero h1 span{color:var(--orange)}
-    .weekly-hero p{font-size:1rem;opacity:.94;max-width:600px}
-    .weekly-actions{margin-top:1.3rem;display:flex;gap:.7rem;flex-wrap:wrap}
+/* Hero */
+.weekly-hero{position:relative;border-radius:14px;overflow:hidden;margin-top:1.5rem;color:#fff;min-height:320px;display:flex;align-items:center}
+.weekly-hero svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.weekly-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,rgba(0,48,135,.72) 0%,rgba(0,48,135,.4) 55%,rgba(0,48,135,.85) 100%);z-index:1}
+.weekly-hero-content{position:relative;z-index:2;padding:2.4rem 2rem}
+.weekly-eyebrow{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:.3rem .8rem;border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
+.weekly-hero h1{font-size:2.1rem;font-weight:900;line-height:1.2;margin-bottom:.7rem}
+.weekly-hero h1 span{color:var(--orange)}
+.weekly-hero p{font-size:1rem;opacity:.94;max-width:600px}
+.weekly-actions{margin-top:1.3rem;display:flex;gap:.7rem;flex-wrap:wrap}
 
-    /* Format explainer */
-    .format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-    @media(max-width:800px){.format-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:480px){.format-grid{grid-template-columns:1fr}}
-    .format-card{background:#fff;border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:10px;padding:1.2rem 1.1rem}
-    .format-card .format-icon{font-size:1.3rem;margin-bottom:.5rem;display:block}
-    .format-card h3{font-size:.92rem;color:var(--navy);margin-bottom:.4rem}
-    .format-card p{font-size:.83rem;color:var(--muted);line-height:1.5}
+/* Format explainer */
+.format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+@media(max-width:800px){.format-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.format-grid{grid-template-columns:1fr}}
+.format-card{background:#fff;border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:10px;padding:1.2rem 1.1rem}
+.format-card .format-icon{font-size:1.3rem;margin-bottom:.5rem;display:block}
+.format-card h3{font-size:.92rem;color:var(--navy);margin-bottom:.4rem}
+.format-card p{font-size:.83rem;color:var(--muted);line-height:1.5}
 
-    .category-legend{display:flex;flex-wrap:wrap;gap:.9rem 1.4rem;margin-top:1.6rem}
-    .legend-pill{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:700;color:var(--navy)}
-    .legend-dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex-shrink:0}
+.category-legend{display:flex;flex-wrap:wrap;gap:.9rem 1.4rem;margin-top:1.6rem}
+.legend-pill{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:700;color:var(--navy)}
+.legend-dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex-shrink:0}
 
-    /* Archive / editions */
-    .archive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
-    @media(max-width:700px){.archive-grid{grid-template-columns:1fr}}
-    .archive-card{display:block;background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;text-decoration:none;transition:border-color .2s,transform .15s}
-    .archive-card:hover{border-color:var(--blue);transform:translateY(-2px)}
-    .archive-badge{display:inline-block;background:var(--bg);color:var(--navy);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:.25rem .6rem;border-radius:20px;margin-bottom:.6rem}
-    .archive-badge.current{background:var(--orange);color:#fff}
-    .archive-card h3{color:var(--navy);font-size:1.05rem;margin-bottom:.4rem;line-height:1.35}
-    .archive-card p{color:var(--muted);font-size:.86rem;line-height:1.5;margin-bottom:.7rem}
-    .archive-link{color:var(--blue);font-weight:700;font-size:.85rem}
-    .archive-card:hover .archive-link{color:var(--orange)}
+/* Archive / editions */
+.archive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
+@media(max-width:700px){.archive-grid{grid-template-columns:1fr}}
+.archive-card{display:block;background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;text-decoration:none;transition:border-color .2s,transform .15s}
+.archive-card:hover{border-color:var(--blue);transform:translateY(-2px)}
+.archive-badge{display:inline-block;background:var(--bg);color:var(--navy);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:.25rem .6rem;border-radius:20px;margin-bottom:.6rem}
+.archive-badge.current{background:var(--orange);color:#fff}
+.archive-card h3{color:var(--navy);font-size:1.05rem;margin-bottom:.4rem;line-height:1.35}
+.archive-card p{color:var(--muted);font-size:.86rem;line-height:1.5;margin-bottom:.7rem}
+.archive-link{color:var(--blue);font-weight:700;font-size:.85rem}
+.archive-card:hover .archive-link{color:var(--orange)}
 
-    /* Featured current issue */
-    .slide-highlights{list-style:none;display:flex;flex-direction:column;gap:.6rem}
-    .slide-highlights li{display:flex;gap:.65rem;align-items:flex-start;font-size:.89rem;color:#334155;line-height:1.55}
-    .slide-highlights .legend-dot{margin-top:.4rem;flex-shrink:0}
-    .featured-issue{max-width:660px;margin:0 auto 2.4rem;background:#fff;border:2px solid var(--orange);border-radius:16px;padding:2.1rem 2.3rem;box-shadow:0 14px 34px rgba(0,48,135,.12)}
-    .featured-issue h3{color:var(--navy);font-size:1.4rem;line-height:1.3;margin:.8rem 0 1.2rem}
-    .featured-issue .slide-highlights{margin-bottom:1.3rem}
+/* Featured current issue */
+.slide-highlights{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.slide-highlights li{display:flex;gap:.65rem;align-items:flex-start;font-size:.89rem;color:#334155;line-height:1.55}
+.slide-highlights .legend-dot{margin-top:.4rem;flex-shrink:0}
+.featured-issue{max-width:660px;margin:0 auto 2.4rem;background:#fff;border:2px solid var(--orange);border-radius:16px;padding:2.1rem 2.3rem;box-shadow:0 14px 34px rgba(0,48,135,.12)}
+.featured-issue h3{color:var(--navy);font-size:1.4rem;line-height:1.3;margin:.8rem 0 1.2rem}
+.featured-issue .slide-highlights{margin-bottom:1.3rem}
 
-    /* Previous issues accordion */
-    .previous-issues-label{text-align:center;font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 auto 1rem;max-width:660px}
-    .issue-accordion{max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:.7rem}
-    .accordion-item{border:1px solid var(--border);border-radius:10px;background:#fff;overflow:hidden}
-    .accordion-tab{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.3rem;background:#fff;border:none;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s}
-    .accordion-tab:hover{background:var(--bg)}
-    .accordion-tab-text{display:flex;flex-direction:column;gap:.15rem}
-    .accordion-tab-date{font-size:.72rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em}
-    .accordion-tab-title{font-size:.98rem;color:var(--navy);font-weight:700}
-    .accordion-chevron{font-size:1.1rem;color:var(--muted);transition:transform .25s;flex-shrink:0}
-    .accordion-item.open .accordion-chevron{transform:rotate(180deg);color:var(--blue)}
-    .accordion-panel{max-height:0;overflow:hidden;transition:max-height .35s ease}
-    .accordion-panel-inner{padding:0 1.3rem 1.3rem}
-    .accordion-panel-inner .slide-highlights{margin-bottom:1rem}
+/* Previous issues accordion */
+.previous-issues-label{text-align:center;font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 auto 1rem;max-width:660px}
+.issue-accordion{max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:.7rem}
+.accordion-item{border:1px solid var(--border);border-radius:10px;background:#fff;overflow:hidden}
+.accordion-tab{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.3rem;background:#fff;border:none;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s}
+.accordion-tab:hover{background:var(--bg)}
+.accordion-tab-text{display:flex;flex-direction:column;gap:.15rem}
+.accordion-tab-date{font-size:.72rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em}
+.accordion-tab-title{font-size:.98rem;color:var(--navy);font-weight:700}
+.accordion-chevron{font-size:1.1rem;color:var(--muted);transition:transform .25s;flex-shrink:0}
+.accordion-item.open .accordion-chevron{transform:rotate(180deg);color:var(--blue)}
+.accordion-panel{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.accordion-panel-inner{padding:0 1.3rem 1.3rem}
+.accordion-panel-inner .slide-highlights{margin-bottom:1rem}
 
-    /* From uPull.ai banner */
-    .from-upull{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;border-radius:12px;padding:2.2rem;text-align:center}
-    .from-upull h2{color:#fff;font-size:1.6rem;margin-bottom:.7rem}
-    .from-upull p{color:#cbd5e1;font-size:.95rem;max-width:600px;margin:0 auto 1.3rem;line-height:1.6}
+/* From uPull.ai banner */
+.from-upull{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;border-radius:12px;padding:2.2rem;text-align:center}
+.from-upull h2{color:#fff;font-size:1.6rem;margin-bottom:.7rem}
+.from-upull p{color:#cbd5e1;font-size:.95rem;max-width:600px;margin:0 auto 1.3rem;line-height:1.6}
 
-    .footer-subscribe{color:var(--orange);font-weight:700;text-decoration:none}
-    .footer-subscribe:hover{text-decoration:underline}
+.footer-subscribe{color:var(--orange);font-weight:700;text-decoration:none}
+.footer-subscribe:hover{text-decoration:underline}
 
-    footer{background:#09111e;color:#94a3b8;padding:2rem 5%;text-align:center;font-size:.85rem;margin-top:1rem}
-  
-    /* ══════════════════════════════════════════════════════════════
-       SHARED HEADER — black + orange, matched to index.html
-       Scoped to `header` only, so page body styling is untouched.
-       ══════════════════════════════════════════════════════════════ */
-    header{
-      background:rgba(14,14,14,.97) !important;
-      -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(255,255,255,.10) !important;
-      box-shadow:0 4px 24px rgba(0,0,0,.35) !important;
-    }
-    header .logo{color:#fff;font-size:1.6rem;font-weight:800;letter-spacing:-.5px;text-decoration:none}
-    header .logo span{color:#ED8B00}
-    header .logo:focus{outline:none}
-    header .logo:focus-visible{outline:2px solid #c26f00;outline-offset:3px;border-radius:8px}
-    header .nav-link-item{
-      color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;
-      padding:10px 16px;border-radius:999px;
-    }
-    header .nav-link-item:hover,
-    header .nav-item.open > .nav-link-item,
-    header .nav-link-item.active-tab{color:#fff;background:rgba(255,255,255,.08)}
-    header .nav-submenu{
-      background:rgba(14,14,14,.97);
-      -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
-      border:1px solid rgba(255,255,255,.10);
-      border-top:3px solid #ED8B00;
-      border-radius:16px;padding:10px;
-      box-shadow:0 20px 44px rgba(0,0,0,.5);
-    }
-    header .nav-submenu li a{
-      color:rgba(255,255,255,.68);border-radius:10px;padding:10px 12px;font-size:.85rem;
-    }
-    header .nav-submenu li a:hover{background:rgba(237,139,0,.22);color:#fff}
-    header .nav-icon-btn{
-      width:38px;height:38px;font-size:1.1rem;
-      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
-    }
-    header .nav-icon-btn:hover,
-    header .nav-icon-btn.active-tab{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);transform:none}
-    /* header CTA: near-black on orange — white on #ED8B00 is only 2.5:1 (WCAG AA needs 4.5:1) */
-    header .cta-btn,header .nav-btn{
-      padding:11px 22px;border-radius:999px;
-      background:#ED8B00;color:#0E0E0E;font-weight:800;font-size:.9rem;
-      border:none;white-space:nowrap;
-    }
-    header .cta-btn:hover,header .nav-btn:hover{background:#c26f00;color:#fff;transform:none}
-    header .nav-toggle span{background:#fff}
-    @media (max-width:900px){
-      header .nav-menu{
-        background:rgba(14,14,14,.98);
-        -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
-        border-bottom:1px solid rgba(255,255,255,.10);
-      }
-      header .nav-submenu{background:rgba(255,255,255,.04);box-shadow:none;border-radius:10px}
-    }
-  </style>
+footer{background:#09111e;color:#94a3b8;padding:2rem 5%;text-align:center;font-size:.85rem;margin-top:1rem}
+
+/* ══════════════════════════════════════════════════════════════
+SHARED HEADER — black + orange, matched to index.html
+Scoped to `header` only, so page body styling is untouched.
+══════════════════════════════════════════════════════════════ */
+header{
+background:rgba(14,14,14,.97) !important;
+-webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+border-bottom:1px solid rgba(255,255,255,.10) !important;
+box-shadow:0 4px 24px rgba(0,0,0,.35) !important;
+}
+header .logo{color:#fff;font-size:1.6rem;font-weight:800;letter-spacing:-.5px;text-decoration:none}
+header .logo span{color:#ED8B00}
+header .logo:focus{outline:none}
+header .logo:focus-visible{outline:2px solid #c26f00;outline-offset:3px;border-radius:8px}
+header .nav-link-item{
+color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;
+padding:10px 16px;border-radius:999px;
+}
+header .nav-link-item:hover,
+header .nav-item.open > .nav-link-item,
+header .nav-link-item.active-tab{color:#fff;background:rgba(255,255,255,.08)}
+header .nav-submenu{
+background:rgba(14,14,14,.97);
+-webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.10);
+border-top:3px solid #ED8B00;
+border-radius:16px;padding:10px;
+box-shadow:0 20px 44px rgba(0,0,0,.5);
+}
+header .nav-submenu li a{
+color:rgba(255,255,255,.68);border-radius:10px;padding:10px 12px;font-size:.85rem;
+}
+header .nav-submenu li a:hover{background:rgba(237,139,0,.22);color:#fff}
+header .nav-icon-btn{
+width:38px;height:38px;font-size:1.1rem;
+background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+}
+header .nav-icon-btn:hover,
+header .nav-icon-btn.active-tab{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);transform:none}
+/* header CTA: near-black on orange — white on #ED8B00 is only 2.5:1 (WCAG AA needs 4.5:1) */
+header .cta-btn,header .nav-btn{
+padding:11px 22px;border-radius:999px;
+background:#ED8B00;color:#0E0E0E;font-weight:800;font-size:.9rem;
+border:none;white-space:nowrap;
+}
+header .cta-btn:hover,header .nav-btn:hover{background:#c26f00;color:#fff;transform:none}
+header .nav-toggle span{background:#fff}
+@media (max-width:900px){
+header .nav-menu{
+background:rgba(14,14,14,.98);
+-webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+border-bottom:1px solid rgba(255,255,255,.10);
+}
+header .nav-submenu{background:rgba(255,255,255,.04);box-shadow:none;border-radius:10px}
+}
+</style>
 </head>
 <body>
 
 <header>
-  <div class="nav-container">
-    <a href="index.html" class="logo" aria-label="uPull.ai home">uPull<span>.ai</span></a>
-    <div class="nav-right">
-      <nav aria-label="Primary">
-      <ul class="nav-menu" id="navMenu">
+<div class="nav-container">
+<a href="index.html" class="logo" aria-label="uPull.ai home">uPull<span>.ai</span></a>
+<div class="nav-right">
+<nav aria-label="Primary">
+<ul class="nav-menu" id="navMenu">
 
-        <li class="nav-item">
-          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
-            Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
-          </button>
-          <ul class="nav-submenu">
-            <li><a href="index.html#problem">Challenge</a></li>
-            <li><a href="index.html#approach">Model</a></li>
-            <li><a href="index.html#results">Results</a></li>
-            <li><a href="faqs.html#leadership">Leadership</a></li>
-          </ul>
-        </li>
+<li class="nav-item">
+<button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+</button>
+<ul class="nav-submenu">
+<li><a href="index.html#problem">Challenge</a></li>
+<li><a href="index.html#approach">Model</a></li>
+<li><a href="index.html#results">Results</a></li>
+<li><a href="faqs.html#leadership">Leadership</a></li>
+</ul>
+</li>
 
-        <li class="nav-item">
-          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
-            Community <span class="nav-chevron" aria-hidden="true"></span>
-          </button>
-          <ul class="nav-submenu">
-            <li><a href="community.html">Forum</a></li>
-            <li><a href="academy.html#tab-learning">uGrowX</a></li>
-            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
-            <li><a href="postcards.html">Postcards from 2030</a></li>
-            <li><a href="readiness.html">AI Readiness</a></li>
-          </ul>
-        </li>
+<li class="nav-item">
+<button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+Community <span class="nav-chevron" aria-hidden="true"></span>
+</button>
+<ul class="nav-submenu">
+<li><a href="community.html">Forum</a></li>
+<li><a href="academy.html#tab-learning">uGrowX</a></li>
+<li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+<li><a href="readiness.html">AI Readiness</a></li>
+</ul>
+</li>
 
 
-        <li class="nav-item">
-          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
-            FAQs <span class="nav-chevron" aria-hidden="true"></span>
-          </button>
-          <ul class="nav-submenu">
-            <li><a href="faqs.html#about">About uPull.ai</a></li>
-            <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
-            <li><a href="faqs.html#workflows">Workflow Delivery</a></li>
-            <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
-            <li><a href="faqs.html#gdpr">GDPR &amp; Compliance</a></li>
-            <li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
-            <li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
-          </ul>
-        </li>
+<li class="nav-item">
+<button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+FAQs <span class="nav-chevron" aria-hidden="true"></span>
+</button>
+<ul class="nav-submenu">
+<li><a href="faqs.html#about">About uPull.ai</a></li>
+<li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
+<li><a href="faqs.html#workflows">Workflow Delivery</a></li>
+<li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+<li><a href="faqs.html#gdpr">GDPR &amp; Compliance</a></li>
+<li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
+<li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+</ul>
+</li>
 
-        <li class="nav-item">
-          <a class="nav-link-item" href="pricing.html" style="text-decoration:none">Pricing</a>
-        </li>
+<li class="nav-item">
+<a class="nav-link-item" href="pricing.html" style="text-decoration:none">Pricing</a>
+</li>
 
-      </ul>
-      </nav>
-      <a href="news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
-      <a href="index.html#cta" class="cta-btn">Proof of Value</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
+</ul>
+</nav>
+<a href="news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
+<a href="index.html#cta" class="cta-btn">Proof of Value</a>
+<button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+<span></span><span></span><span></span>
+</button>
+</div>
+</div>
 </header>
 
 <div class="breadcrumb">
-  <div class="breadcrumb-inner">
-    <a href="index.html">Home</a>
-    <span class="bc-sep">›</span>
-    <span class="bc-current">uPull.ai Weekly</span>
-  </div>
+<div class="breadcrumb-inner">
+<a href="index.html">Home</a>
+<span class="bc-sep">›</span>
+<span class="bc-current">uPull.ai Weekly</span>
+</div>
 </div>
 
 <main>
 
-  <div class="weekly-hero">
-    <svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#003087"/>
-          <stop offset="100%" stop-color="#001a4d"/>
-        </linearGradient>
-      </defs>
-      <rect width="1200" height="420" fill="url(#heroGrad)"/>
-      <g stroke="rgba(255,255,255,0.18)" stroke-width="1.2" fill="none">
-    <line x1="756.2" y1="39.0" x2="829.1" y2="46.5"/>
-    <line x1="756.2" y1="39.0" x2="668.7" y2="124.6"/>
-    <line x1="864.8" y1="273.6" x2="942.5" y2="281.3"/>
-    <line x1="864.8" y1="273.6" x2="968.9" y2="252.7"/>
-    <line x1="512.6" y1="40.7" x2="487.3" y2="109.0"/>
-    <line x1="512.6" y1="40.7" x2="393.3" y2="126.4"/>
-    <line x1="69.7" y1="101.6" x2="129.4" y2="113.8"/>
-    <line x1="69.7" y1="101.6" x2="141.8" y2="47.0"/>
-    <line x1="286.9" y1="242.1" x2="231.7" y2="292.5"/>
-    <line x1="286.9" y1="242.1" x2="339.0" y2="367.2"/>
-    <line x1="942.5" y1="281.3" x2="968.9" y2="252.7"/>
-    <line x1="942.5" y1="281.3" x2="984.0" y2="309.4"/>
-    <line x1="1112.1" y1="151.2" x2="1064.3" y2="195.2"/>
-    <line x1="1112.1" y1="151.2" x2="1155.7" y2="220.5"/>
-    <line x1="989.2" y1="247.3" x2="968.9" y2="252.7"/>
-    <line x1="942.5" y1="281.3" x2="989.2" y2="247.3"/>
-    <line x1="640.6" y1="380.3" x2="752.0" y2="161.3"/>
-    <line x1="864.8" y1="273.6" x2="640.6" y2="380.3"/>
-    <line x1="829.1" y1="46.5" x2="752.0" y2="161.3"/>
-    <line x1="129.4" y1="113.8" x2="141.8" y2="47.0"/>
-    <line x1="752.0" y1="161.3" x2="668.7" y2="124.6"/>
-    <line x1="756.2" y1="39.0" x2="752.0" y2="161.3"/>
-    <line x1="339.0" y1="367.2" x2="231.7" y2="292.5"/>
-    <line x1="1148.3" y1="260.4" x2="1155.7" y2="220.5"/>
-    <line x1="1148.3" y1="260.4" x2="1064.3" y2="195.2"/>
-    <line x1="968.9" y1="252.7" x2="984.0" y2="309.4"/>
-    <line x1="393.3" y1="126.4" x2="487.3" y2="109.0"/>
-    <line x1="1021.5" y1="143.3" x2="1064.3" y2="195.2"/>
-    <line x1="1112.1" y1="151.2" x2="1021.5" y2="143.3"/>
-    <line x1="968.9" y1="252.7" x2="927.1" y2="182.0"/>
-    <line x1="989.2" y1="247.3" x2="927.1" y2="182.0"/>
-    <line x1="231.7" y1="292.5" x2="52.9" y2="289.5"/>
-    <line x1="69.7" y1="101.6" x2="52.9" y2="289.5"/>
-      </g>
-      <g>
-    <circle cx="756.2" cy="39.0" r="3.3" fill="#DA291C" opacity="0.9"/>
-    <circle cx="864.8" cy="273.6" r="5.2" fill="#AE2573" opacity="0.9"/>
-    <circle cx="512.6" cy="40.7" r="3.2" fill="#FFB81C" opacity="0.9"/>
-    <circle cx="69.7" cy="101.6" r="4.4" fill="#FFB81C" opacity="0.9"/>
-    <circle cx="286.9" cy="242.1" r="4.9" fill="#AE2573" opacity="0.9"/>
-    <circle cx="942.5" cy="281.3" r="3.5" fill="#DA291C" opacity="0.9"/>
-    <circle cx="1112.1" cy="151.2" r="2.8" fill="#AE2573" opacity="0.9"/>
-    <circle cx="989.2" cy="247.3" r="4.9" fill="#ffffff" opacity="0.55"/>
-    <circle cx="640.6" cy="380.3" r="3.6" fill="#FFB81C" opacity="0.9"/>
-    <circle cx="968.9" cy="252.7" r="5.1" fill="#FFB81C" opacity="0.9"/>
-    <circle cx="829.1" cy="46.5" r="3.2" fill="#41B6E6" opacity="0.9"/>
-    <circle cx="129.4" cy="113.8" r="2.8" fill="#41B6E6" opacity="0.9"/>
-    <circle cx="752.0" cy="161.3" r="3.6" fill="#DA291C" opacity="0.9"/>
-    <circle cx="339.0" cy="367.2" r="4.4" fill="#FFB81C" opacity="0.9"/>
-    <circle cx="231.7" cy="292.5" r="3.0" fill="#00A499" opacity="0.9"/>
-    <circle cx="1148.3" cy="260.4" r="4.2" fill="#ffffff" opacity="0.55"/>
-    <circle cx="984.0" cy="309.4" r="3.2" fill="#AE2573" opacity="0.9"/>
-    <circle cx="393.3" cy="126.4" r="3.1" fill="#ffffff" opacity="0.55"/>
-    <circle cx="1021.5" cy="143.3" r="4.5" fill="#00A499" opacity="0.9"/>
-    <circle cx="1064.3" cy="195.2" r="3.3" fill="#DA291C" opacity="0.9"/>
-    <circle cx="668.7" cy="124.6" r="4.3" fill="#ffffff" opacity="0.55"/>
-    <circle cx="487.3" cy="109.0" r="5.5" fill="#FFB81C" opacity="0.9"/>
-    <circle cx="141.8" cy="47.0" r="2.8" fill="#ffffff" opacity="0.55"/>
-    <circle cx="927.1" cy="182.0" r="2.7" fill="#00A499" opacity="0.9"/>
-    <circle cx="1155.7" cy="220.5" r="5.4" fill="#ffffff" opacity="0.55"/>
-    <circle cx="52.9" cy="289.5" r="4.5" fill="#FFB81C" opacity="0.9"/>
-      </g>
-    </svg>
-    <div class="weekly-hero-content">
-      <span class="weekly-eyebrow">Published weekly · NHS AI news</span>
-      <h1>Agentic, Robotics, Ambient &amp; Clinical AI — <span>decoded for NHS teams</span></h1>
-      <p>Every week, uPull.ai tracks four categories of AI moving through the NHS and turns the noise into something you can actually use: a headline, a real use case, a governance note, and a workflow to try.</p>
-      <div class="weekly-actions">
-        <a href="https://upull.ai/news/weekly20260804.html" class="cta-btn">Read the latest issue →</a>
-        <a href="#issues" class="cta-btn" style="background:transparent;border:1.5px solid rgba(255,255,255,.4)">Browse all issues</a>
-      </div>
-    </div>
-  </div>
+<div class="weekly-hero">
+<svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+<linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#003087"/>
+<stop offset="100%" stop-color="#001a4d"/>
+</linearGradient>
+</defs>
+<rect width="1200" height="420" fill="url(#heroGrad)"/>
+<g stroke="rgba(255,255,255,0.18)" stroke-width="1.2" fill="none">
+<line x1="756.2" y1="39.0" x2="829.1" y2="46.5"/>
+<line x1="756.2" y1="39.0" x2="668.7" y2="124.6"/>
+<line x1="864.8" y1="273.6" x2="942.5" y2="281.3"/>
+<line x1="864.8" y1="273.6" x2="968.9" y2="252.7"/>
+<line x1="512.6" y1="40.7" x2="487.3" y2="109.0"/>
+<line x1="512.6" y1="40.7" x2="393.3" y2="126.4"/>
+<line x1="69.7" y1="101.6" x2="129.4" y2="113.8"/>
+<line x1="69.7" y1="101.6" x2="141.8" y2="47.0"/>
+<line x1="286.9" y1="242.1" x2="231.7" y2="292.5"/>
+<line x1="286.9" y1="242.1" x2="339.0" y2="367.2"/>
+<line x1="942.5" y1="281.3" x2="968.9" y2="252.7"/>
+<line x1="942.5" y1="281.3" x2="984.0" y2="309.4"/>
+<line x1="1112.1" y1="151.2" x2="1064.3" y2="195.2"/>
+<line x1="1112.1" y1="151.2" x2="1155.7" y2="220.5"/>
+<line x1="989.2" y1="247.3" x2="968.9" y2="252.7"/>
+<line x1="942.5" y1="281.3" x2="989.2" y2="247.3"/>
+<line x1="640.6" y1="380.3" x2="752.0" y2="161.3"/>
+<line x1="864.8" y1="273.6" x2="640.6" y2="380.3"/>
+<line x1="829.1" y1="46.5" x2="752.0" y2="161.3"/>
+<line x1="129.4" y1="113.8" x2="141.8" y2="47.0"/>
+<line x1="752.0" y1="161.3" x2="668.7" y2="124.6"/>
+<line x1="756.2" y1="39.0" x2="752.0" y2="161.3"/>
+<line x1="339.0" y1="367.2" x2="231.7" y2="292.5"/>
+<line x1="1148.3" y1="260.4" x2="1155.7" y2="220.5"/>
+<line x1="1148.3" y1="260.4" x2="1064.3" y2="195.2"/>
+<line x1="968.9" y1="252.7" x2="984.0" y2="309.4"/>
+<line x1="393.3" y1="126.4" x2="487.3" y2="109.0"/>
+<line x1="1021.5" y1="143.3" x2="1064.3" y2="195.2"/>
+<line x1="1112.1" y1="151.2" x2="1021.5" y2="143.3"/>
+<line x1="968.9" y1="252.7" x2="927.1" y2="182.0"/>
+<line x1="989.2" y1="247.3" x2="927.1" y2="182.0"/>
+<line x1="231.7" y1="292.5" x2="52.9" y2="289.5"/>
+<line x1="69.7" y1="101.6" x2="52.9" y2="289.5"/>
+</g>
+<g>
+<circle cx="756.2" cy="39.0" r="3.3" fill="#DA291C" opacity="0.9"/>
+<circle cx="864.8" cy="273.6" r="5.2" fill="#AE2573" opacity="0.9"/>
+<circle cx="512.6" cy="40.7" r="3.2" fill="#FFB81C" opacity="0.9"/>
+<circle cx="69.7" cy="101.6" r="4.4" fill="#FFB81C" opacity="0.9"/>
+<circle cx="286.9" cy="242.1" r="4.9" fill="#AE2573" opacity="0.9"/>
+<circle cx="942.5" cy="281.3" r="3.5" fill="#DA291C" opacity="0.9"/>
+<circle cx="1112.1" cy="151.2" r="2.8" fill="#AE2573" opacity="0.9"/>
+<circle cx="989.2" cy="247.3" r="4.9" fill="#ffffff" opacity="0.55"/>
+<circle cx="640.6" cy="380.3" r="3.6" fill="#FFB81C" opacity="0.9"/>
+<circle cx="968.9" cy="252.7" r="5.1" fill="#FFB81C" opacity="0.9"/>
+<circle cx="829.1" cy="46.5" r="3.2" fill="#41B6E6" opacity="0.9"/>
+<circle cx="129.4" cy="113.8" r="2.8" fill="#41B6E6" opacity="0.9"/>
+<circle cx="752.0" cy="161.3" r="3.6" fill="#DA291C" opacity="0.9"/>
+<circle cx="339.0" cy="367.2" r="4.4" fill="#FFB81C" opacity="0.9"/>
+<circle cx="231.7" cy="292.5" r="3.0" fill="#00A499" opacity="0.9"/>
+<circle cx="1148.3" cy="260.4" r="4.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="984.0" cy="309.4" r="3.2" fill="#AE2573" opacity="0.9"/>
+<circle cx="393.3" cy="126.4" r="3.1" fill="#ffffff" opacity="0.55"/>
+<circle cx="1021.5" cy="143.3" r="4.5" fill="#00A499" opacity="0.9"/>
+<circle cx="1064.3" cy="195.2" r="3.3" fill="#DA291C" opacity="0.9"/>
+<circle cx="668.7" cy="124.6" r="4.3" fill="#ffffff" opacity="0.55"/>
+<circle cx="487.3" cy="109.0" r="5.5" fill="#FFB81C" opacity="0.9"/>
+<circle cx="141.8" cy="47.0" r="2.8" fill="#ffffff" opacity="0.55"/>
+<circle cx="927.1" cy="182.0" r="2.7" fill="#00A499" opacity="0.9"/>
+<circle cx="1155.7" cy="220.5" r="5.4" fill="#ffffff" opacity="0.55"/>
+<circle cx="52.9" cy="289.5" r="4.5" fill="#FFB81C" opacity="0.9"/>
+</g>
+</svg>
+<div class="weekly-hero-content">
+<span class="weekly-eyebrow">Published weekly · NHS AI news</span>
+<h1>Agentic, Robotics, Ambient &amp; Clinical AI — <span>decoded for NHS teams</span></h1>
+<p>Every week, uPull.ai tracks four categories of AI moving through the NHS and turns the noise into something you can actually use: a headline, a real use case, a governance note, and a workflow to try.</p>
+<div class="weekly-actions">
+<a href="https://upull.ai/news/weekly20260811.html" class="cta-btn">Read the latest issue →</a>
+<a href="#issues" class="cta-btn" style="background:transparent;border:1.5px solid rgba(255,255,255,.4)">Browse all issues</a>
+</div>
+</div>
+</div>
 
-  <section style="padding-top:2rem">
-    <h2 class="section-title">What's inside every issue</h2>
-    <p class="section-subtitle">Each edition is compiled the same way: for Agentic, Robotics, Ambient and Clinical AI, we pull one real NHS example or use case, one governance or ethics question it raises, and one concrete suggestion you can try in your own workflow that week.</p>
+<section style="padding-top:2rem">
+<h2 class="section-title">What's inside every issue</h2>
+<p class="section-subtitle">Each edition is compiled the same way: for Agentic, Robotics, Ambient and Clinical AI, we pull one real NHS example or use case, one governance or ethics question it raises, and one concrete suggestion you can try in your own workflow that week.</p>
 
-    <div class="format-grid">
-      <div class="format-card">
-        <span class="format-icon">📰</span>
-        <h3>Headline development</h3>
-        <p>What actually happened this week — the announcement, deployment or regulatory move worth knowing about.</p>
-      </div>
-      <div class="format-card">
-        <span class="format-icon">🏥</span>
-        <h3>Real NHS use case</h3>
-        <p>Where it's showing up in practice — a trust, a pilot, a rollout — with the numbers behind it.</p>
-      </div>
-      <div class="format-card">
-        <span class="format-icon">⚖️</span>
-        <h3>Governance &amp; ethics</h3>
-        <p>The accountability, safety or oversight question the development raises for anyone deploying it.</p>
-      </div>
-      <div class="format-card">
-        <span class="format-icon">✅</span>
-        <h3>Try this in a workflow</h3>
-        <p>One practical, specific action to take this week — not a general principle.</p>
-      </div>
-    </div>
+<div class="format-grid">
+<div class="format-card">
+<span class="format-icon">📰</span>
+<h3>Headline development</h3>
+<p>What actually happened this week — the announcement, deployment or regulatory move worth knowing about.</p>
+</div>
+<div class="format-card">
+<span class="format-icon">🏥</span>
+<h3>Real NHS use case</h3>
+<p>Where it's showing up in practice — a trust, a pilot, a rollout — with the numbers behind it.</p>
+</div>
+<div class="format-card">
+<span class="format-icon">⚖️</span>
+<h3>Governance &amp; ethics</h3>
+<p>The accountability, safety or oversight question the development raises for anyone deploying it.</p>
+</div>
+<div class="format-card">
+<span class="format-icon">✅</span>
+<h3>Try this in a workflow</h3>
+<p>One practical, specific action to take this week — not a general principle.</p>
+</div>
+</div>
 
-    <div class="category-legend">
-      <span class="legend-pill"><span class="legend-dot" style="background:var(--agentic)"></span>Agentic AI</span>
-      <span class="legend-pill"><span class="legend-dot" style="background:var(--robotic)"></span>Robotics AI</span>
-      <span class="legend-pill"><span class="legend-dot" style="background:var(--ambient)"></span>Ambient AI</span>
-      <span class="legend-pill"><span class="legend-dot" style="background:var(--clinical)"></span>Clinical AI</span>
-    </div>
-  </section>
+<div class="category-legend">
+<span class="legend-pill"><span class="legend-dot" style="background:var(--agentic)"></span>Agentic AI</span>
+<span class="legend-pill"><span class="legend-dot" style="background:var(--robotic)"></span>Robotics AI</span>
+<span class="legend-pill"><span class="legend-dot" style="background:var(--ambient)"></span>Ambient AI</span>
+<span class="legend-pill"><span class="legend-dot" style="background:var(--clinical)"></span>Clinical AI</span>
+</div>
+</section>
 
-  <!-- ISSUES -->
-  <section id="issues">
-    <h2 class="section-title">Read an issue</h2>
-    <p class="section-subtitle">The current edition, front and centre — plus a quick preview of every issue before it.</p>
+<!-- ISSUES -->
+<section id="issues">
+<h2 class="section-title">Read an issue</h2>
+<p class="section-subtitle">The current edition, front and centre — plus a quick preview of every issue before it.</p>
 
-    <!-- Current edition, featured -->
-    <div class="featured-issue">
-      <span class="archive-badge current">4–10 August 2026 · Latest issue</span>
-      <h3>The Copilot Wave Meets the Accountability Gap</h3>
-      <ul class="slide-highlights">
-        <li><span class="legend-dot" style="background:var(--agentic)"></span>NHS England's 505,000-seat Copilot rollout enters national distribution, governed by Microsoft's Agent 365</li>
-        <li><span class="legend-dot" style="background:var(--robotic)"></span>RCS England publishes the first national dataset on robotic surgery access — 28 systems in London vs. six in the Southwest</li>
-        <li><span class="legend-dot" style="background:var(--ambient)"></span>MHRA guidance finally clarifies which ambient scribe functions count as regulated medical devices</li>
-        <li><span class="legend-dot" style="background:var(--clinical)"></span>MHRA opens its London Region I regulatory sandbox for live AI diagnostics</li>
-      </ul>
-      <a class="cta-btn" href="https://upull.ai/news/weekly20260804.html">Read the full issue →</a>
-    </div>
+<!-- Current edition, featured -->
+<div class="featured-issue">
+<span class="archive-badge current">11–17 August 2026 · Latest issue</span>
+<h3>The Habit Has Outpaced the Guidance</h3>
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>A predictive AI tool is now forecasting A&amp;E demand across 50 NHS organisations, while healthcare's agentic AI accountability gap becomes the story of the week</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>St Bartholomew's trains "the surgeons of the future" on the da Vinci 5 platform, and Orpington Hospital launches South East London's first robotic joint replacement programme</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>Ambient scribing spreads beyond flagship regional deals into South West London and Hertfordshire's community and mental health services</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>A new survey finds 90% of NHS clinicians already use AI at work — most of them ahead of formal guidance, with the RCP warning the NHS isn't yet digitally fit to deploy it</li>
+</ul>
+<a class="cta-btn" href="https://upull.ai/news/weekly20260811.html">Read the full issue →</a>
+</div>
 
-    <!-- Previous editions, accordion -->
-    <p class="previous-issues-label">Previous issues</p>
-    <div class="issue-accordion">
+<!-- Previous editions, accordion -->
+<p class="previous-issues-label">Previous issues</p>
+<div class="issue-accordion">
 
-      <div class="accordion-item">
-        <button class="accordion-tab" onclick="toggleAccordion(this)">
-          <span class="accordion-tab-text">
-            <span class="accordion-tab-date">28 July–3 August 2026</span>
-            <span class="accordion-tab-title">The Evidence Arrives, the Funding Doesn't</span>
-          </span>
-          <span class="accordion-chevron">⌄</span>
-        </button>
-        <div class="accordion-panel">
-          <div class="accordion-panel-inner">
-            <ul class="slide-highlights">
-              <li><span class="legend-dot" style="background:var(--agentic)"></span>Health sector gives NHS England's AI rollout a "cautious welcome" amid open accountability questions</li>
-              <li><span class="legend-dot" style="background:var(--robotic)"></span>RCS England warns robotic surgery access is a "postcode lottery" with no national funding strategy</li>
-              <li><span class="legend-dot" style="background:var(--ambient)"></span>NHS region signs its largest-ever AVT deal — 70,000 clinicians across 15 trusts and 1,239 GP practices</li>
-              <li><span class="legend-dot" style="background:var(--clinical)"></span>The Articulate Pro study shows AI can be safely deployed in NHS prostate cancer diagnosis</li>
-            </ul>
-            <a class="archive-link" href="https://upull.ai/news/weekly20260728.html">Read the full issue →</a>
-          </div>
-        </div>
-      </div>
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">4–10 August 2026</span>
+<span class="accordion-tab-title">The Copilot Wave Meets the Accountability Gap</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>NHS England's 505,000-seat Copilot rollout enters national distribution, governed by Microsoft's Agent 365</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>RCS England publishes the first national dataset on robotic surgery access — 28 systems in London vs. six in the Southwest</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>MHRA guidance finally clarifies which ambient scribe functions count as regulated medical devices</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>MHRA opens its London Region I regulatory sandbox for live AI diagnostics</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260804.html">Read the full issue →</a>
+</div>
+</div>
+</div>
 
-      <div class="accordion-item">
-        <button class="accordion-tab" onclick="toggleAccordion(this)">
-          <span class="accordion-tab-text">
-            <span class="accordion-tab-date">21–27 July 2026</span>
-            <span class="accordion-tab-title">Regulation Catches Up with Rollout</span>
-          </span>
-          <span class="accordion-chevron">⌄</span>
-        </button>
-        <div class="accordion-panel">
-          <div class="accordion-panel-inner">
-            <ul class="slide-highlights">
-              <li><span class="legend-dot" style="background:var(--agentic)"></span>Copilot rollouts push agentic AI further into everyday NHS admin workflows</li>
-              <li><span class="legend-dot" style="background:var(--ambient)"></span>MHRA draws a clear regulatory line for ambient voice AI</li>
-              <li><span class="legend-dot" style="background:var(--clinical)"></span>NHS App triage rollout expands, pushing clinical AI further into everyday care pathways</li>
-            </ul>
-            <a class="archive-link" href="https://upull.ai/news/weekly20260721.html">Read the full issue →</a>
-          </div>
-        </div>
-      </div>
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">28 July–3 August 2026</span>
+<span class="accordion-tab-title">The Evidence Arrives, the Funding Doesn't</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>Health sector gives NHS England's AI rollout a "cautious welcome" amid open accountability questions</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>RCS England warns robotic surgery access is a "postcode lottery" with no national funding strategy</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>NHS region signs its largest-ever AVT deal — 70,000 clinicians across 15 trusts and 1,239 GP practices</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The Articulate Pro study shows AI can be safely deployed in NHS prostate cancer diagnosis</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260728.html">Read the full issue →</a>
+</div>
+</div>
+</div>
 
-      <div class="accordion-item">
-        <button class="accordion-tab" onclick="toggleAccordion(this)">
-          <span class="accordion-tab-text">
-            <span class="accordion-tab-date">14–20 July 2026</span>
-            <span class="accordion-tab-title">Deploying Safely in a Real Institution</span>
-          </span>
-          <span class="accordion-chevron">⌄</span>
-        </button>
-        <div class="accordion-panel">
-          <div class="accordion-panel-inner">
-            <ul class="slide-highlights">
-              <li><span class="legend-dot" style="background:var(--navy)"></span>A cross-category look at what "deploying safely" actually requires inside a real NHS institution, not a demo</li>
-              <li><span class="legend-dot" style="background:var(--navy)"></span>Practical lessons spanning agentic, robotics, ambient and clinical AI</li>
-            </ul>
-            <a class="archive-link" href="https://upull.ai/news/weekly20260714.html">Read the full issue →</a>
-          </div>
-        </div>
-      </div>
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">21–27 July 2026</span>
+<span class="accordion-tab-title">Regulation Catches Up with Rollout</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>Copilot rollouts push agentic AI further into everyday NHS admin workflows</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>MHRA draws a clear regulatory line for ambient voice AI</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>NHS App triage rollout expands, pushing clinical AI further into everyday care pathways</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260721.html">Read the full issue →</a>
+</div>
+</div>
+</div>
 
-    </div>
-  </section>
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">14–20 July 2026</span>
+<span class="accordion-tab-title">Deploying Safely in a Real Institution</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--navy)"></span>A cross-category look at what "deploying safely" actually requires inside a real NHS institution, not a demo</li>
+<li><span class="legend-dot" style="background:var(--navy)"></span>Practical lessons spanning agentic, robotics, ambient and clinical AI</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260714.html">Read the full issue →</a>
+</div>
+</div>
+</div>
 
-  <!-- FROM UPULL.AI -->
-  <section style="border-bottom:none">
-    <div class="from-upull">
-      <h2>From uPull.ai</h2>
-      <p>The pattern across every issue is consistent: deployment moves fast, governance has to catch up. Helping NHS teams deploy AI with evidence, accountability and auditability built in from day one is what uPull.ai does.</p>
-      <a href="mailto:info@upull.ai" class="cta-btn">Get in touch →</a>
-    </div>
-  </section>
+</div>
+</section>
+
+<!-- FROM UPULL.AI -->
+<section style="border-bottom:none">
+<div class="from-upull">
+<h2>From uPull.ai</h2>
+<p>The pattern across every issue is consistent: deployment moves fast, governance has to catch up. Helping NHS teams deploy AI with evidence, accountability and auditability built in from day one is what uPull.ai does.</p>
+<a href="mailto:info@upull.ai" class="cta-btn">Get in touch →</a>
+</div>
+</section>
 
 </main>
 
 <footer>
-  <p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> Weekly · Curated AI news for health and care teams</p>
-  <p style="margin-top:.6rem"><a href="news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
-  <p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. All rights reserved. Summaries are editorial and link back to original sources where cited; they do not constitute clinical or regulatory advice.</p>
+<p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> Weekly · Curated AI news for health and care teams</p>
+<p style="margin-top:.6rem"><a href="news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
+<p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. All rights reserved. Summaries are editorial and link back to original sources where cited; they do not constitute clinical or regulatory advice.</p>
 </footer>
 
 <script>
 function toggleSubmenu(btn) {
-  const item = btn.closest('.nav-item');
-  const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.nav-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.nav-link-item')?.setAttribute('aria-expanded','false'); });
-  if (!wasOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+const item = btn.closest('.nav-item');
+const wasOpen = item.classList.contains('open');
+document.querySelectorAll('.nav-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.nav-link-item')?.setAttribute('aria-expanded','false'); });
+if (!wasOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
 }
 document.addEventListener('click', e => { if (!e.target.closest('.nav-item')) document.querySelectorAll('.nav-item.open').forEach(i => i.classList.remove('open')); });
 function toggleMobileNav() {
-  const menu = document.getElementById('navMenu');
-  const toggle = document.getElementById('navToggle');
-  const isOpen = menu.classList.toggle('mobile-open');
-  toggle.classList.toggle('active', isOpen);
-  toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+const menu = document.getElementById('navMenu');
+const toggle = document.getElementById('navToggle');
+const isOpen = menu.classList.toggle('mobile-open');
+toggle.classList.toggle('active', isOpen);
+toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 /* Previous issues accordion — opening one closes the others */
 window.toggleAccordion = function (tabBtn) {
-  const item = tabBtn.closest('.accordion-item');
-  const allItems = document.querySelectorAll('.issue-accordion .accordion-item');
-  const wasOpen = item.classList.contains('open');
+const item = tabBtn.closest('.accordion-item');
+const allItems = document.querySelectorAll('.issue-accordion .accordion-item');
+const wasOpen = item.classList.contains('open');
 
-  allItems.forEach(i => {
-    i.classList.remove('open');
-    i.querySelector('.accordion-panel').style.maxHeight = null;
-  });
+allItems.forEach(i => {
+i.classList.remove('open');
+i.querySelector('.accordion-panel').style.maxHeight = null;
+});
 
-  if (!wasOpen) {
-    item.classList.add('open');
-    const panel = item.querySelector('.accordion-panel');
-    panel.style.maxHeight = panel.scrollHeight + 'px';
-  }
+if (!wasOpen) {
+item.classList.add('open');
+const panel = item.querySelector('.accordion-panel');
+panel.style.maxHeight = panel.scrollHeight + 'px';
+}
 };
 </script>
 </body>
