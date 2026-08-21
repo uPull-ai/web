@@ -3,155 +3,334 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>uGrowX – uPull.ai Mockup</title>
+  <title>uGrowX — Learning Portal | uPull.ai</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="mockup-styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #f59e0b;
+      --orange-dark: #d97706;
+      --dark: #0f172a;
+      --text: #1e293b;
+      --muted: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(15,23,42,0.95); backdrop-filter: blur(12px);
+      color: white; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .nav .logo { font-weight: 800; font-size: 1.2rem; }
+    .nav .logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 24px; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a { color: rgba(255,255,255,0.8); }
+    .nav-links a:hover, .nav-links a.active { color: white; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: 0.9rem;
+      border: none; cursor: pointer; transition: 0.15s;
+    }
+    .btn-orange { background: var(--orange); color: white; }
+    .btn-orange:hover { background: var(--orange-dark); }
+    .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+    .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.3); color: white; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      color: white; padding: 72px 24px 64px; text-align: center;
+    }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
+    .hero h1 span { color: var(--orange); }
+    .hero .lead { font-size: 1.15rem; color: rgba(255,255,255,0.8); max-width: 560px; margin: 0 auto 28px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 28px; }
+    .pill {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      padding: 5px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 500;
+    }
+    .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* Layout */
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 64px 0; }
+    .section h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .section .sub { color: var(--muted); margin-bottom: 36px; max-width: 520px; }
+
+    /* Pathway finder */
+    .finder {
+      background: white; border: 1px solid var(--border); border-radius: 20px;
+      padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+    }
+    .finder-q { margin-bottom: 24px; }
+    .finder-q label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 10px; }
+    .options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .opt {
+      padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--border);
+      font-size: 0.85rem; font-weight: 500; cursor: pointer; background: white;
+      transition: 0.15s;
+    }
+    .opt:hover, .opt.selected { border-color: var(--orange); background: #fff7ed; color: var(--orange-dark); }
+
+    /* Pathway cards */
+    .path-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+    }
+    .path-card {
+      background: white; border: 1px solid var(--border); border-radius: 16px;
+      padding: 24px; transition: 0.2s; cursor: pointer;
+    }
+    .path-card:hover { border-color: var(--orange); box-shadow: 0 8px 24px rgba(245,158,11,0.12); }
+    .path-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .path-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .path-card p { font-size: 0.9rem; color: var(--muted); }
+
+    /* Case studies strip */
+    .cases {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;
+    }
+    .case-card {
+      background: white; border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .case-card .tag {
+      font-size: 0.7rem; font-weight: 700; color: var(--orange);
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .case-card h4 { font-size: 1rem; font-weight: 700; }
+    .case-card .metric { font-size: 1.5rem; font-weight: 800; color: var(--dark); }
+    .case-card p { font-size: 0.85rem; color: var(--muted); }
+
+    /* Tracks */
+    .track-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+    }
+    .track {
+      background: white; border-radius: 16px; padding: 28px 24px;
+      border: 1px solid var(--border);
+    }
+    .track h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+    .track p { font-size: 0.9rem; color: var(--muted); margin-bottom: 16px; }
+    .track ul { list-style: none; font-size: 0.9rem; }
+    .track li { padding: 4px 0 4px 18px; position: relative; }
+    .track li::before { content: "→"; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+
+    /* Login / personal */
+    .personal {
+      background: #fff7ed; border: 1px solid #fed7aa; border-radius: 16px;
+      padding: 28px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+    }
+    .personal h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
+    .personal p { font-size: 0.9rem; color: var(--muted); }
+
+    .footer {
+      text-align: center; padding: 32px 24px; font-size: 0.85rem; color: var(--muted);
+      border-top: 1px solid var(--border); margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .track-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
 <body>
-  <div class="mockup-banner">
-    MOCKUP · uGrowX / Academy page · Rewritten content for visual review
-  </div>
-
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="index.html" class="logo">uPull<span>.ai</span></a>
-      <nav class="nav">
-        <a href="community.html">Community</a>
-        <a href="academy.html" class="active">uGrowX</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="readiness.html">Readiness</a>
-      </nav>
-      <a href="#" class="btn btn-orange">Proof of Value</a>
+  <nav class="nav">
+    <a href="index.html" class="logo">uPull<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="academy.html" class="active">uGrowX</a>
+      <a href="../community.html">Community</a>
+      <a href="../readiness.html">Readiness</a>
+      <a href="../pricing.html">Pricing</a>
     </div>
-  </header>
+    <a href="#" class="btn btn-orange" style="padding: 8px 16px; font-size: 0.8rem;">Log in</a>
+  </nav>
 
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-pills">
-        <span class="pill">Beginner to Advanced</span>
-        <span class="pill">Healthcare-focused</span>
-        <span class="pill">Free for NHS & public sector</span>
-        <span class="pill">CPD recognised</span>
-        <span class="pill">30+ case studies</span>
-      </div>
-      <h1>uGrow<span class="accent">X</span></h1>
-      <p class="lead" style="font-size: 1.35rem; font-weight: 600; color: white; margin-bottom: 12px;">
-        Learning that actually sticks
-      </p>
-      <p class="lead">
-        Practical pathways for NHS staff who want to pull AI into their own workflows — not just sit through another slide deck.
-      </p>
-      <p class="lead" style="font-size: 1.05rem;">
-        Every course is built around real operational problems. You leave with something you can try the following week, not a certificate that gathers dust.
-      </p>
-      <div class="hero-ctas" style="margin-top: 28px;">
-        <a href="#" class="btn btn-orange">Find my pathway →</a>
-        <a href="#" class="btn btn-outline">Browse the full library</a>
+    <div class="pills">
+      <span class="pill">Beginner → Advanced</span>
+      <span class="pill">Healthcare-focused</span>
+      <span class="pill">Free for NHS & public sector</span>
+      <span class="pill">CPD recognised</span>
+      <span class="pill">30+ case studies</span>
+    </div>
+    <h1>uGrow<span>X</span></h1>
+    <p class="lead">The learning portal for NHS staff who want to pull AI into real workflows — not just sit through another slide deck.</p>
+    <div class="hero-ctas">
+      <a href="#finder" class="btn btn-orange">Find my pathway</a>
+      <a href="#cases" class="btn btn-outline">Browse case studies</a>
+    </div>
+  </section>
+
+  <!-- Pathway finder -->
+  <section class="section">
+    <div class="wrap">
+      <h2>Find your pathway in 30 seconds</h2>
+      <p class="sub">Answer three questions. We point you to the route that matches the problem you care about.</p>
+
+      <div class="finder" id="finder">
+        <div class="finder-q">
+          <label>1. What are you designing or improving?</label>
+          <div class="options">
+            <button class="opt selected">Ambient documentation</button>
+            <button class="opt">Workflow automation</button>
+            <button class="opt">Clinical support</button>
+            <button class="opt">Operational robotics</button>
+          </div>
+        </div>
+        <div class="finder-q">
+          <label>2. Who are you?</label>
+          <div class="options">
+            <button class="opt">Clinician</button>
+            <button class="opt selected">Leader</button>
+            <button class="opt">Ops / Digital</button>
+            <button class="opt">Developer</button>
+          </div>
+        </div>
+        <div class="finder-q">
+          <label>3. What matters most right now?</label>
+          <div class="options">
+            <button class="opt">Team adoption</button>
+            <button class="opt selected">Safety & governance</button>
+            <button class="opt">Speed & scale</button>
+            <button class="opt">Staff experience</button>
+          </div>
+        </div>
+        <button class="btn btn-orange" style="margin-top: 8px;">Show my recommendation →</button>
       </div>
     </div>
   </section>
 
-  <!-- What makes it different -->
-  <section class="section">
-    <div class="section-inner">
-      <h2>What makes this different</h2>
-      <p class="subtitle">
-        Most AI training starts with the technology. We start with the work.
-      </p>
+  <!-- Four core pathways -->
+  <section class="section" style="background: white;">
+    <div class="wrap">
+      <h2>Four core pathways</h2>
+      <p class="sub">Every pathway starts with a shared Introduction to AI, then branches into the work you actually do.</p>
+      <div class="path-grid">
+        <div class="path-card">
+          <div class="icon">🎙️</div>
+          <h3>Ambience</h3>
+          <p>Ambient documentation, consultation capture, note validation. Less typing, more care.</p>
+        </div>
+        <div class="path-card">
+          <div class="icon">🤖</div>
+          <h3>Agentic</h3>
+          <p>Orchestrated workflows, copilots, service automation with human oversight.</p>
+        </div>
+        <div class="path-card">
+          <div class="icon">🩺</div>
+          <h3>Clinical</h3>
+          <p>Decision support, triage, pathway automation that stays clinically safe.</p>
+        </div>
+        <div class="path-card">
+          <div class="icon">🦾</div>
+          <h3>Robotic</h3>
+          <p>Operational robotics and physical automation in logistics, pharmacy and support services.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <div class="two-col" style="margin-bottom: 48px;">
-        <div>
-          <p style="margin-bottom: 20px; color: var(--text-light);">
-            You answer a few short questions about your role and the problem you care about. We point you to the right pathway:
-          </p>
-          <ul class="list-check">
-            <li>Ambient & documentation</li>
-            <li>Clinical decision support</li>
-            <li>Agentic workflows</li>
-            <li>Robotics & automation</li>
-            <li>Governance & safety for non-specialists</li>
+  <!-- Tracks -->
+  <section class="section">
+    <div class="wrap">
+      <h2>Choose your starting level</h2>
+      <p class="sub">No prior tech experience required for the beginner track.</p>
+      <div class="track-row">
+        <div class="track">
+          <h3>Beginner</h3>
+          <p>AI basics, healthcare context, safe daily use.</p>
+          <ul>
+            <li>Introduction to AI in health</li>
+            <li>Ethics & governance essentials</li>
+            <li>First practical exercises</li>
           </ul>
         </div>
-        <div class="card" style="background: #fff7ed; border-color: #fed7aa;">
-          <h3 style="color: var(--orange-dark);">The only measure that matters</h3>
-          <p style="color: var(--text);">
-            Training only matters if it changes what happens on Monday morning. That is the only measure we use.
-          </p>
+        <div class="track">
+          <h3>Intermediate</h3>
+          <p>Automation, workflow design, leading adoption.</p>
+          <ul>
+            <li>Prompt engineering pathway</li>
+            <li>Workflow redesign methods</li>
+            <li>Running a 6-week pull</li>
+          </ul>
+        </div>
+        <div class="track">
+          <h3>Intrapreneur</h3>
+          <p>Design and champion AI-enabled services.</p>
+          <ul>
+            <li>End-to-end product thinking</li>
+            <li>Safety cases & assurance</li>
+            <li>Scaling what works</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How learning works -->
-  <section class="section" style="background: white;">
-    <div class="section-inner">
-      <h2>How the learning works</h2>
-      <p class="subtitle">Five steps. No fluff.</p>
-
-      <div class="card-grid">
-        <div class="card">
-          <div style="font-size: 1.5rem; font-weight: 800; color: var(--orange); margin-bottom: 8px;">01</div>
-          <h3>Short diagnostic</h3>
-          <p>A few questions about your role and the problem you care about. We route you to the right pathway.</p>
+  <!-- Case studies linked to learning -->
+  <section class="section" style="background: white;" id="cases">
+    <div class="wrap">
+      <h2>Learn from real deployments</h2>
+      <p class="sub">30+ case studies. Each one links to the courses that teach the same methods.</p>
+      <div class="cases">
+        <div class="case-card">
+          <span class="tag">Ambient · UK</span>
+          <div class="metric">94%</div>
+          <h4>MedScribe AI</h4>
+          <p>Out-of-hours chart dictation eliminated. Consultation to signature under 90 seconds.</p>
         </div>
-        <div class="card">
-          <div style="font-size: 1.5rem; font-weight: 800; color: var(--orange); margin-bottom: 8px;">02</div>
-          <h3>Bite-sized modules</h3>
-          <p>Short lessons mixed with real NHS examples — not abstract theory.</p>
+        <div class="case-card">
+          <span class="tag">Agentic · Australia</span>
+          <div class="metric">52%</div>
+          <h4>AuraCare Agent</h4>
+          <p>Emergency psychiatric assessment time cut. Waiting room pressure eased.</p>
         </div>
-        <div class="card">
-          <div style="font-size: 1.5rem; font-weight: 800; color: var(--orange); margin-bottom: 8px;">03</div>
-          <h3>Practical exercises</h3>
-          <p>Things you can actually run in your own service the same week.</p>
+        <div class="case-card">
+          <span class="tag">Clinical · Germany</span>
+          <div class="metric">310%</div>
+          <h4>PathoAgent</h4>
+          <p>Slide screening throughput up. Zero false negatives in validation.</p>
         </div>
-        <div class="card">
-          <div style="font-size: 1.5rem; font-weight: 800; color: var(--orange); margin-bottom: 8px;">04</div>
-          <h3>Peer discussion</h3>
-          <p>Talk it through inside the Community with people facing the same challenges.</p>
-        </div>
-        <div class="card">
-          <div style="font-size: 1.5rem; font-weight: 800; color: var(--orange); margin-bottom: 8px;">05</div>
-          <h3>CPD & progress</h3>
-          <p>Optional tracking so you (and your organisation) can see the capability growing.</p>
-        </div>
+      </div>
+      <div style="margin-top: 28px; text-align: center;">
+        <a href="https://upull.ai/academy.html#tab-casestudies" class="btn btn-ghost">View all case studies on live site →</a>
       </div>
     </div>
   </section>
 
-  <!-- For leaders -->
+  <!-- Personal / login -->
   <section class="section">
-    <div class="section-inner">
-      <div class="highlight-box" style="max-width: 720px; margin: 0 auto; text-align: center;">
-        <strong style="display: block; margin-bottom: 8px; font-size: 1.1rem;">For leaders</strong>
-        Use uGrowX to grow a cohort of confident intrapreneurs inside your organisation instead of relying on external consultants for every step.
+    <div class="wrap">
+      <div class="personal">
+        <div style="flex: 1;">
+          <h3>Log in for a personal route</h3>
+          <p>Save courses, track CPD, unlock team views if you are a leader. Same profile as the Community Hub.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="#" class="btn btn-orange">Sign in with email</a>
+          <a href="#" class="btn btn-ghost">Continue as guest</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="section" style="padding-top: 24px;">
-    <div class="section-inner text-center">
-      <h2>Ready to start?</h2>
-      <p class="subtitle" style="margin-left: auto; margin-right: auto;">
-        Find the pathway that matches the problem you care about most.
-      </p>
-      <div class="hero-ctas" style="justify-content: center;">
-        <a href="#" class="btn btn-orange">Find my pathway →</a>
-        <a href="community.html" class="btn btn-ghost">Join the community first</a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div>© 2026 uPull.ai · Mockup for review</div>
-      <div>
-        <a href="index.html">All mockups</a> · 
-        <a href="mailto:info@upull.ai">info@upull.ai</a>
-      </div>
-    </div>
+  <footer class="footer">
+    © 2026 uPull.ai · uGrowX mockup v2 · Links to live case studies preserved
   </footer>
 </body>
 </html>

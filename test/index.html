@@ -3,98 +3,312 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>uPull.ai – Content Mockups</title>
+  <title>uPull.ai — Frontline-Led AI for the NHS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="mockup-styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    .mock-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 48px 24px;
+    :root {
+      --orange: #f59e0b;
+      --orange-dark: #d97706;
+      --dark: #0a0a0a;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --bg: #f5f5f7;
+      --white: #ffffff;
     }
-    .mock-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.4;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Sticky minimal nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 52px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      font-size: 0.85rem; font-weight: 500;
+    }
+    .nav .logo { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; }
+    .nav .logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--muted); transition: color 0.15s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav .cta {
+      background: var(--orange); color: white; padding: 7px 16px;
+      border-radius: 980px; font-weight: 600; font-size: 0.8rem;
+    }
+    .nav .cta:hover { background: var(--orange-dark); }
+
+    /* Full-bleed sections */
+    .panel {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
       text-align: center;
-      transition: transform 0.15s, box-shadow 0.15s;
+      padding: 100px 24px 80px;
+      position: relative;
+      overflow: hidden;
     }
-    .mock-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(15,23,42,0.1);
+    .panel h1, .panel h2 {
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
     }
-    .mock-card h2 {
-      font-size: 1.25rem;
-      margin-bottom: 8px;
+    .panel h1 { font-size: clamp(2.8rem, 7vw, 5.2rem); max-width: 900px; }
+    .panel h2 { font-size: clamp(2rem, 4.5vw, 3.4rem); max-width: 800px; margin-bottom: 16px; }
+    .panel .sub {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--muted); max-width: 520px; margin: 0 auto 32px;
+      font-weight: 400;
     }
-    .mock-card p {
-      color: var(--text-light);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
+    .panel .eyebrow {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 16px;
+    }
+
+    /* Hero */
+    .hero {
+      background: #000;
+      color: white;
+      background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.55)), url('../images/upull-meeting-bg.jpg');
+      background-size: cover; background-position: center;
+    }
+    .hero h1 { color: white; }
+    .hero .sub { color: rgba(255,255,255,0.75); }
+    .hero .accent { color: var(--orange); }
+
+    /* Visual journey panels */
+    .journey {
+      background: var(--bg);
+      padding: 0;
+    }
+    .journey-inner {
+      max-width: 1100px; margin: 0 auto; padding: 80px 24px;
+    }
+    .journey-step {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      align-items: center; margin-bottom: 100px;
+    }
+    .journey-step:nth-child(even) { direction: rtl; }
+    .journey-step:nth-child(even) > * { direction: ltr; }
+    .journey-step img {
+      width: 100%; border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+      aspect-ratio: 4/3; object-fit: cover;
+    }
+    .journey-step .copy { text-align: left; padding: 0 12px; }
+    .journey-step .num {
+      font-size: 0.75rem; font-weight: 700; color: var(--orange);
+      letter-spacing: 0.06em; margin-bottom: 8px;
+    }
+    .journey-step h3 {
+      font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em;
+      margin-bottom: 12px; line-height: 1.15;
+    }
+    .journey-step p { color: var(--muted); font-size: 1.05rem; max-width: 360px; }
+
+    /* Dark outcome panel */
+    .outcome {
+      background: #000; color: white;
+      background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.75)), url('../images/banner.jpeg');
+      background-size: cover; background-position: center;
+    }
+    .outcome .sub { color: rgba(255,255,255,0.7); }
+    .outcome h2 { color: white; }
+
+    /* Two cards row */
+    .cards-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      max-width: 900px; margin: 40px auto 0; width: 100%;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px; padding: 32px 28px; text-align: left;
+      backdrop-filter: blur(12px);
+    }
+    .card h4 { font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
+    .card p { color: rgba(255,255,255,0.65); font-size: 0.95rem; }
+
+    /* Readiness + Pricing teaser */
+    .teaser {
+      background: var(--white);
+    }
+    .teaser-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      max-width: 860px; margin: 40px auto 0; width: 100%;
+    }
+    .teaser-card {
+      background: var(--bg); border-radius: 20px; padding: 36px 28px;
+      text-align: left; transition: transform 0.2s;
+    }
+    .teaser-card:hover { transform: scale(1.02); }
+    .teaser-card h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; }
+    .teaser-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; }
+    .teaser-card a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-weight: 600; color: var(--orange); font-size: 0.95rem;
+    }
+
+    /* Final CTA */
+    .final {
+      background: var(--bg);
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 28px; border-radius: 980px; font-weight: 600;
+      font-size: 1rem; transition: all 0.15s; border: none; cursor: pointer;
+    }
+    .btn-orange { background: var(--orange); color: white; }
+    .btn-orange:hover { background: var(--orange-dark); }
+    .btn-ghost {
+      background: transparent; border: 1.5px solid rgba(0,0,0,0.15);
+      color: var(--text); margin-left: 12px;
+    }
+    .btn-ghost:hover { border-color: var(--text); }
+
+    .footer {
+      padding: 40px 24px; text-align: center; font-size: 0.85rem;
+      color: var(--muted); border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    @media (max-width: 800px) {
+      .journey-step, .journey-step:nth-child(even) {
+        grid-template-columns: 1fr; direction: ltr; gap: 24px;
+      }
+      .cards-row, .teaser-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="mockup-banner">
-    MOCKUPS · Rewritten content for visual review · Not live
-  </div>
-
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="index.html" class="logo">uPull<span>.ai</span></a>
-      <nav class="nav">
-        <a href="community.html">Community</a>
-        <a href="academy.html">uGrowX</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="readiness.html">Readiness</a>
-      </nav>
-      <a href="#" class="btn btn-orange">Proof of Value</a>
+  <nav class="nav">
+    <a href="index.html" class="logo">uPull<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="academy.html">uGrowX</a>
+      <a href="../community.html">Community</a>
+      <a href="../readiness.html">Readiness</a>
+      <a href="../pricing.html">Pricing</a>
     </div>
-  </header>
+    <a href="#start" class="cta">Start a pull</a>
+  </nav>
 
-  <section class="hero" style="padding: 80px 24px;">
-    <div class="hero-inner text-center" style="max-width: 700px;">
-      <h1>Content mockups for review</h1>
-      <p class="lead" style="margin-left: auto; margin-right: auto;">
-        These pages use the rewritten copy focused on staff ownership, community, engagement and practical training. 
-        Open each page to inspect layout and wording.
-      </p>
+  <!-- 1. HERO — Apple-style sparse -->
+  <section class="panel hero">
+    <p class="eyebrow" style="color: var(--orange);">Frontline-led AI for the NHS</p>
+    <h1>Stop pushing.<br><span class="accent">Start pulling.</span></h1>
+    <p class="sub">Workflow first. AI second. Proof in six weeks.</p>
+    <div style="margin-top: 12px;">
+      <a href="#journey" class="btn btn-orange">See the journey</a>
     </div>
   </section>
 
-  <div class="mock-grid">
-    <a href="community.html" class="mock-card">
-      <h2>Community</h2>
-      <p>Frontline AI Community of Practice – staff-first, peer learning, intrapreneurs.</p>
-      <span class="btn btn-dark">View mockup →</span>
-    </a>
-    <a href="academy.html" class="mock-card">
-      <h2>uGrowX / Academy</h2>
-      <p>Practical learning pathways that start with the work, not the technology.</p>
-      <span class="btn btn-dark">View mockup →</span>
-    </a>
-    <a href="pricing.html" class="mock-card">
-      <h2>Pricing</h2>
-      <p>Staged path from discovery to scale – outcomes-focused language.</p>
-      <span class="btn btn-dark">View mockup →</span>
-    </a>
-    <a href="readiness.html" class="mock-card">
-      <h2>AI Readiness</h2>
-      <p>Free 10-minute assessment – foundations before spend.</p>
-      <span class="btn btn-dark">View mockup →</span>
-    </a>
-  </div>
+  <!-- 2. USER JOURNEY — visual scroll -->
+  <section class="journey" id="journey">
+    <div class="journey-inner">
+      <div style="text-align: center; margin-bottom: 72px;">
+        <p class="eyebrow">The pull</p>
+        <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.6rem);">One workflow.<br>Real results.</h2>
+      </div>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div>© 2026 uPull.ai · Mockups for internal review only</div>
-      <div><a href="mailto:info@upull.ai">info@upull.ai</a></div>
+      <div class="journey-step">
+        <img src="../images/01_cover.png" alt="Find the bottleneck with the frontline team">
+        <div class="copy">
+          <div class="num">01</div>
+          <h3>Find the bottleneck</h3>
+          <p>One real operational pain point, chosen with the people who live it every day.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <img src="../images/02_step1.png" alt="Staff-led workflow redesign">
+        <div class="copy">
+          <div class="num">02</div>
+          <h3>Redesign the workflow</h3>
+          <p>Staff lead the redesign. AI is not allowed in until the process is right.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <img src="../images/03_step2.png" alt="Add the right AI layer">
+        <div class="copy">
+          <div class="num">03</div>
+          <h3>Add the right AI layer</h3>
+          <p>Technology that supports the new process — never the other way round.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <img src="../images/04_step3.png" alt="Prove ROI in six weeks">
+        <div class="copy">
+          <div class="num">04</div>
+          <h3>Prove value in 6 weeks</h3>
+          <p>One credible operational win. Measured. Visible. Owned by the team.</p>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- 3. WHAT YOU GET BACK -->
+  <section class="panel outcome">
+    <p class="eyebrow">What you keep</p>
+    <h2>Capability that stays<br>after we leave.</h2>
+    <p class="sub">Not another tool. A team that can pull AI themselves.</p>
+
+    <div class="cards-row">
+      <div class="card">
+        <h4>uGrowX</h4>
+        <p>Practical pathways for NHS staff. CPD recognised. Free for public sector. Starts with the work, not the tech.</p>
+      </div>
+      <div class="card">
+        <h4>Community</h4>
+        <p>The room where intrapreneurs share what actually worked — and what didn’t — across trusts.</p>
+      </div>
+    </div>
+    <div style="margin-top: 40px;">
+      <a href="academy.html" class="btn btn-orange">Explore uGrowX</a>
+    </div>
+  </section>
+
+  <!-- 4. READINESS + PRICING TEASER -->
+  <section class="panel teaser">
+    <p class="eyebrow">Next step</p>
+    <h2>Know where you stand.<br>Then decide.</h2>
+    <p class="sub">No sales call required to see your readiness score.</p>
+
+    <div class="teaser-grid">
+      <div class="teaser-card">
+        <h3>AI Readiness</h3>
+        <p>32 questions. 8 domains. ~10 minutes. Mapped to the frameworks your board already uses.</p>
+        <a href="../readiness.html">Start free assessment →</a>
+      </div>
+      <div class="teaser-card">
+        <h3>Pricing</h3>
+        <p>Start with a 4-day Discovery Sprint. Only scale what proves value.</p>
+        <a href="../pricing.html">See stages →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FINAL CTA -->
+  <section class="panel final" id="start">
+    <p class="eyebrow">One workflow. Six weeks.</p>
+    <h2>Ready to pull?</h2>
+    <p class="sub">Register interest for the next proof-of-value cohort.</p>
+    <div>
+      <a href="mailto:info@upull.ai" class="btn btn-orange">Talk to us</a>
+      <a href="../readiness.html" class="btn btn-ghost">Test readiness first</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © 2026 uPull.ai · Mockup v2 · Visual-first homepage
   </footer>
 </body>
 </html>
