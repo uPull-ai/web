@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>uPull.ai – Content Mockups</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mockup-styles.css">
+  <style>
+    .mock-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .mock-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .mock-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(15,23,42,0.1);
+    }
+    .mock-card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .mock-card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup-banner">
+    MOCKUPS · Rewritten content for visual review · Not live
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">uPull<span>.ai</span></a>
+      <nav class="nav">
+        <a href="community.html">Community</a>
+        <a href="academy.html">uGrowX</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="readiness.html">Readiness</a>
+      </nav>
+      <a href="#" class="btn btn-orange">Proof of Value</a>
+    </div>
+  </header>
+
+  <section class="hero" style="padding: 80px 24px;">
+    <div class="hero-inner text-center" style="max-width: 700px;">
+      <h1>Content mockups for review</h1>
+      <p class="lead" style="margin-left: auto; margin-right: auto;">
+        These pages use the rewritten copy focused on staff ownership, community, engagement and practical training. 
+        Open each page to inspect layout and wording.
+      </p>
+    </div>
+  </section>
+
+  <div class="mock-grid">
+    <a href="community.html" class="mock-card">
+      <h2>Community</h2>
+      <p>Frontline AI Community of Practice – staff-first, peer learning, intrapreneurs.</p>
+      <span class="btn btn-dark">View mockup →</span>
+    </a>
+    <a href="academy.html" class="mock-card">
+      <h2>uGrowX / Academy</h2>
+      <p>Practical learning pathways that start with the work, not the technology.</p>
+      <span class="btn btn-dark">View mockup →</span>
+    </a>
+    <a href="pricing.html" class="mock-card">
+      <h2>Pricing</h2>
+      <p>Staged path from discovery to scale – outcomes-focused language.</p>
+      <span class="btn btn-dark">View mockup →</span>
+    </a>
+    <a href="readiness.html" class="mock-card">
+      <h2>AI Readiness</h2>
+      <p>Free 10-minute assessment – foundations before spend.</p>
+      <span class="btn btn-dark">View mockup →</span>
+    </a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© 2026 uPull.ai · Mockups for internal review only</div>
+      <div><a href="mailto:info@upull.ai">info@upull.ai</a></div>
+    </div>
+  </footer>
+</body>
+</html>
