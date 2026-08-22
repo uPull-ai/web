@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>uPull.ai Academy Assistant</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;background:#F8FAFC;color:#1E293B;margin:0;min-height:100vh}
+
+  /* ── Centered "homepage" state, before a search has been run ── */
+  #home{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;transition:all .2s}
+  #home.searched{min-height:0;padding:24px 20px 8px;justify-content:flex-start}
+  .logo{font-size:2.1rem;font-weight:800;color:#003087;letter-spacing:-.5px;margin-bottom:4px}
+  .logo span{color:#ED8B00}
+  .tagline{color:#768692;font-size:.9rem;margin-bottom:28px;text-align:center}
+  #home.searched .tagline,#home.searched .logo{display:none}
+  #home.searched .logo-sm{display:block}
+  .logo-sm{display:none;font-size:1.3rem;font-weight:800;color:#003087;margin-bottom:14px}
+  .logo-sm span{color:#ED8B00}
+
+  form{width:100%;max-width:600px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E8EDEE;border-radius:999px;padding:10px 20px;box-shadow:0 2px 10px rgba(0,0,0,.06);transition:box-shadow .15s}
+  form:focus-within{box-shadow:0 4px 18px rgba(0,94,184,.18);border-color:#005EB8}
+  .search-icon{color:#768692;font-size:1.1rem;flex-shrink:0}
+  input{flex:1;border:none;outline:none;font-size:1rem;background:transparent;color:#1E293B}
+  button{background:#ED8B00;color:#fff;border:none;border-radius:999px;padding:9px 20px;font-weight:700;font-size:.9rem;cursor:pointer;flex-shrink:0}
+  button:disabled{opacity:.55;cursor:default}
+
+  .hints{max-width:600px;width:100%;margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  #home.searched .hints{display:none}
+  .hint-label{width:100%;text-align:center;font-size:.78rem;color:#768692;margin-bottom:2px}
+  .hint-chip{background:#fff;border:1px solid #E8EDEE;color:#005EB8;font-size:.82rem;padding:.4rem .85rem;border-radius:20px;cursor:pointer;transition:all .15s}
+  .hint-chip:hover{border-color:#005EB8;background:#eef4fb}
+
+  .tips{max-width:600px;width:100%;margin-top:22px;background:#fff;border:1px solid #E8EDEE;border-radius:10px;padding:14px 18px;font-size:.82rem;color:#768692;line-height:1.6}
+  #home.searched .tips{display:none}
+  .tips b{color:#1E293B}
+
+  /* ── Results area ── */
+  #results{max-width:640px;width:100%;margin:22px auto 40px;padding:0 20px}
+  .result-card{background:#fff;border:1px solid #E8EDEE;border-radius:12px;padding:20px 22px;margin-top:14px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  .result-q{font-weight:700;color:#003087;font-size:.95rem;margin-bottom:10px}
+  .result-a{white-space:pre-wrap;line-height:1.65;font-size:.94rem;color:#1E293B}
+  .result-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:10px;border-top:1px solid #E8EDEE}
+  .meta-pill{font-size:.72rem;color:#768692;background:#F8FAFC;border:1px solid #E8EDEE;padding:.25rem .6rem;border-radius:20px}
+  .meta-pill.matched{color:#00A499;border-color:#00A499}
+  .loading{color:#768692;font-size:.9rem;padding:20px 0;text-align:center}
+  .error{color:#DA291C}
+</style>
+</head>
+<body>
+
+<div id="home">
+  <div class="logo">uPull.ai <span>Academy</span></div>
+  <div class="logo-sm">uPull.ai <span>Academy</span></div>
+  <div class="tagline">Ask about courses, pathways, CPD credits, or real case studies</div>
+
+  <form id="form">
+    <span class="search-icon">&#128269;</span>
+    <input id="question" placeholder="Ask a question..." autocomplete="off" autofocus>
+    <button type="submit">Ask</button>
+  </form>
+
+  <div class="hints" id="hints">
+    <div class="hint-label">Try one of these:</div>
+    <div class="hint-chip" data-q="What free courses are there for beginners in the agentic pathway?">Free beginner courses in agentic AI</div>
+    <div class="hint-chip" data-q="Tell me about the MedScribe AI case study">MedScribe case study</div>
+    <div class="hint-chip" data-q="What is ambient documentation and is there a course on it?">What is ambient documentation?</div>
+    <div class="hint-chip" data-q="How many CPD hours do I need and which courses count?">CPD credit basics</div>
+  </div>
+
+  <div class="tips">
+    <b>Tip:</b> name a specific pathway (Agentic, Clinical, Ambient, Robotic, Operational, Intrapreneur, Prompt Engineering)
+    or say "beginner" / "free" to narrow results. Reference a case study by number (e.g. "CS1") or by name for its
+    full detail rather than just a summary. General AI questions work too — the assistant will say clearly when
+    it's answering outside uPull.ai's own catalog.
+  </div>
+</div>
+
+<div id="results"></div>
+
+<script>
+const homeEl = document.getElementById('home');
+const resultsEl = document.getElementById('results');
+const form = document.getElementById('form');
+const input = document.getElementById('question');
+
+document.querySelectorAll('.hint-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    input.value = chip.dataset.q;
+    form.requestSubmit();
+  });
+});
+
+async function runQuery(question) {
+  homeEl.classList.add('searched');
+
+  const card = document.createElement('div');
+  card.className = 'result-card';
+  card.innerHTML = `<div class="result-q">${escapeHtml(question)}</div><div class="loading">Thinking…</div>`;
+  resultsEl.prepend(card);
+
+  try {
+    const res = await fetch('http://localhost:5000/ask', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({question})
+    });
+    const data = await res.json();
+    if (data.error) {
+      card.innerHTML = `<div class="result-q">${escapeHtml(question)}</div><div class="error">Error: ${escapeHtml(data.error)}</div>`;
+      return;
+    }
+    const metaBits = [`${data.tokens.input} in / ${data.tokens.output} out tokens`];
+    let matchedPill = '';
+    if (data.matched_case_study) {
+      matchedPill = `<span class="meta-pill matched">Matched ${data.matched_case_study}</span>`;
+    }
+    card.innerHTML = `
+      <div class="result-q">${escapeHtml(question)}</div>
+      <div class="result-a">${escapeHtml(data.answer)}</div>
+      <div class="result-meta">
+        ${matchedPill}
+        <span class="meta-pill">${metaBits.join(' · ')}</span>
+      </div>`;
+  } catch (err) {
+    card.innerHTML = `<div class="result-q">${escapeHtml(question)}</div><div class="error">Could not reach the backend at localhost:5000 — is app.py running?</div>`;
+  }
+}
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const question = input.value.trim();
+  if (!question) return;
+  input.value = '';
+  runQuery(question);
+});
+</script>
+</body>
+</html>
