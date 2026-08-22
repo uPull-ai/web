@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -40,9 +40,10 @@
   .result-card{background:#fff;border:1px solid #E8EDEE;border-radius:12px;padding:20px 22px;margin-top:14px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
   .result-q{font-weight:700;color:#003087;font-size:.95rem;margin-bottom:10px}
   .result-a{white-space:pre-wrap;line-height:1.65;font-size:.94rem;color:#1E293B}
-  .result-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:10px;border-top:1px solid #E8EDEE}
-  .meta-pill{font-size:.72rem;color:#768692;background:#F8FAFC;border:1px solid #E8EDEE;padding:.25rem .6rem;border-radius:20px}
-  .meta-pill.matched{color:#00A499;border-color:#00A499}
+  .result-links{display:flex;flex-direction:column;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid #E8EDEE}
+  .result-link{color:#005EB8;font-weight:600;font-size:.85rem;text-decoration:none}
+  .result-link:hover{color:#ED8B00;text-decoration:underline}
+  .result-link .link-type{color:#768692;font-weight:500;text-transform:capitalize}
   .loading{color:#768692;font-size:.9rem;padding:20px 0;text-align:center}
   .error{color:#DA291C}
 </style>
@@ -100,7 +101,7 @@ async function runQuery(question) {
   resultsEl.prepend(card);
 
   try {
-    const res = await fetch('http://localhost:5000/ask', {
+    const res = await fetch('https://academy-assistant-367436101898.europe-west2.run.app/ask', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({question})
@@ -110,20 +111,19 @@ async function runQuery(question) {
       card.innerHTML = `<div class="result-q">${escapeHtml(question)}</div><div class="error">Error: ${escapeHtml(data.error)}</div>`;
       return;
     }
-    const metaBits = [`${data.tokens.input} in / ${data.tokens.output} out tokens`];
-    let matchedPill = '';
-    if (data.matched_case_study) {
-      matchedPill = `<span class="meta-pill matched">Matched ${data.matched_case_study}</span>`;
+    let linksHtml = '';
+    if (data.links && data.links.length) {
+      const items = data.links.map(l =>
+        `<a class="result-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.title)} <span class="link-type">(${escapeHtml(l.type)})</span></a>`
+      ).join('');
+      linksHtml = `<div class="result-links">${items}</div>`;
     }
     card.innerHTML = `
       <div class="result-q">${escapeHtml(question)}</div>
       <div class="result-a">${escapeHtml(data.answer)}</div>
-      <div class="result-meta">
-        ${matchedPill}
-        <span class="meta-pill">${metaBits.join(' · ')}</span>
-      </div>`;
+      ${linksHtml}`;
   } catch (err) {
-    card.innerHTML = `<div class="result-q">${escapeHtml(question)}</div><div class="error">Could not reach the backend at localhost:5000 — is app.py running?</div>`;
+    card.innerHTML = `<div class="result-q">${escapeHtml(question)}</div><div class="error">Could not reach the backend at localhost:5050 — is app.py running?</div>`;
   }
 }
 
