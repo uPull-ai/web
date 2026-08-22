@@ -416,6 +416,36 @@
     /* <nav aria-label="Primary"> wraps the menu on this page; keep it a flex row
        so the newsletter icon sits inline with the menu, as on every other page */
     header .nav-right > nav{display:flex;align-items:center;gap:18px}
+
+    /* ══════════════ ACADEMY ASSISTANT — Q&A search ══════════════ */
+    .aa-section{padding:2rem 0}
+    .aa-wrap{max-width:680px;margin:0 auto}
+    .aa-intro{text-align:center;margin-bottom:1.1rem}
+    .aa-title{color:var(--navy);font-size:1.5rem;font-weight:800}
+    .aa-sub{color:var(--muted);font-size:.88rem;margin-top:.3rem}
+    .aa-form{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:999px;padding:.6rem 1.1rem;box-shadow:0 2px 10px rgba(0,0,0,.06);transition:box-shadow .15s}
+    .aa-form:focus-within{box-shadow:0 4px 18px rgba(var(--blue-rgb),.18);border-color:var(--blue)}
+    .aa-search-icon{color:var(--muted);font-size:1.05rem;flex-shrink:0}
+    .aa-input{flex:1;border:none;outline:none;font-size:.95rem;background:transparent;color:#1E293B;font-family:inherit}
+    .aa-ask-btn{background:var(--orange);color:#fff;border:none;border-radius:999px;padding:.55rem 1.3rem;font-weight:700;font-size:.85rem;cursor:pointer;flex-shrink:0}
+    .aa-ask-btn:hover{background:var(--orange-hover)}
+    .aa-ask-btn:disabled{opacity:.55;cursor:default}
+    .aa-hints{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:.9rem}
+    .aa-hint-label{width:100%;text-align:center;font-size:.76rem;color:var(--muted);margin-bottom:.1rem}
+    .aa-hint-chip{background:#fff;border:1px solid var(--border);color:var(--blue);font-size:.8rem;padding:.4rem .85rem;border-radius:20px;cursor:pointer;font-family:inherit;transition:all .15s}
+    .aa-hint-chip:hover{border-color:var(--blue);background:#eef4fb}
+    .aa-results{margin-top:1.2rem}
+    .aa-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-top:12px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+    .aa-q{font-weight:700;color:var(--navy);font-size:.92rem;margin-bottom:8px}
+    .aa-a{white-space:pre-wrap;line-height:1.6;font-size:.9rem;color:#1E293B}
+    .aa-links{display:flex;flex-direction:column;gap:5px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+    .aa-link{color:var(--blue);font-weight:600;font-size:.82rem;text-decoration:none}
+    .aa-link:hover{color:var(--orange);text-decoration:underline}
+    .aa-link-type{color:var(--muted);font-weight:500;text-transform:capitalize}
+    .aa-loading{color:var(--muted);font-size:.88rem;padding:16px 0;text-align:center}
+    .aa-error{color:var(--robotic)}
+    @media(max-width:600px){.aa-title{font-size:1.25rem}}
+
   </style>
   <script type="module">
     // Shared Firebase project with community.html — signing in here or on the
@@ -569,6 +599,33 @@
       </div>
     </div>
   </div>
+
+  <!-- ══════════════ uPull.ai ACADEMY ASSISTANT — Q&A search ══════════════ -->
+  <section class="aa-section" aria-label="Ask the Academy Assistant">
+    <div class="aa-wrap">
+      <div class="aa-intro">
+        <h2 class="aa-title">Ask the uPull.ai Academy Assistant</h2>
+        <p class="aa-sub">Ask about courses, pathways, CPD credits, or real case studies</p>
+      </div>
+
+      <form class="aa-form" id="aaForm">
+        <span class="aa-search-icon">&#128269;</span>
+        <input id="aaQuestion" class="aa-input" placeholder="Ask a question..." autocomplete="off">
+        <button type="submit" class="aa-ask-btn">Ask</button>
+      </form>
+
+      <div class="aa-hints" id="aaHints">
+        <span class="aa-hint-label">Try:</span>
+        <button type="button" class="aa-hint-chip" data-q="What free courses are there for beginners in the agentic pathway?">Free beginner courses</button>
+        <button type="button" class="aa-hint-chip" data-q="Tell me about the MedScribe AI case study">MedScribe case study</button>
+        <button type="button" class="aa-hint-chip" data-q="What is ambient documentation?">What is ambient documentation?</button>
+        <button type="button" class="aa-hint-chip" data-q="How many CPD hours do I need and which courses count?">CPD credit basics</button>
+      </div>
+
+      <div id="aaResults" class="aa-results"></div>
+    </div>
+  </section>
+
 
   <!-- ══════════════ LOG IN / PROFILE — directly under the title box ══════════════ -->
   <aside class="academy-sidebar" id="login" aria-label="Your account">
@@ -1874,5 +1931,65 @@ function showPointsToast(msg) {
   window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
 }
 </script>
+
+<script>
+(function(){
+  var AA_ENDPOINT = 'https://academy-assistant-367436101898.europe-west2.run.app/ask';
+  var form = document.getElementById('aaForm');
+  var input = document.getElementById('aaQuestion');
+  var results = document.getElementById('aaResults');
+  if (!form) return;
+
+  document.querySelectorAll('.aa-hint-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      input.value = chip.dataset.q;
+      form.requestSubmit();
+    });
+  });
+
+  function aaEscape(s) {
+    var div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  function aaAsk(question) {
+    var card = document.createElement('div');
+    card.className = 'aa-card';
+    card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-loading">Thinking…</div>';
+    results.prepend(card);
+
+    fetch(AA_ENDPOINT, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({question: question})
+    }).then(function(res){ return res.json(); }).then(function(data){
+      if (data.error) {
+        card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-error">Error: ' + aaEscape(data.error) + '</div>';
+        return;
+      }
+      var linksHtml = '';
+      if (data.links && data.links.length) {
+        var items = data.links.map(function(l){
+          return '<a class="aa-link" href="' + aaEscape(l.url) + '" target="_blank" rel="noopener noreferrer">' + aaEscape(l.title) + ' <span class="aa-link-type">(' + aaEscape(l.type) + ')</span></a>';
+        }).join('');
+        linksHtml = '<div class="aa-links">' + items + '</div>';
+      }
+      card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-a">' + aaEscape(data.answer) + '</div>' + linksHtml;
+    }).catch(function(){
+      card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-error">Could not reach the Academy Assistant right now — please try again shortly.</div>';
+    });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var question = input.value.trim();
+    if (!question) return;
+    input.value = '';
+    aaAsk(question);
+  });
+})();
+</script>
+
 </body>
 </html>
