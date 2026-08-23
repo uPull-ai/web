@@ -190,8 +190,15 @@
     }
     .cat-header.operational-op{background:linear-gradient(135deg,var(--operational),#b45309)}
     .cat-count{font-size:.8rem;font-weight:500;opacity:.85;margin-left:auto}
-    .hero-strip{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;padding:2.15rem 2rem;border-radius:14px;margin-top:1rem;display:flex;flex-direction:column;gap:1rem}
-    @media(min-width:768px){.hero-strip{flex-direction:row;align-items:center;justify-content:space-between}}
+    .hero-strip{
+      position:relative;overflow:hidden;color:#fff;
+      padding:3.1rem 2.2rem 3.2rem;border-radius:14px;margin-top:1rem;
+      min-height:280px;display:flex;flex-direction:column;justify-content:center;
+      background:
+        linear-gradient(105deg,rgba(0,20,55,.88) 0%,rgba(0,30,80,.62) 48%,rgba(0,20,55,.35) 100%),
+        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+    }
+    @media(min-width:768px){.hero-strip{min-height:320px}}
     .hero-strip h1{font-size:2rem;font-weight:900;line-height:1.2}
     .hero-strip h1 span{color:var(--orange)}
     .hero-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
@@ -461,7 +468,7 @@
     }
     .aa-left{padding:1.5rem 1.4rem;background:linear-gradient(180deg,#f8fbff 0%,#fff 48%);border-right:1px solid var(--border);display:flex;flex-direction:column}
     .aa-right{
-      padding:0;background:#F1F5F9;display:flex;flex-direction:column;min-height:420px;
+      padding:0;background:#fff;display:flex;flex-direction:column;min-height:420px;
     }
     .aa-intro{text-align:left;margin-bottom:1rem}
     .aa-kicker{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:.35rem}
@@ -481,20 +488,32 @@
     .aa-panel-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.85rem 1.15rem;background:#fff;border-bottom:1px solid var(--border)}
     .aa-panel-head strong{color:var(--navy);font-size:.88rem}
     .aa-panel-head span{font-size:.75rem;color:var(--muted)}
-    .aa-results{flex:1;overflow-y:auto;padding:1rem 1.15rem 1.3rem;min-height:320px;max-height:560px}
+    .aa-results{flex:1;overflow-y:auto;padding:8px 22px 22px;min-height:320px;max-height:620px;background:#fff}
     .aa-empty{height:100%;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.5rem;color:var(--muted)}
     .aa-empty img{width:100%;max-width:280px;height:150px;object-fit:cover;border-radius:12px;margin-bottom:1rem;opacity:.92}
     .aa-empty h3{color:var(--navy);font-size:1.05rem;margin-bottom:.35rem}
     .aa-empty p{font-size:.84rem;max-width:36ch;line-height:1.5}
-    .aa-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
-    .aa-q{font-weight:700;color:var(--navy);font-size:.92rem;margin-bottom:8px}
-    .aa-a{white-space:pre-wrap;line-height:1.6;font-size:.9rem;color:#1E293B}
-    .aa-links{display:flex;flex-direction:column;gap:5px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
-    .aa-link{color:var(--blue);font-weight:600;font-size:.82rem;text-decoration:none}
-    .aa-link:hover{color:var(--orange);text-decoration:underline}
-    .aa-link-type{color:var(--muted);font-weight:500;text-transform:capitalize}
-    .aa-loading{color:var(--muted);font-size:.88rem;padding:16px 0;text-align:center}
-    .aa-error{color:var(--robotic)}
+    .aa-turn{padding:6px 0 18px;border-bottom:1px solid #eef1f4;margin-bottom:6px}
+    .aa-turn:last-child{border-bottom:none}
+    .aa-qbar{display:flex;align-items:center;gap:8px;margin:10px 0 14px;color:#4d5156;font-size:.8rem}
+    .aa-qbar em{font-style:normal;color:#202124;font-weight:600}
+    .aa-about{background:#fff;border:1px solid #dadce0;border-radius:12px;padding:14px 16px 12px;margin-bottom:18px}
+    .aa-about-kicker{font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#70757a;margin-bottom:6px}
+    .aa-about-title{font-size:1.22rem;line-height:1.3;color:#202124;font-weight:500;margin-bottom:8px}
+    .aa-a{white-space:pre-wrap;line-height:1.55;font-size:.92rem;color:#4d5156}
+    .aa-result{display:block;text-decoration:none;padding:10px 2px 14px;border-radius:6px}
+    .aa-result:hover .aa-result-title{text-decoration:underline}
+    .aa-result-cite{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+    .aa-favicon{width:26px;height:26px;border-radius:50%;background:#f1f3f4;border:1px solid #e8eaed;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;color:#5f6368;flex-shrink:0;overflow:hidden}
+    .aa-favicon img{width:16px;height:16px;object-fit:contain}
+    .aa-cite-text{min-width:0}
+    .aa-cite-name{display:block;font-size:.78rem;color:#202124;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .aa-cite-url{display:block;font-size:.74rem;color:#188038;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .aa-result-title{display:block;font-size:1.18rem;line-height:1.3;color:#1a0dab;font-weight:400;margin:2px 0 4px}
+    .aa-result-snip{font-size:.84rem;line-height:1.5;color:#4d5156}
+    .aa-result-type{display:inline-block;margin-top:4px;font-size:.7rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#70757a;background:#f1f3f4;border-radius:4px;padding:2px 6px}
+    .aa-loading{color:#70757a;font-size:.88rem;padding:8px 0 4px}
+    .aa-error{color:var(--robotic);font-size:.88rem}
     @media(max-width:900px){
       .aa-workspace{grid-template-columns:1fr}
       .aa-left{border-right:none;border-bottom:1px solid var(--border)}
@@ -503,9 +522,7 @@
     @media(max-width:600px){.aa-title{font-size:1.18rem}}
 
     /* Hero + compact account strip */
-    .hero-strip{position:relative;overflow:hidden}
-    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:1.5rem;align-items:center}
-    .hero-photo{width:100%;height:100%;min-height:240px;border-radius:10px;object-fit:cover;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+    .hero-grid{max-width:720px;position:relative;z-index:1}
     .account-strip{display:flex;align-items:stretch;gap:1rem;margin-top:1.15rem;flex-wrap:wrap}
     .account-strip .sidebar-card{flex:1;min-width:260px;margin:0}
     .roles-inline{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.85rem}
@@ -514,8 +531,7 @@
     .collapsible-extra.open{display:block}
     .link-quiet{background:none;border:none;color:var(--blue);font-weight:700;cursor:pointer;font-size:.82rem;padding:0;font-family:inherit}
     @media(max-width:850px){
-      .hero-grid{grid-template-columns:1fr}
-      .hero-photo{min-height:180px;max-height:220px}
+      .hero-strip{min-height:240px;padding:2.2rem 1.4rem}
     }
 
   </style>
@@ -691,11 +707,8 @@
 <main>
   <div class="hero-strip">
     <div class="hero-grid">
-      <div>
-        <h1>Welcome to <span>uGrowX</span></h1>
-        <p style="opacity:.95;margin-top:.6rem;max-width:640px">NHS and public-sector staff learn how to use AI at work, step by step. Find a pathway, log CPD, and ask the Academy Assistant when you need a course or case study pointed out.</p>
-      </div>
-      <img class="hero-photo" alt="Clinicians collaborating with digital tools in a modern hospital" src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&amp;fit=crop&amp;w=1200&amp;q=80">
+      <h1>Welcome to <span>uGrowX</span></h1>
+      <p style="opacity:.95;margin-top:.6rem;max-width:640px">NHS and public-sector staff learn how to use AI at work, step by step. Find a pathway, log CPD, and ask the Academy Assistant when you need a course or case study pointed out.</p>
     </div>
   </div>
 
@@ -2003,8 +2016,32 @@ function showPointsToast(msg) {
 
   function aaEscape(s) {
     var div = document.createElement('div');
-    div.textContent = s;
+    div.textContent = s == null ? '' : String(s);
     return div.innerHTML;
+  }
+
+  function aaHost(url) {
+    try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return 'upull.ai'; }
+  }
+
+  function aaPath(url) {
+    try {
+      var u = new URL(url);
+      var path = (u.hostname.replace(/^www\./, '') + u.pathname).replace(/\/$/, '');
+      return path.length > 64 ? path.slice(0, 61) + '…' : path;
+    } catch (e) { return url || ''; }
+  }
+
+  function aaFavicon(url) {
+    var host = aaHost(url);
+    var src = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(host) + '&sz=32';
+    return '<span class="aa-favicon"><img src="' + src + '" alt=""></span>';
+  }
+
+  function aaSnippet(text, fallback) {
+    var t = (text || fallback || '').replace(/\s+/g, ' ').trim();
+    if (t.length > 180) t = t.slice(0, 177) + '…';
+    return t;
   }
 
   function aaAsk(question) {
@@ -2013,8 +2050,8 @@ function showPointsToast(msg) {
     var status = document.getElementById('aaStatusLabel');
     if (status) status.textContent = 'Working…';
     var card = document.createElement('div');
-    card.className = 'aa-card';
-    card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-loading">Thinking…</div>';
+    card.className = 'aa-turn';
+    card.innerHTML = '<div class="aa-qbar">Results for <em>' + aaEscape(question) + '</em></div><div class="aa-loading">Finding courses, pathways and case studies…</div>';
     results.prepend(card);
 
     fetch(AA_ENDPOINT, {
@@ -2023,20 +2060,33 @@ function showPointsToast(msg) {
       body: JSON.stringify({question: question})
     }).then(function(res){ return res.json(); }).then(function(data){
       if (data.error) {
-        card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-error">Error: ' + aaEscape(data.error) + '</div>';
+        card.innerHTML = '<div class="aa-qbar">Results for <em>' + aaEscape(question) + '</em></div><div class="aa-error">Error: ' + aaEscape(data.error) + '</div>';
         return;
       }
-      var linksHtml = '';
+      var answer = data.answer || '';
+      var firstLine = answer.split(/\n/)[0].replace(/^#+\s*/, '').trim();
+      if (firstLine.length > 90) firstLine = question;
+      var html = '<div class="aa-qbar">About ' + (data.links && data.links.length ? data.links.length + ' results' : 'this topic') + ' for <em>' + aaEscape(question) + '</em></div>';
+      html += '<div class="aa-about"><div class="aa-about-kicker">AI overview</div><div class="aa-about-title">' + aaEscape(firstLine || question) + '</div><div class="aa-a">' + aaEscape(answer) + '</div></div>';
       if (data.links && data.links.length) {
-        var items = data.links.map(function(l){
-          return '<a class="aa-link" href="' + aaEscape(l.url) + '" target="_blank" rel="noopener noreferrer">' + aaEscape(l.title) + ' <span class="aa-link-type">(' + aaEscape(l.type) + ')</span></a>';
+        html += data.links.map(function(l){
+          var url = l.url || '#';
+          var title = l.title || 'Open resource';
+          var type = l.type || 'link';
+          var snip = l.snippet || l.description || ('Open this ' + type + ' from the uGrowX academy.');
+          return '<a class="aa-result" href="' + aaEscape(url) + '" target="_blank" rel="noopener noreferrer">' +
+            '<span class="aa-result-cite">' + aaFavicon(url) +
+            '<span class="aa-cite-text"><span class="aa-cite-name">' + aaEscape(aaHost(url)) + '</span>' +
+            '<span class="aa-cite-url">' + aaEscape(aaPath(url)) + '</span></span></span>' +
+            '<span class="aa-result-title">' + aaEscape(title) + '</span>' +
+            '<span class="aa-result-snip">' + aaEscape(aaSnippet(snip, answer)) + '</span>' +
+            '<span class="aa-result-type">' + aaEscape(type) + '</span></a>';
         }).join('');
-        linksHtml = '<div class="aa-links">' + items + '</div>';
       }
-      card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-a">' + aaEscape(data.answer) + '</div>' + linksHtml;
+      card.innerHTML = html;
       if (status) status.textContent = 'Latest reply ready';
     }).catch(function(){
-      card.innerHTML = '<div class="aa-q">' + aaEscape(question) + '</div><div class="aa-error">Could not reach the Academy Assistant right now — please try again shortly.</div>';
+      card.innerHTML = '<div class="aa-qbar">Results for <em>' + aaEscape(question) + '</em></div><div class="aa-error">Could not reach the Academy Assistant right now — please try again shortly.</div>';
     });
   }
 
