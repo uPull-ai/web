@@ -323,9 +323,6 @@
     .org-input-row input{flex:1;min-width:180px;padding:.55rem .8rem;border:2px solid var(--border);border-radius:8px;font-size:.85rem;outline:none}
     .org-input-row input:focus{border-color:var(--blue)}
     .org-input-row button{white-space:nowrap}
-    .badge-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
-    .badge-pill{display:flex;align-items:center;gap:.3rem;background:#fff;border:2px solid var(--border);border-radius:20px;padding:.3rem .7rem;font-size:.75rem;font-weight:700;color:var(--muted)}
-    .badge-pill.earned{border-color:var(--orange);color:var(--orange)}
     .header-points{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.35rem .8rem;border-radius:20px;font-size:.78rem;font-weight:700}
     .points-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:.85rem 1.2rem;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:.85rem;font-weight:700;z-index:3000;opacity:0;transform:translateY(12px);transition:all .25s;pointer-events:none}
     .points-toast.show{opacity:1;transform:translateY(0)}
@@ -683,7 +680,6 @@
       </div>
       <input type="text" id="profileOrgInput" placeholder="Your organisation" style="max-width:200px">
       <button class="btn-sm btn-blue" type="button" onclick="saveOrganisation()">Save</button>
-      <div id="profileBadges" class="badge-row" style="margin:0"></div>
       <button class="btn-sm btn-outline" type="button" onclick="signOutAcademy()">Sign out</button>
       <button class="btn-sm btn-outline" type="button" onclick="hideLoginBar()">Hide</button>
     </div>
@@ -758,7 +754,7 @@
       <div id="section-overview" class="academy-view active-view">
         <section style="padding-top:.35rem;border-bottom:none">
           <details class="how-works" id="cpd">
-            <summary>How the academy works · badges &amp; progression</summary>
+            <summary>How the academy works</summary>
             <div class="how-works-body">
               <p class="section-subtitle" style="text-align:left;margin:1rem 0 .2rem">A shared start and a short diagnostic into four pathways. Open this once if you are new — then use the tabs above.</p>
               <div class="how-works-steps">
@@ -774,8 +770,8 @@
                 </div>
                 <div class="how-step">
                   <span class="info-num">03</span>
-                  <h3>🏆 Badges &amp; progression</h3>
-                  <p>Complete courses to build your profile and progress toward Awareness, Practitioner and Specialist badges. Free for NHS and public sector.</p>
+                  <h3>📈 Your progress</h3>
+                  <p>Complete courses to build up your learning profile as you go. Free for NHS and public sector.</p>
                 </div>
               </div>
             </div>
@@ -1532,7 +1528,7 @@ function sendNhsSignInLink() {
   setSignInRole('learner');
   f.sendSignInLinkToEmail(f.auth, email, actionCodeSettings).then(() => {
     window.localStorage.setItem('upullEmailForSignIn', email);
-    setNhsEmailStatus('Check your NHS inbox and open the link on this device to finish signing in.', false);
+    setNhsEmailStatus('Check your inbox and open the link on this device to finish signing in. If it hasn\'t arrived after a few minutes, please check your junk or spam folder.', false);
   }).catch(err => {
     console.error('Email link send failed:', err);
     setNhsEmailStatus('Could not send the link (' + err.code + '). Please try again.', true);
@@ -1914,7 +1910,6 @@ function renderProfile(profile) {
   const cpdEl = document.getElementById('profileCPD');
   const coursesEl = document.getElementById('profileCourses');
   const orgInput = document.getElementById('profileOrgInput');
-  const badgeRow = document.getElementById('profileBadges');
 
   if (nameEl) nameEl.textContent = profile.name || 'Academy learner';
   if (avatarEl) {
@@ -1925,16 +1920,6 @@ function renderProfile(profile) {
   if (cpdEl) cpdEl.textContent = profile.cpd || 0;
   if (coursesEl) coursesEl.textContent = (profile.completedCourses || []).length;
   if (orgInput && document.activeElement !== orgInput) orgInput.value = profile.organisation || '';
-
-  const points = profile.points || 0;
-  const tiers = [
-    {label:'Awareness', min:1},
-    {label:'Practitioner', min:30},
-    {label:'Specialist', min:70}
-  ];
-  if (badgeRow) {
-    badgeRow.innerHTML = tiers.map(t => `<span class="badge-pill ${points >= t.min ? 'earned' : ''}">${points >= t.min ? '🏅' : '🔒'} ${t.label}</span>`).join('');
-  }
 
   // Reflect completed state on any "mark complete" buttons currently in view
   (profile.completedCourses || []).forEach(id => {
