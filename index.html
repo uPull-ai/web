@@ -409,8 +409,8 @@
       </ul>
       <!-- 5. NEWSLETTER -->
       <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly — read and subscribe to the newsletter" title="uPull.ai Weekly newsletter">📰</a>
-      <!-- 6. PROOF OF VALUE -->
-      <a href="#cta" class="nav-btn">Proof of Value</a>
+      <!-- 6. Join the waitlist -->
+      <a href="#cta" class="nav-btn">Join the Waitlist</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
         <span></span><span></span><span></span>
       </button>
@@ -649,10 +649,10 @@
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_ACCESS_KEY,
-          subject: 'New Proof of Value registration — uPull.ai',
+          subject: 'New join the waitlist registration — uPull.ai',
           from_name: 'uPull.ai website',
           email: input.value,
-          message: `New proof-of-value cohort registration.\n\nWork email: ${input.value}\nSubmitted: ${new Date().toISOString()}\nPage: ${window.location.href}`
+          message: `New join the waitlist cohort registration.\n\nWork email: ${input.value}\nSubmitted: ${new Date().toISOString()}\nPage: ${window.location.href}`
         })
       });
       const data = await res.json();
