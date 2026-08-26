@@ -93,6 +93,8 @@
     .filter-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem;align-items:center}
     .filter-pill{padding:.35rem .9rem;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--muted);transition:all .2s}
     .filter-pill:hover,.filter-pill.active{color:#fff;border-color:transparent}
+    .provider-select{padding:.4rem .7rem;border-radius:8px;font-size:.8rem;font-weight:600;border:2px solid var(--border);background:#fff;color:var(--navy);cursor:pointer;max-width:220px}
+    .provider-select:focus{outline:none;border-color:var(--blue)}
     .pill-all.active{background:var(--navy)}
     .pill-agentic.active{background:var(--agentic)}
     .pill-ambient.active{background:var(--ambient)}
@@ -903,6 +905,9 @@
                 <span class="search-icon">🔍</span>
                 <input type="text" id="course-search" placeholder="Search courses, providers..." oninput="filterCourses()">
               </div>
+              <select id="course-provider-filter" class="provider-select" onchange="setProviderFilter(this.value)" aria-label="Filter by vendor or provider">
+                <option value="all">All vendors/providers</option>
+              </select>
               <button class="filter-pill pill-all active" onclick="setCourseFilter('all',this)">All</button>
               <button class="filter-pill pill-agentic" onclick="setCourseFilter('agentic',this)">🤖 Agentic AI</button>
               <button class="filter-pill pill-ambient" onclick="setCourseFilter('ambient',this)">🎙️ Ambient AI</button>
@@ -1263,6 +1268,7 @@ const caseStudies = [
 ];
 
 let activeCourseFilter = 'all';
+let activeProviderFilter = 'all';
 let activeCSFilter = 'all';
 
 function switchTab(name, btn) {
@@ -1278,8 +1284,9 @@ function renderCourses() {
   grid.innerHTML = '';
   const filtered = courses.filter(c => {
     const matchFilter = activeCourseFilter === 'all' || c.cat === activeCourseFilter || (activeCourseFilter === 'free' && c.free);
+    const matchProvider = activeProviderFilter === 'all' || c.provider === activeProviderFilter;
     const matchSearch = !query || c.title.toLowerCase().includes(query) || c.provider.toLowerCase().includes(query) || c.desc.toLowerCase().includes(query);
-    return matchFilter && matchSearch;
+    return matchFilter && matchProvider && matchSearch;
   });
   if (filtered.length === 0) {
     grid.innerHTML = '<p style="color:var(--muted);padding:1rem">No courses match your search.</p>';
@@ -1317,6 +1324,39 @@ function setCourseFilter(filter, el) {
 }
 
 function filterCourses() { renderCourses(); }
+
+function setProviderFilter(provider) {
+  activeProviderFilter = provider;
+  renderCourses();
+}
+
+function populateProviderFilter() {
+  const sel = document.getElementById('course-provider-filter');
+  if (!sel) return;
+  const providers = Array.from(new Set(courses.map(c => c.provider))).sort((a, b) => a.localeCompare(b));
+  providers.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p;
+    opt.textContent = p;
+    sel.appendChild(opt);
+  });
+}
+
+function jumpToFilteredCoursesByProvider(provider) {
+  showSection('library');
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
+  document.querySelectorAll('.tab-bar .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-learning').classList.add('active-view');
+  document.querySelectorAll('.tab-bar .tab-btn')[0].classList.add('active');
+  activeCourseFilter = 'all';
+  document.querySelectorAll('#tab-learning .filter-pill').forEach(p => p.classList.remove('active'));
+  const allPill = document.querySelector('#tab-learning .filter-pill.pill-all');
+  if (allPill) allPill.classList.add('active');
+  const sel = document.getElementById('course-provider-filter');
+  if (sel) sel.value = provider;
+  setProviderFilter(provider);
+  document.querySelector('.tab-bar')?.scrollIntoView({behavior:'smooth', block:'start'});
+}
 
 function renderCaseStudies() {
   const query = (document.getElementById('cs-search')?.value || '').toLowerCase();
@@ -1448,6 +1488,7 @@ function renderPathwayCatCounts() {
 }
 
 window.onload = function() {
+  populateProviderFilter();
   renderCourses();
   renderCaseStudies();
   handleDeepLink();
@@ -1507,6 +1548,23 @@ function handleDeepLink() {
   if (hash.startsWith('course-cat-')) {
     const cat = hash.replace('course-cat-', '');
     jumpToFilteredCourses(cat);
+    return;
+  }
+
+  if (hash.startsWith('course-provider-')) {
+    const slug = hash.replace('course-provider-', '');
+    const match = Array.from(new Set(courses.map(c => c.provider)))
+      .find(p => p.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') === slug);
+    if (match) jumpToFilteredCoursesByProvider(match);
+    return;
+  }
+
+  if (hash.startsWith('pathway-')) {
+    const section = hash.replace('pathway-', '');
+    const validSections = ['promptengineering', 'intrapreneur', 'chooser', 'overview'];
+    if (validSections.includes(section)) {
+      showSection(section);
+    }
     return;
   }
 
