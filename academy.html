@@ -523,7 +523,7 @@
     }
 
   </style>
-  <script type='text/javascript' src='https://storage.googleapis.com/LRqICY2-L-d96U5gG8Sc059q8tT78lgNT2neoJQ2yIQX6O5oG7iEG4LPQlPFiRWIMcuMzpEEvZJGSjvqyEmXfnm8pkFJ_c-7_ZPGdgNUTvjrTXeHPP16XS7fs_a-glWYSz0K9fF15qJPJpr84QM7i5Zdnt2c4MbUzqiJOaGvHO65wAjZQuGU_OCbQg0Q0EDpvhA2BH_U2J3hwjFhe9eCxD6FRU59krArgZvwCWAs-pPfY5E8VXWyzb7alrd_ZY9_JsHX7qJWhI9u5gGqLSgmjD-sqkHgOose4JbLfR6plrsLNx885hYGwq3N_3lHJPPQp6FQQEtxjbXjCrRxkJcjV0EmV7o_FMY66f7rEscFHcTL_znn8Edlo9Xz78dB6j8TOvMYI-NHXDpAbW6PTXuRj6HWWboBD2NUVxMStsNZ-iAgYItLzZP4v2suU56NXHw2l3yj5MTfMq_5WinEms6-K_HwR8eiiUyymk_iLAB-Fwa3W2jDXrKhycqapKGzjflWTpwI6BBWbzONKLg3MBLzqNk8DAquzhr2rr3EzzVQ6uHrSL1uDBa2MiKZHyF8HAIihe_4hrjRhmIVSIx2AtgTCaKyXNlaen_RCE2Zy_llE8oltAohGwlcOlNtc5X2gjkBEj1K7kD6ZCpeCkk-ECjjs_gktgchJTM9nqSUr9VmblUfETOsO-7CVKHzSOhwvbKLM0hW9ovxtWY67sgMQ_H7IwfEsJ1MCjT_Mv0T0eAk9Yr-TVDJxx4rUNNv_vR6kck3eP4s-N0A6GfWYIk7WHxumJ1ND1d4D1PdFXL9BblunHD68crMQVRM9mP7DbicWiJ7QOpJLHrwSXbON9Bsdg_X7iq2rz1zQN4NqzEYAPbx5UG6VZMgILrua5Fb9DwJzW4bePhBOeHFjrU7e-BHIKO0G_VT4q5kHAYkHZgpmU3UPTJiS3w3f14BSVt2vN8IpFLZl0uZwQlDy3UTmgyKWHOQ64iUPqMz1MqPgkCA_0gLc-qHrBUuiePkssbFFWa416zibFWp5aU2BctwBxKvcA8SR6jId0AO3wAi7XQH4aikpDCygI7UgwS5gkXQmHwJs2GTOSghxZpwXuwQLmhvsYhQD2EIp3TQ4a5Xk_A-5n-qe9WHHWBO7yyGXt9_IUIW1bH1p6ehAh2Ap4_7qf9mSE7pkjt-Nabwn0mvBb3NbT6Oaz0XqMlW_uAZTIC9hpKQs3EJYWIrZSf39J1kPWk9m_jdUlSBAI73k-yqWY30p1sXoSR9_ksuSaX869cqLLfHgwNq1pc0Kogg22pkmYZU5t0i4OFDKSDZMn_2z7TYVVajicCt3H4ijQnfk-CTVE4MpKdTWkc-UDDuPXdZvt1CUasXZOhy0tXtRXeiGB87QG8y6ZnrQomvLpc4B3aXrgjtpSs4VInz_uINCx0EJpSqSPF11spcITo4YZBx9GFSkzvrUqy5nO6BN0EdOHD3ItdqdGlISePGnoWaW9Knd8_hE1JsDW1PASmpttj78d5XHwaFdc0iR-i4eZyeutszJgibDWuNZGwV2dgpH6-N5cgGYanP4CL-bHJQMO2cl7T-banD2tzoGXjjfdf3QT2wXP1yKI2ugQbaAgzoyFUEe-jD_sVNJhWGMX3pTsqWssJQqya0Y2rGm_zihX699oCqtanN4uyTtmYWUvBbswI5fnoUxFzmq_uLLKm_TM-yUW3R9U2MFlIT_LapcJKrp2wifPC8cLYQYd23yyg608L9um1uakdUS84thuP8A2vl'></script><script type="module">
+  <script type="module">
     // Shared Firebase project with community.html — signing in here or on the
     // Community hub gives the same profile, points and organisation record
     // on both pages (same authDomain, same Firestore project).
@@ -1392,32 +1392,6 @@ function jumpToFilteredCoursesByProvider(provider) {
   setProviderFilter(provider);
   document.querySelector('.tab-bar')?.scrollIntoView({behavior:'smooth', block:'start'});
 }
-
-// Used by the Academy Assistant: open the complete course library with the
-// requested vendor and/or level already applied.
-function (filter) {
-  showSection('library');
-  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
-  document.querySelectorAll('.tab-bar .tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-learning').classList.add('active-view');
-  document.querySelectorAll('.tab-bar .tab-btn')[0].classList.add('active');
-  activeCourseFilter = filter.category || filter.cat || 'all';
-  activeLevelFilter = filter.level || 'all';
-  activeProviderFilter = filter.provider || 'all';
-  document.querySelectorAll('#tab-learning .filter-pill').forEach(p => {
-    const isAll = p.classList.contains('pill-all');
-    const pillCat = ['agentic','ambient','clinical','robotic','intrapreneur','promptengineering','leadership','free']
-      .find(k => p.classList.contains('pill-' + k));
-    p.classList.toggle('active', activeCourseFilter === 'all' ? isAll : pillCat === activeCourseFilter);
-  });
-  const providerSelect = document.getElementById('course-provider-filter');
-  if (providerSelect) providerSelect.value = activeProviderFilter;
-  const levelSelect = document.getElementById('course-level-filter');
-  if (levelSelect) levelSelect.value = activeLevelFilter;
-  renderCourses();
-  document.querySelector('.tab-bar')?.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
 
 function jumpToAssistantCourseFilter(filter) {
   showSection('library');
