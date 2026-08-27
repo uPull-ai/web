@@ -14,15 +14,25 @@ Then open widget.html in a browser (or add the same fetch code into
 academy.html) to talk to it at http://localhost:5000/ask
 """
 import anthropic
+import re
+import time
+import uuid
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app_data import COURSES, CASE_STUDY_SUMMARIES, CASE_STUDY_FULL
+from App_data import COURSES, CASE_STUDY_SUMMARIES, CASE_STUDY_FULL
 
 app = Flask(__name__)
 CORS(app)  # local prototype only — lock this down before real deployment
 
 client = anthropic.Anthropic()
+
+# Prototype-only in-memory conversation store.  It deliberately expires so a
+# learner's conversation does not persist beyond their browser session.  Use
+# Redis/Firestore instead when deploying more than one server instance.
+CONVERSATIONS = {}
+CONVERSATION_TTL_SECONDS = 60 * 60 * 4
+MAX_CONVERSATION_TURNS = 12
 
 SYSTEM_PROMPT_BASE = f"""You are the uPull.ai Academy assistant. You help NHS staff and healthcare \
 professionals find the right AI-adoption courses, understand real case studies from uPull.ai's \
@@ -41,6 +51,11 @@ so a learner can always tell official uPull.ai content apart from general inform
 
 Keep answers short and practical: recommend specific course titles and providers by name, mention \
 whether a course is free, its CPD hours, and who it's aimed at, when relevant.
+
+If a learner says they are unsure where to start, give a short orientation and offer these three \
+clear next steps: Find my pathway (to choose among the main AI pathways), the Intrapreneur Route \
+(to take an AI-enabled idea through change and proof of value), and Prompt Engineering (to improve \
+how they use AI assistants). Ask one simple follow-up about their goal if needed.
 
 COURSE CATALOG (JSON):
 {COURSES}
@@ -78,12 +93,63 @@ def get_text(response):
     return "(no text block found)"
 
 
+def normalise(value):
+    return re.sub(r"[^a-z0-9]", "", (value or "").lower())
+
+
+def find_catalog_filter(question):
+    """Recognise course-library filter questions without asking the model.
+
+    Returning a filter lets the page take learners to the complete, already
+    filtered library rather than burying a long catalogue in the chat reply.
+    """
+    q = question.lower()
+    level = next((level for level in ("beginner", "intermediate", "advanced")
+                  if re.search(rf"\b{level}\b", q)), None)
+    provider = next((course["provider"] for course in COURSES
+                     if normalise(course["provider"]) in normalise(q)), None)
+    asks_for_courses = any(term in q for term in ("course", "courses", "catalog", "library", "show me", "find"))
+    if not asks_for_courses or (not level and not provider):
+        return None
+    matches = [course for course in COURSES
+               if (not level or course["level"] == level)
+               and (not provider or course["provider"] == provider)]
+    return {"level": level, "provider": provider, "count": len(matches)}
+
+
+def conversation_for(session_id):
+    now = time.time()
+    expired = [key for key, value in CONVERSATIONS.items()
+               if now - value["updated_at"] > CONVERSATION_TTL_SECONDS]
+    for key in expired:
+        del CONVERSATIONS[key]
+    if not session_id or not re.fullmatch(r"[a-zA-Z0-9_-]{1,80}", session_id):
+        session_id = uuid.uuid4().hex
+    return session_id, CONVERSATIONS.setdefault(session_id, {"messages": [], "updated_at": now})
+
+
 @app.route("/ask", methods=["POST"])
 def ask():
     data = request.get_json(force=True)
     question = (data.get("question") or "").strip()
     if not question:
         return jsonify({"error": "No question provided"}), 400
+
+    session_id, conversation = conversation_for(data.get("session_id"))
+    catalog_filter = find_catalog_filter(question)
+    if catalog_filter:
+        label = " and ".join(value for value in (catalog_filter["level"], catalog_filter["provider"]) if value)
+        answer = f"I found {catalog_filter['count']} {label} course(s). Open the filtered Course Library below to see the full list."
+        conversation["messages"] = (conversation["messages"] + [
+            {"role": "user", "content": question},
+            {"role": "assistant", "content": answer},
+        ])[-MAX_CONVERSATION_TURNS * 2:]
+        conversation["updated_at"] = time.time()
+        return jsonify({
+            "answer": answer,
+            "course_filter": catalog_filter,
+            "session_id": session_id,
+        })
 
     system_prompt = SYSTEM_PROMPT_BASE
     matched_cs = find_relevant_case_study(question)
@@ -94,12 +160,20 @@ def ask():
         model="claude-sonnet-5",
         max_tokens=800,
         system=system_prompt,
-        messages=[{"role": "user", "content": question}],
+        messages=conversation["messages"] + [{"role": "user", "content": question}],
     )
 
+    answer = get_text(response)
+    conversation["messages"] = (conversation["messages"] + [
+        {"role": "user", "content": question},
+        {"role": "assistant", "content": answer},
+    ])[-MAX_CONVERSATION_TURNS * 2:]
+    conversation["updated_at"] = time.time()
+
     return jsonify({
-        "answer": get_text(response),
+        "answer": answer,
         "matched_case_study": matched_cs["id"] if matched_cs else None,
+        "session_id": session_id,
         "tokens": {
             "input": response.usage.input_tokens,
             "output": response.usage.output_tokens,
