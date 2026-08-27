@@ -2365,8 +2365,8 @@ function showPointsToast(msg) {
         html += '<button type="button" class="btn-sm btn-blue aa-library-link" data-course-filter="' + safeFilter + '">See the filtered course library (' + aaEscape(data.course_filter.count) + ') →</button>';
       }
       if (data.further_reading && data.further_reading.length) {
-        html += '<div class="aa-further-heading">Also recommended to read</div>';
-        html += '<div class="aa-further-sub">Found beyond the uPull.ai Academy — from the wider web.</div>';
+        html += '<div class="aa-further-heading">Want to go further?</div>';
+        html += '<div class="aa-further-sub">Beyond the uPull.ai Academy catalogue.</div>';
         html += aaResultsWithMore(data.further_reading, answer);
       }
       card.innerHTML = html;
