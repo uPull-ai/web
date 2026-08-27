@@ -1,17 +1,20 @@
 """
-uPull.ai Academy Q&A backend — local prototype.
+uPull.ai Academy Q&A backend — deployed on Cloud Run as service
+"academy-assistant" (europe-west2), called from the widget embedded
+directly in academy.html.
 
 Holds the Anthropic API key server-side (never in the browser) and answers
 learner questions grounded in the real academy.html course catalog and
-case study library, extracted into app_data.py.
+case study library, extracted into App_data.py.
 
-Run:
+Run locally:
     pip3 install flask flask-cors anthropic --break-system-packages   (Mac: drop --break-system-packages if not needed)
     export ANTHROPIC_API_KEY=sk-ant-...
-    python3 app.py
+    export FLASK_DEBUG=true   (local dev only — never on Cloud Run)
+    python3 App.py
 
-Then open widget.html in a browser (or add the same fetch code into
-academy.html) to talk to it at http://localhost:5000/ask
+Then talk to it at http://localhost:5000/ask (academy.html's widget script
+already points AA_ENDPOINT at the live Cloud Run URL).
 """
 import anthropic
 import re
@@ -23,7 +26,7 @@ from flask_cors import CORS
 from App_data import COURSES, CASE_STUDY_SUMMARIES, CASE_STUDY_FULL
 
 app = Flask(__name__)
-CORS(app)  # local prototype only — lock this down before real deployment
+CORS(app, origins=["https://upull.ai", "https://www.upull.ai"])
 
 client = anthropic.Anthropic()
 
@@ -182,4 +185,10 @@ def ask():
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    # debug=True must never run on a publicly reachable instance (Werkzeug's
+    # debugger can execute arbitrary code). Cloud Run also injects its own
+    # $PORT — default to 5000 only for local dev.
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    debug_mode = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)
