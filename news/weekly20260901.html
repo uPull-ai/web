@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>uPull.ai Weekly: The Pilot Era Ends, the Assurance Case Begins</title>
+<meta name="description" content="The 1 to 7 September 2026 NHS AI briefing for leaders: Copilot reliability, surgical robotics translation, cross-trust ambient voice and clinical imaging AI — and the assurance case each now needs.">
+<meta property="og:title" content="uPull.ai Weekly: The Pilot Era Ends, the Assurance Case Begins">
+<meta property="og:description" content="The September edition for NHS leaders: four AI developments moving from pilot to live service, the governance test each one now faces, and a practical action for your team this week.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1666971618809-4ab00b6b31c7?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://upull.ai/news/weekly20260901.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"NewsArticle","headline":"The Pilot Era Ends, the Assurance Case Begins","datePublished":"2026-09-01","dateModified":"2026-09-01","publisher":{"@type":"Organization","name":"uPull.ai","url":"https://upull.ai/"},"mainEntityOfPage":"https://upull.ai/news/weekly20260901.html","description":"The 1 to 7 September 2026 NHS AI briefing across agentic, robotics, ambient and clinical AI, and the assurance case leaders now need for each."}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;scroll-behavior:smooth}
+body{background:#F8FAFC;color:#1E293B;line-height:1.6}
+:root{
+--navy:#003087;--blue:#005EB8;--blue-rgb:0,94,184;--orange:#ED8B00;--orange-hover:#c26f00;--bg:#F8FAFC;
+--card:#ffffff;--muted:#768692;--border:#E8EDEE;
+--agentic:#AE2573;--ambient:#41B6E6;--clinical:#00A499;--robotic:#DA291C;--learning:#FFB81C;
+}
+header{background:var(--navy);padding:1rem 5%;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--blue);box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
+.nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.5rem}
+.nav-right{display:flex;align-items:center;gap:18px}
+.logo{color:#fff;font-size:1.6rem;font-weight:800;text-decoration:none;letter-spacing:-0.5px}
+.logo span{color:var(--orange)}
+.nav-menu{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+.nav-item{position:relative}
+.nav-link-item{display:flex;align-items:center;gap:6px;padding:.6rem .9rem;border-radius:999px;background:none;border:none;cursor:pointer;color:#fff;font-size:.9rem;font-weight:600;font-family:inherit;transition:color .2s,background .2s}
+.nav-link-item:hover,.nav-item.open>.nav-link-item,.nav-link-item.active-tab{color:var(--orange);background:rgba(255,255,255,.08)}
+.nav-chevron{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-2px;transition:transform .2s}
+.nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
+.nav-submenu{list-style:none;margin:0;position:absolute;top:calc(100% + 10px);left:0;min-width:230px;padding:.5rem;border-radius:12px;background:var(--navy);border:1px solid rgba(255,255,255,.14);border-top:3px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s ease,transform .18s ease,visibility .18s;z-index:1100}
+.nav-item.open>.nav-submenu,.nav-item:hover>.nav-submenu{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-submenu li a{display:block;padding:.6rem .75rem;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:.85rem;font-weight:500;transition:background .15s,color .15s}
+.nav-submenu li a:hover{background:rgba(var(--blue-rgb),.28);color:#fff}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
+.nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.nav-icon-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;font-size:1.05rem;text-decoration:none;background:rgba(255,255,255,.08);transition:background .2s,transform .15s}
+.nav-icon-btn:hover,.nav-icon-btn.active-tab{background:var(--orange);transform:translateY(-1px)}
+.cta-btn{background:var(--orange);color:#fff;padding:.6rem 1.2rem;border-radius:4px;font-weight:600;border:none;cursor:pointer;transition:background .2s,transform .1s;text-decoration:none;display:inline-block;font-size:.9rem;white-space:nowrap}
+.cta-btn:hover{background:var(--orange-hover);transform:translateY(-1px)}
+@media(max-width:767px){
+.nav-toggle{display:block}
+.nav-menu{display:none;position:fixed;top:68px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:var(--navy);padding:.9rem 1.25rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.14);max-height:calc(100vh - 68px);overflow-y:auto;z-index:999}
+.nav-menu.mobile-open{display:flex}
+.nav-link-item{width:100%;justify-content:space-between}
+.nav-submenu{position:static;opacity:1;visibility:visible;transform:none;display:none;box-shadow:none;background:rgba(255,255,255,.05);margin:.25rem 0 .5rem}
+.nav-item.open>.nav-submenu{display:block}
+}
+.breadcrumb{background:#eef2f7;border-bottom:1px solid var(--border);padding:.55rem 5%}
+.breadcrumb-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
+.breadcrumb-inner a{color:var(--blue);text-decoration:none;font-weight:600}
+.breadcrumb-inner a:hover{color:var(--orange)}
+.breadcrumb-inner .bc-sep{color:#94a3b8}
+.breadcrumb-inner .bc-current{color:var(--navy);font-weight:700}
+main{max-width:1000px;margin:0 auto;padding:0 5%}
+section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
+.section-title{font-size:1.9rem;color:var(--navy);margin-bottom:.4rem;font-weight:800;display:flex;align-items:center;gap:.6rem}
+.section-subtitle{color:var(--muted);font-size:.95rem;max-width:700px;margin-bottom:2rem;line-height:1.55}
+
+/* Hero */
+.weekly-hero{position:relative;border-radius:14px;overflow:hidden;margin-top:1.5rem;color:#fff;min-height:280px;display:flex;align-items:flex-end;background:linear-gradient(135deg,#6c88ba 0%,#2d5ca4 45%,#003087 100%)}
+.weekly-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,48,135,.35) 0%,rgba(0,48,135,.94) 100%);z-index:1}
+.weekly-hero-content{position:relative;z-index:2;padding:2.2rem 2rem}
+.weekly-eyebrow{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:.3rem .8rem;border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
+.weekly-hero h1{font-size:2rem;font-weight:900;line-height:1.2;margin-bottom:.6rem}
+.weekly-hero h1 span{color:var(--orange)}
+.weekly-hero p{font-size:1rem;opacity:.94;max-width:660px}
+.weekly-actions{margin-top:1.2rem;display:flex;gap:.7rem;flex-wrap:wrap}
+.linkedin-btn{background:#0A66C2;color:#fff;padding:.55rem 1.2rem;border-radius:5px;font-weight:700;border:none;cursor:pointer;font-size:.88rem;display:inline-flex;align-items:center;gap:.5rem}
+.linkedin-btn:hover{background:#004182}
+
+/* Themes intro */
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
+@media(max-width:700px){.theme-grid{grid-template-columns:1fr}}
+.theme-card{background:#fff;border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:8px;padding:1.1rem 1.3rem}
+.theme-card strong{display:block;color:var(--navy);font-size:.95rem;margin-bottom:.35rem}
+.theme-card p{color:var(--muted);font-size:.86rem;line-height:1.5}
+.theme-card.agentic{border-left-color:var(--agentic)}
+.theme-card.robotic{border-left-color:var(--robotic)}
+.theme-card.ambient{border-left-color:var(--ambient)}
+.theme-card.clinical{border-left-color:var(--clinical)}
+
+/* Jump nav */
+.jump-nav{display:flex;flex-wrap:wrap;gap:.5rem;background:#fff;border:1px solid var(--border);border-radius:10px;padding:.6rem;position:sticky;top:78px;z-index:80;margin:1.5rem 0}
+.jump-pill{padding:.45rem .9rem;border-radius:20px;font-size:.82rem;font-weight:700;text-decoration:none;color:var(--muted);border:2px solid var(--border);transition:all .2s}
+.jump-pill:hover{border-color:var(--blue);color:var(--navy)}
+.jump-pill.tag-agentic{border-color:var(--agentic);color:var(--agentic)}
+.jump-pill.tag-robotic{border-color:var(--robotic);color:var(--robotic)}
+.jump-pill.tag-ambient{border-color:var(--ambient);color:var(--ambient)}
+.jump-pill.tag-clinical{border-color:var(--clinical);color:var(--clinical)}
+.jump-pill.tag-learning{border-color:var(--learning);color:#9a6b00}
+.jump-pill.tag-archive{border-color:var(--navy);color:var(--navy)}
+
+/* Section eyebrow tag */
+.cat-tag{display:inline-flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;border-radius:10px;color:#fff;font-size:1.05rem;font-weight:800;flex-shrink:0}
+.cat-tag.agentic{background:var(--agentic)}
+.cat-tag.robotic{background:var(--robotic)}
+.cat-tag.ambient{background:var(--ambient)}
+.cat-tag.clinical{background:var(--clinical)}
+.cat-tag.learning{background:var(--learning)}
+
+/* Brief items (headline / use case / governance / learning / action) */
+.brief-item{background:#fff;border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:1.1rem 1.3rem;margin-bottom:1rem}
+.brief-item:last-child{margin-bottom:0}
+.brief-label{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:.45rem}
+.brief-text{font-size:.92rem;color:#334155;line-height:1.6;margin-bottom:.55rem}
+.brief-source{font-size:.78rem;color:#94a3b8}
+.brief-source a{color:var(--blue);font-weight:700;text-decoration:none}
+.brief-source a:hover{color:var(--orange);text-decoration:underline}
+.brief-action{background:var(--bg)}
+section#agentic .brief-item{border-left-color:var(--agentic)}
+section#agentic .brief-label{color:var(--agentic)}
+section#robotics .brief-item{border-left-color:var(--robotic)}
+section#robotics .brief-label{color:var(--robotic)}
+section#ambient .brief-item{border-left-color:var(--ambient)}
+section#ambient .brief-label{color:var(--ambient)}
+section#clinical .brief-item{border-left-color:var(--clinical)}
+section#clinical .brief-label{color:var(--clinical)}
+
+/* Learning programme cards */
+.program-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.4rem;margin-bottom:1.2rem}
+.program-card h3{color:var(--navy);font-size:1.1rem;margin-bottom:.3rem}
+.program-card p.desc{color:var(--muted);font-size:.88rem;margin-bottom:1rem;line-height:1.55}
+.program-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-bottom:.9rem}
+.program-meta div dt{font-size:.7rem;font-weight:800;color:#9a6b00;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.2rem}
+.program-meta div dd{font-size:.85rem;color:var(--navy)}
+.program-source{font-size:.74rem;color:#94a3b8;font-style:italic}
+.program-source a{color:var(--blue);font-weight:700;font-style:normal;text-decoration:none}
+.program-source a:hover{color:var(--orange);text-decoration:underline}
+
+/* From uPull.ai banner */
+.from-upull{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;border-radius:12px;padding:2.2rem;text-align:center}
+.from-upull h2{color:#fff;font-size:1.6rem;margin-bottom:.7rem}
+.from-upull p{color:#cbd5e1;font-size:.95rem;max-width:600px;margin:0 auto 1.3rem;line-height:1.6}
+
+/* Archive */
+.archive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
+@media(max-width:700px){.archive-grid{grid-template-columns:1fr}}
+.archive-card{display:block;background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;text-decoration:none;transition:border-color .2s,transform .15s}
+.archive-card:hover{border-color:var(--blue);transform:translateY(-2px)}
+.archive-badge{display:inline-block;background:var(--bg);color:var(--navy);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:.25rem .6rem;border-radius:20px;margin-bottom:.6rem}
+.archive-card h3{color:var(--navy);font-size:1.05rem;margin-bottom:.4rem;line-height:1.35}
+.archive-card p{color:var(--muted);font-size:.86rem;line-height:1.5;margin-bottom:.7rem}
+.archive-link{color:var(--blue);font-weight:700;font-size:.85rem}
+.archive-card:hover .archive-link{color:var(--orange)}
+
+/* Further reading + references */
+.reading-list{list-style:none}
+.reading-list li{padding:.8rem 0;border-bottom:1px solid var(--border)}
+.reading-list li:last-child{border-bottom:none}
+.reading-list a{color:var(--blue);font-weight:700;font-size:.92rem;text-decoration:none}
+.reading-list a:hover{color:var(--orange);text-decoration:underline}
+.reading-list p{font-size:.82rem;color:var(--muted);margin-top:.2rem}
+.footer-subscribe{color:var(--orange);font-weight:700;text-decoration:none}
+.footer-subscribe:hover{text-decoration:underline}
+
+footer{background:#09111e;color:#94a3b8;padding:2rem 5%;text-align:center;font-size:.85rem;margin-top:1rem}
+</style>
+</head>
+<body>
+
+<header>
+<div class="nav-container">
+<a href="https://upull.ai/index.html" class="logo">uPull<span>.ai</span></a>
+<div class="nav-right">
+<nav aria-label="Primary">
+<ul class="nav-menu" id="navMenu">
+
+<li class="nav-item">
+<button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+</button>
+<ul class="nav-submenu">
+<li><a href="https://upull.ai/index.html#problem">Challenge</a></li>
+<li><a href="https://upull.ai/index.html#approach">Model</a></li>
+<li><a href="https://upull.ai/index.html#results">Results</a></li>
+<li><a href="https://upull.ai/faqs.html#leadership">Leadership</a></li>
+</ul>
+</li>
+
+<li class="nav-item">
+<button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+Community <span class="nav-chevron" aria-hidden="true"></span>
+</button>
+<ul class="nav-submenu">
+<li><a href="https://upull.ai/community.html">Forum</a></li>
+<li><a href="https://upull.ai/academy.html">uGrowX</a></li>
+<li><a href="https://upull.ai/academy.html#tab-casestudies">Case Studies</a></li>
+</ul>
+</li>
+
+
+<li class="nav-item">
+<button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+FAQs <span class="nav-chevron" aria-hidden="true"></span>
+</button>
+<ul class="nav-submenu">
+<li><a href="https://upull.ai/faqs.html#about">About uPull.ai</a></li>
+<li><a href="https://upull.ai/faqs.html#pilot">Pilot &amp; ROI</a></li>
+<li><a href="https://upull.ai/faqs.html#workflows">Workflow Delivery</a></li>
+<li><a href="https://upull.ai/faqs.html#governance">Safety &amp; Governance</a></li>
+<li><a href="https://upull.ai/faqs.html#gdpr">GDPR &amp; Compliance</a></li>
+<li><a href="https://upull.ai/faqs.html#cases">Case Studies &amp; Evidence</a></li>
+<li><a href="https://upull.ai/faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+</ul>
+</li>
+
+<li class="nav-item">
+<a class="nav-link-item" href="https://upull.ai/pricing.html" style="text-decoration:none">Pricing</a>
+</li>
+
+</ul>
+</nav>
+<a href="https://upull.ai/news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
+<a href="https://upull.ai/index.html#cta" class="cta-btn">Proof of Value</a>
+<button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+<span></span><span></span><span></span>
+</button>
+</div>
+</div>
+</header>
+
+<div class="breadcrumb">
+<div class="breadcrumb-inner">
+<a href="https://upull.ai/index.html">Home</a>
+<span class="bc-sep">›</span>
+<a href="https://upull.ai/news.html">uPull.ai Weekly</a>
+<span class="bc-sep">›</span>
+<span class="bc-current">1 to 7 September 2026</span>
+</div>
+</div>
+<main>
+
+<div class="weekly-hero">
+<div class="weekly-hero-content">
+<span class="weekly-eyebrow">September edition · 1 to 7 September 2026</span>
+<h1>The Pilot Era Ends, <span>the Assurance Case Begins</span></h1>
+<p>Summer ended with scale announcements. September opens with the less glamorous signals that show whether AI has really become part of the operating model: an NHS Copilot incident with a workaround and a multi-week fix; a five-year surgical robotics partnership designed to move beyond specialist centres; ambient voice rolling across two trusts; and chest X-ray AI working inside the reporting queue. The question is no longer simply whether the technology works. It is whether the service can absorb it, monitor it, recover when it fails and scale it without losing human accountability.</p>
+<div class="weekly-actions">
+<button class="linkedin-btn" onclick="shareOnLinkedIn()">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.44-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>
+Share on LinkedIn
+</button>
+<a href="#learning" class="cta-btn" style="background:transparent;border:1.5px solid rgba(255,255,255,.4)">See the September diary →</a>
+</div>
+</div>
+</div>
+
+<section style="padding-top:2rem">
+<h2 class="section-title">The pilot era ends at the workflow</h2>
+<p class="section-subtitle">This week's four developments have one thing in common: each sits inside an existing service rather than beside it. That changes the success measure. Demonstrations are replaced by uptime, queue behaviour, sign-off, training and evidence that the benefit survives at scale.</p>
+<div class="theme-grid">
+<div class="theme-card agentic"><strong>Agentic AI</strong><p>An NHS.net Copilot incident turns resilience from a policy concept into an operational test, while Southampton prepares to convert automation pilots into sustainable benefits.</p></div>
+<div class="theme-card robotic"><strong>Robotics AI</strong><p>Imperial and Smith+Nephew launch a five-year surgical robotics centre focused on computer vision, sensing and technology usable beyond specialist centres.</p></div>
+<div class="theme-card ambient"><strong>Ambient AI</strong><p>Royal Wolverhampton and Walsall move from an eight-month pilot to a two-trust rollout, starting in emergency departments and outpatients.</p></div>
+<div class="theme-card clinical"><strong>Clinical AI</strong><p>Queen Victoria Hospital embeds chest X-ray AI into radiology workflow to prioritise review, while retaining a formal report by a qualified clinician for every examination.</p></div>
+</div>
+</section>
+
+<nav class="jump-nav" aria-label="Jump to section">
+<a href="#agentic" class="jump-pill tag-agentic">Agentic AI</a>
+<a href="#robotics" class="jump-pill tag-robotic">Robotics AI</a>
+<a href="#ambient" class="jump-pill tag-ambient">Ambient AI</a>
+<a href="#clinical" class="jump-pill tag-clinical">Clinical AI</a>
+<a href="#learning" class="jump-pill tag-learning">September diary</a>
+<a href="#archive" class="jump-pill tag-archive">Archive</a>
+</nav>
+
+<section id="agentic">
+<h2 class="section-title"><span class="cat-tag agentic">1</span> Agentic AI</h2>
+<p class="section-subtitle">The first September lesson is mundane and important: when an agent becomes part of work, a broken route to that agent becomes a service-management problem.</p>
+<div class="brief-item">
+<span class="brief-label">Headline AI development</span>
+<p class="brief-text">NHS.net reported that Microsoft 365 Copilot's Analyst and Researcher agents could open a new chat window instead of the selected agent. The cause was an incorrect URL behind the Microsoft 365 app store's Open button. Microsoft had validated a fix and begun deploying it, but NHS.net warned that rollout would take several weeks; the stated workaround was to open the agents through the Copilot agent store.</p>
+<div class="brief-source">Source: <a href="https://support.nhs.net/2026/08/microsoft-365-alert-service-degradation-microsoft-copilot-microsoft-365-users-microsoft-365-copilot-analyst-and-researcher-agents-may-open-a-new-chat-window-instead-o/" target="_blank" rel="noopener noreferrer">NHS.net, Microsoft 365 Copilot service degradation alert</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Healthcare or NHS use case</span>
+<p class="brief-text">University Hospital Southampton has deployed 185 Copilot licences and created an automation hub in SharePoint for best practice and support. Its wider programme also covers outpatient administration, ambient voice and robotic process automation, with early RPA work planned for maternity and partial booking in outpatients. The trust's stated challenge for the rest of the year is converting digital pilots into sustainable operational benefits.</p>
+<div class="brief-source">Source: <a href="https://htn.co.uk/2026/08/13/university-hospital-southampton-automates-outpatients-administration-and-progresses-epr/" target="_blank" rel="noopener noreferrer">HTN, University Hospital Southampton automation update</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Governance or ethics note</span>
+<p class="brief-text">Resilience belongs inside the agent's governance pack, not only in the IT incident queue. NHS.net's Copilot extensibility guide places local responsibility for information governance, DPIAs, clinical safety approvals and organisational risk with each participating organisation. The same pack should state the approved route into the agent, what staff do when it is unavailable, which records prove who did what, and which workflow must revert to manual handling.</p>
+<div class="brief-source">Source: <a href="https://support.nhs.net/knowledge-base/how-to-guide-for-copilot-extensibility-management/" target="_blank" rel="noopener noreferrer">NHS.net, How to Guide for Copilot Extensibility Management</a></div>
+</div>
+<div class="brief-item brief-action">
+<span class="brief-label">Try this in a workflow</span>
+<p class="brief-text">Choose one Copilot or agent workflow and run a ten-minute failure drill. Disable the usual entry route, ask a colleague to continue the task, and record the fallback, escalation owner and evidence trail. If work stops or nobody knows which output is authoritative, you have found the next improvement before a real outage does.</p>
+</div>
+</section>
+
+<section id="robotics">
+<h2 class="section-title"><span class="cat-tag robotic">2</span> Robotics AI</h2>
+<p class="section-subtitle">A new centre is being built around a translation problem rather than a machine: how to make robotic surgery less invasive, more intuitive and usable outside specialist centres.</p>
+<div class="brief-item">
+<span class="brief-label">Headline AI development</span>
+<p class="brief-text">Imperial College London and Smith+Nephew have opened a five-year research partnership for musculoskeletal surgical robotics. It is Smith+Nephew's first university centre and Imperial's first industry research centre in medical technology. At full capacity, it is expected to support a senior postdoctoral researcher and up to seven fully funded PhD students, with research focused on computer vision and sensing.</p>
+<div class="brief-source">Source: <a href="https://www.imperial.ac.uk/news/articles/2026/new-centre-from-imperial-and-smithnephew-will-accelerate-innovation-in-surgical-robotics/" target="_blank" rel="noopener noreferrer">Imperial College London, new surgical robotics centre</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Healthcare or NHS use case</span>
+<p class="brief-text">One target is markerless registration and tracking. Current systems can require pins or rigid markers fixed to bone so the robot can map anatomy. The centre will explore computer-vision approaches that adapt to anatomy in real time, aiming for less invasive and more intuitive systems that can be used beyond specialist centres. This remains research, but it starts with a recognisable clinical workflow constraint rather than a generic robotics promise.</p>
+<div class="brief-source">Source: <a href="https://www.imperial.ac.uk/news/articles/2026/new-centre-from-imperial-and-smithnephew-will-accelerate-innovation-in-surgical-robotics/" target="_blank" rel="noopener noreferrer">Imperial College London, new surgical robotics centre</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Governance or ethics note</span>
+<p class="brief-text">Industry and academia working side by side can shorten translation, but it also makes the evidence plan more important. The claim to test is not simply whether markerless tracking works in a controlled setting. It is whether accuracy, failure detection, training burden and outcomes remain acceptable across different teams, anatomy, equipment and hospital environments, including the non-specialist centres the programme hopes to reach.</p>
+<div class="brief-source">Source: <a href="https://www.imperial.ac.uk/news/articles/2026/new-centre-from-imperial-and-smithnephew-will-accelerate-innovation-in-surgical-robotics/" target="_blank" rel="noopener noreferrer">Imperial College London, partnership objectives and research scope</a></div>
+</div>
+<div class="brief-item brief-action">
+<span class="brief-label">Try this in a workflow</span>
+<p class="brief-text">Take one robotics proposal and write two separate acceptance tests: performance in the specialist centre and transfer into an ordinary operating list. Include setup time, conversion or fallback, staff competencies and the conditions that stop a case. A technology is not scalable until the second test is credible.</p>
+</div>
+</section>
+
+<section id="ambient">
+<h2 class="section-title"><span class="cat-tag ambient">3</span> Ambient AI</h2>
+<p class="section-subtitle">The latest ambient voice story is no longer a single-clinic experiment. It is a staged plan spanning two trusts, emergency departments, outpatient specialties and a 2028 horizon.</p>
+<div class="brief-item">
+<span class="brief-label">Headline AI development</span>
+<p class="brief-text">The Royal Wolverhampton NHS Trust and Walsall Healthcare NHS Trust are rolling out Heidi Health's ambient voice technology after an eight-month pilot at Walsall. The first phase covers emergency departments and outpatient specialties across both trusts, with implementation across all areas intended by 2028.</p>
+<div class="brief-source">Source: <a href="https://www.walsallhealthcare.nhs.uk/news/2026/08/25/new-digital-ambient-voice-technology-avt/" target="_blank" rel="noopener noreferrer">Walsall Healthcare NHS Trust, new digital Ambient Voice Technology</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Healthcare or NHS use case</span>
+<p class="brief-text">The pilot included emergency medicine, same-day emergency care, dermatology, ENT, audiology, obstetrics and gynaecology. The trusts report that average documentation time fell to under four minutes per patient. The system listens to the consultation and drafts structured notes, which are reviewed, edited where necessary and approved before they enter the patient record.</p>
+<div class="brief-source">Source: <a href="https://www.walsallhealthcare.nhs.uk/news/2026/08/25/new-digital-ambient-voice-technology-avt/" target="_blank" rel="noopener noreferrer">Walsall Healthcare NHS Trust, pilot and rollout details</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Governance or ethics note</span>
+<p class="brief-text">A preferred supplier and a successful pilot do not remove local assurance duties. NHS England guidance calls for a named Clinical Safety Officer, DCB0160 documentation, a safety case, hazard log, DPIA and monitoring framework, alongside ongoing audits of documentation accuracy and independent analysis of local performance data. Review and approval before filing is a control only if teams measure what reviewers miss and whether time pressure erodes that review.</p>
+<div class="brief-source">Source: <a href="https://www.england.nhs.uk/long-read/guidance-on-the-use-of-ai-enabled-ambient-scribing-products-in-health-and-care-settings/" target="_blank" rel="noopener noreferrer">NHS England, guidance on AI-enabled ambient scribing products</a></div>
+</div>
+<div class="brief-item brief-action">
+<span class="brief-label">Try this in a workflow</span>
+<p class="brief-text">Before expanding an AVT pilot, sample twenty approved notes and classify every correction as omission, wrong context, speaker attribution, terminology or coding. Repeat monthly by specialty. The trend will tell you whether human review is working as a safety control or merely being assumed.</p>
+</div>
+</section>
+
+<section id="clinical">
+<h2 class="section-title"><span class="cat-tag clinical">4</span> Clinical AI</h2>
+<p class="section-subtitle">At Queen Victoria Hospital, AI is not replacing the report. It is changing which chest X-ray reaches a clinician first.</p>
+<div class="brief-item">
+<span class="brief-label">Headline AI development</span>
+<p class="brief-text">Queen Victoria Hospital NHS Foundation Trust has introduced Harrison.ai CXR in Radiology. The system analyses a chest X-ray after it is performed and can identify up to 124 findings, using that analysis to help prioritise examinations for clinician review.</p>
+<div class="brief-source">Source: <a href="https://www.qvh.nhs.uk/2026/08/queen-victoria-hospital-introduces-ai-tool-to-support-chest-x-ray-reporting/" target="_blank" rel="noopener noreferrer">Queen Victoria Hospital, AI support for chest X-ray reporting</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Healthcare or NHS use case</span>
+<p class="brief-text">The AI runs in the background and presents findings within the existing reporting workflow. QVH is explicit that it is decision support, not a replacement for radiologists or reporting clinicians: every chest X-ray still receives a formal report by a qualified clinician, and that report remains the definitive result. The introduction is supported by the Surrey, Sussex and Frimley Imaging Network.</p>
+<div class="brief-source">Source: <a href="https://www.qvh.nhs.uk/2026/08/queen-victoria-hospital-introduces-ai-tool-to-support-chest-x-ray-reporting/" target="_blank" rel="noopener noreferrer">Queen Victoria Hospital, implementation and human oversight</a></div>
+</div>
+<div class="brief-item">
+<span class="brief-label">Governance or ethics note</span>
+<p class="brief-text">Prioritisation is itself a clinical intervention on the queue. Assurance should therefore cover more than whether the AI and clinician agree on a finding. Teams need to monitor false negatives, time to report, what is displaced when one examination is promoted, whether performance varies across patient groups and whether staff understand when the queue logic can be overridden.</p>
+<div class="brief-source">Source: <a href="https://www.qvh.nhs.uk/2026/08/queen-victoria-hospital-introduces-ai-tool-to-support-chest-x-ray-reporting/" target="_blank" rel="noopener noreferrer">Queen Victoria Hospital, stated prioritisation role</a></div>
+</div>
+<div class="brief-item brief-action">
+<span class="brief-label">Try this in a workflow</span>
+<p class="brief-text">Add one balancing measure to a clinical AI dashboard this week. If the headline measure is faster review of prioritised scans, pair it with waiting time for non-prioritised scans. Benefits shown on one side of a queue can hide harm on the other.</p>
+</div>
+</section>
+
+<section id="learning">
+<h2 class="section-title"><span class="cat-tag learning">5</span> September diary</h2>
+<p class="section-subtitle">Five practical opportunities to learn, compare implementation experience and test your own plans this month. Event details can change, so check the organiser page before travelling or booking time.</p>
+
+<div class="program-card">
+<h3>AI Ambassador Network meeting</h3>
+<p class="desc">A practical, people-centred session spanning lived experience, use of patient data in AI-enabled care and national updates.</p>
+<div class="program-meta">
+<div><dt>When</dt><dd>2 September 2026, 10:30 to 12:00</dd></div>
+<div><dt>Format</dt><dd>Online</dd></div>
+<div><dt>Best for</dt><dd>NHS and social care colleagues working on adoption, patient data and public involvement</dd></div>
+<div><dt>Access</dt><dd>Follow the organiser's More Info route for current booking details</dd></div>
+</div>
+<div class="program-source">Source: <a href="https://networks.nhs.uk/events/" target="_blank" rel="noopener noreferrer">NHS Networks events listing</a></div>
+</div>
+
+<div class="program-card">
+<h3>NHS AI Industry Engagement Forum: non-clinical AI use cases</h3>
+<p class="desc">An online supplier briefing from techUK, NHS England London and UCLPartners covering smart automation, reporting and scheduling before a further forum expected in October.</p>
+<div class="program-meta">
+<div><dt>When</dt><dd>7 September 2026</dd></div>
+<div><dt>Best for</dt><dd>Suppliers and NHS adopter organisations exploring non-clinical AI</dd></div>
+<div><dt>What to bring</dt><dd>Evidence of NHS deployment, implementation lessons, governance, procurement and integration detail</dd></div>
+<div><dt>Important</dt><dd>Structured engagement, not procurement, endorsement or a sales event</dd></div>
+</div>
+<div class="program-source">Source: <a href="https://www.techuk.org/what-we-deliver/events/nhs-ai-industry-engagement-forum-non-clinical-ai-use-cases-supplier-engagement.html" target="_blank" rel="noopener noreferrer">techUK, NHS AI Industry Engagement Forum</a></div>
+</div>
+
+<div class="program-card">
+<h3>HTN Live 2026</h3>
+<p class="desc">A one-day in-person programme covering enterprise AI governance, ambient AI, EPR optimisation, cyber security, automation and digital workforce skills.</p>
+<div class="program-meta">
+<div><dt>When</dt><dd>16 September 2026, registration from 08:30</dd></div>
+<div><dt>Where</dt><dd>Crowne Plaza Leeds</dd></div>
+<div><dt>Access</dt><dd>Free for NHS employees; other guests should contact the organiser</dd></div>
+<div><dt>Best for</dt><dd>Digital, data, clinical informatics and transformation teams</dd></div>
+</div>
+<div class="program-source">Source: <a href="https://htn.co.uk/htn-live-2026/" target="_blank" rel="noopener noreferrer">HTN Live 2026</a></div>
+</div>
+
+<div class="program-card">
+<h3>Harness AI in Healthcare: Free Patient Safety Summit</h3>
+<p class="desc">A digital summit on data readiness, human-in-the-loop use, culture, deskilling, acceptable-use policy, shadow AI and inspection readiness. Registrants receive the recording.</p>
+<div class="program-meta">
+<div><dt>When</dt><dd>24 September 2026, 13:00 to 16:00 GMT</dd></div>
+<div><dt>Format</dt><dd>Online and free</dd></div>
+<div><dt>Best for</dt><dd>Quality, patient safety, governance and frontline leaders</dd></div>
+<div><dt>Access</dt><dd>Open to NHS, independent health, social care and international audiences</dd></div>
+</div>
+<div class="program-source">Source: <a href="https://www.inphase.com/resources/webinars/harness-ai-in-healthcare-summit" target="_blank" rel="noopener noreferrer">Ideagen InPhase, Harness AI in Healthcare</a></div>
+</div>
+
+<div class="program-card">
+<h3>HETT 2026: Roadmap for AI in the NHS</h3>
+<p class="desc">Two days of discussion on scaled AI and automation, ambient intelligence, diagnostics, clinical decision support and choosing AI that fits the existing technology stack.</p>
+<div class="program-meta">
+<div><dt>When</dt><dd>29 and 30 September 2026</dd></div>
+<div><dt>Where</dt><dd>ExCeL London</dd></div>
+<div><dt>Access</dt><dd>Complimentary pass advertised by the organiser</dd></div>
+<div><dt>Best for</dt><dd>CIOs, CCIOs, CNIOs, clinical leads, transformation directors and IG specialists</dd></div>
+</div>
+<div class="program-source">Source: <a href="https://www.hettshow.co.uk/ai-in-healthcare" target="_blank" rel="noopener noreferrer">HETT, Roadmap for AI in the NHS</a></div>
+</div>
+
+<p style="text-align:center;margin-top:1rem"><a href="https://upull.ai/academy.html#tab-learning" class="cta-btn">Explore more free NHS learning on uGrowX →</a></p>
+</section>
+
+<section style="border-bottom:none">
+<div class="from-upull">
+<h2>From uPull.ai</h2>
+<p>The strongest September signal is not a single model or procurement. It is the shift from asking whether AI can do a task to proving that the surrounding service can run it safely. That means fallbacks for agents, transfer tests for robotics, sampled note audits for ambient voice and balancing measures for clinical queues. The technology earns its place only when the operating model can explain, monitor and recover it.</p>
+<a href="mailto:teams@upull.ai" class="cta-btn">Build your implementation plan with us →</a>
+</div>
+</section>
+
+<section id="archive">
+<h2 class="section-title" style="font-size:1.4rem"><span class="cat-tag" style="background:var(--navy)">A</span> Archive</h2>
+<p class="section-subtitle">Every issue of uPull.ai Weekly, newest first.</p>
+<div class="archive-grid">
+<a class="archive-card" href="weekly20260901.html"><span class="archive-badge">1 to 7 September 2026 · Current issue</span><h3>The Pilot Era Ends, the Assurance Case Begins</h3><p>Copilot resilience, a five-year robotics partnership, a two-trust ambient voice rollout and chest X-ray AI inside the reporting queue.</p><span class="archive-link">Read the issue →</span></a>
+<a class="archive-card" href="weekly20260825.html"><span class="archive-badge">25 to 31 August 2026</span><h3>Scale Arrives, So Does the Caution</h3><p>NCSC agentic AI guidance, Oxford's 5,000 robotic surgery cases, CLEARvalidate and a narrow medication-safety tool.</p><span class="archive-link">Read the issue →</span></a>
+<a class="archive-card" href="weekly20260818.html"><span class="archive-badge">18 to 24 August 2026</span><h3>The Rollout Gets Its First Safety Investigation</h3><p>HSSIB opens a national AVT investigation while staged deployment, robotics training and regulatory sandboxing put assurance into practice.</p><span class="archive-link">Read the issue →</span></a>
+<a class="archive-card" href="weekly20260811.html"><span class="archive-badge">11 to 17 August 2026</span><h3>The Habit Has Outpaced the Guidance</h3><p>NHS AI use becomes routine while predictive tools, robotics training and ambient scribing move ahead of formal guidance.</p><span class="archive-link">Read the issue →</span></a>
+<a class="archive-card" href="weekly20260804.html"><span class="archive-badge">4 to 10 August 2026</span><h3>The Copilot Wave Meets the Accountability Gap</h3><p>National Copilot distribution, an MHRA sandbox and the regulatory line for ambient scribes.</p><span class="archive-link">Read the issue →</span></a>
+<a class="archive-card" href="weekly20260728.html"><span class="archive-badge">28 July to 3 August 2026</span><h3>The Evidence Arrives, the Funding Doesn't</h3><p>Histopathology evidence, a major ambient rollout and the funding challenge behind robotics ambition.</p><span class="archive-link">Read the issue →</span></a>
+<a class="archive-card" href="weekly20260721.html"><span class="archive-badge">21 to 27 July 2026</span><h3>Regulation Catches Up with Rollout</h3><p>MHRA draws the AVT regulatory line as NHS App triage and Copilot adoption expand.</p><span class="archive-link">Read the issue →</span></a>
+<a class="archive-card" href="weekly20260714.html"><span class="archive-badge">14 to 20 July 2026</span><h3>Deploying Safely in a Real Institution</h3><p>Agentic, robotics, ambient and clinical AI viewed through real institutional deployment.</p><span class="archive-link">Read the issue →</span></a>
+</div>
+</section>
+
+<section style="border-bottom:none">
+<h2 class="section-title" style="font-size:1.4rem">Further reading</h2>
+<p class="section-subtitle">The original reporting, guidance and event pages behind this edition.</p>
+<ul class="reading-list">
+<li><a href="https://support.nhs.net/2026/08/microsoft-365-alert-service-degradation-microsoft-copilot-microsoft-365-users-microsoft-365-copilot-analyst-and-researcher-agents-may-open-a-new-chat-window-instead-o/" target="_blank" rel="noopener noreferrer">NHS.net, Microsoft 365 Copilot service degradation alert</a><p>The incident, cause, workaround and deployment update.</p></li>
+<li><a href="https://support.nhs.net/knowledge-base/how-to-guide-for-copilot-extensibility-management/" target="_blank" rel="noopener noreferrer">NHS.net, Copilot Extensibility Management</a><p>Local governance and readiness requirements for agent use on NHS.net Connect.</p></li>
+<li><a href="https://htn.co.uk/2026/08/13/university-hospital-southampton-automates-outpatients-administration-and-progresses-epr/" target="_blank" rel="noopener noreferrer">HTN, University Hospital Southampton automation update</a><p>The trust's automation portfolio and shift from pilots to sustainable benefits.</p></li>
+<li><a href="https://www.imperial.ac.uk/news/articles/2026/new-centre-from-imperial-and-smithnephew-will-accelerate-innovation-in-surgical-robotics/" target="_blank" rel="noopener noreferrer">Imperial College London, surgical robotics centre</a><p>The five-year partnership, research capacity and markerless tracking objective.</p></li>
+<li><a href="https://www.walsallhealthcare.nhs.uk/news/2026/08/25/new-digital-ambient-voice-technology-avt/" target="_blank" rel="noopener noreferrer">Walsall Healthcare NHS Trust, AVT rollout</a><p>The eight-month pilot, documentation result and phased two-trust plan.</p></li>
+<li><a href="https://www.england.nhs.uk/long-read/guidance-on-the-use-of-ai-enabled-ambient-scribing-products-in-health-and-care-settings/" target="_blank" rel="noopener noreferrer">NHS England, AI-enabled ambient scribing guidance</a><p>The national safety, governance, monitoring and procurement expectations.</p></li>
+<li><a href="https://www.qvh.nhs.uk/2026/08/queen-victoria-hospital-introduces-ai-tool-to-support-chest-x-ray-reporting/" target="_blank" rel="noopener noreferrer">Queen Victoria Hospital, chest X-ray AI</a><p>The prioritisation role, workflow integration and retained clinical sign-off.</p></li>
+<li><a href="https://www.techuk.org/what-we-deliver/events/nhs-ai-industry-engagement-forum-non-clinical-ai-use-cases-supplier-engagement.html" target="_blank" rel="noopener noreferrer">techUK, NHS AI Industry Engagement Forum</a><p>The 7 September supplier briefing and evidence expected from participants.</p></li>
+<li><a href="https://htn.co.uk/htn-live-2026/" target="_blank" rel="noopener noreferrer">HTN Live 2026</a><p>The 16 September agenda and attendance details.</p></li>
+<li><a href="https://www.inphase.com/resources/webinars/harness-ai-in-healthcare-summit" target="_blank" rel="noopener noreferrer">Harness AI in Healthcare</a><p>The free 24 September patient safety summit.</p></li>
+<li><a href="https://www.hettshow.co.uk/ai-in-healthcare" target="_blank" rel="noopener noreferrer">HETT, Roadmap for AI in the NHS</a><p>The 29 and 30 September AI programme.</p></li>
+</ul>
+</section>
+
+</main>
+
+<footer>
+<p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> Weekly · Curated AI news for health and care teams</p>
+<p style="margin-top:.6rem"><a href="https://upull.ai/news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
+<p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. All rights reserved. Summaries are editorial and link back to original sources where cited; they do not constitute clinical or regulatory advice.</p>
+</footer>
+
+<script>
+function toggleSubmenu(btn) {
+const item = btn.closest('.nav-item');
+const wasOpen = item.classList.contains('open');
+document.querySelectorAll('.nav-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.nav-link-item')?.setAttribute('aria-expanded','false'); });
+if (!wasOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
+document.addEventListener('click', e => { if (!e.target.closest('.nav-item')) document.querySelectorAll('.nav-item.open').forEach(i => i.classList.remove('open')); });
+function toggleMobileNav() {
+const menu = document.getElementById('navMenu');
+const toggle = document.getElementById('navToggle');
+const isOpen = menu.classList.toggle('mobile-open');
+toggle.classList.toggle('active', isOpen);
+toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+function shareOnLinkedIn() {
+const url = encodeURIComponent(window.location.href);
+window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url, '_blank', 'width=600,height=600');
+}
+</script>
+</body>
+</html>
