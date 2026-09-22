@@ -1,2 +1,178 @@
-
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workflow | Nexora · AI Operations Studio</title><meta name="description" content="Human-reviewed AI operations for document-heavy professional services across London and Hong Kong. Explore the investor concept demo."><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20rx%3D%2211%22%20fill%3D%22%23d2fa69%22/%3E%3Cpath%20d%3D%22M11%2029V11h5l8%2011V11h5v18h-5L16%2018v11z%22%20fill%3D%22%2313263a%22/%3E%3C/svg%3E"><link rel="stylesheet" href="css/style.css"><script src="js/app.js" defer></script></head><body><a class="skip" href="#main">Skip to content</a><header class="header"><a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="34" height="34">nexora<span>AI OPERATIONS STUDIO</span></a><button class="menu-toggle" aria-controls="navigation" aria-expanded="false">Menu ☰</button><nav id="navigation" aria-label="Main navigation"><a href="index.html" >Home</a><a href="solutions.html" >Solutions</a><a href="workflow.html" aria-current="page">Workflow</a><a href="platform.html" >Platform Demo</a><a href="about.html" >About</a><a href="investors.html" >Investors</a><a href="contact.html" >Contact</a></nav></header><main id="main"><section class="page-intro wrap"><div class="eyebrow">INTERACTIVE WORKFLOW / SYNTHETIC CASE</div><h1>Automation moves the work.<br>You own the decision.</h1><p class="lede">Follow a fictional bilingual onboarding pack from intake to delivery. No documents are uploaded and no external AI or compliance services are called.</p></section><section class="wrap workflow-shell"><div class="workflow-toolbar"><div><strong>Harbour Trading Limited · 海港貿易有限公司</strong><small>NX–024 · Corporate-services onboarding · UK ↔ HK</small></div><span class="badge">SIMULATION</span></div><div class="workflow-layout"><ol class="steps" aria-label="Workflow progress"><li data-step="0" class="active"><span>01</span><div>Collect<small>Six sample documents</small></div></li><li data-step="1"><span>02</span><div>Extract<small>Source-linked fields</small></div></li><li data-step="2"><span>03</span><div>Validate<small>Completeness & conflicts</small></div></li><li data-step="3"><span>04</span><div>Human review<small>Your decision required</small></div></li><li data-step="4"><span>05</span><div>Complete<small>Prepare approved pack</small></div></li><li data-step="5"><span>06</span><div>Evidence<small>Download decision trail</small></div></li></ol><div class="workflow-content"><div class="work-label">CASE WORKSPACE <span id="phase-label">Ready to begin</span></div><h2 id="stage-title">A complete view of the incoming file.</h2><p id="stage-description">Run this sample pack to see extraction, validation and a mandatory review gate.</p><div id="stage-detail"><div class="document-list"><div>▤ Certificate of incorporation <span>EN</span></div><div>▤ Business registration certificate <span>繁中</span></div><div>▤ Director identity record <span>EN</span></div><div>▤ Ownership declaration <span>EN / 繁中</span></div><div>▤ Registered address proof <span>EN</span></div><div>▤ Client engagement form <span>EN</span></div></div></div><div class="workflow-actions"><button class="button" id="run-workflow">Run sample workflow →</button><button class="button secondary" id="reset-workflow" disabled>Reset</button><button class="button secondary" id="download-evidence" hidden>Download evidence pack ↓</button></div><p class="live-status" id="workflow-status" role="status" aria-live="polite">Ready · Sample documents only</p></div></div><div class="audit"><strong>Activity trail</strong><ol id="audit-log"><li>Sample case created. No real client data.</li></ol></div></section><section class="wrap section"><div class="cards"><article class="card"><span class="number">01</span><h3>Confidence is a signal</h3><p>A high extraction score does not replace a professional decision. Exceptions always enter the review queue.</p></article><article class="card"><span class="number">02</span><h3>Approval is explicit</h3><p>The simulation pauses at the review gate. The pack cannot complete until the flagged source is checked.</p></article><article class="card"><span class="number">03</span><h3>Evidence travels with the work</h3><p>The downloadable JSON records this simulation’s steps, source references and your sample decision.</p></article></div></section></main><footer><div class="footer-brand">nexora<span>Carefully automated. Confidently delivered.</span></div><div>London ↔ Hong Kong<br><small>Investor concept · Working name · Synthetic demo data</small></div><a href="contact.html">Let’s talk ↗</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Workflow | Nexora · AI Operations Studio</title>
+    <meta name="description" content="Human-reviewed AI operations for document-heavy professional services across London and Hong Kong. Explore the investor concept demo.">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20rx%3D%2211%22%20fill%3D%22%23d2fa69%22/%3E%3Cpath%20d%3D%22M11%2029V11h5l8%2011V11h5v18h-5L16%2018v11z%22%20fill%3D%22%2313263a%22/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+        <a class="brand" href="index.html">
+            <img src="assets/logo.svg" alt="" width="34" height="34">
+            nexora
+            <span>AI OPERATIONS STUDIO</span>
+        </a>
+        <button class="menu-toggle" aria-controls="navigation" aria-expanded="false">Menu ☰</button>
+        <nav id="navigation" aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="solutions.html">Solutions</a>
+            <a href="workflow.html" aria-current="page">Workflow</a>
+            <a href="platform.html">Platform Demo</a>
+            <a href="about.html">About</a>
+            <a href="investors.html">Investors</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+    <main id="main">
+        <section class="page-intro wrap">
+            <div class="eyebrow">INTERACTIVE WORKFLOW / SYNTHETIC CASE</div>
+            <h1>
+                Automation moves the work.
+                <br>
+                You own the decision.
+            </h1>
+            <p class="lede">Follow a fictional bilingual onboarding pack from intake to delivery. No documents are uploaded and no external AI or compliance services are called.</p>
+        </section>
+        <section class="wrap workflow-shell">
+            <div class="workflow-toolbar">
+                <div>
+                    <strong>Harbour Trading Limited · 海港貿易有限公司</strong>
+                    <small>NX–024 · Corporate-services onboarding · UK ↔ HK</small>
+                </div>
+                <span class="badge">SIMULATION</span>
+            </div>
+            <div class="workflow-layout">
+                <ol class="steps" aria-label="Workflow progress">
+                    <li data-step="0" class="active">
+                        <span>01</span>
+                        <div>
+                            Collect
+                            <small>Six sample documents</small>
+                        </div>
+                    </li>
+                    <li data-step="1">
+                        <span>02</span>
+                        <div>
+                            Extract
+                            <small>Source-linked fields</small>
+                        </div>
+                    </li>
+                    <li data-step="2">
+                        <span>03</span>
+                        <div>
+                            Validate
+                            <small>Completeness & conflicts</small>
+                        </div>
+                    </li>
+                    <li data-step="3">
+                        <span>04</span>
+                        <div>
+                            Human review
+                            <small>Your decision required</small>
+                        </div>
+                    </li>
+                    <li data-step="4">
+                        <span>05</span>
+                        <div>
+                            Complete
+                            <small>Prepare approved pack</small>
+                        </div>
+                    </li>
+                    <li data-step="5">
+                        <span>06</span>
+                        <div>
+                            Evidence
+                            <small>Download decision trail</small>
+                        </div>
+                    </li>
+                </ol>
+                <div class="workflow-content">
+                    <div class="work-label">
+                        CASE WORKSPACE 
+                        <span id="phase-label">Ready to begin</span>
+                    </div>
+                    <h2 id="stage-title">A complete view of the incoming file.</h2>
+                    <p id="stage-description">Run this sample pack to see extraction, validation and a mandatory review gate.</p>
+                    <div id="stage-detail">
+                        <div class="document-list">
+                            <div>
+                                ▤ Certificate of incorporation 
+                                <span>EN</span>
+                            </div>
+                            <div>
+                                ▤ Business registration certificate 
+                                <span>繁中</span>
+                            </div>
+                            <div>
+                                ▤ Director identity record 
+                                <span>EN</span>
+                            </div>
+                            <div>
+                                ▤ Ownership declaration 
+                                <span>EN / 繁中</span>
+                            </div>
+                            <div>
+                                ▤ Registered address proof 
+                                <span>EN</span>
+                            </div>
+                            <div>
+                                ▤ Client engagement form 
+                                <span>EN</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-actions">
+                        <button class="button" id="run-workflow">Run sample workflow →</button>
+                        <button class="button secondary" id="reset-workflow" disabled>Reset</button>
+                        <button class="button secondary" id="download-evidence" hidden>Download evidence pack ↓</button>
+                    </div>
+                    <p class="live-status" id="workflow-status" role="status" aria-live="polite">Ready · Sample documents only</p>
+                </div>
+            </div>
+            <div class="audit">
+                <strong>Activity trail</strong>
+                <ol id="audit-log">
+                    <li>Sample case created. No real client data.</li>
+                </ol>
+            </div>
+        </section>
+        <section class="wrap section">
+            <div class="cards">
+                <article class="card">
+                    <span class="number">01</span>
+                    <h3>Confidence is a signal</h3>
+                    <p>A high extraction score does not replace a professional decision. Exceptions always enter the review queue.</p>
+                </article>
+                <article class="card">
+                    <span class="number">02</span>
+                    <h3>Approval is explicit</h3>
+                    <p>The simulation pauses at the review gate. The pack cannot complete until the flagged source is checked.</p>
+                </article>
+                <article class="card">
+                    <span class="number">03</span>
+                    <h3>Evidence travels with the work</h3>
+                    <p>The downloadable JSON records this simulation’s steps, source references and your sample decision.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-brand">
+            nexora
+            <span>Carefully automated. Confidently delivered.</span>
+        </div>
+        <div>
+            London ↔ Hong Kong
+            <br>
+            <small>Investor concept · Working name · Synthetic demo data</small>
+        </div>
+        <a href="contact.html">Let’s talk ↗</a>
+    </footer>
+</body>
+</html>
