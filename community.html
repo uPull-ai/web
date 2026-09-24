@@ -546,10 +546,10 @@
       .cta-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
     }
   
-    /* ══════════════════════════════════════════════════════════════
+    /* ═════════════════════════════════════════════════════════════
        SHARED HEADER — black + orange, matched to index.html
        Scoped to `header` only, so page body styling is untouched.
-       ══════════════════════════════════════════════════════════════ */
+       ═════════════════════════════════════════════════════════════ */
     header{
       background:rgba(14,14,14,.97) !important;
       -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
@@ -844,7 +844,7 @@
 </div>
 
 <!-- VIEW: INSIGHTS & MEDIA -->
-<!-- ══════════════════════════════════════════════════════════════════════════
+<!-- ════════════════════════════════════════════════════════════════════════════
      BLOG HIGHLIGHTS — static content, written straight into the page.
      No fetch, no manifest, nothing to fail: these cards render even if the
      newsletter files move, the network blocks, or the page is opened locally.
@@ -859,7 +859,7 @@
 
      The "Interviews & Podcasts" column was removed on 5 Aug 2026 pending
      content; its .podcast-row / .play-btn CSS is retained above to restore it.
-     ══════════════════════════════════════════════════════════════════════════ -->
+     ════════════════════════════════════════════════════════════════════════════ -->
 <div id="view-insights">
   <main>
     <section>
@@ -1065,6 +1065,7 @@
   <p><strong>uPull.ai Community Connect</strong> • Empowering Health and Care Workforces</p>
   <p style="margin-top: 0.5rem; font-size: 0.75rem;"><a href="news.html" style="color:#94a3b8">Subscribe to our newsletter →</a></p>
   <p style="margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.6;">Powered by the uPull.ai Framework. © 2026 uPull.ai Ltd. All rights reserved.</p>
+  <p style="margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.7;"><a href="privacy.html" style="color:#94a3b8;">Privacy</a> · <a href="cookies.html" style="color:#94a3b8;">Cookies</a> · <a href="terms.html" style="color:#94a3b8;">Terms</a> · <a href="accessibility.html" style="color:#94a3b8;">Accessibility</a></p>
 </footer>
 
 <script>
@@ -1098,7 +1099,7 @@
     return window.localStorage.getItem('upullUserRole') || 'learner';
   }
 
-  // ══════════════════════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════════
   // EMAIL GATE — open to any domain (NHS, company, or personal webmail
   // such as gmail.com, icloud.com, outlook.com). The actual "validation"
   // is the sign-in method itself: the magic-link flow proves ownership
@@ -1144,7 +1145,7 @@
       setNhsEmailStatusCommunity('Check your NHS inbox and open the link on this device to finish signing in.', false);
     }).catch(err => {
       console.error('Email link send failed:', err);
-      setNhsEmailStatusCommunity('Could not send the link (' + err.code + '). Please try again.', true);
+      setNhsEmailStatusCommunity('Could not send the link (' + err.code + ').Please try again.', true);
     });
   }
 
