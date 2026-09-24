@@ -16,7 +16,7 @@ Fields marked `[FILL IN]` need input only you can provide — don't guess these.
 | Legal name | uPull.ai Ltd. |
 | Website | https://upull.ai |
 | Headquarters location | London, UK |
-| Contact email | info@upull.ai |
+| Contact email | support@upull.ai |
 | Company type | Privately Held [confirm] |
 | Operating status | Active |
 | Founded date | `[FILL IN]` — not disclosed anywhere on the site |

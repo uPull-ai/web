@@ -368,7 +368,7 @@ COURSES = [{'audience': 'All healthcare staff, managers, and admin teams',
   'level': 'advanced',
   'provider': 'uPull.ai',
   'title': 'Designing Your 6-Week Proof of Value',
-  'url': 'mailto:info@upull.ai'},
+  'url': 'mailto:appointments@upull.ai'},
  {'audience': 'All NHS staff — no tech background needed',
   'category': 'promptengineering',
   'cost': 'Free',
@@ -525,7 +525,7 @@ COURSES = [{'audience': 'All healthcare staff, managers, and admin teams',
   'level': 'advanced',
   'provider': 'uPull.ai',
   'title': 'NHS Practical Capstone — Build Your Prompt Library',
-  'url': 'mailto:info@upull.ai'}]
+  'url': 'mailto:support@upull.ai'}]
 
 CASE_STUDY_SUMMARIES = [{'desc': 'The manual compilation of patient encounter records severely limits consultation '
           'throughput, imposing a substantial cognitive burden on medical practitioners.',

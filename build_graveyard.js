@@ -390,7 +390,7 @@ c.push(h2('Data handling'));
 c.push(bullet('The anonymous submission and the optional contact details must be stored so that an anonymous entry cannot be re-linked to a person by anyone browsing the data.'));
 c.push(bullet('Say this plainly on the form. It is the difference between a wall with 80 entries and a wall with 8.'));
 c.push(bullet('Standard line, reused from your readiness assessment: do not enter patient-identifiable, commercially sensitive or otherwise confidential information.'));
-c.push(bullet('uPull.ai is data controller; legitimate interests / consent; deletion on request to info@upull.ai.'));
+c.push(bullet('uPull.ai is data controller; legitimate interests / consent; deletion on request to support@upull.ai.'));
 
 c.push(h2('Tone discipline'));
 c.push(p('The graveyard mourns pilots. It never mocks the people who ran them. Every piece of copy in this plan is written from inside the problem — "we have all watched this happen" — not from above it. The moment it reads as a consultancy sneering at NHS staff, the founders’ networks turn and the campaign is dead.'));

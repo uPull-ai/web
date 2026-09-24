@@ -17,7 +17,7 @@ governed AI adoption rather than abstract AI strategy.
   redesign the workflow, add the right AI layer, prove ROI in 6 weeks
 - Founders: Alex Cheung (Co-Founder & CEO), Hassan Chaudhry (Co-Founder & CCO),
   Suki Panesar (Co-Founder & Chief Strategist)
-- Contact: info@upull.ai
+- Contact: support@upull.ai
 
 ## Primary pages
 - [Home / Strategic Core](https://upull.ai/): the Pull principle, challenge, model, results

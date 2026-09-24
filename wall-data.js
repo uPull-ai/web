@@ -2,7 +2,7 @@
    THE GRAVEYARD WALL — moderated headstone data.
 
    This is the ONLY file a moderator needs to touch. When a submission
-   comes in via Web3Forms (emailed to info@upull.ai), a human reads it,
+   comes in via Web3Forms (emailed to support@upull.ai), a human reads it,
    strips anything identifying, and adds one object to the WALL array
    below in the same shape as the existing entries. Save this file and
    push it to GitHub — graveyard.html loads it on every page view and
