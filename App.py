@@ -74,10 +74,10 @@ def find_relevant_case_study(question):
     specific case study by title or id, pull its full detail into context
     for this turn only, instead of loading all 30 in full every time."""
     import re
-    q = question.lower()
-    id_matches = re.findall(r"\bcs0*(\d+)\b", q)
+    q = question.lower()[:500]
+    id_matches = re.findall(r"\bcs(\d{1,4})\b", q)
     for num in id_matches:
-        cs_id = f"CS{num}"
+        cs_id = f"CS{int(num)}"
         if cs_id in CASE_STUDY_FULL:
             return CASE_STUDY_FULL[cs_id]
     best_match, best_score = None, 0
