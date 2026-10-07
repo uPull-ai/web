@@ -1,0 +1,18 @@
+name: Internal files guard
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if internal or backend files are present
+        run: |
+          bad=$(git ls-files | grep -Ei '^(private|internal|server)/|(^|/)(App|App_data)\.py$|backup|\.sql$|(^|/)\.env|\.(pem|key)$' || true)
+          if [ -n "$bad" ]; then
+            echo "Internal or non-site files found:"
+            echo "$bad"
+            exit 1
+          fi
