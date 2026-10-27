@@ -1,0 +1,6 @@
+# uPull.ai security contact (RFC 9116)
+Contact: mailto:security@upull.ai
+Expires: 2027-10-27T00:00:00.000Z
+Preferred-Languages: en
+Policy: https://github.com/uPull-ai/web/security/policy
+Canonical: https://upull.ai/security.txt
