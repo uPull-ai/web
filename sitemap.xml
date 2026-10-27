@@ -2,6 +2,10 @@
 <!--
   upull.ai sitemap — rebuilt 9 August 2026.
 
+  UPDATED 27 October 2026: added /news/weekly20261013.html, /news/weekly20261020.html
+  and /news/weekly20261027.html; /news.html lastmod set to 2026-10-27. All other URLs
+  are unchanged.
+
   ADDED since the 29 July version:
     /pricing.html              (was missing entirely — commercial page)
     /podcasts.html             (NotebookLM 30-Episode Prompt Pack)
@@ -74,8 +78,26 @@
   </url>
   <url>
     <loc>https://upull.ai/news.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news/weekly20261027.html</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news/weekly20261020.html</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news/weekly20261013.html</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
