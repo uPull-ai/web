@@ -3,16 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>uPull.ai Weekly: Time Back Needs an Owner</title>
-<meta name="description" content="The 27 October to 2 November 2026 NHS AI briefing for leaders: The Christie reports same day clinic letters from ambient voice technology, DHSC guidance says AI care planning may free care staff time with a person reviewing every plan, the NCSC sets out research questions on human and AI collaboration, and the MHRA says it is moving from policy into practice.">
-<meta property="og:title" content="uPull.ai Weekly: Time Back Needs an Owner">
-<meta property="og:description" content="The 27 October edition for NHS leaders: AI is returning time to clinicians and care staff, and the question is who decides where it goes.">
+<title>uPull.ai Weekly — Agentic, Robotics, Ambient &amp; Clinical AI News for NHS Teams</title>
+<meta name="description" content="uPull.ai Weekly tracks Agentic, Robotics, Ambient and Clinical AI in the NHS — every issue pairs a headline development with a real NHS use case, a governance or ethics note, and a workflow to try. Read the latest issue or browse the archive.">
+<meta property="og:title" content="uPull.ai Weekly — Agentic, Robotics, Ambient &amp; Clinical AI News for NHS Teams">
+<meta property="og:description" content="A headline, an NHS use case, a governance note and a workflow to try — for Agentic, Robotics, Ambient and Clinical AI, every week.">
 <meta property="og:image" content="https://images.unsplash.com/photo-1666971618809-4ab00b6b31c7?auto=format&fit=crop&w=1200&h=630&q=80">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://upull.ai/news/weekly20261027.html">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"NewsArticle","headline":"Time Back Needs an Owner","datePublished":"2026-10-27","dateModified":"2026-10-27","publisher":{"@type":"Organization","name":"uPull.ai","url":"https://upull.ai/"},"mainEntityOfPage":"https://upull.ai/news/weekly20261027.html","description":"The 27 October to 2 November 2026 NHS AI briefing across agentic, robotics, ambient and clinical AI, on who decides where the time AI returns is spent."}
-</script>
+<meta property="og:type" content="website">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;scroll-behavior:smooth}
 body{background:#F8FAFC;color:#1E293B;line-height:1.6}
@@ -63,100 +59,138 @@ main{max-width:1000px;margin:0 auto;padding:0 5%}
 section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
 .section-title{font-size:1.9rem;color:var(--navy);margin-bottom:.4rem;font-weight:800;display:flex;align-items:center;gap:.6rem}
 .section-subtitle{color:var(--muted);font-size:.95rem;max-width:700px;margin-bottom:2rem;line-height:1.55}
-.weekly-hero{position:relative;border-radius:14px;overflow:hidden;margin-top:1.5rem;color:#fff;min-height:280px;display:flex;align-items:flex-end;background:linear-gradient(135deg,#6c88ba 0%,#2d5ca4 45%,#003087 100%)}
-.weekly-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,48,135,.35) 0%,rgba(0,48,135,.94) 100%);z-index:1}
-.weekly-hero-content{position:relative;z-index:2;padding:2.2rem 2rem}
+
+/* Hero */
+.weekly-hero{position:relative;border-radius:14px;overflow:hidden;margin-top:1.5rem;color:#fff;min-height:320px;display:flex;align-items:center}
+.weekly-hero svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.weekly-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,rgba(0,48,135,.72) 0%,rgba(0,48,135,.4) 55%,rgba(0,48,135,.85) 100%);z-index:1}
+.weekly-hero-content{position:relative;z-index:2;padding:2.4rem 2rem}
 .weekly-eyebrow{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:.3rem .8rem;border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
-.weekly-hero h1{font-size:2rem;font-weight:900;line-height:1.2;margin-bottom:.6rem}
+.weekly-hero h1{font-size:2.1rem;font-weight:900;line-height:1.2;margin-bottom:.7rem}
 .weekly-hero h1 span{color:var(--orange)}
-.weekly-hero p{font-size:1rem;opacity:.94;max-width:660px}
-.weekly-actions{margin-top:1.2rem;display:flex;gap:.7rem;flex-wrap:wrap}
-.linkedin-btn{background:#0A66C2;color:#fff;padding:.55rem 1.2rem;border-radius:5px;font-weight:700;border:none;cursor:pointer;font-size:.88rem;display:inline-flex;align-items:center;gap:.5rem}
-.linkedin-btn:hover{background:#004182}
-.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
-@media(max-width:700px){.theme-grid{grid-template-columns:1fr}}
-.theme-card{background:#fff;border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:8px;padding:1.1rem 1.3rem}
-.theme-card strong{display:block;color:var(--navy);font-size:.95rem;margin-bottom:.35rem}
-.theme-card p{color:var(--muted);font-size:.86rem;line-height:1.5}
-.theme-card.agentic{border-left-color:var(--agentic)}
-.theme-card.robotic{border-left-color:var(--robotic)}
-.theme-card.ambient{border-left-color:var(--ambient)}
-.theme-card.clinical{border-left-color:var(--clinical)}
-.quote-block{background:#fff;border:1px solid var(--border);border-left:6px solid var(--orange);border-radius:0 12px 12px 0;padding:1.6rem 1.8rem;margin:1.5rem 0 0}
-.quote-label{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--orange-hover);margin-bottom:.6rem}
-.quote-block blockquote{font-size:1.35rem;line-height:1.4;color:var(--navy);font-weight:700;margin-bottom:.7rem}
-.quote-attrib{font-size:.88rem;color:#334155}
-.quote-source{font-size:.78rem;color:#94a3b8;margin-top:.4rem}
-.quote-source a{color:var(--blue);font-weight:700;text-decoration:none}
-.quote-source a:hover{color:var(--orange);text-decoration:underline}
-.jump-nav{display:flex;flex-wrap:wrap;gap:.5rem;background:#fff;border:1px solid var(--border);border-radius:10px;padding:.6rem;position:sticky;top:78px;z-index:80;margin:1.5rem 0}
-.jump-pill{padding:.45rem .9rem;border-radius:20px;font-size:.82rem;font-weight:700;text-decoration:none;color:var(--muted);border:2px solid var(--border);transition:all .2s}
-.jump-pill:hover{border-color:var(--blue);color:var(--navy)}
-.jump-pill.tag-agentic{border-color:var(--agentic);color:var(--agentic)}
-.jump-pill.tag-robotic{border-color:var(--robotic);color:var(--robotic)}
-.jump-pill.tag-ambient{border-color:var(--ambient);color:var(--ambient)}
-.jump-pill.tag-clinical{border-color:var(--clinical);color:var(--clinical)}
-.jump-pill.tag-learning{border-color:var(--learning);color:#9a6b00}
-.jump-pill.tag-archive{border-color:var(--navy);color:var(--navy)}
-.cat-tag{display:inline-flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;border-radius:10px;color:#fff;font-size:1.05rem;font-weight:800;flex-shrink:0}
-.cat-tag.agentic{background:var(--agentic)}
-.cat-tag.robotic{background:var(--robotic)}
-.cat-tag.ambient{background:var(--ambient)}
-.cat-tag.clinical{background:var(--clinical)}
-.cat-tag.learning{background:var(--learning)}
-.brief-item{background:#fff;border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:1.1rem 1.3rem;margin-bottom:1rem}
-.brief-item:last-child{margin-bottom:0}
-.brief-label{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:.45rem}
-.brief-text{font-size:.92rem;color:#334155;line-height:1.6;margin-bottom:.55rem}
-.brief-source{font-size:.78rem;color:#94a3b8}
-.brief-source a{color:var(--blue);font-weight:700;text-decoration:none}
-.brief-source a:hover{color:var(--orange);text-decoration:underline}
-.brief-action{background:var(--bg)}
-section#agentic .brief-item{border-left-color:var(--agentic)}
-section#agentic .brief-label{color:var(--agentic)}
-section#robotics .brief-item{border-left-color:var(--robotic)}
-section#robotics .brief-label{color:var(--robotic)}
-section#ambient .brief-item{border-left-color:var(--ambient)}
-section#ambient .brief-label{color:var(--ambient)}
-section#clinical .brief-item{border-left-color:var(--clinical)}
-section#clinical .brief-label{color:var(--clinical)}
-.program-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.4rem;margin-bottom:1.2rem}
-.program-card h3{color:var(--navy);font-size:1.1rem;margin-bottom:.3rem}
-.program-card p.desc{color:var(--muted);font-size:.88rem;margin-bottom:1rem;line-height:1.55}
-.program-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-bottom:.9rem}
-.program-meta div dt{font-size:.7rem;font-weight:800;color:#9a6b00;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.2rem}
-.program-meta div dd{font-size:.85rem;color:var(--navy)}
-.program-source{font-size:.74rem;color:#94a3b8;font-style:italic}
-.program-source a{color:var(--blue);font-weight:700;font-style:normal;text-decoration:none}
-.program-source a:hover{color:var(--orange);text-decoration:underline}
-.from-upull{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;border-radius:12px;padding:2.2rem;text-align:center}
-.from-upull h2{color:#fff;font-size:1.6rem;margin-bottom:.7rem}
-.from-upull p{color:#cbd5e1;font-size:.95rem;max-width:600px;margin:0 auto 1.3rem;line-height:1.6}
+.weekly-hero p{font-size:1rem;opacity:.94;max-width:600px}
+.weekly-actions{margin-top:1.3rem;display:flex;gap:.7rem;flex-wrap:wrap}
+
+/* Format explainer */
+.format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+@media(max-width:800px){.format-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.format-grid{grid-template-columns:1fr}}
+.format-card{background:#fff;border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:10px;padding:1.2rem 1.1rem}
+.format-card .format-icon{font-size:1.3rem;margin-bottom:.5rem;display:block}
+.format-card h3{font-size:.92rem;color:var(--navy);margin-bottom:.4rem}
+.format-card p{font-size:.83rem;color:var(--muted);line-height:1.5}
+
+.category-legend{display:flex;flex-wrap:wrap;gap:.9rem 1.4rem;margin-top:1.6rem}
+.legend-pill{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:700;color:var(--navy)}
+.legend-dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex-shrink:0}
+
+/* Archive / editions */
 .archive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
 @media(max-width:700px){.archive-grid{grid-template-columns:1fr}}
 .archive-card{display:block;background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;text-decoration:none;transition:border-color .2s,transform .15s}
 .archive-card:hover{border-color:var(--blue);transform:translateY(-2px)}
 .archive-badge{display:inline-block;background:var(--bg);color:var(--navy);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:.25rem .6rem;border-radius:20px;margin-bottom:.6rem}
+.archive-badge.current{background:var(--orange);color:#fff}
 .archive-card h3{color:var(--navy);font-size:1.05rem;margin-bottom:.4rem;line-height:1.35}
 .archive-card p{color:var(--muted);font-size:.86rem;line-height:1.5;margin-bottom:.7rem}
 .archive-link{color:var(--blue);font-weight:700;font-size:.85rem}
 .archive-card:hover .archive-link{color:var(--orange)}
-.reading-list{list-style:none}
-.reading-list li{padding:.8rem 0;border-bottom:1px solid var(--border)}
-.reading-list li:last-child{border-bottom:none}
-.reading-list a{color:var(--blue);font-weight:700;font-size:.92rem;text-decoration:none}
-.reading-list a:hover{color:var(--orange);text-decoration:underline}
-.reading-list p{font-size:.82rem;color:var(--muted);margin-top:.2rem}
+
+/* Featured current issue */
+.slide-highlights{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.slide-highlights li{display:flex;gap:.65rem;align-items:flex-start;font-size:.89rem;color:#334155;line-height:1.55}
+.slide-highlights .legend-dot{margin-top:.4rem;flex-shrink:0}
+.featured-issue{max-width:660px;margin:0 auto 2.4rem;background:#fff;border:2px solid var(--orange);border-radius:16px;padding:2.1rem 2.3rem;box-shadow:0 14px 34px rgba(0,48,135,.12)}
+.featured-issue h3{color:var(--navy);font-size:1.4rem;line-height:1.3;margin:.8rem 0 1.2rem}
+.featured-issue .slide-highlights{margin-bottom:1.3rem}
+
+/* Previous issues accordion */
+.previous-issues-label{text-align:center;font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 auto 1rem;max-width:660px}
+.issue-accordion{max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:.7rem}
+.accordion-item{border:1px solid var(--border);border-radius:10px;background:#fff;overflow:hidden}
+.accordion-tab{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.3rem;background:#fff;border:none;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s}
+.accordion-tab:hover{background:var(--bg)}
+.accordion-tab-text{display:flex;flex-direction:column;gap:.15rem}
+.accordion-tab-date{font-size:.72rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em}
+.accordion-tab-title{font-size:.98rem;color:var(--navy);font-weight:700}
+.accordion-chevron{font-size:1.1rem;color:var(--muted);transition:transform .25s;flex-shrink:0}
+.accordion-item.open .accordion-chevron{transform:rotate(180deg);color:var(--blue)}
+.accordion-panel{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.accordion-panel-inner{padding:0 1.3rem 1.3rem}
+.accordion-panel-inner .slide-highlights{margin-bottom:1rem}
+
+/* From uPull.ai banner */
+.from-upull{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;border-radius:12px;padding:2.2rem;text-align:center}
+.from-upull h2{color:#fff;font-size:1.6rem;margin-bottom:.7rem}
+.from-upull p{color:#cbd5e1;font-size:.95rem;max-width:600px;margin:0 auto 1.3rem;line-height:1.6}
+
 .footer-subscribe{color:var(--orange);font-weight:700;text-decoration:none}
 .footer-subscribe:hover{text-decoration:underline}
+
 footer{background:#09111e;color:#94a3b8;padding:2rem 5%;text-align:center;font-size:.85rem;margin-top:1rem}
+
+/* ══════════════════════════════════════════════════════════════
+SHARED HEADER — black + orange, matched to index.html
+Scoped to `header` only, so page body styling is untouched.
+══════════════════════════════════════════════════════════════ */
+header{
+background:rgba(14,14,14,.97) !important;
+-webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+border-bottom:1px solid rgba(255,255,255,.10) !important;
+box-shadow:0 4px 24px rgba(0,0,0,.35) !important;
+}
+header .logo{color:#fff;font-size:1.6rem;font-weight:800;letter-spacing:-.5px;text-decoration:none}
+header .logo span{color:#ED8B00}
+header .logo:focus{outline:none}
+header .logo:focus-visible{outline:2px solid #c26f00;outline-offset:3px;border-radius:8px}
+header .nav-link-item{
+color:rgba(255,255,255,.78);font-size:.92rem;font-weight:600;
+padding:10px 16px;border-radius:999px;
+}
+header .nav-link-item:hover,
+header .nav-item.open > .nav-link-item,
+header .nav-link-item.active-tab{color:#fff;background:rgba(255,255,255,.08)}
+header .nav-submenu{
+background:rgba(14,14,14,.97);
+-webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.10);
+border-top:3px solid #ED8B00;
+border-radius:16px;padding:10px;
+box-shadow:0 20px 44px rgba(0,0,0,.5);
+}
+header .nav-submenu li a{
+color:rgba(255,255,255,.68);border-radius:10px;padding:10px 12px;font-size:.85rem;
+}
+header .nav-submenu li a:hover{background:rgba(237,139,0,.22);color:#fff}
+header .nav-icon-btn{
+width:38px;height:38px;font-size:1.1rem;
+background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+}
+header .nav-icon-btn:hover,
+header .nav-icon-btn.active-tab{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);transform:none}
+/* header CTA: near-black on orange — white on #ED8B00 is only 2.5:1 (WCAG AA needs 4.5:1) */
+header .cta-btn,header .nav-btn{
+padding:11px 22px;border-radius:999px;
+background:#ED8B00;color:#0E0E0E;font-weight:800;font-size:.9rem;
+border:none;white-space:nowrap;
+}
+header .cta-btn:hover,header .nav-btn:hover{background:#c26f00;color:#fff;transform:none}
+header .nav-toggle span{background:#fff}
+@media (max-width:900px){
+header .nav-menu{
+background:rgba(14,14,14,.98);
+-webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+border-bottom:1px solid rgba(255,255,255,.10);
+}
+header .nav-submenu{background:rgba(255,255,255,.04);box-shadow:none;border-radius:10px}
+}
 </style>
 </head>
 <body>
 
 <header>
 <div class="nav-container">
-<a href="https://upull.ai/index.html" class="logo">uPull<span>.ai</span></a>
+<a href="index.html" class="logo" aria-label="uPull.ai home">uPull<span>.ai</span></a>
 <div class="nav-right">
 <nav aria-label="Primary">
 <ul class="nav-menu" id="navMenu">
@@ -166,10 +200,10 @@ footer{background:#09111e;color:#94a3b8;padding:2rem 5%;text-align:center;font-s
 Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
 </button>
 <ul class="nav-submenu">
-<li><a href="https://upull.ai/index.html#problem">Challenge</a></li>
-<li><a href="https://upull.ai/index.html#approach">Model</a></li>
-<li><a href="https://upull.ai/index.html#results">Results</a></li>
-<li><a href="https://upull.ai/faqs.html#leadership">Leadership</a></li>
+<li><a href="index.html#problem">Challenge</a></li>
+<li><a href="index.html#approach">Model</a></li>
+<li><a href="index.html#results">Results</a></li>
+<li><a href="faqs.html#leadership">Leadership</a></li>
 </ul>
 </li>
 
@@ -178,35 +212,37 @@ Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
 Community <span class="nav-chevron" aria-hidden="true"></span>
 </button>
 <ul class="nav-submenu">
-<li><a href="https://upull.ai/community.html">Forum</a></li>
-<li><a href="https://upull.ai/academy.html">uGrowX</a></li>
-<li><a href="https://upull.ai/academy.html#tab-casestudies">Case Studies</a></li>
+<li><a href="community.html">Forum</a></li>
+<li><a href="academy.html#tab-learning">uGrowX</a></li>
+<li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+<li><a href="readiness.html">AI Readiness</a></li>
 </ul>
 </li>
+
 
 <li class="nav-item">
 <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
 FAQs <span class="nav-chevron" aria-hidden="true"></span>
 </button>
 <ul class="nav-submenu">
-<li><a href="https://upull.ai/faqs.html#about">About uPull.ai</a></li>
-<li><a href="https://upull.ai/faqs.html#pilot">Pilot &amp; ROI</a></li>
-<li><a href="https://upull.ai/faqs.html#workflows">Workflow Delivery</a></li>
-<li><a href="https://upull.ai/faqs.html#governance">Safety &amp; Governance</a></li>
-<li><a href="https://upull.ai/faqs.html#gdpr">GDPR &amp; Compliance</a></li>
-<li><a href="https://upull.ai/faqs.html#cases">Case Studies &amp; Evidence</a></li>
-<li><a href="https://upull.ai/faqs.html#commercial">Commercial &amp; Next Steps</a></li>
+<li><a href="faqs.html#about">About uPull.ai</a></li>
+<li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
+<li><a href="faqs.html#workflows">Workflow Delivery</a></li>
+<li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+<li><a href="faqs.html#gdpr">GDPR &amp; Compliance</a></li>
+<li><a href="faqs.html#cases">Case Studies &amp; Evidence</a></li>
+<li><a href="faqs.html#commercial">Commercial &amp; Next Steps</a></li>
 </ul>
 </li>
 
 <li class="nav-item">
-<a class="nav-link-item" href="https://upull.ai/pricing.html" style="text-decoration:none">Pricing</a>
+<a class="nav-link-item" href="pricing.html" style="text-decoration:none">Pricing</a>
 </li>
 
 </ul>
 </nav>
-<a href="https://upull.ai/news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
-<a href="https://upull.ai/index.html#cta" class="cta-btn">Proof of Value</a>
+<a href="news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
+<a href="index.html#cta" class="cta-btn">Proof of Value</a>
 <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
 <span></span><span></span><span></span>
 </button>
@@ -216,224 +252,484 @@ FAQs <span class="nav-chevron" aria-hidden="true"></span>
 
 <div class="breadcrumb">
 <div class="breadcrumb-inner">
-<a href="https://upull.ai/index.html">Home</a>
+<a href="index.html">Home</a>
 <span class="bc-sep">›</span>
-<a href="https://upull.ai/news.html">uPull.ai Weekly</a>
-<span class="bc-sep">›</span>
-<span class="bc-current">27 October to 2 November 2026</span>
+<span class="bc-current">uPull.ai Weekly</span>
 </div>
 </div>
+
 <main>
 
 <div class="weekly-hero">
+<svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+<linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#003087"/>
+<stop offset="100%" stop-color="#001a4d"/>
+</linearGradient>
+</defs>
+<rect width="1200" height="420" fill="url(#heroGrad)"/>
+<g stroke="rgba(255,255,255,0.18)" stroke-width="1.2" fill="none">
+<line x1="756.2" y1="39.0" x2="829.1" y2="46.5"/>
+<line x1="756.2" y1="39.0" x2="668.7" y2="124.6"/>
+<line x1="864.8" y1="273.6" x2="942.5" y2="281.3"/>
+<line x1="864.8" y1="273.6" x2="968.9" y2="252.7"/>
+<line x1="512.6" y1="40.7" x2="487.3" y2="109.0"/>
+<line x1="512.6" y1="40.7" x2="393.3" y2="126.4"/>
+<line x1="69.7" y1="101.6" x2="129.4" y2="113.8"/>
+<line x1="69.7" y1="101.6" x2="141.8" y2="47.0"/>
+<line x1="286.9" y1="242.1" x2="231.7" y2="292.5"/>
+<line x1="286.9" y1="242.1" x2="339.0" y2="367.2"/>
+<line x1="942.5" y1="281.3" x2="968.9" y2="252.7"/>
+<line x1="942.5" y1="281.3" x2="984.0" y2="309.4"/>
+<line x1="1112.1" y1="151.2" x2="1064.3" y2="195.2"/>
+<line x1="1112.1" y1="151.2" x2="1155.7" y2="220.5"/>
+<line x1="989.2" y1="247.3" x2="968.9" y2="252.7"/>
+<line x1="942.5" y1="281.3" x2="989.2" y2="247.3"/>
+<line x1="640.6" y1="380.3" x2="752.0" y2="161.3"/>
+<line x1="864.8" y1="273.6" x2="640.6" y2="380.3"/>
+<line x1="829.1" y1="46.5" x2="752.0" y2="161.3"/>
+<line x1="129.4" y1="113.8" x2="141.8" y2="47.0"/>
+<line x1="752.0" y1="161.3" x2="668.7" y2="124.6"/>
+<line x1="756.2" y1="39.0" x2="752.0" y2="161.3"/>
+<line x1="339.0" y1="367.2" x2="231.7" y2="292.5"/>
+<line x1="1148.3" y1="260.4" x2="1155.7" y2="220.5"/>
+<line x1="1148.3" y1="260.4" x2="1064.3" y2="195.2"/>
+<line x1="968.9" y1="252.7" x2="984.0" y2="309.4"/>
+<line x1="393.3" y1="126.4" x2="487.3" y2="109.0"/>
+<line x1="1021.5" y1="143.3" x2="1064.3" y2="195.2"/>
+<line x1="1112.1" y1="151.2" x2="1021.5" y2="143.3"/>
+<line x1="968.9" y1="252.7" x2="927.1" y2="182.0"/>
+<line x1="989.2" y1="247.3" x2="927.1" y2="182.0"/>
+<line x1="231.7" y1="292.5" x2="52.9" y2="289.5"/>
+<line x1="69.7" y1="101.6" x2="52.9" y2="289.5"/>
+</g>
+<g>
+<circle cx="756.2" cy="39.0" r="3.3" fill="#DA291C" opacity="0.9"/>
+<circle cx="864.8" cy="273.6" r="5.2" fill="#AE2573" opacity="0.9"/>
+<circle cx="512.6" cy="40.7" r="3.2" fill="#FFB81C" opacity="0.9"/>
+<circle cx="69.7" cy="101.6" r="4.4" fill="#FFB81C" opacity="0.9"/>
+<circle cx="286.9" cy="242.1" r="4.9" fill="#AE2573" opacity="0.9"/>
+<circle cx="942.5" cy="281.3" r="3.5" fill="#DA291C" opacity="0.9"/>
+<circle cx="1112.1" cy="151.2" r="2.8" fill="#AE2573" opacity="0.9"/>
+<circle cx="989.2" cy="247.3" r="4.9" fill="#ffffff" opacity="0.55"/>
+<circle cx="640.6" cy="380.3" r="3.6" fill="#FFB81C" opacity="0.9"/>
+<circle cx="968.9" cy="252.7" r="5.1" fill="#FFB81C" opacity="0.9"/>
+<circle cx="829.1" cy="46.5" r="3.2" fill="#41B6E6" opacity="0.9"/>
+<circle cx="129.4" cy="113.8" r="2.8" fill="#41B6E6" opacity="0.9"/>
+<circle cx="752.0" cy="161.3" r="3.6" fill="#DA291C" opacity="0.9"/>
+<circle cx="339.0" cy="367.2" r="4.4" fill="#FFB81C" opacity="0.9"/>
+<circle cx="231.7" cy="292.5" r="3.0" fill="#00A499" opacity="0.9"/>
+<circle cx="1148.3" cy="260.4" r="4.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="984.0" cy="309.4" r="3.2" fill="#AE2573" opacity="0.9"/>
+<circle cx="393.3" cy="126.4" r="3.1" fill="#ffffff" opacity="0.55"/>
+<circle cx="1021.5" cy="143.3" r="4.5" fill="#00A499" opacity="0.9"/>
+<circle cx="1064.3" cy="195.2" r="3.3" fill="#DA291C" opacity="0.9"/>
+<circle cx="668.7" cy="124.6" r="4.3" fill="#ffffff" opacity="0.55"/>
+<circle cx="487.3" cy="109.0" r="5.5" fill="#FFB81C" opacity="0.9"/>
+<circle cx="141.8" cy="47.0" r="2.8" fill="#ffffff" opacity="0.55"/>
+<circle cx="927.1" cy="182.0" r="2.7" fill="#00A499" opacity="0.9"/>
+<circle cx="1155.7" cy="220.5" r="5.4" fill="#ffffff" opacity="0.55"/>
+<circle cx="52.9" cy="289.5" r="4.5" fill="#FFB81C" opacity="0.9"/>
+</g>
+</svg>
 <div class="weekly-hero-content">
-<span class="weekly-eyebrow">Week of 27 October to 2 November 2026</span>
-<h1>Time Back <span>Needs an Owner</span></h1>
-<p>Last week's issue asked what earns an AI tool its authority. This week asks what happens to the time AI gives back. The Christie reports a patient leaving clinic with their letter already written. DHSC guidance says AI care planning software may cut the time care staff spend on administration, with a person reviewing every plan. The NCSC puts human and AI collaboration at the centre of its new AI research chapter, and the MHRA says the UK is moving from policy into practice. Each story returns time or clarity to someone. Who decides where it goes, and how would they know?</p>
+<span class="weekly-eyebrow">Published weekly · NHS AI news</span>
+<h1>Agentic, Robotics, Ambient &amp; Clinical AI — <span>decoded for NHS teams</span></h1>
+<p>Every week, uPull.ai tracks four categories of AI moving through the NHS and turns the noise into something you can actually use: a headline, a real use case, a governance note, and a workflow to try.</p>
 <div class="weekly-actions">
-<button class="linkedin-btn" onclick="shareOnLinkedIn()">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.44-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>
-Share on LinkedIn
-</button>
-<a href="#learning" class="cta-btn" style="background:transparent;border:1.5px solid rgba(255,255,255,.4)">See this week's learning picks →</a>
+<a href="https://upull.ai/news/weekly20261027.html" class="cta-btn">Read the latest issue →</a>
+<a href="#issues" class="cta-btn" style="background:transparent;border:1.5px solid rgba(255,255,255,.4)">Browse all issues</a>
 </div>
 </div>
 </div>
 
 <section style="padding-top:2rem">
-<h2 class="section-title">Who decides where the time goes</h2>
-<p class="section-subtitle">Each story this week returns time or clarity to someone. A useful exercise is to pick one AI tool in your organisation that saves time and write down how many minutes it saves, who checks its output, and what the saved time is used for.</p>
-<div class="theme-grid">
-<div class="theme-card agentic"><strong>Agentic AI</strong><p>The NCSC publishes a new AI chapter in its research problem book, with human and AI collaboration as the common thread. DHSC guidance says AI care planning may free care staff time, with a person reviewing every plan.</p></div>
-<div class="theme-card robotic"><strong>Robotics AI</strong><p>No new UK robotics item met our sourcing standard this week. Last week's Force Feedback report remains the latest we can source.</p></div>
-<div class="theme-card ambient"><strong>Ambient AI</strong><p>The Christie reports ambient voice technology producing clinic letters on the day of the appointment, with the clinician checking and approving each one.</p></div>
-<div class="theme-card clinical"><strong>Clinical AI</strong><p>The MHRA says it is moving from policy into practice on AI devices. The current AI Airlock review wave asks for applications before 31 October.</p></div>
+<h2 class="section-title">What's inside every issue</h2>
+<p class="section-subtitle">Each edition is compiled the same way: for Agentic, Robotics, Ambient and Clinical AI, we pull one real NHS example or use case, one governance or ethics question it raises, and one concrete suggestion you can try in your own workflow that week.</p>
+
+<div class="format-grid">
+<div class="format-card">
+<span class="format-icon">📰</span>
+<h3>Headline development</h3>
+<p>What actually happened this week — the announcement, deployment or regulatory move worth knowing about.</p>
+</div>
+<div class="format-card">
+<span class="format-icon">🏥</span>
+<h3>Real NHS use case</h3>
+<p>Where it's showing up in practice — a trust, a pilot, a rollout — with the numbers behind it.</p>
+</div>
+<div class="format-card">
+<span class="format-icon">⚖️</span>
+<h3>Governance &amp; ethics</h3>
+<p>The accountability, safety or oversight question the development raises for anyone deploying it.</p>
+</div>
+<div class="format-card">
+<span class="format-icon">✅</span>
+<h3>Try this in a workflow</h3>
+<p>One practical, specific action to take this week — not a general principle.</p>
+</div>
 </div>
 
-<div class="quote-block">
-<span class="quote-label">Quote of the week</span>
-<blockquote>&ldquo;where autonomy can provide genuine value, where human judgement remains essential&rdquo;</blockquote>
-<div class="quote-attrib">National Cyber Security Centre, on the common thread in its new AI research chapter, 20 October 2026</div>
-<div class="quote-source">Source: <a href="https://www.ncsc.gov.uk/blogs/introducing-new-ai-chapter-ncsc-research-problem-book" target="_blank" rel="noopener noreferrer">NCSC, Introducing a new AI chapter in the NCSC research problem book</a></div>
+<div class="category-legend">
+<span class="legend-pill"><span class="legend-dot" style="background:var(--agentic)"></span>Agentic AI</span>
+<span class="legend-pill"><span class="legend-dot" style="background:var(--robotic)"></span>Robotics AI</span>
+<span class="legend-pill"><span class="legend-dot" style="background:var(--ambient)"></span>Ambient AI</span>
+<span class="legend-pill"><span class="legend-dot" style="background:var(--clinical)"></span>Clinical AI</span>
 </div>
 </section>
 
-<nav class="jump-nav" aria-label="Jump to section">
-<a href="#agentic" class="jump-pill tag-agentic">Agentic AI</a>
-<a href="#robotics" class="jump-pill tag-robotic">Robotics AI</a>
-<a href="#ambient" class="jump-pill tag-ambient">Ambient AI</a>
-<a href="#clinical" class="jump-pill tag-clinical">Clinical AI</a>
-<a href="#learning" class="jump-pill tag-learning">Learning &amp; Development</a>
-<a href="#archive" class="jump-pill tag-archive">Archive</a>
-</nav>
+<!-- ISSUES -->
+<section id="issues">
+<h2 class="section-title">Read an issue</h2>
+<p class="section-subtitle">The current edition, front and centre — plus a quick preview of every issue before it.</p>
 
-<section id="agentic">
-<h2 class="section-title"><span class="cat-tag agentic">1</span> Agentic AI</h2>
-<p class="section-subtitle">No NHS agent deployment met our sourcing standard this week, so this section carries one UK cyber security publication on agentic AI and one set of government guidance on AI in social care, and says where each stops.</p>
-<div class="brief-item">
-<span class="brief-label">Headline AI development</span>
-<p class="brief-text">On 20 October the National Cyber Security Centre introduced a new chapter on AI in its research problem book. The NCSC says generative and agentic AI systems can plan, reason, use tools and take actions with increasing autonomy, which makes some tasks much easier to automate and creates new problems to solve. The chapter sets out seven areas across three broad themes, and the NCSC says the common thread is human and AI collaboration: understanding where autonomy can provide genuine value, where human judgement remains essential, and how meaningful oversight can be kept without losing the speed of automation. The publication is a set of research questions, and the NCSC invites feedback and examples of ongoing or planned research. It follows the NCSC item on AI agents in defence that we covered in the 6 to 12 October issue.</p>
-<div class="brief-source">Source: <a href="https://www.ncsc.gov.uk/blogs/introducing-new-ai-chapter-ncsc-research-problem-book" target="_blank" rel="noopener noreferrer">NCSC, Introducing a new AI chapter in the NCSC research problem book</a></div>
+<!-- Current edition, featured -->
+<div class="featured-issue">
+<span class="archive-badge current">27 October to 2 November 2026 · Latest issue</span>
+<h3>Time Back Needs an Owner</h3>
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>The NCSC publishes a new AI chapter in its research problem book, with human and AI collaboration as the common thread, and DHSC guidance says AI care planning may free care staff time with a person reviewing every plan</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>No new UK robotics item met our sourcing standard this week</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>The Christie reports ambient voice technology producing a clinic letter before the patient leaves, with the clinician checking and approving each one</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The MHRA says it is moving from policy into practice on AI devices, and the current AI Airlock review wave asks for applications before 31 October</li>
+</ul>
+<a class="cta-btn" href="https://upull.ai/news/weekly20261027.html">Read the full issue →</a>
 </div>
-<div class="brief-item">
-<span class="brief-label">Healthcare or NHS use case</span>
-<p class="brief-text">On 21 October HTN reported DHSC guidance on using AI in adult social care, which GOV.UK shows was published on 29 September. The guidance says AI care planning software may cut down the time spent on administrative tasks, which can allow care staff more time to give people care. It lists meeting notes and action lists, recruitment administration and the auditing of care records among other administrative uses. It is guidance for adult social care providers in England and covers AI in general, so it is not specific to agents, and it says many providers are still at an early stage of exploring AI.</p>
-<div class="brief-source">Source: <a href="https://www.gov.uk/guidance/using-ai-in-adult-social-care" target="_blank" rel="noopener noreferrer">GOV.UK, Using AI in adult social care</a> · <a href="https://htn.co.uk/2026/10/21/dhsc-guidance-on-digitising-adult-social-care-managing-it-suppliers-using-ai/" target="_blank" rel="noopener noreferrer">HTN, DHSC guidance on digitising adult social care, managing IT suppliers, using AI</a></div>
+
+<!-- Previous editions, accordion -->
+<p class="previous-issues-label">Previous issues</p>
+<div class="issue-accordion">
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">20 to 26 October 2026</span>
+<span class="accordion-tab-title">Authority Has to Be Earned</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>The American Medical Association sets four questions for AI agents that take on clinical functions: function, evidence, oversight and accountability</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>Guy's and St Thomas' performs the UK's first operation with da Vinci 5 Force Feedback, giving the surgeon a sense of resistance in the hand controls</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>North East Ambulance Service tests AI note-taking on crews' iPads for eight weeks, with a clinician editing every note before filing</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The MHRA's Strategy 2030 promises an adaptive framework for AI as a medical device and a Centre for AI and Digital Health, with most commitments undated</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20261020.html">Read the full issue →</a>
 </div>
-<div class="brief-item">
-<span class="brief-label">Governance or ethics note</span>
-<p class="brief-text">The DHSC guidance says that if AI is used in care planning, a member of care staff must review the plan to make sure it is accurate, and that a human should review anything AI produces. It advises providers to define what they hope to achieve before choosing any technology, to define the human role within any use of AI, and to write an AI policy. The NCSC says many assumptions behind today's cyber security practice, including vulnerability management, incident response and risk management, were developed before this kind of AI existed and will need to evolve. Neither source tells an NHS organisation how to govern a clinical agent. A practical reading, which is uPull.ai's and not either source's, is that a team trialling an agent should know what it can do without a person, who can stop it, and where its actions are recorded.</p>
-<div class="brief-source">Source: <a href="https://www.gov.uk/guidance/using-ai-in-adult-social-care" target="_blank" rel="noopener noreferrer">GOV.UK, Using AI in adult social care</a> · <a href="https://www.ncsc.gov.uk/blogs/introducing-new-ai-chapter-ncsc-research-problem-book" target="_blank" rel="noopener noreferrer">NCSC, Introducing a new AI chapter in the NCSC research problem book</a></div>
 </div>
-<div class="brief-item brief-action">
-<span class="brief-label">Try this in a workflow</span>
-<p class="brief-text">Choose one automated or agent based tool that your organisation uses or is considering. On one page, write down what it can do without a person, who can stop it, where its actions are logged, and how many minutes it is expected to save. Share the page with your cyber security or information governance lead this week and note any question you cannot answer.</p>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">13 to 19 October 2026</span>
+<span class="accordion-tab-title">The Rulebook Gets a Timetable</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>Asika, one of seven start ups joining a UKRI backed health incubator, is developing AI agents to automate hospital administrative workflows</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>HMA Technologies joins the same programme with a wearable robotic arm support for stroke rehabilitation at home, with no trial data reported</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>Berkshire Healthcare sets a shortlist date for a £3.24 million ambient voice contract and requires bidders to sit on NHS England's supplier registry</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The government accepts all 44 Commission recommendations with dated steps, and the MHRA opens AI Airlock Phase 3 on post market monitoring</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20261013.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">6 to 12 October 2026</span>
+<span class="accordion-tab-title">The Rollout Runs Ahead of the Plan</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>The NCSC explains why attackers can put AI agents to work more easily than defenders, and sets out three principles for using agents in defence</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>A Kent trust reaches full robotic theatre schedules faster than any hospital in the UK and Ireland over seven years, with training built into its model</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>Barts Health extends Oracle's Clinical AI Agent to more than 2,000 clinicians, with patient letters generated from the consultation itself</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>NHS England's board records that no single clear vision for AI exists, while the MHRA tests AI devices in live Manchester settings</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20261006.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">29 September to 5 October 2026</span>
+<span class="accordion-tab-title">From Principles to Procedure</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>An ambulance trust publishes its own before and after numbers for semi autonomous call allocation and triage in its emergency operations centre</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>NHS England writes a named sign off chain and a 15 working day review into how trusts may buy robotic surgery systems outside open competition</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>Two Leeds trusts publish staff and patient figures from an ambient AI scribe pilot run inside a gender identity service</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The National Commission into the Regulation of AI in Healthcare publishes its full report, including a safety database and a patient disclosure requirement</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260929.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">22–28 September 2026</span>
+<span class="accordion-tab-title">The Focus Shifts From the Tool, to the People Using It</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>The PSA, ten professional regulators and the Accredited Registers Collaborative agree to write joint principles for how health and care professionals use AI</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>A Delphi consensus sets out how UK surgical residents should be trained on robotic platforms, including at least 20 bedside-assistance cases before console training</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>A University of Toronto study finds AI scribes cut documentation time by 69.1%, and that doctors reached for scratch pads to help them ask follow-up questions</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The NHS Race and Health Observatory calls for ethnicity-level performance evidence, patient disclosure and exit routes to be built into AI procurement</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260922.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">15–21 September 2026</span>
+<span class="accordion-tab-title">The Efficiency Case Builds, the Trust Case Wobbles</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>A national commission recommends "L-plates" staged approval and lifetime monitoring for AI in healthcare, replacing one-off sign-off</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>Proximie, AWS and Deloitte launch the NHS's largest surgical AI evaluation across eight hospitals and 104 theatres</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>A University of Edinburgh study finds ambient scribes may lose the patient narrative and non-verbal cues that transcription accuracy checks miss</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>60,000 more patients opted out of NHS data-sharing in two months, and a minister links it directly to mistrust of a data platform contractor</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260915.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">8–14 September 2026</span>
+<span class="accordion-tab-title">New Firsts Arrive, Old Gaps Remain</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>Complaints teams start fielding AI-drafted letters built on hallucinated arguments</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>Barts Health performs the NHS's first lung cancer operation on the da Vinci 5 platform</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>A trust's halted AI scribe remains unaccredited months on from its pause</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>NHS England opens a £5m Cancer Innovation Programme for AI triage and decision-support</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260908.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">1–7 September 2026</span>
+<span class="accordion-tab-title">The Pilot Era Ends, the Assurance Case Begins</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>An NHS.net Copilot incident turns agent availability, fallback routes and evidence trails into practical service-management questions</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>Imperial and Smith+Nephew open a five-year centre focused on less-invasive surgical robotics usable beyond specialist centres</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>Royal Wolverhampton and Walsall move from an eight-month pilot to a two-trust AVT rollout, with expansion planned through 2028</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>Queen Victoria Hospital embeds chest X-ray AI into the reporting queue while retaining a qualified clinician's report for every examination</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260901.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">25–31 August 2026</span>
+<span class="accordion-tab-title">Scale Arrives, So Does the Caution</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>The NCSC publishes its first formal advice on containing agentic AI risk</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>Oxford's Churchill Hospital marks 5,000 robotic surgery cases</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>CLEARvalidate creates a funded route to continuously measure AVT safety</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>Calderdale and Huddersfield prepares an EPR-embedded medication-safety tool</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260825.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">18–24 August 2026</span>
+<span class="accordion-tab-title">The Rollout Gets Its First Safety Investigation</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>Mid Cheshire Hospitals publishes a five-stage AI deployment plan to 2033, with a named accountability tier written against each stage before the agents arrive</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>The Shelford Group's START programme expands into the South East, taking platform-agnostic robotic surgery training to six of England's thirteen deanery footprints</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>HSSIB opens the first national patient safety investigation into ambient voice technology — and has already found AI incident reporting routes aren't mature enough</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The MHRA's London Region I sandbox opens for expressions of interest, with ten places for AI devices to deploy in live NHS settings under regulatory oversight</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260818.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">11–17 August 2026</span>
+<span class="accordion-tab-title">The Habit Has Outpaced the Guidance</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>A predictive AI tool is now forecasting A&amp;E demand across 50 NHS organisations, while healthcare's agentic AI accountability gap becomes the story of the week</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>St Bartholomew's trains "the surgeons of the future" on the da Vinci 5 platform, and Orpington Hospital launches South East London's first robotic joint replacement programme</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>Ambient scribing spreads beyond flagship regional deals into South West London and Hertfordshire's community and mental health services</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>A new survey finds 90% of NHS clinicians already use AI at work — most of them ahead of formal guidance, with the RCP warning the NHS isn't yet digitally fit to deploy it</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260811.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">4–10 August 2026</span>
+<span class="accordion-tab-title">The Copilot Wave Meets the Accountability Gap</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>NHS England's 505,000-seat Copilot rollout enters national distribution, governed by Microsoft's Agent 365</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>RCS England publishes the first national dataset on robotic surgery access — 28 systems in London vs. six in the Southwest</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>MHRA guidance finally clarifies which ambient scribe functions count as regulated medical devices</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>MHRA opens its London Region I regulatory sandbox for live AI diagnostics</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260804.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">28 July–3 August 2026</span>
+<span class="accordion-tab-title">The Evidence Arrives, the Funding Doesn't</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>Health sector gives NHS England's AI rollout a "cautious welcome" amid open accountability questions</li>
+<li><span class="legend-dot" style="background:var(--robotic)"></span>RCS England warns robotic surgery access is a "postcode lottery" with no national funding strategy</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>NHS region signs its largest-ever AVT deal — 70,000 clinicians across 15 trusts and 1,239 GP practices</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>The Articulate Pro study shows AI can be safely deployed in NHS prostate cancer diagnosis</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260728.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">21–27 July 2026</span>
+<span class="accordion-tab-title">Regulation Catches Up with Rollout</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--agentic)"></span>Copilot rollouts push agentic AI further into everyday NHS admin workflows</li>
+<li><span class="legend-dot" style="background:var(--ambient)"></span>MHRA draws a clear regulatory line for ambient voice AI</li>
+<li><span class="legend-dot" style="background:var(--clinical)"></span>NHS App triage rollout expands, pushing clinical AI further into everyday care pathways</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260721.html">Read the full issue →</a>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<button class="accordion-tab" onclick="toggleAccordion(this)">
+<span class="accordion-tab-text">
+<span class="accordion-tab-date">14–20 July 2026</span>
+<span class="accordion-tab-title">Deploying Safely in a Real Institution</span>
+</span>
+<span class="accordion-chevron">⌄</span>
+</button>
+<div class="accordion-panel">
+<div class="accordion-panel-inner">
+<ul class="slide-highlights">
+<li><span class="legend-dot" style="background:var(--navy)"></span>A cross-category look at what "deploying safely" actually requires inside a real NHS institution, not a demo</li>
+<li><span class="legend-dot" style="background:var(--navy)"></span>Practical lessons spanning agentic, robotics, ambient and clinical AI</li>
+</ul>
+<a class="archive-link" href="https://upull.ai/news/weekly20260714.html">Read the full issue →</a>
+</div>
+</div>
+</div>
 
 </div>
 </section>
 
-<section id="robotics">
-<h2 class="section-title"><span class="cat-tag robotic">2</span> Robotics AI</h2>
-<p class="section-subtitle">We found no new UK robotic surgery or rehabilitation item that met our sourcing standard this week. Last week's report from Guy's and St Thomas' on Force Feedback instruments remains the latest we can source, and we will return to robotics when a new item qualifies.</p>
-</section>
-
-<section id="ambient">
-<h2 class="section-title"><span class="cat-tag ambient">3</span> Ambient AI</h2>
-<p class="section-subtitle">One trust account this week, with a patient benefit. It comes from the trust's own news story as reported by HTN, and it carries no time saving figures.</p>
-<div class="brief-item">
-<span class="brief-label">Healthcare or NHS use case</span>
-<p class="brief-text">The Christie NHS Foundation Trust has shared how it is using ambient voice technology to support patient experience. At its Macclesfield site, a consultant haematologist used the technology in clinic for the first time, and the patient received the post consultation summary almost immediately, before leaving. The patient told the trust that normally the letter arrives a week or so later and that having it straight away meant everything was fresh in their mind. The trust says clinicians remain responsible for checking, editing and approving all correspondence before it is sent to patients or GPs. HTN reports that the trust began a phased roll out in surgery and haematology in January 2026 and plans to extend to multidisciplinary team meetings, board rounds and virtual clinics. The consultant said the technology can significantly reduce time spent on clinical documentation. The reports give no figure for the time saved.</p>
-<div class="brief-source">Source: <a href="https://www.christie.nhs.uk/about-us/news-at-the-christie/latest-news-stories/disley-patient-benefits-from-faster-clinical-review-letter-thanks-to-new-technology" target="_blank" rel="noopener noreferrer">The Christie NHS Foundation Trust, Disley patient benefits from faster clinical review letter thanks to new technology</a> · <a href="https://htn.co.uk/2026/10/20/the-christie-shares-impact-of-avt-on-patient-experience/" target="_blank" rel="noopener noreferrer">HTN, The Christie shares impact of AVT on patient experience</a></div>
-</div>
-<div class="brief-item">
-<span class="brief-label">Governance or ethics note</span>
-<p class="brief-text">The safeguard the trust describes is that the clinician checks, edits and approves every letter before it is sent. The reports do not say how often letters are edited or how the trust is measuring accuracy, and the benefit described rests on one patient's account and one clinician's view. In September we covered a University of Edinburgh review of what ambient scribes may leave out of the record, such as tone and hesitation. A same day letter is only as good as the check behind it. Whether a fast letter is also a complete one is a fair question for any trust, and it is uPull.ai's question, not the trust's.</p>
-<div class="brief-source">Source: <a href="https://www.christie.nhs.uk/about-us/news-at-the-christie/latest-news-stories/disley-patient-benefits-from-faster-clinical-review-letter-thanks-to-new-technology" target="_blank" rel="noopener noreferrer">The Christie NHS Foundation Trust, Disley patient benefits from faster clinical review letter thanks to new technology</a> · <a href="https://htn.co.uk/2026/10/20/the-christie-shares-impact-of-avt-on-patient-experience/" target="_blank" rel="noopener noreferrer">HTN, The Christie shares impact of AVT on patient experience</a></div>
-</div>
-<div class="brief-item brief-action">
-<span class="brief-label">Try this in a workflow</span>
-<p class="brief-text">Pick one type of clinic letter your service sends. Record how many days it currently takes from appointment to letter, and who reads it before it goes out. If you run or plan an ambient voice pilot, measure the same two things before and after, sample 20 letters for edits, and write down what the freed time was used for.</p>
-
-</div>
-</section>
-
-<section id="clinical">
-<h2 class="section-title"><span class="cat-tag clinical">4</span> Clinical AI</h2>
-<p class="section-subtitle">The regulator describes its move from strategy to practice, a UK research partnership shows what trusts can build together, and one deadline falls this week.</p>
-<div class="brief-item">
-<span class="brief-label">Headline AI development</span>
-<p class="brief-text">On 20 October the MHRA's Deputy Director for AI and Software was due to speak to US industry leaders at the AdvaMed 2026 conference, and the MHRA published its outline on 19 October. The release says the MHRA will set out its developing approach to software and AI enabled medical devices, including more flexible lifecycle regulation, regulatory sandboxes and closer international collaboration. It follows the MHRA 2030 Strategy, which we covered last week. The release quotes the Deputy Director: “In the UK we are moving from policy into practice, using initiatives like AI Airlock to build a more proportionate, lifecycle-based approach.” It also names new regional partnerships with NHS London and Manchester University NHS Foundation Trust to test technologies in real health settings and generate evidence for future regulation.</p>
-<div class="brief-source">Source: <a href="https://www.gov.uk/government/news/uk-regulator-brings-new-ai-and-medtech-agenda-to-advamed" target="_blank" rel="noopener noreferrer">GOV.UK, UK regulator brings new AI and MedTech agenda to AdvaMed</a></div>
-</div>
-<div class="brief-item">
-<span class="brief-label">Healthcare or NHS use case</span>
-<p class="brief-text">PharosAI, a partnership between Queen Mary University of London, King's College London, Barts Health and Guy's and St Thomas', has received Innovate UK funding for a project called DESTINY. On 15 October the university reported that the project will test whether AI can predict molecular information from routinely collected tissue data that would otherwise need costly and time consuming tests, with the longer term aim of building digital twins of human tissue. It will use federated learning, which lets models learn from data held by different organisations without moving the data into one place. The funding supports an initial feasibility study, and successful projects can apply for up to £10 million of further funding.</p>
-<div class="brief-source">Source: <a href="https://www.qmul.ac.uk/news/latest-news/2026/medicine-and-dentistry/fmd/pharosai-awarded-funding-to-explore-ai-digital-twins-of-human-tissue.html" target="_blank" rel="noopener noreferrer">Queen Mary University of London, PharosAI awarded funding to explore AI digital twins of human tissue</a></div>
-</div>
-<div class="brief-item">
-<span class="brief-label">Governance or ethics note</span>
-<p class="brief-text">Two limits apply. DESTINY is a feasibility study with no results yet, and the university says federated learning on complex combinations of biological and medical data is less explored than other approaches. On regulation, the Government's Health Bill amendments on medical devices, which the MHRA announced on 1 September, state that the proposals do not introduce immediate changes to the regulation of medicines or medical devices. The direction is clear. Nothing in the sources we read changes what a deploying organisation must do today.</p>
-<div class="brief-source">Source: <a href="https://www.qmul.ac.uk/news/latest-news/2026/medicine-and-dentistry/fmd/pharosai-awarded-funding-to-explore-ai-digital-twins-of-human-tissue.html" target="_blank" rel="noopener noreferrer">Queen Mary University of London, PharosAI awarded funding to explore AI digital twins of human tissue</a> · <a href="https://www.gov.uk/government/news/mhra-regulatory-reform-amendments-tabled-in-governments-health-bill" target="_blank" rel="noopener noreferrer">GOV.UK, MHRA regulatory reform amendments tabled in Government's Health Bill</a></div>
-</div>
-<div class="brief-item">
-<span class="brief-label">Date to note</span>
-<p class="brief-text">The MHRA's AI Airlock Phase 3 application page says the application window stays open year round. For an application to be considered in the current review wave, the page asks applicants to apply before 31 October, and it says a later shortlisting period will take place in Spring 2027. There is no application or participation fee. The page says candidates are currently expected to fund their own studies and delivery of any Airlock testing. This is a summary for information, not advice on whether to apply.</p>
-<div class="brief-source">Source: <a href="https://www.gov.uk/government/publications/ai-airlock-phase-3-application" target="_blank" rel="noopener noreferrer">GOV.UK, AI Airlock Phase 3 application</a></div>
-</div>
-<div class="brief-item brief-action">
-<span class="brief-label">Try this in a workflow</span>
-<p class="brief-text">Ask each supplier of an AI enabled tool what evidence they will generate after go live and how they will share it with your organisation. Record the answer alongside the supplier's clinical safety documentation, so that the question of who owns monitoring has a named answer before the tool is switched on.</p>
-
-</div>
-</section>
-
-<section id="learning">
-<h2 class="section-title"><span class="cat-tag learning">5</span> Learning &amp; Development</h2>
-<p class="section-subtitle">Two ways to build skills this week: an open clinical AI fellowship that closes on 16 November, and free government guidance that gives care teams a structure for adopting AI.</p>
-
-<div class="program-card">
-<h3>NHS Fellowship in Clinical AI, Cohort 6</h3>
-<p class="desc">A fellowship for health and care professionals who want to learn the safe deployment and evaluation of AI in clinical workflows.</p>
-<div class="program-meta">
-<div><dt>Who it's for</dt><dd>There are two kinds of applicant. Competitive applicants apply for a post already attached to funding, if they meet the eligibility criteria, and salary cover is provided in the funded posts. Nominated applicants are nominated for a post with ringfenced funding and must identify a sponsor or fund their own post.</dd></div>
-<div><dt>How to access</dt><dd>Both routes use the same application form. Every applicant needs an Approval in Principle from their Approver, submitted on a separate form by the same deadline, and applicants will not be interviewed without it. The page also links a recording of the Cohort 6 applicant webinar.</dd></div>
-<div><dt>Cost and time</dt><dd>The course fee is £8,000, met by a sponsor or by the applicant, and fellows must be released at 0.4 FTE for the 12 months of the fellowship. The page says there is no salary cover unless agreed with the sponsor, and that Cohort 5 had 310 eligible applicants for 34 competitively allocated posts.</dd></div>
-<div><dt>What to expect</dt><dd>Shortlisting outcomes and interview invitations go out on 11 December 2026. Remote interviews run between 13 and 29 January 2027, outcomes and project matching follow in February 2027, and Cohort 6 starts on 11 August 2027.</dd></div>
-<div><dt>Deadline</dt><dd>Applications and Approval in Principle forms close at 23:45 GMT on 16 November 2026.</dd></div>
-</div>
-<div class="program-source">Source: <a href="https://www.nhsfellowship.ai/apply/" target="_blank" rel="noopener noreferrer">NHS Fellowship in Clinical AI, apply page</a> (page read on 26 October 2026)</div>
-</div>
-
-<div class="program-card">
-<h3>Using AI in adult social care, DHSC guidance</h3>
-<p class="desc">Free GOV.UK guidance for adult social care providers on where AI is used today, how to decide whether it is the right answer, and how to introduce it with human review.</p>
-<div class="program-meta">
-<div><dt>Who it's for</dt><dd>Adult social care providers and managers in England. NHS teams who work alongside social care partners will find the questions useful for shared pathways.</dd></div>
-<div><dt>How to access</dt><dd>The guidance is free on GOV.UK. It sits in the Digitising adult social care collection, which also holds guidance on digital champions, choosing and managing IT suppliers, and a digital skills framework.</dd></div>
-<div><dt>What it covers</dt><dd>Uses of AI in care planning, monitoring and administration. Best practice on data quality, ethics and data protection, workforce skills and human review, including defining what you hope to achieve before choosing technology, defining the human role, and writing an AI policy.</dd></div>
-<div><dt>Deadline</dt><dd>None. The guidance was published on 29 September 2026.</dd></div>
-</div>
-<div class="program-source">Source: <a href="https://www.gov.uk/guidance/using-ai-in-adult-social-care" target="_blank" rel="noopener noreferrer">GOV.UK, Using AI in adult social care</a> · <a href="https://www.gov.uk/government/collections/digitising-adult-social-care" target="_blank" rel="noopener noreferrer">GOV.UK, Digitising adult social care</a></div>
-</div>
-
-<p style="text-align:center;margin-top:1rem"><a href="https://upull.ai/academy.html#tab-learning" class="cta-btn">Explore more free NHS learning on uGrowX →</a></p>
-</section>
-
+<!-- FROM UPULL.AI -->
 <section style="border-bottom:none">
 <div class="from-upull">
 <h2>From uPull.ai</h2>
-<p>This week's stories each return time or clarity to someone. At one trust a clinic letter reached the patient before they left the room. A care plan may be drafted faster, and a member of staff reviews it. A regulator describes how it will test AI in real settings. The NCSC asks where autonomy adds value and where human judgement must stay. In every case the benefit depends on a named person who decides what the saved time is for, checks that the output is right and notices when it is not. Building that capability inside NHS teams, so they can run, monitor and improve their own AI workflows, is what uPull.ai exists to do.</p>
-<p><strong>A question for your next team meeting: </strong>If an AI tool gives your team back 30 minutes a day, who decides where it goes, and how would you know it went there? We would like to hear your answer.</p>
-<a href="mailto:teams@upull.ai" class="cta-btn">Tell us your answer →</a>
+<p>The pattern across every issue is consistent: deployment moves fast, governance has to catch up. Helping NHS teams deploy AI with evidence, accountability and auditability built in from day one is what uPull.ai does.</p>
+<a href="mailto:teams@upull.ai" class="cta-btn">Get in touch →</a>
 </div>
-</section>
-
-<section id="archive">
-<h2 class="section-title" style="font-size:1.4rem"><span class="cat-tag" style="background:var(--navy)">A</span> Archive</h2>
-<p class="section-subtitle">Every issue of uPull.ai Weekly, newest first.</p>
-<div class="archive-grid">
-<a class="archive-card" href="weekly20261027.html"><span class="archive-badge">27 October to 2 November 2026 · Current issue</span><h3>Time Back Needs an Owner</h3><p>The Christie reports same day clinic letters from ambient voice technology, DHSC guidance says AI care planning may free care staff time with a person reviewing every plan, the NCSC sets out research questions on human and AI collaboration, and the MHRA says it is moving from policy into practice.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20261020.html"><span class="archive-badge">20 to 26 October 2026</span><h3>Authority Has to Be Earned</h3><p>The MHRA's Strategy 2030 promises an adaptive framework for AI devices, the AMA sets four questions for clinical AI agents, Guy's and St Thomas' performs the UK's first Force Feedback operation, and an ambulance service tests AI note-taking.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20261013.html"><span class="archive-badge">13 to 19 October 2026</span><h3>The Rulebook Gets a Timetable</h3><p>The government accepts all 44 recommendations on regulating healthcare AI and sets dates, the MHRA opens AI Airlock Phase 3, Berkshire Healthcare's ambient voice tender reaches its deadlines, and two early stage companies show where agents and rehabilitation robotics begin.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20261006.html"><span class="archive-badge">6 to 12 October 2026</span><h3>The Rollout Runs Ahead of the Plan</h3><p>The NCSC on why defenders cannot use AI agents as attackers do, a Kent trust's fast robotic surgery adoption, an ambient voice rollout reaching more than 2,000 clinicians, and NHS England's board on the missing single vision for AI.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260929.html"><span class="archive-badge">29 September to 5 October 2026</span><h3>From Principles to Procedure</h3><p>A named sign off chain for robotic surgery purchases, the National Commission's full regulatory blueprint, an ambient AI pilot's patient and staff figures, and an ambulance trust's own automated dispatch metrics.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260922.html"><span class="archive-badge">22 to 28 September 2026</span><h3>The Focus Shifts From the Tool, to the People Using It</h3><p>Regulators agree joint AI principles for professionals, a national consensus on robotic surgery training, what AI scribes change in the consultation, and equity evidence in AI procurement.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260915.html"><span class="archive-badge">15 to 21 September 2026</span><h3>The Efficiency Case Builds, the Trust Case Wobbles</h3><p>A national staged approval framework for AI regulation, a 104 theatre surgical AI evaluation, what ambient scribes miss, and the trust cost behind an NHS data opt out surge.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260908.html"><span class="archive-badge">8 to 14 September 2026</span><h3>New Firsts Arrive, Old Gaps Remain</h3><p>Barts Health's first NHS lung cancer operation on da Vinci 5, a £5m Cancer Innovation Programme, a still unaccredited halted AI scribe, and complaints teams fielding hallucinated AI drafted letters.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260901.html"><span class="archive-badge">1 to 7 September 2026</span><h3>The Pilot Era Ends, the Assurance Case Begins</h3><p>Copilot resilience, a five year robotics partnership, a two trust ambient voice rollout and chest X ray AI inside the reporting queue.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260825.html"><span class="archive-badge">25 to 31 August 2026</span><h3>Scale Arrives, So Does the Caution</h3><p>NCSC agentic AI guidance, Oxford's 5,000 robotic surgery cases, CLEARvalidate and a narrow medication safety tool.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260818.html"><span class="archive-badge">18 to 24 August 2026</span><h3>The Rollout Gets Its First Safety Investigation</h3><p>HSSIB opens a national AVT investigation while staged deployment, robotics training and regulatory sandboxing put assurance into practice.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260811.html"><span class="archive-badge">11 to 17 August 2026</span><h3>The Habit Has Outpaced the Guidance</h3><p>NHS AI use becomes routine while predictive tools, robotics training and ambient scribing move ahead of formal guidance.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260804.html"><span class="archive-badge">4 to 10 August 2026</span><h3>The Copilot Wave Meets the Accountability Gap</h3><p>National Copilot distribution, an MHRA sandbox and the regulatory line for ambient scribes.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260728.html"><span class="archive-badge">28 July to 3 August 2026</span><h3>The Evidence Arrives, the Funding Doesn't</h3><p>Histopathology evidence, a major ambient rollout and the funding challenge behind robotics ambition.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260721.html"><span class="archive-badge">21 to 27 July 2026</span><h3>Regulation Catches Up with Rollout</h3><p>MHRA draws the AVT regulatory line as NHS App triage and Copilot adoption expand.</p><span class="archive-link">Read the issue →</span></a>
-<a class="archive-card" href="weekly20260714.html"><span class="archive-badge">14 to 20 July 2026</span><h3>Deploying Safely in a Real Institution</h3><p>Agentic, robotics, ambient and clinical AI viewed through real institutional deployment.</p><span class="archive-link">Read the issue →</span></a>
-</div>
-</section>
-
-<section style="border-bottom:none">
-<h2 class="section-title" style="font-size:1.4rem">Further reading</h2>
-<p class="section-subtitle">The original reporting, guidance and organiser pages behind this edition.</p>
-<ul class="reading-list">
-<li><a href="https://www.ncsc.gov.uk/blogs/introducing-new-ai-chapter-ncsc-research-problem-book" target="_blank" rel="noopener noreferrer">NCSC, Introducing a new AI chapter in the NCSC research problem book</a><p>The NCSC announcement of the new AI chapter in its research problem book, published 20 October 2026.</p></li>
-<li><a href="https://www.gov.uk/guidance/using-ai-in-adult-social-care" target="_blank" rel="noopener noreferrer">GOV.UK, Using AI in adult social care</a><p>DHSC guidance for adult social care providers, published 29 September 2026.</p></li>
-<li><a href="https://htn.co.uk/2026/10/21/dhsc-guidance-on-digitising-adult-social-care-managing-it-suppliers-using-ai/" target="_blank" rel="noopener noreferrer">HTN, DHSC guidance on digitising adult social care, managing IT suppliers, using AI</a><p>HTN's report on the DHSC guidance collection, published 21 October 2026.</p></li>
-<li><a href="https://www.gov.uk/government/collections/digitising-adult-social-care" target="_blank" rel="noopener noreferrer">GOV.UK, Digitising adult social care</a><p>The collection holding the AI, digital champions, supplier and digital skills guidance.</p></li>
-<li><a href="https://www.christie.nhs.uk/about-us/news-at-the-christie/latest-news-stories/disley-patient-benefits-from-faster-clinical-review-letter-thanks-to-new-technology" target="_blank" rel="noopener noreferrer">The Christie NHS Foundation Trust, Disley patient benefits from faster clinical review letter thanks to new technology</a><p>The trust's account of same day clinic letters at its Macclesfield site.</p></li>
-<li><a href="https://htn.co.uk/2026/10/20/the-christie-shares-impact-of-avt-on-patient-experience/" target="_blank" rel="noopener noreferrer">HTN, The Christie shares impact of AVT on patient experience</a><p>HTN's report on the trust's ambient voice technology programme, published 20 October 2026.</p></li>
-<li><a href="https://www.gov.uk/government/news/uk-regulator-brings-new-ai-and-medtech-agenda-to-advamed" target="_blank" rel="noopener noreferrer">GOV.UK, UK regulator brings new AI and MedTech agenda to AdvaMed</a><p>The MHRA outline of its AI and MedTech agenda, published 19 October 2026.</p></li>
-<li><a href="https://www.gov.uk/government/publications/ai-airlock-phase-3-application" target="_blank" rel="noopener noreferrer">GOV.UK, AI Airlock Phase 3 application</a><p>Application window, review wave and funding terms for AI Airlock Phase 3, published 6 October 2026.</p></li>
-<li><a href="https://www.gov.uk/government/news/mhra-regulatory-reform-amendments-tabled-in-governments-health-bill" target="_blank" rel="noopener noreferrer">GOV.UK, MHRA regulatory reform amendments tabled in Government's Health Bill</a><p>The three medical device and medicines amendments tabled in the Health Bill, published 1 September 2026.</p></li>
-<li><a href="https://www.qmul.ac.uk/news/latest-news/2026/medicine-and-dentistry/fmd/pharosai-awarded-funding-to-explore-ai-digital-twins-of-human-tissue.html" target="_blank" rel="noopener noreferrer">Queen Mary University of London, PharosAI awarded funding to explore AI digital twins of human tissue</a><p>The DESTINY project funding announcement, published 15 October 2026.</p></li>
-<li><a href="https://www.nhsfellowship.ai/apply/" target="_blank" rel="noopener noreferrer">NHS Fellowship in Clinical AI, apply page</a><p>Cohort 6 routes, dates and deadline, read on 26 October 2026.</p></li>
-</ul>
 </section>
 
 </main>
 
 <footer>
 <p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> Weekly · Curated AI news for health and care teams</p>
-<p style="margin-top:.6rem"><a href="https://upull.ai/news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
+<p style="margin-top:.6rem"><a href="news.html" class="footer-subscribe">Subscribe to our newsletter →</a></p>
 <p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. All rights reserved. Summaries are editorial and link back to original sources where cited; they do not constitute clinical or regulatory advice.</p>
 </footer>
 
@@ -452,10 +748,24 @@ const isOpen = menu.classList.toggle('mobile-open');
 toggle.classList.toggle('active', isOpen);
 toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
-function shareOnLinkedIn() {
-const url = encodeURIComponent(window.location.href);
-window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url, '_blank', 'width=600,height=600');
+
+/* Previous issues accordion — opening one closes the others */
+window.toggleAccordion = function (tabBtn) {
+const item = tabBtn.closest('.accordion-item');
+const allItems = document.querySelectorAll('.issue-accordion .accordion-item');
+const wasOpen = item.classList.contains('open');
+
+allItems.forEach(i => {
+i.classList.remove('open');
+i.querySelector('.accordion-panel').style.maxHeight = null;
+});
+
+if (!wasOpen) {
+item.classList.add('open');
+const panel = item.querySelector('.accordion-panel');
+panel.style.maxHeight = panel.scrollHeight + 'px';
 }
+};
 </script>
 </body>
 </html>
