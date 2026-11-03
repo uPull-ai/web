@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test forum.test.mjs",
+    "test:rules": "node rules.test.cjs ../firestore.rules"
+  },
+  "devDependencies": {
+    "happy-dom": "^21.0.4",
+    "firebase-tools": "15.30.2"
+  }
+}

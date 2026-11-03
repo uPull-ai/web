@@ -673,7 +673,7 @@
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
     import {
       getFirestore, collection, addDoc, doc, getDoc, updateDoc, deleteDoc, increment, arrayUnion,
-      query, orderBy, onSnapshot, serverTimestamp, where
+      query, orderBy, onSnapshot, serverTimestamp, where, runTransaction
     } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
     import {
       getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
@@ -718,7 +718,7 @@
     window.__firebase = {
       db, auth, googleProvider,
       collection, addDoc, doc, getDoc, updateDoc, deleteDoc, increment, arrayUnion,
-      query, orderBy, onSnapshot, serverTimestamp, where,
+      query, orderBy, onSnapshot, serverTimestamp, where, runTransaction,
       signInWithPopup, signOut, onAuthStateChanged,
       sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
     };
@@ -1706,6 +1706,7 @@
 
     currentUser = user;
     isAdmin = false;
+    resetReplyListeners();
     const signedOutEl = document.getElementById('authSignedOut');
     const signedInEl = document.getElementById('authSignedIn');
     const textarea = document.getElementById('postText');
@@ -1714,7 +1715,7 @@
     if (user) {
       signedOutEl.style.display = 'none';
       signedInEl.style.display = 'flex';
-      document.getElementById('authName').textContent = user.displayName || user.email || 'Community member';
+      document.getElementById('authName').textContent = publicForumName(user.displayName);
       const avatar = document.getElementById('authAvatar');
       if (user.photoURL) { avatar.src = user.photoURL; avatar.style.display = 'inline-block'; }
       else { avatar.style.display = 'none'; }
@@ -1729,7 +1730,9 @@
       const f = fb();
       if (f) {
         f.getDoc(f.doc(f.db, 'admins', user.uid)).then(snap => {
+          if (currentUser?.uid !== user.uid) return;
           isAdmin = snap.exists();
+          resetReplyListeners();
           renderForum(currentFilter);
         }).catch(() => { isAdmin = false; });
       }
@@ -1746,84 +1749,142 @@
     renderForum(currentFilter);
   }
 
-  // Generate Forum View
-  function renderForum(filterCategory = 'all') {
-    const streamContainer = document.getElementById('forum-feed-target');
-    if (!streamContainer) return;
-    streamContainer.innerHTML = '';
-    currentFilter = filterCategory;
-
-    if (livePosts.length === 0) {
-      streamContainer.innerHTML = '<p style="text-align:center; opacity:0.6; padding:2rem;">No posts yet — be the first to share something with the community.</p>';
-      return;
-    }
-
-    livePosts.forEach(post => {
-      if (filterCategory !== 'all' && post.cat !== filterCategory) return;
-      
-      let colorMapping = 'var(--vendor-purple)';
-      if (post.cat === 'clinical') colorMapping = 'var(--clinical)';
-      if (post.cat === 'operational') colorMapping = 'var(--operational)';
-
-      const likeAction = currentUser
-        ? `onclick="likePost('${post.id}')"`
-        : `onclick="alert('Sign in to like a post.')" style="opacity:0.6; cursor:pointer;"`;
-
-      const isOwnerOrAdmin = currentUser && (currentUser.uid === post.uid || isAdmin);
-
-      let moderationBtn = '';
-      if (isOwnerOrAdmin) {
-        moderationBtn = `<span class="action-btn" style="color:#b91c1c;" onclick="deletePost('${post.id}')">Delete</span>`;
-      } else if (currentUser) {
-        const alreadyReported = post.reportedBy.includes(currentUser.uid);
-        moderationBtn = alreadyReported
-          ? `<span class="action-btn" style="opacity:0.6;">Reported</span>`
-          : `<span class="action-btn" style="color:#b45309;" onclick="reportPost('${post.id}')">Report</span>`;
-      } else {
-        moderationBtn = `<span class="action-btn" style="opacity:0.6; cursor:pointer;" onclick="alert('Sign in to report a post.')">Report</span>`;
+  // Treat all stored content as text, including legacy posts and document IDs.
+  function publicForumName(value) {
+    return typeof value === 'string' && value.trim() && !value.includes('@')
+      ? value.trim().slice(0, 80) : 'Community member';
+  }
+  function forumElement(tag, text, className) {
+    const el = document.createElement(tag);
+    if (text != null) el.textContent = String(text);
+    if (className) el.className = className;
+    return el;
+  }
+  function forumButton(text, action) {
+    const button = forumElement('button', text, 'action-btn');
+    button.type = 'button'; button.addEventListener('click', action); return button;
+  }
+  const replyListeners = new Map();
+  const replyCache = new Map();
+  const replyDrafts = new Map();
+  const openThreads = new Set();
+  const likesInFlight = new Set();
+  function resetReplyListeners() {
+    replyListeners.forEach(stops => stops.forEach(stop => stop()));
+    replyListeners.clear(); replyCache.clear();
+  }
+  function listenReplies(id) {
+    if (replyListeners.has(id)) return;
+    const f = fb(), cache = {approved: [], pending: [], error: ''};
+    replyCache.set(id, cache);
+    const statuses = isAdmin ? ['approved', 'pending'] : ['approved'];
+    const stops = statuses.map(status => f.onSnapshot(
+      f.query(f.collection(f.db, 'posts', id, 'replies'), f.where('status', '==', status)),
+      snapshot => {
+        cache[status] = snapshot.docs.map(d => ({...d.data(), id: d.id}));
+        renderThread(id);
+      }, err => { console.error('Replies unavailable:', err); cache.error = 'Replies could not be loaded. Please try again later.'; renderThread(id); }
+    ));
+    replyListeners.set(id, stops);
+  }
+  function renderThread(id) {
+    const host = [...document.querySelectorAll('[data-thread]')].find(el => el.dataset.thread === id);
+    if (!host || !openThreads.has(id)) return;
+    host.replaceChildren();
+    const cache = replyCache.get(id);
+    if (!cache) return;
+    if (cache.error) host.append(forumElement('p', cache.error));
+    const replies = [...cache.approved, ...(isAdmin ? cache.pending : [])];
+    replies.sort((a,b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
+    if (!replies.length) host.append(forumElement('p', 'No approved replies yet.'));
+    replies.forEach(reply => {
+      const item = forumElement('div', null, 'bc-item');
+      item.append(forumElement('b', publicForumName(reply.user)));
+      if (reply.status === 'pending') item.append(forumElement('span', ' · Waiting for approval'));
+      const body = forumElement('p', reply.text, 'bc-body'); item.append(body);
+      if (isAdmin && reply.status === 'pending') {
+        ['approved','rejected'].forEach(status => item.append(forumButton(status === 'approved' ? 'Approve' : 'Reject', async () => {
+          try { const f = fb(); await f.updateDoc(f.doc(f.db, 'posts', id, 'replies', reply.id),
+            {status, reviewedBy: currentUser.uid, reviewedAt: f.serverTimestamp()}); }
+          catch (err) { console.error(err); alert('Could not review this reply.'); }
+        })));
       }
-
-      // Admins get a visible nudge when a post has been flagged, so it's easy to spot for review.
-      const reportBadge = (isAdmin && post.reportCount > 0)
-        ? `<span class="post-badge" style="background:#b91c1c;" title="Reported by ${post.reportCount} member(s)">${post.reportCount} report${post.reportCount === 1 ? '' : 's'}</span>`
-        : '';
-
-      streamContainer.innerHTML += `
-        <article class="forum-post" data-type="${post.cat}">
-          <div class="post-header">
-            <div class="post-user">
-              <div class="user-avatar" style="background: ${colorMapping}; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:1.1rem;">${post.user.charAt(0)}</div>
-              <div class="user-meta">
-                <span class="user-name">${post.user}</span>
-                <span class="user-role">${post.role}</span>
-              </div>
-            </div>
-            <div style="display:flex; gap:0.4rem; align-items:center;">
-              ${reportBadge}
-              <span class="post-badge" style="background: ${colorMapping};">${post.cat}</span>
-            </div>
-          </div>
-          <p style="font-size: 0.95rem; color: var(--text-dark);">${post.text}</p>
-          <div class="post-actions">
-            <span class="action-btn" ${likeAction}><span id="like-count-${post.id}">${post.likes}</span> Likes</span>
-            <span class="action-btn">Reply Thread</span>
-            ${moderationBtn}
-            <span style="margin-left: auto; font-size: 0.8rem; opacity: 0.7;">${post.time}</span>
-          </div>
-        </article>
-      `;
+      host.append(item);
+    });
+    if (!currentUser) { host.append(forumElement('p', 'Sign in above to reply.')); return; }
+    const form = forumElement('form');
+    const input = forumElement('textarea'); input.maxLength = 2000; input.required = true;
+    input.setAttribute('aria-label', 'Write a reply'); input.placeholder = 'Write a reply (held for approval)';
+    input.style.cssText = 'width:100%;min-height:80px'; input.value = replyDrafts.get(id) || '';
+    input.addEventListener('input', () => replyDrafts.set(id, input.value));
+    const button = forumElement('button', 'Send for review', 'bc-btn'); button.type = 'submit';
+    const status = forumElement('p'); status.setAttribute('role','status');
+    form.append(input, button, status);
+    form.addEventListener('submit', async event => {
+      event.preventDefault(); const user = currentUser, text = input.value.trim();
+      if (!user || !text || text.length > 2000) return;
+      button.disabled = true;
+      try {
+        const f = fb(); await f.addDoc(f.collection(f.db, 'posts', id, 'replies'), {
+          uid: user.uid, user: publicForumName(user.displayName), text,
+          status: 'pending', createdAt: f.serverTimestamp()
+        });
+        replyDrafts.delete(id); input.value = ''; status.textContent = 'Your reply has been sent for approval.';
+      } catch (err) { console.error(err); status.textContent = 'Could not send your reply. Please try again.'; }
+      finally { button.disabled = false; }
+    });
+    host.append(form);
+  }
+  function renderForum(filterCategory = 'all') {
+    const stream = document.getElementById('forum-feed-target'); if (!stream) return;
+    stream.replaceChildren(); currentFilter = filterCategory;
+    const posts = livePosts.filter(post => filterCategory === 'all' || post.cat === filterCategory);
+    if (!posts.length) { stream.append(forumElement('p', 'No posts in this category yet.')); return; }
+    posts.forEach(post => {
+      const article = forumElement('article', null, 'forum-post');
+      const category = ['clinical','operational','vendor'].includes(post.cat) ? post.cat : 'community';
+      article.dataset.type = category;
+      const header = forumElement('div', null, 'post-header');
+      const person = forumElement('div', null, 'post-user');
+      const name = publicForumName(post.user);
+      person.append(forumElement('div', name.charAt(0), 'user-avatar'));
+      const meta = forumElement('div', null, 'user-meta');
+      meta.append(forumElement('span', name, 'user-name'), forumElement('span', 'Community Member', 'user-role'));
+      person.append(meta); header.append(person, forumElement('span', category, 'post-badge'));
+      const body = forumElement('p', post.text); body.style.whiteSpace = 'pre-wrap';
+      const actions = forumElement('div', null, 'post-actions');
+      const liked = currentUser && post.likedBy.includes(currentUser.uid);
+      const like = forumButton(`${post.likes} Likes${liked ? ' · Liked' : ''}`, () => likePost(post.id));
+      like.disabled = !!liked || likesInFlight.has(post.id); actions.append(like);
+      actions.append(forumButton('Reply Thread', () => {
+        if (openThreads.has(post.id)) openThreads.delete(post.id); else openThreads.add(post.id);
+        renderForum(currentFilter);
+      }));
+      if (currentUser && (currentUser.uid === post.uid || isAdmin)) actions.append(forumButton('Delete', () => deletePost(post.id)));
+      else actions.append(forumButton(post.reportedBy.includes(currentUser?.uid) ? 'Reported' : 'Report', () => reportPost(post.id)));
+      actions.append(forumElement('span', post.time));
+      article.append(header, body, actions);
+      const thread = forumElement('section'); thread.dataset.thread = post.id;
+      thread.hidden = !openThreads.has(post.id); article.append(thread); stream.append(article);
+      if (openThreads.has(post.id)) { listenReplies(post.id); renderThread(post.id); }
     });
   }
-
-  // Interactive UI adjustments
   function filterForum(category) { renderForum(category); }
-
-  function likePost(id) {
+  async function likePost(id) {
     if (!currentUser) { alert('Sign in to like a post.'); return; }
-    const f = fb();
-    if (!f) return;
-    f.updateDoc(f.doc(f.db, 'posts', id), { likes: f.increment(1) })
-      .catch(err => console.error('Failed to like post:', err));
+    if (likesInFlight.has(id)) return;
+    const f = fb(), uid = currentUser.uid; if (!f) return;
+    likesInFlight.add(id); renderForum(currentFilter);
+    try {
+      await f.runTransaction(f.db, async transaction => {
+        const ref = f.doc(f.db, 'posts', id), snapshot = await transaction.get(ref);
+        if (!snapshot.exists()) throw new Error('Post no longer exists');
+        const data = snapshot.data(), likedBy = Array.isArray(data.likedBy) ? data.likedBy : [];
+        if (likedBy.includes(uid)) return;
+        transaction.update(ref, {likes: (Number.isInteger(data.likes) ? data.likes : 0) + 1, likedBy: [...likedBy, uid]});
+      });
+    } catch (err) { console.error('Failed to like post:', err); alert('Could not save your like. Please try again.'); }
+    finally { likesInFlight.delete(id); renderForum(currentFilter); }
   }
 
   function deletePost(id) {
@@ -1857,13 +1918,6 @@
     const f = fb();
     if (!f) return;
 
-    // Bump the counter on the post itself, so admins can spot flagged posts at a glance...
-    f.updateDoc(f.doc(f.db, 'posts', id), {
-      reportCount: f.increment(1),
-      reportedBy: f.arrayUnion(currentUser.uid)
-    }).catch(err => console.error('Failed to flag post:', err));
-
-    // ...and log a full record for review, since the post itself only stores a running count.
     f.addDoc(f.collection(f.db, 'reports'), {
       postId: id,
       postText: post.text,
@@ -1885,6 +1939,8 @@
     const textValue = document.getElementById('postText').value;
     const selectCategory = document.getElementById('postCategory').value;
     
+    if (textValue.length > 5000) { alert('Please keep posts under 5,000 characters.'); return; }
+    if (!['clinical', 'operational', 'vendor'].includes(selectCategory)) return;
     if (!textValue.trim()) {
       alert('Please write something to share with the community context.');
       return;
@@ -1896,11 +1952,12 @@
 
     f.addDoc(f.collection(f.db, 'posts'), {
       uid: currentUser.uid,
-      user: currentUser.displayName || currentUser.email || 'Community member',
+      user: publicForumName(currentUser.displayName),
       role: 'Community Member',
       cat: selectCategory,
       text: textValue,
       likes: 0,
+      likedBy: [],
       createdAt: f.serverTimestamp()
     }).then(() => {
       document.getElementById('postText').value = '';
@@ -1945,12 +2002,20 @@
           role: data.role,
           cat: data.cat,
           text: data.text,
-          likes: data.likes || 0,
+          likes: Number.isInteger(data.likes) ? data.likes : 0,
+          likedBy: Array.isArray(data.likedBy) ? data.likedBy : [],
           reportCount: data.reportCount || 0,
-          reportedBy: data.reportedBy || [],
+          reportedBy: Array.isArray(data.reportedBy) ? data.reportedBy : [],
           time: timeAgo(data.createdAt ? data.createdAt.toDate() : null)
         };
       });
+      const postIds = new Set(livePosts.map(post => post.id));
+      for (const [id, stops] of replyListeners) {
+        if (!postIds.has(id)) {
+          stops.forEach(stop => stop()); replyListeners.delete(id); replyCache.delete(id);
+          replyDrafts.delete(id); openThreads.delete(id);
+        }
+      }
       renderForum(currentFilter);
     }, err => {
       console.error('Live forum connection failed:', err);
@@ -1968,8 +2033,7 @@
   }
 
   window.onload = function() {
-    document.getElementById('forum-feed-target').innerHTML =
-      '<p style="text-align:center; opacity:0.6; padding:2rem;">Loading live discussion…</p>';
+    // Do not overwrite posts already delivered by the realtime listener.
     handleCommunityDeepLink();
   };
 
@@ -2144,7 +2208,7 @@ document.addEventListener('DOMContentLoaded', function(){
     b.disabled = true; b.textContent = 'Sending…';
     f.addDoc(f.collection(f.db, 'blogComments'), {
       postKey: current(), postTitle: currentTitle().slice(0, 200), uid: user.uid,
-      user: (user.displayName || 'Community member').slice(0, 80), text: text,
+      user: publicForumName(user.displayName), text: text,
       status: 'pending', createdAt: f.serverTimestamp()
     }).then(function(){ t.value = ''; st.textContent = 'Thank you. Your comment has been sent for review and will appear once approved.'; })
       .catch(function(e){ console.error(e); st.textContent = 'Sorry, your comment could not be sent. Please try again.'; })
