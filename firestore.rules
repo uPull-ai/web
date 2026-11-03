@@ -5,60 +5,18 @@ service cloud.firestore {
     function admin() {
       return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
-    function publicName(name) {
-      return name is string && name.size() > 0 && name.size() <= 80 && !name.matches('.*@.*');
-    }
-    function content(data, max) {
-      return signedIn() && data.uid == request.auth.uid && publicName(data.user)
-        && data.text is string && data.text.size() > 0 && data.text.size() <= max
-        && data.createdAt == request.time;
-    }
-    function review() {
-      return admin()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'reviewedAt', 'reviewedBy'])
-        && request.resource.data.status in ['approved', 'rejected']
-        && request.resource.data.reviewedBy == request.auth.uid
-        && request.resource.data.reviewedAt == request.time;
-    }
     match /admins/{uid} {
       allow get: if signedIn() && request.auth.uid == uid;
       allow list, write: if false;
     }
+    // Retired after the account-service migration. Original records are retained
+    // for rollback; public clients must use the authenticated community API.
     match /posts/{postId} {
-      allow read: if true;
-      allow create: if content(request.resource.data, 5000)
-        && request.resource.data.keys().hasOnly(['uid','user','role','cat','text','likes','likedBy','createdAt'])
-        && request.resource.data.role == 'Community Member'
-        && request.resource.data.cat in ['clinical','operational','vendor']
-        && request.resource.data.likes == 0 && request.resource.data.likedBy == [];
-      // The only member update is an atomic, single new like by that account.
-      allow update: if signedIn()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes','likedBy'])
-        && request.resource.data.likedBy is list
-        && !(request.auth.uid in resource.data.get('likedBy', []))
-        && request.resource.data.likedBy.size() == resource.data.get('likedBy', []).size() + 1
-        && request.resource.data.likedBy.toSet() == resource.data.get('likedBy', []).toSet().union([request.auth.uid].toSet())
-        && request.resource.data.likes == resource.data.get('likes', 0) + 1;
-      allow delete: if signedIn() && (request.auth.uid == resource.data.uid || admin());
-      match /replies/{replyId} {
-        allow read: if resource.data.status == 'approved' || admin();
-        allow create: if exists(/databases/$(database)/documents/posts/$(postId))
-          && content(request.resource.data, 2000)
-          && request.resource.data.keys().hasOnly(['uid','user','text','status','createdAt'])
-          && request.resource.data.status == 'pending';
-        allow update: if review();
-        allow delete: if admin();
-      }
+      allow read, write: if false;
+      match /{document=**} { allow read, write: if false; }
     }
     match /blogComments/{commentId} {
-      allow read: if resource.data.status == 'approved' || admin();
-      allow create: if content(request.resource.data, 2000)
-        && request.resource.data.keys().hasOnly(['uid','user','text','postKey','postTitle','status','createdAt'])
-        && request.resource.data.postKey is string && request.resource.data.postKey.size() <= 200
-        && request.resource.data.postTitle is string && request.resource.data.postTitle.size() <= 200
-        && request.resource.data.status == 'pending';
-      allow update: if review();
-      allow delete: if admin();
+      allow read, write: if false;
     }
     // Existing unrelated collection policies retained from the published rules.
     match /vendorPosts/{postId} {
