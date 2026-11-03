@@ -776,9 +776,9 @@
       </div>
     </section>
 
-    <section>
+    <section id="forum">
       <h2 class="section-title">Interactive Forum Feed</h2>
-      <p class="section-subtitle">Real-time collaboration across structural barriers. Log your own experience below.</p>
+      <p class="section-subtitle">Share practical ideas, ask questions and learn with colleagues.</p>
 
       <div class="forum-container">
 
@@ -1523,7 +1523,7 @@
   function handleCommunityDeepLink() {
     const hash = window.location.hash.replace('#', '');
     if (!hash) return;
-    const aliases = { forum: 'view-community', insights: 'view-insights', 'view-insights': 'view-insights' };
+    const aliases = { insights: 'view-insights', 'view-insights': 'view-insights' };
     const targetId = aliases[hash] || hash;
     setTimeout(() => {
       const el = document.getElementById(targetId);
