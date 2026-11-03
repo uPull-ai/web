@@ -248,7 +248,7 @@
       gap: 2rem;
     }
     @media (min-width: 900px) {
-      .forum-container { grid-template-columns: 280px 1fr; }
+      .forum-container { grid-template-columns: 1fr; }
     }
     .forum-sidebar {
       background: #ffffff;
@@ -613,6 +613,17 @@
     .blog-sub{color:var(--text-muted);font-size:.92rem;margin:0;max-width:62ch}
     .blog-head-cta{flex-shrink:0}
     .blog-card.blog-later{display:none}
+    .blog-filters{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin:0 0 1.25rem}
+    .blog-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+    .blog-chip{background:#fff;border:1.5px solid var(--border-color);color:var(--text-dark);border-radius:999px;padding:.4rem .9rem;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
+    .blog-chip:hover{border-color:var(--accent-orange)}
+    .blog-chip.active{background:var(--primary-navy);border-color:var(--primary-navy);color:#fff}
+    .blog-chip:focus-visible,.blog-month select:focus-visible{outline:2px solid var(--accent-orange);outline-offset:2px}
+    .blog-month{font-size:.82rem;font-weight:700;color:var(--text-dark);display:flex;align-items:center;gap:.5rem}
+    .blog-month select{font:inherit;font-weight:600;padding:.4rem .6rem;border:1.5px solid var(--border-color);border-radius:6px;background:#fff;color:var(--text-dark)}
+    .blog-count{font-size:.82rem;color:var(--text-muted);margin-left:auto}
+    .blog-empty{color:var(--text-muted);padding:1rem 0}
+    .blog-card.blog-hidden{display:none}
     .blog-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
     @media(min-width:640px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
     @media(min-width:1000px){.blog-grid{grid-template-columns:repeat(3,1fr)}}
@@ -789,16 +800,9 @@
 
     <section>
       <h2 class="section-title">Interactive Forum Feed</h2>
-      <p class="section-subtitle">Real-time collaboration across structural barriers. Filter discussions or log your own experience below.</p>
+      <p class="section-subtitle">Real-time collaboration across structural barriers. Log your own experience below.</p>
 
       <div class="forum-container">
-        <aside class="forum-sidebar">
-          <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">Stream Threads</h3>
-          <div class="forum-menu-item active-menu" onclick="filterForum('all', this)">All Streams</div>
-          <div class="forum-menu-item" onclick="filterForum('clinical', this)">Clinical Tracks</div>
-          <div class="forum-menu-item" onclick="filterForum('operational', this)">Operational Flows</div>
-          <div class="forum-menu-item" onclick="filterForum('vendor', this)">Vendor Applications</div>
-        </aside>
 
         <div style="display: flex; flex-direction: column; width: 100%;">
           <!-- Auth Status Bar -->
@@ -870,8 +874,17 @@
         <a href="news.html" class="cta-btn blog-head-cta">All newsletters &rarr;</a>
       </div>
 
+      <div class="blog-filters" id="blog-filters">
+        <div class="blog-chips" role="group" aria-label="Filter by category">
+          <button type="button" class="blog-chip active" data-cat="all">All categories</button><button type="button" class="blog-chip" data-cat="agentic">Agentic AI</button><button type="button" class="blog-chip" data-cat="robotics">Robotics AI</button><button type="button" class="blog-chip" data-cat="ambient">Ambient AI</button><button type="button" class="blog-chip" data-cat="clinical">Clinical AI</button><button type="button" class="blog-chip" data-cat="learning">Learning &amp; Development</button>
+        </div>
+        <label class="blog-month">Month <select id="blog-month"><option value="all">All months</option><option value="2026-11">November 2026</option><option value="2026-10">October 2026</option><option value="2026-09">September 2026</option><option value="2026-08">August 2026</option><option value="2026-07">July 2026</option></select></label>
+        <span id="blog-count" class="blog-count" aria-live="polite"></span>
+      </div>
+      <p id="blog-empty" class="blog-empty" hidden>No briefings match these filters. Try another month or category.</p>
+
       <div class="blog-grid" id="blog-grid">
-          <a class="blog-card" href="news/weekly20261103.html#agentic">
+          <a class="blog-card" data-cat="agentic" data-month="2026-11" href="news/weekly20261103.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -880,7 +893,7 @@
               <div class="blog-meta"><span>Week of 3–9 November 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261103.html#robotics">
+          <a class="blog-card" data-cat="robotics" data-month="2026-11" href="news/weekly20261103.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -889,7 +902,7 @@
               <div class="blog-meta"><span>Week of 3–9 November 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261103.html#ambient">
+          <a class="blog-card" data-cat="ambient" data-month="2026-11" href="news/weekly20261103.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -898,7 +911,7 @@
               <div class="blog-meta"><span>Week of 3–9 November 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261103.html#clinical">
+          <a class="blog-card" data-cat="clinical" data-month="2026-11" href="news/weekly20261103.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -907,7 +920,7 @@
               <div class="blog-meta"><span>Week of 3–9 November 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261020.html#agentic">
+          <a class="blog-card" data-cat="agentic" data-month="2026-10" href="news/weekly20261020.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -916,7 +929,7 @@
               <div class="blog-meta"><span>Week of 20–26 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261020.html#robotics">
+          <a class="blog-card" data-cat="robotics" data-month="2026-10" href="news/weekly20261020.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -925,7 +938,7 @@
               <div class="blog-meta"><span>Week of 20–26 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261020.html#ambient">
+          <a class="blog-card" data-cat="ambient" data-month="2026-10" href="news/weekly20261020.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -934,7 +947,7 @@
               <div class="blog-meta"><span>Week of 20–26 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261020.html#clinical">
+          <a class="blog-card" data-cat="clinical" data-month="2026-10" href="news/weekly20261020.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -943,7 +956,7 @@
               <div class="blog-meta"><span>Week of 20–26 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card" href="news/weekly20261013.html#agentic">
+          <a class="blog-card" data-cat="agentic" data-month="2026-10" href="news/weekly20261013.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -952,7 +965,7 @@
               <div class="blog-meta"><span>Week of 13–19 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20261013.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-10" href="news/weekly20261013.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -961,7 +974,7 @@
               <div class="blog-meta"><span>Week of 13–19 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20261013.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-10" href="news/weekly20261013.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -970,7 +983,7 @@
               <div class="blog-meta"><span>Week of 13–19 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20261013.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-10" href="news/weekly20261013.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -979,7 +992,7 @@
               <div class="blog-meta"><span>Week of 13–19 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20261006.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-10" href="news/weekly20261006.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -988,7 +1001,7 @@
               <div class="blog-meta"><span>Week of 6–12 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20261006.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-10" href="news/weekly20261006.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -997,7 +1010,7 @@
               <div class="blog-meta"><span>Week of 6–12 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20261006.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-10" href="news/weekly20261006.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1006,7 +1019,7 @@
               <div class="blog-meta"><span>Week of 6–12 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20261006.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-10" href="news/weekly20261006.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1015,7 +1028,7 @@
               <div class="blog-meta"><span>Week of 6–12 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260929.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-09" href="news/weekly20260929.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1024,7 +1037,7 @@
               <div class="blog-meta"><span>Week of 29 September–5 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260929.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-09" href="news/weekly20260929.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1033,7 +1046,7 @@
               <div class="blog-meta"><span>Week of 29 September–5 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260929.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-09" href="news/weekly20260929.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1042,7 +1055,7 @@
               <div class="blog-meta"><span>Week of 29 September–5 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260929.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-09" href="news/weekly20260929.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1051,7 +1064,7 @@
               <div class="blog-meta"><span>Week of 29 September–5 October 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260922.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-09" href="news/weekly20260922.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1060,7 +1073,7 @@
               <div class="blog-meta"><span>Week of 22–28 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260922.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-09" href="news/weekly20260922.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1069,7 +1082,7 @@
               <div class="blog-meta"><span>Week of 22–28 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260922.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-09" href="news/weekly20260922.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1078,7 +1091,7 @@
               <div class="blog-meta"><span>Week of 22–28 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260922.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-09" href="news/weekly20260922.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1087,7 +1100,7 @@
               <div class="blog-meta"><span>Week of 22–28 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260915.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-09" href="news/weekly20260915.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1096,7 +1109,7 @@
               <div class="blog-meta"><span>Week of 15–21 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260915.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-09" href="news/weekly20260915.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1105,7 +1118,7 @@
               <div class="blog-meta"><span>Week of 15–21 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260915.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-09" href="news/weekly20260915.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1114,7 +1127,7 @@
               <div class="blog-meta"><span>Week of 15–21 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260915.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-09" href="news/weekly20260915.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1123,7 +1136,7 @@
               <div class="blog-meta"><span>Week of 15–21 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260908.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-09" href="news/weekly20260908.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1132,7 +1145,7 @@
               <div class="blog-meta"><span>Week of 8–14 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260908.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-09" href="news/weekly20260908.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1141,7 +1154,7 @@
               <div class="blog-meta"><span>Week of 8–14 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260908.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-09" href="news/weekly20260908.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1150,7 +1163,7 @@
               <div class="blog-meta"><span>Week of 8–14 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260908.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-09" href="news/weekly20260908.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1159,7 +1172,7 @@
               <div class="blog-meta"><span>Week of 8–14 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260901.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-09" href="news/weekly20260901.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1168,7 +1181,7 @@
               <div class="blog-meta"><span>Week of 1–7 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260901.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-09" href="news/weekly20260901.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1177,7 +1190,7 @@
               <div class="blog-meta"><span>Week of 1–7 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260901.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-09" href="news/weekly20260901.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1186,7 +1199,7 @@
               <div class="blog-meta"><span>Week of 1–7 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260901.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-09" href="news/weekly20260901.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1195,7 +1208,7 @@
               <div class="blog-meta"><span>Week of 1–7 September 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260825.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-08" href="news/weekly20260825.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1204,7 +1217,7 @@
               <div class="blog-meta"><span>Week of 25–31 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260825.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-08" href="news/weekly20260825.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1213,7 +1226,7 @@
               <div class="blog-meta"><span>Week of 25–31 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260825.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-08" href="news/weekly20260825.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1222,7 +1235,7 @@
               <div class="blog-meta"><span>Week of 25–31 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260825.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-08" href="news/weekly20260825.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1231,7 +1244,7 @@
               <div class="blog-meta"><span>Week of 25–31 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260818.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-08" href="news/weekly20260818.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1240,7 +1253,7 @@
               <div class="blog-meta"><span>Week of 18–24 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260818.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-08" href="news/weekly20260818.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1249,7 +1262,7 @@
               <div class="blog-meta"><span>Week of 18–24 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260818.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-08" href="news/weekly20260818.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1258,7 +1271,7 @@
               <div class="blog-meta"><span>Week of 18–24 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260818.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-08" href="news/weekly20260818.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1267,7 +1280,7 @@
               <div class="blog-meta"><span>Week of 18–24 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260811.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-08" href="news/weekly20260811.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1276,7 +1289,7 @@
               <div class="blog-meta"><span>Week of 11–17 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260811.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-08" href="news/weekly20260811.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1285,7 +1298,7 @@
               <div class="blog-meta"><span>Week of 11–17 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260811.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-08" href="news/weekly20260811.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1294,7 +1307,7 @@
               <div class="blog-meta"><span>Week of 11–17 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260811.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-08" href="news/weekly20260811.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1303,7 +1316,7 @@
               <div class="blog-meta"><span>Week of 11–17 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260804.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-08" href="news/weekly20260804.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1312,7 +1325,7 @@
               <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260804.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-08" href="news/weekly20260804.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1321,7 +1334,7 @@
               <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260804.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-08" href="news/weekly20260804.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1330,7 +1343,7 @@
               <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260804.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-08" href="news/weekly20260804.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1339,7 +1352,7 @@
               <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260804.html#learning">
+          <a class="blog-card blog-later" data-cat="learning" data-month="2026-08" href="news/weekly20260804.html#learning">
             <span class="blog-accent" style="background:#78BE20"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
@@ -1348,7 +1361,7 @@
               <div class="blog-meta"><span>Week of 4–10 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260728.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-07" href="news/weekly20260728.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1357,7 +1370,7 @@
               <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260728.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-07" href="news/weekly20260728.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1366,7 +1379,7 @@
               <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260728.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-07" href="news/weekly20260728.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1375,7 +1388,7 @@
               <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260728.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-07" href="news/weekly20260728.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1384,7 +1397,7 @@
               <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260728.html#learning">
+          <a class="blog-card blog-later" data-cat="learning" data-month="2026-07" href="news/weekly20260728.html#learning">
             <span class="blog-accent" style="background:#78BE20"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
@@ -1393,7 +1406,7 @@
               <div class="blog-meta"><span>Week of 28 July–3 August 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260721.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-07" href="news/weekly20260721.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1402,7 +1415,7 @@
               <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260721.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-07" href="news/weekly20260721.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1411,7 +1424,7 @@
               <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260721.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-07" href="news/weekly20260721.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1420,7 +1433,7 @@
               <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260721.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-07" href="news/weekly20260721.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1429,7 +1442,7 @@
               <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260721.html#learning">
+          <a class="blog-card blog-later" data-cat="learning" data-month="2026-07" href="news/weekly20260721.html#learning">
             <span class="blog-accent" style="background:#78BE20"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
@@ -1438,7 +1451,7 @@
               <div class="blog-meta"><span>Week of 21–27 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260714.html#agentic">
+          <a class="blog-card blog-later" data-cat="agentic" data-month="2026-07" href="news/weekly20260714.html#agentic">
             <span class="blog-accent" style="background:#AE2573"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#AE2573">Agentic AI</span>
@@ -1447,7 +1460,7 @@
               <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260714.html#robotics">
+          <a class="blog-card blog-later" data-cat="robotics" data-month="2026-07" href="news/weekly20260714.html#robotics">
             <span class="blog-accent" style="background:#DA291C"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#DA291C">Robotics AI</span>
@@ -1456,7 +1469,7 @@
               <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260714.html#ambient">
+          <a class="blog-card blog-later" data-cat="ambient" data-month="2026-07" href="news/weekly20260714.html#ambient">
             <span class="blog-accent" style="background:#41B6E6"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#41B6E6">Ambient AI</span>
@@ -1465,7 +1478,7 @@
               <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260714.html#clinical">
+          <a class="blog-card blog-later" data-cat="clinical" data-month="2026-07" href="news/weekly20260714.html#clinical">
             <span class="blog-accent" style="background:#00A499"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#00A499">Clinical AI</span>
@@ -1474,7 +1487,7 @@
               <div class="blog-meta"><span>Week of 14–20 July 2026</span><span class="blog-read">Read the briefing &rarr;</span></div>
             </div>
           </a>
-          <a class="blog-card blog-later" href="news/weekly20260714.html#learning">
+          <a class="blog-card blog-later" data-cat="learning" data-month="2026-07" href="news/weekly20260714.html#learning">
             <span class="blog-accent" style="background:#78BE20"></span>
             <div class="blog-body">
               <span class="blog-cat" style="color:#78BE20">Learning &amp; Development</span>
@@ -1750,11 +1763,7 @@
   }
 
   // Interactive UI adjustments
-  function filterForum(category, element) {
-    document.querySelectorAll('.forum-menu-item').forEach(item => item.classList.remove('active-menu'));
-    element.classList.add('active-menu');
-    renderForum(category);
-  }
+  function filterForum(category) { renderForum(category); }
 
   function likePost(id) {
     if (!currentUser) { alert('Sign in to like a post.'); return; }
@@ -1842,8 +1851,6 @@
       createdAt: f.serverTimestamp()
     }).then(() => {
       document.getElementById('postText').value = '';
-      document.querySelectorAll('.forum-menu-item').forEach(item => item.classList.remove('active-menu'));
-      document.querySelectorAll('.forum-menu-item')[0].classList.add('active-menu');
       currentFilter = 'all';
     }).catch(err => {
       console.error('Failed to submit post:', err);
@@ -1978,10 +1985,42 @@ function showMoreBlogs(){
   document.querySelectorAll('#blog-grid .blog-later').forEach(function(c){ c.classList.remove('blog-later'); });
   var btn = document.getElementById('blog-more');
   if(btn) btn.style.display = 'none';
+  applyBlogFilters();
+}
+function applyBlogFilters(){
+  var chip = document.querySelector('.blog-chip.active');
+  var cat = chip ? chip.getAttribute('data-cat') : 'all';
+  var sel = document.getElementById('blog-month');
+  var month = sel ? sel.value : 'all';
+  var filtering = cat !== 'all' || month !== 'all';
+  var shown = 0, cards = document.querySelectorAll('#blog-grid .blog-card');
+  cards.forEach(function(c){
+    var ok = (cat === 'all' || c.getAttribute('data-cat') === cat) && (month === 'all' || c.getAttribute('data-month') === month);
+    c.classList.toggle('blog-hidden', !ok);
+    if(ok) shown++;
+  });
+  document.querySelectorAll('#blog-grid .blog-later').forEach(function(c){
+    if(filtering) c.style.display = c.classList.contains('blog-hidden') ? 'none' : 'flex';
+    else c.style.display = '';
+  });
+  if(filtering) shown = document.querySelectorAll('#blog-grid .blog-card:not(.blog-hidden)').length;
+  else shown = document.querySelectorAll('#blog-grid .blog-card:not(.blog-later)').length;
+  var btn = document.getElementById('blog-more');
+  if(btn) btn.style.display = (filtering || !document.querySelector('#blog-grid .blog-later')) ? 'none' : '';
+  var empty = document.getElementById('blog-empty'); if(empty) empty.hidden = !(filtering && shown === 0);
+  var cnt = document.getElementById('blog-count');
+  if(cnt) cnt.textContent = filtering ? (shown + (shown === 1 ? ' briefing' : ' briefings')) : '';
 }
 document.addEventListener('DOMContentLoaded', function(){
   var btn = document.getElementById('blog-more');
   if(btn && !document.querySelector('#blog-grid .blog-later')) btn.style.display = 'none';
+  document.querySelectorAll('.blog-chip').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.blog-chip').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active'); applyBlogFilters();
+    });
+  });
+  var sel = document.getElementById('blog-month'); if(sel) sel.addEventListener('change', applyBlogFilters);
 });
 </script>
 </body>
