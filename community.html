@@ -654,6 +654,35 @@
     .community-account strong { color:var(--primary-navy); font-size:1rem; }
     .community-account p { margin:.3rem 0 0; color:var(--text-muted); font-size:.86rem; }
     .community-account-mark { display:grid; place-items:center; border-radius:50%; width:30px; height:30px; background:var(--primary-navy); color:white; font-weight:800; }
+    .community-publishing { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:1.5rem; align-items:start; }
+    .community-publishing .composer-box { margin-bottom:0; min-width:0; }
+    .community-auth-card { padding:1.5rem; background:#fff; border:1px solid var(--border-color); border-radius:8px; min-width:0; }
+    .community-auth-card h3 { margin:0 0 1rem; color:var(--primary-navy); font-size:1.08rem; }
+    .community-auth-card .community-account { flex-direction:column; align-items:stretch; gap:1rem; }
+    .community-auth-card .cta-btn { display:block; text-align:center; white-space:normal; }
+    .community-signed-in { flex-direction:column; align-items:flex-start; gap:1rem; }
+    .community-signed-in p { font-size:.86rem; color:var(--text-muted); margin:0; }
+    .community-account-person { display:flex; align-items:center; gap:.6rem; font-size:.9rem; font-weight:700; overflow-wrap:anywhere; }
+    .community-signout { background:none; border:0; padding:0; color:var(--text-muted); font:inherit; font-size:.82rem; text-align:left; text-decoration:underline; cursor:pointer; }
+    .composer-label { display:block; margin:.9rem 0 .4rem; font-size:.85rem; font-weight:700; color:var(--primary-navy); }
+    .composer-rules-note { color:var(--text-muted); font-size:.78rem; line-height:1.5; margin:.6rem 0 0; }
+    .community-publishing .composer-footer { gap:.75rem; flex-wrap:wrap; }
+    .posting-rules { margin:.9rem 0; border:1px solid var(--border-color); border-radius:6px; background:#f7f9fc; }
+    .posting-rules summary { padding:.8rem; cursor:pointer; color:var(--primary-navy); font-size:.86rem; font-weight:750; }
+    .posting-rules summary span { display:block; font-size:.75rem; font-weight:400; color:var(--text-muted); margin:.2rem 0 0 1rem; }
+    .posting-rules summary:focus-visible { outline:2px solid var(--nhs-blue); outline-offset:3px; }
+    .posting-rules-body { padding:0 1rem 1rem; font-size:.86rem; line-height:1.65; overflow-wrap:anywhere; }
+    .posting-rules-body ol { padding-left:1.3rem; }
+    .posting-rules-body li { margin:.8rem 0; }
+    .posting-rules-body li > strong { color:var(--primary-navy); }
+    .posting-rules-version { font-size:.76rem; color:var(--text-muted); border-top:1px solid var(--border-color); padding-top:.8rem; margin-bottom:0; }
+    .posting-rules-body a, .post-actions a { color:var(--nhs-blue); text-decoration:underline; }
+    .forum-post { scroll-margin-top:100px; }
+    @media (max-width:760px) {
+      .community-publishing { grid-template-columns:1fr; }
+      .community-auth-card { order:-1; }
+      .community-publishing .composer-box, .community-auth-card { padding:1rem; }
+    }
     .forum-replies { margin-top:1rem; border-top:1px solid var(--border-color); padding-top:1rem; }
     .forum-replies[hidden], [hidden] { display:none !important; }
     .forum-replies textarea { width:100%; min-height:85px; font:inherit; padding:.7rem; border:1px solid var(--border-color); border-radius:6px; }
@@ -783,27 +812,22 @@
       <div class="forum-container">
 
         <div style="display: flex; flex-direction: column; width: 100%;">
-          <!-- Auth Status Bar -->
-          <div id="authBar" style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
-            <div id="authSignedOut" class="community-account">
-              <div><strong>One uPull.ai account. One community.</strong><p>Use your existing Academy or Portal account to post, reply and comment.</p></div>
-              <a class="cta-btn" href="https://academy.upull.ai/community/website-sign-in">Sign in with uPull.ai</a>
-            </div>
-            <div id="authSignedIn" style="display:none; align-items:center; gap:0.7rem; width:100%; justify-content:space-between;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span aria-hidden="true" class="community-account-mark">u</span>
-                <span style="font-size:0.88rem; font-weight:600; color:var(--text-dark);" id="authName"></span>
-              </div>
-              <button style="background:none; border:none; color:var(--text-muted); font-size:0.82rem; cursor:pointer; text-decoration:underline;" onclick="signOutUser()">Sign out of community &amp; Academy</button>
-            </div>
-          </div>
-
-          <p id="community-status" class="bc-status" role="status" aria-live="polite"></p>
+          <div class="community-publishing">
           <!-- Post Composer -->
           <div class="composer-box" id="composer">
-            <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Share an idea</h4>
-            <p class="bc-note" style="margin-bottom:.6rem">Posts are public. Please keep patient details and confidential information out of your message. Replies are reviewed before publication.</p>
-            <textarea class="composer-input" id="postText" rows="3" placeholder="Sign in with your uPull.ai account to share an idea." maxlength="5000" disabled></textarea>
+            <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Share an idea or post your blog</h4>
+            <p class="bc-note" style="margin-bottom:.6rem">Share a practical idea, a short blog or a link to a longer article. Keep it under 5,000 characters and leave out patient details and confidential information.</p>
+            <details class="posting-rules" id="community-posting-rules">
+              <summary>Community posting rules <span>Read before you publish</span></summary>
+              <div class="posting-rules-body">
+                <p><strong>A space for honest discussion and safe learning.</strong> These rules apply to ideas, short blogs, replies and comments. They protect contributors, staff, patients and the organisations discussed.</p>
+                <ol><li><strong>Criticise fairly; do not target people.</strong> Constructive criticism, including negative experiences of uPull.ai, employers, products or services, is welcome. Describe what happened, the context and what could improve. Separate first-hand facts from opinions, explain the basis for your view and link to reliable public sources where appropriate. Do not present rumours, speculation or unverified allegations as established facts. Do not use this forum to accuse an identifiable person of misconduct; use an appropriate confidential reporting route.</li><li><strong>Protect patients, colleagues and confidential information.</strong> Do not publish patient or service-user information, personal contact details, private correspondence, internal records, screenshots, security details or confidential business material. Removing a name may not prevent identification: roles, locations, dates and unusual circumstances can identify someone. Use a genuinely fictional or general example instead. Follow your professional duties and your employer’s confidentiality and social-media policies.</li><li><strong>Treat every contributor with respect.</strong> No harassment, bullying, threats, discriminatory abuse, personal insults, intimidation or attempts to expose someone’s identity or private details. Challenge the idea, evidence or process. Do not organise pile-ons or retaliate against someone for raising a concern in good faith.</li><li><strong>Be clear about whose views you are sharing.</strong> Post in your own capacity unless you are authorised to represent an organisation. Do not imply that uPull.ai, the NHS, your employer or a colleague endorses your contribution. Declare relevant employment, supplier, commercial or other interests. Do not impersonate anyone or post disguised advertising or spam.</li><li><strong>Share responsibly, including blogs and AI-assisted content.</strong> Only share work you created or have permission to publish, and credit sources. Contributions remain their authors’ work. Check quotations, links and factual claims, including anything produced with AI. Do not invent evidence or references. Community discussion is not individual clinical, legal or employment advice and must not replace approved care or workplace procedures.</li><li><strong>Use the right route for urgent concerns and protected reporting.</strong> This public forum is not an emergency, patient-safety incident, grievance or confidential whistleblowing channel. Use your organisation’s appropriate reporting process, Freedom to Speak Up route, relevant regulator or emergency service as appropriate; seek advice from your union or an independent adviser if needed. Nothing in these rules is intended to prevent lawful reporting or a protected disclosure. Do not assume a public post has the same protections as reporting through an appropriate channel.</li><li><strong>Understand publication and moderation.</strong> Posts appear immediately. Replies and blog comments are held for approval. uPull.ai may remove or withhold material that breaches these rules, request corrected wording, or refer serious concerns through appropriate channels. A post will not be removed solely because it is critical of uPull.ai. Moderation does not mean that uPull.ai has verified or endorsed a contribution. Authors remain responsible for what they submit; please correct mistakes promptly. Decisions can be queried through the contact below.</li><li><strong>Report harmful content privately.</strong> Use the Report button on a post, or email <a href="mailto:support@upull.ai?subject=Community%20content%20concern">support@upull.ai</a>. For a privacy, harassment or reputational complaint, include the page or post link, the exact wording, why you believe it is inaccurate or harmful, and how we can contact you. Use the date link beneath a post to copy its location. Do not include patient records or repeat the disputed allegation publicly. The forum is not monitored continuously; use an appropriate urgent reporting route when immediate action is needed.</li></ol>
+                <p class="posting-rules-version">Updated 4 November 2026 · Please read alongside our <a href="terms.html">Terms of Use</a> and <a href="privacy.html">Privacy Notice</a>.</p>
+              </div>
+            </details>
+            <label for="postText" class="composer-label">Your idea or blog</label>
+            <textarea class="composer-input" id="postText" rows="6" placeholder="Sign in with your uPull.ai account to share an idea or blog." maxlength="5000" disabled></textarea>
+            <p class="composer-rules-note">Posts appear immediately and are subject to the posting rules. Replies and blog comments wait for approval.</p>
             <div class="composer-footer">
               <select id="postCategory" style="padding: 0.4rem; border-radius: 4px; border: 1px solid var(--border-color); font-weight: 600;">
                 <option value="clinical">Clinical Track</option>
@@ -813,6 +837,25 @@
               <button class="cta-btn" id="postSubmitBtn" onclick="submitPost()" disabled>Sign in to post</button>
             </div>
           </div>
+
+          <aside id="authBar" class="community-auth-card" aria-label="Your uPull.ai account">
+            <h3>Join the conversation</h3>
+            <div id="authSignedOut" class="community-account">
+              <div><strong>One uPull.ai account.</strong><p>Use your existing Academy or Portal account to post, reply and comment.</p></div>
+              <a class="cta-btn" href="https://academy.upull.ai/community/website-sign-in">Sign in with uPull.ai</a>
+              <p>Your display name appears with your contribution. Your account email is not shown as your author name.</p>
+            </div>
+            <div id="authSignedIn" class="community-signed-in" style="display:none">
+              <div class="community-account-person">
+                <span aria-hidden="true" class="community-account-mark">u</span>
+                <span id="authName"></span>
+              </div>
+              <p>You’re ready to share. Please read the community posting rules before publishing.</p>
+              <button class="community-signout" onclick="signOutUser()">Sign out of community &amp; Academy</button>
+            </div>
+          </aside>
+          </div>
+          <p id="community-status" class="bc-status" role="status" aria-live="polite"></p>
 
           <!-- Dynamic Forum Posts Container -->
           <div class="forum-feed" id="forum-feed-target"><p>Loading community discussions…</p></div>
@@ -1496,7 +1539,7 @@
           <label for="bc-text" class="bc-note" style="display:block;margin-bottom:.35rem">Your comment (up to 2,000 characters)</label>
           <textarea id="bc-text" class="bc-text" maxlength="2000"></textarea>
           <div class="bc-foot">
-            <span class="bc-note">Please do not include patient details or other personal information. Your display name is shown with your comment.</span>
+            <span class="bc-note">Please do not include patient details or other personal information. Your display name is shown with your comment. The <a href="#community-posting-rules">community posting rules</a> apply to comments too.</span>
             <button class="cta-btn" id="bc-submit" onclick="bcSubmit()">Send for review</button>
           </div>
         </div>

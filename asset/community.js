@@ -4,7 +4,7 @@
   const API = 'https://academy.upull.ai/api/website-community/';
   let user = null, posts = [], filter = 'all', postOffset = 0, loading = false;
   const threads = new Set(), drafts = new Map(), inFlight = new Set();
-  let pending = [], reports = [];
+  let pending = [], reports = [], linkedPostShown = false;
   const byId = id => document.getElementById(id);
   function element(tag, text, className) {
     const node = document.createElement(tag);
@@ -38,6 +38,7 @@
     byId('authSignedIn').style.display = user ? 'flex' : 'none';
     byId('authName').textContent = user ? name(user.displayName) : '';
     byId('postText').disabled = !user;
+    byId('postText').placeholder = user ? 'Write your idea, short blog or a link to a longer article…' : 'Sign in with your uPull.ai account to share an idea or blog.';
     byId('postSubmitBtn').disabled = !user;
     byId('postSubmitBtn').textContent = user ? 'Publish post' : 'Sign in to post';
     byId('bc-signedout').style.display = user ? 'none' : 'flex';
@@ -88,6 +89,7 @@
     if (!posts.length) host.append(element('p', 'No posts in this category yet. Share the first idea.', 'bc-note'));
     posts.forEach(post => {
       const card = element('article', null, 'forum-post');
+      card.id = 'community-post-' + post.id;
       const category = ['clinical','operational','vendor'].includes(post.cat) ? post.cat : 'community'; card.dataset.type = category;
       const header = element('div', null, 'post-header'), person = element('div', null, 'post-user'), meta = element('div', null, 'user-meta');
       const displayName = name(post.user);
@@ -118,10 +120,16 @@
           catch (err) { status(err.message); report.disabled = false; }
         }, 'action-btn'); report.disabled = !!post.reported; actions.append(report);
       }
-      actions.append(element('span', when(post.createdAt)));
+      const permalink = element('a', when(post.createdAt));
+      permalink.href = '#community-post-' + encodeURIComponent(post.id); permalink.title = 'Link to this post';
+      actions.append(permalink);
       card.append(header, text, actions, replyHost); host.append(card);
       if (threads.has(post.id)) showReplies(post.id, replyHost);
     });
+    if (!linkedPostShown && window.location.hash.startsWith('#community-post-')) {
+      const linkedPost = document.getElementById(window.location.hash.slice(1));
+      if (linkedPost) { linkedPostShown = true; linkedPost.scrollIntoView({block: 'start'}); }
+    }
   }
   async function loadPosts(append = false) {
     const category = filter === 'all' ? '' : `&category=${encodeURIComponent(filter)}`;
