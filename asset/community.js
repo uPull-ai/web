@@ -40,9 +40,10 @@
     byId('postText').disabled = !user;
     byId('postText').placeholder = user ? 'Write your idea, short blog or a link to a longer article…' : 'Sign in with your uPull.ai account to share an idea or blog.';
     byId('postSubmitBtn').disabled = !user;
-    byId('postSubmitBtn').textContent = user ? 'Publish post' : 'Sign in to post';
-    byId('bc-signedout').style.display = user ? 'none' : 'flex';
-    byId('bc-composer').style.display = user ? 'block' : 'none';
+    byId('postSubmitBtn').hidden = !user;
+    byId('postSubmitBtn').textContent = 'Publish post';
+    if (byId('bc-signedout')) byId('bc-signedout').style.display = user ? 'none' : 'flex';
+    if (byId('bc-composer')) byId('bc-composer').style.display = user ? 'block' : 'none';
     byId('community-moderation').hidden = !user?.isAdmin;
     if (!user?.isAdmin) { pending = []; reports = []; byId('community-pending').replaceChildren(); byId('community-reports').replaceChildren(); }
   }
@@ -143,7 +144,7 @@
   };
   window.submitPost = async () => {
     if (!user) { status('Sign in with your uPull.ai account to post.'); return; }
-    const text = byId('postText').value.trim(), category = byId('postCategory').value;
+    const text = byId('postText').value.trim(), category = byId('postCategory')?.value || 'operational';
     if (!text || text.length > 5000) { status('Please write a post of up to 5,000 characters.'); return; }
     const send = byId('postSubmitBtn'); if (send.disabled) return; send.disabled = true; send.textContent = 'Publishing…';
     try { await api('posts', {text, category}); byId('postText').value = ''; filter = 'all'; await loadPosts(); status('Your post is published.'); }
@@ -156,11 +157,11 @@
     catch (err) { status(err.message); }
   }
   window.signOutUser = async () => {
-    try { await api('logout', {}); user = null; drafts.clear(); byId('postText').value = ''; byId('bc-text').value = ''; authUI(); await loadPosts(); status('Signed out of community and Academy. Your Portal session is unchanged.'); }
+    try { await api('logout', {}); user = null; drafts.clear(); byId('postText').value = ''; if (byId('bc-text')) byId('bc-text').value = ''; authUI(); await loadPosts(); status('Signed out of community and Academy. Your Portal session is unchanged.'); }
     catch (err) { status(err.message); }
   };
   function buildBlogOptions() {
-    const select = byId('bc-post');
+    const select = byId('bc-post'); if (!select) return;
     document.querySelectorAll('#blog-grid a.blog-card').forEach(card => {
       const match = /weekly(\d{8})\.html#?([a-z-]*)/i.exec(card.getAttribute('href') || ''); if (!match) return;
       const key = `weekly${match[1]}${match[2] ? '-' + match[2] : ''}`;
@@ -169,6 +170,7 @@
     });
   }
   window.bcRender = async () => {
+    if (!byId('bc-list') || !byId('bc-post')) return;
     const host = byId('bc-list'), key = byId('bc-post').value; if (!key) return;
     host.replaceChildren(element('p', 'Loading comments…', 'bc-note'));
     try {
@@ -179,6 +181,7 @@
     } catch (err) { host.replaceChildren(element('p', err.message, 'bc-status')); }
   };
   window.bcSubmit = async () => {
+    if (!byId('bc-text')) return;
     const input = byId('bc-text'), message = byId('bc-status'), send = byId('bc-submit'), select = byId('bc-post');
     const text = input.value.trim(); if (!user || !text || text.length > 2000 || !select.value || send.disabled) return;
     send.disabled = true;
