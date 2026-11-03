@@ -646,6 +646,10 @@
       font-family:inherit;transition:.2s}
     .blog-more:hover{border-color:var(--accent-orange);color:#b45309}
     .blog-more.hidden{display:none}
+    .post-actions button.action-btn { border:0; background:none; padding:0; font:inherit; color:inherit; }
+    .post-actions button.action-btn:disabled { opacity:.6; cursor:default; }
+    .post-actions button.action-btn:focus-visible { outline:2px solid var(--clinical); outline-offset:4px; }
+    .post-user .user-avatar { display:flex; align-items:center; justify-content:center; font-weight:bold; }
     /* ══ BLOG COMMENTS (added 4 Nov 2026): held as pending until an admin approves ══ */
     .bc-wrap{margin-top:2.5rem;background:#fff;border:1px solid var(--border-color);border-radius:8px;padding:1.5rem}
     .bc-wrap h3{color:var(--text-dark);font-size:1.25rem;font-weight:800;margin:0 0 .35rem}
