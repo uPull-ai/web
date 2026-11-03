@@ -613,6 +613,23 @@
     .blog-sub{color:var(--text-muted);font-size:.92rem;margin:0;max-width:62ch}
     .blog-head-cta{flex-shrink:0}
     .blog-card.blog-later{display:none}
+    .guide-list{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem}
+    .guide-head{color:var(--primary-navy);margin:0 0 .25rem}
+    .guide-post{background:#fff;border:1px solid var(--border-color);border-radius:8px;overflow:hidden}
+    .guide-post summary{list-style:none;cursor:pointer;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.35rem}
+    .guide-post summary::-webkit-details-marker{display:none}
+    .guide-post summary:focus-visible{outline:2px solid var(--accent-orange);outline-offset:-2px}
+    .guide-badge{align-self:flex-start;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#3f6212}
+    .guide-title{font-size:1.05rem;font-weight:800;color:var(--text-dark);line-height:1.3}
+    .guide-sum{font-size:.88rem;color:var(--text-muted)}
+    .guide-by{font-size:.78rem;color:var(--text-muted)}
+    .guide-post[open] summary{border-bottom:1px solid var(--border-color)}
+    .guide-body{padding:1rem 1.25rem 1.25rem;font-size:.92rem;line-height:1.65;color:var(--text-dark)}
+    .guide-body h5{font-size:1rem;margin:1.1rem 0 .3rem;color:var(--primary-navy)}
+    .guide-body p{margin:0 0 .7rem}
+    .guide-body blockquote{margin:.5rem 0 .8rem;padding:.6rem .9rem;border-left:3px solid var(--accent-orange);background:#f8fafc;color:var(--text-dark)}
+    .guide-try{margin-top:1rem;padding:.9rem 1rem;background:#f8fafc;border:1px solid var(--border-color);border-radius:6px}
+    .guide-try h5{margin-top:0}
     .blog-filters{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin:0 0 1.25rem}
     .blog-chips{display:flex;flex-wrap:wrap;gap:.5rem}
     .blog-chip{background:#fff;border:1.5px solid var(--border-color);color:var(--text-dark);border-radius:999px;padding:.4rem .9rem;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
@@ -836,6 +853,136 @@
               </select>
               <button class="cta-btn" id="postSubmitBtn" onclick="submitPost()" disabled>Sign in to post</button>
             </div>
+          </div>
+
+          <!-- GUIDES FROM DR AMARA: published only after Suki approves each post (remove any rejected details block) -->
+          <div class="guide-list" id="amara-guides">
+            <h4 class="guide-head">Guides from Dr Amara</h4>
+            <details class="guide-post" data-post="before-you-paste">
+              <summary><span class="guide-badge">Guide</span><span class="guide-title">Before you paste anything into an AI tool at work, check these four things</span><span class="guide-sum">Four quick checks before you paste work into an AI tool: is it allowed, who can see it, what is in it, and who checks the answer.</span><span class="guide-by">Dr Amara, Head of Learning Design, uPull.ai</span></summary>
+              <div class="guide-body">
+<p>You do not need to be a technical person to use AI safely. You need a habit. Before you paste anything into an AI tool at work, stop for ten seconds and ask four questions.</p>
+<h5>1. Is this tool allowed where I work?</h5>
+<p>Your organisation decides which tools staff may use. A tool that is fine at home may not be approved for work. Look for your local policy or ask your information governance team, your digital team or your manager. If nobody can tell you, treat the tool as not approved until someone does.</p>
+<p>This matters because the free version of many public tools may keep what you type. The terms differ from tool to tool and change over time. Do not guess. Read the privacy notice or ask.</p>
+<h5>2. Who can see what I paste?</h5>
+<p>Think of the box as a public notice board until you know otherwise. Once text leaves your screen, you may not be able to get it back. Ask whether the tool is provided by your organisation, whether it sits inside your organisation's account, and whether what you type is used to train the tool.</p>
+<h5>3. What is in the text?</h5>
+<p>Read it as if you were about to read it aloud in a busy corridor. Take out anything that identifies a person: names, dates of birth, NHS numbers, addresses, phone numbers, email addresses, and anything about a person's health or circumstances. The UK data protection regulator treats information about an identifiable person as personal data, and health information gets extra care.</p>
+<p>Removing a name is not always enough. A rare condition, a small ward or a unique story can still point to one person. If you are not sure the text is anonymous, do not paste it. Describe the task in general words instead.</p>
+<p>Also leave out passwords, security details and anything marked confidential, such as unpublished plans, tender documents and staff matters.</p>
+<h5>4. Who will check the answer?</h5>
+<p>AI tools can give answers that sound sure but are wrong, so check them. They can get facts, figures and references wrong. You stay responsible for anything you send or act on. Read the answer, check it against a trusted source and, in line with your local policy, never use an AI answer to make a decision about a person's care.</p>
+<h5>A simple rule of thumb</h5>
+<p>If you would not put it on a postcard, do not paste it into a tool your organisation has not approved. If you would be uneasy seeing it in a newspaper, do not paste it into any tool.</p>
+<h5>What to do when you are unsure</h5>
+<p>Ask. Your information governance team would rather answer a question than deal with a mistake. If you think you have pasted something you should not have, tell your manager and your information governance team straight away, and follow your local incident process. Reporting early helps.</p>
+<h5>A note for managers</h5>
+<p>Make it easy to ask. A team that is afraid of getting it wrong will use tools in secret, which is the riskier outcome. Agree a short list of approved tools, and tell people where to go with questions.</p>
+<div class="guide-try"><h5>Try this</h5>
+<p>Take a task you do every week, such as writing a short update to colleagues. Write it out as a general description, with no names or details of real people or real cases. Then ask the AI tool:</p>
+<p>"Here is a general description of an update I write each week: [your description with no personal details]. Suggest a clear layout with three headings."</p>
+<p>Then check the result yourself before you use any of it.</p>
+</div>
+              </div>
+            </details>
+            <details class="guide-post" data-post="five-admin-tasks">
+              <summary><span class="guide-badge">Guide</span><span class="guide-title">Five small admin tasks your team can try with AI this month</span><span class="guide-sum">Five low risk admin jobs to try with an AI tool, and a simple way to check the answer each time.</span><span class="guide-by">Dr Amara, Head of Learning Design, uPull.ai</span></summary>
+              <div class="guide-body">
+<p>You do not need a big project to start. Pick one small, boring job and try it. Here are five that suit a team, with a way to check each one. Use only a tool your organisation has approved, and never paste personal or patient information.</p>
+<h5>1. Tidy a rough email</h5>
+<p>Paste your own draft, with names and details removed, and ask for a shorter, friendlier version. <strong>Check it:</strong> read it aloud. Does it still say what you meant? Put the real names and dates back in yourself.</p>
+<h5>2. Turn meeting notes into actions</h5>
+<p>Paste general notes from a team meeting with no personal details. Ask for a list of actions, each with an owner and a due date column left blank. <strong>Check it:</strong> compare against your own notes. Has anything been missed or invented? Fill in the owners yourself.</p>
+<h5>3. Draft a rota or checklist template</h5>
+<p>Ask for an empty template, such as a weekly cover rota with blank cells or a checklist for setting up a clinic room. <strong>Check it:</strong> run through it against how your team really works. Cut anything that does not apply. Your local policy is the authority, not the template.</p>
+<h5>4. Plain English rewrite</h5>
+<p>Take a paragraph from a leaflet or newsletter you wrote and ask for a version in plain English. <strong>Check it:</strong> has any fact changed? Numbers, times and places must match the original. Ask a colleague who did not write it to read it.</p>
+<h5>5. Brainstorm a training session</h5>
+<p>Ask for ten ideas for a fifteen minute team huddle on a general topic, such as handover or tidy working areas. <strong>Check it:</strong> treat the list as ideas only. Choose one, then check any factual claim against your policy or guidance.</p>
+<h5>The same four checks every time</h5>
+<p>1. <strong>Is it right?</strong> Check names, numbers, dates and places against the original.</p>
+<p>2. <strong>Is it complete?</strong> Look for what is missing, not only what is there.</p>
+<p>3. <strong>Is it safe?</strong> Make sure no personal information went in, and none has come out.</p>
+<p>4. <strong>Is it yours?</strong> Edit so it sounds like you. You are responsible for what you send.</p>
+<h5>Keep a short record</h5>
+<p>Note what you tried, how long it took with and without the tool, and whether you would do it again. Two or three lines are enough. After a month, you will know where AI helps your team and where it does not. That is more useful than any claim you read online.</p>
+<h5>When to stop</h5>
+<p>If a task needs personal data, a clinical judgement, or a decision about a person, it is not a task for this kind of experiment. Leave it with the people who do it today.</p>
+<h5>A note for managers</h5>
+<p>Give people a little protected time, even twenty minutes, and let them choose the job. People pick what annoys them most, which is exactly where you want to start. Share what works at your next team meeting.</p>
+<div class="guide-try"><h5>Try this</h5>
+<p>"I am writing a weekly update for my team. Below is my rough draft. Rewrite it in plain English in under 120 words, keep every number and date exactly as written, and list anything you changed.</p>
+<p>[paste your draft with no names or personal details]"</p>
+<p>Asking the tool to list its changes makes your check quicker.</p>
+</div>
+              </div>
+            </details>
+            <details class="guide-post" data-post="good-question">
+              <summary><span class="guide-badge">Guide</span><span class="guide-title">How to ask an AI tool a good question: a before and after</span><span class="guide-sum">A vague request gets a vague answer. See one invented example improved in four steps, and copy the pattern.</span><span class="guide-by">Dr Amara, Head of Learning Design, uPull.ai</span></summary>
+              <div class="guide-body">
+<p>An AI tool does not know your job, your team or your day. It only knows what you type. The better you describe the task, the better the first answer. Think of it as briefing a capable new colleague who started this morning. This is uPull.ai practical advice, not research or policy. Change one thing at a time, so you can see which change helped.</p>
+<h5>The before</h5>
+<p>Here is a typical first attempt:</p>
+<blockquote>Write something about the team away day.</blockquote>
+<p>The answer will be generic. It might be an invitation, a report, a poem or a plan. The tool is guessing.</p>
+<h5>Four things to add</h5>
+<p><strong>1. Say who you are and who it is for.</strong> "I am a team leader writing to colleagues across three departments."</p>
+<p><strong>2. Say what you want and how long.</strong> "A short email inviting them to a half day team event." "Under 120 words."</p>
+<p><strong>3. Give the facts it needs, and only those.</strong> Date, place, time, what to bring. These are details you choose to share. Do not add personal or patient information.</p>
+<p><strong>4. Say how it should sound and look.</strong> "Warm and plain English. Start with the date. Finish with one question for them to answer."</p>
+<h5>The after</h5>
+<blockquote>I am a team leader writing to colleagues in three departments. Write a short email, under 120 words, inviting them to a half day team event. Details: Thursday 14 January, 1pm to 4pm, Meeting Room 2, tea and sandwiches provided. Please reply by Friday 8 January so catering is right. Tone: warm and plain English, no jargon. Start with the date. Do not invent any other details.</blockquote>
+<p>The venue and date here are made up for the example. The result will be much closer to something you can send.</p>
+<h5>Why the last sentence helps</h5>
+<p>"Do not invent any other details" lowers the chance that the tool adds a fact you did not give it. It does not remove the chance. You still need to read the answer.</p>
+<h5>Then keep talking</h5>
+<p>You do not have to get it right first time. Follow up with short instructions: "Make it shorter." "Put the reply date in bold." "Give me three subject lines." Treat it like a conversation, and change one thing at a time so you can see what helped.</p>
+<h5>Check before you use it</h5>
+<p>Check every date, time, room and name against your own notes. Check that nothing has been added that you did not give it. Read it as the recipient would. Then send it yourself.</p>
+<h5>A pattern to keep</h5>
+<p>Role, task, facts, tone, limits. Keep those five words on a sticky note.</p>
+<h5>What not to put in</h5>
+<p>Keep personal details, patient information and confidential papers out of your question. If you are not sure, see our post on what to check before you paste.</p>
+<div class="guide-try"><h5>Try this</h5>
+<p>"I am a [your role] writing to [who it is for]. Write a [type of message], under [number] words, about [topic]. Details: [facts you are happy to share]. Tone: [warm / formal / plain English]. Do not invent any other details."</p>
+<p>Fill in the gaps with an everyday, non sensitive task, then compare the answer with the one you would get from "Write something about [topic]".</p>
+</div>
+              </div>
+            </details>
+            <details class="guide-post" data-post="free-nhs-ai-learning">
+              <summary><span class="guide-badge">Guide</span><span class="guide-title">Free AI learning you can start today</span><span class="guide-sum">Where to begin learning about AI for free: NHS Learning Hub collections, plus short Microsoft courses and beginner courses from the University of Helsinki from our checked list.</span><span class="guide-by">Dr Amara, Head of Learning Design, uPull.ai</span></summary>
+              <div class="guide-body">
+<p>You do not need a technical background to start learning about AI. Several free options exist, and some are made for NHS staff. These are on our checked list of 2 November 2026, and details can change. Pick one that fits your role and your time. Twenty minutes is a fine start.</p>
+<h5>Where to start: the NHS Learning Hub</h5>
+<p>The NHS Learning Hub has a collection called "Generative AI: staff with responsibility for AI". It states that all modules are free, though you may need to create a free account. It is a collection, so you choose which modules to take. It is aimed at beginners.</p>
+<p>The Learning Hub also holds "Artificial Intelligence Learning Catalogue" and "Artificial Intelligence Beyond the Basics". Both are already listed in uPull.ai Academy. We have not re-read their module lists for this post, so check what is in each before you plan your time.</p>
+<h5>Short, practical courses from Microsoft Learn</h5>
+<p>Microsoft says its Learn training is free and available to anyone. These three were checked on 2 November 2026. All are beginner level.</p>
+<ul>
+<li><strong>Create Business Value with AI.</strong> A good fit for managers asking where AI might help their team.</li>
+<li><strong>Embrace Responsible AI Principles and Practices.</strong> Useful for anyone who wants plain explanations of fairness, safety and privacy.</li>
+<li><strong>Draft, Analyze, and Present with Microsoft Copilot.</strong> A learning path on everyday office tasks. The hands on work may need a paid Copilot licence, so you may only be able to read along unless your organisation provides one.</li>
+</ul>
+<h5>Building understanding: University of Helsinki courses</h5>
+<ul>
+<li><strong>Building AI</strong> is a beginner course.</li>
+<li><strong>The Ethics of AI</strong> is also for beginners and looks at ethics and fairness.</li>
+</ul>
+<p>Neither is written for the NHS, so use them for understanding, not for local rules.</p>
+<h5>What these courses will not do</h5>
+<p>They do not replace your organisation's own policy on which tools you may use. They do not teach you clinical practice. They will not make you an expert. They give you the words and the confidence to ask good questions.</p>
+<h5>Find them all in one place</h5>
+<p>uPull.ai Academy (academy.upull.ai) lists free learning for staff in one place. We say "free to take": some providers offer a paid certificate, and some need a free account. Check the course page before you start.</p>
+<h5>A note for managers</h5>
+<p>Ask your team which of these they would try, not which they must. Choose one, agree twenty minutes a week, and ask people to share one thing they learned. A short, regular habit beats a big course nobody finishes.</p>
+<div class="guide-try"><h5>Try this</h5>
+<p>After your first module, open an approved AI tool and ask:</p>
+<p>"Explain [one idea from the module] in three short sentences for a colleague who has never used AI. Use an everyday example."</p>
+<p>Compare it with what the course said. If they differ, trust the course and your organisation's guidance.</p>
+</div>
+              </div>
+            </details>
           </div>
 
           <!-- Dynamic Forum Posts Container -->
