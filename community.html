@@ -646,13 +646,34 @@
       font-family:inherit;transition:.2s}
     .blog-more:hover{border-color:var(--accent-orange);color:#b45309}
     .blog-more.hidden{display:none}
+    /* ══ BLOG COMMENTS (added 4 Nov 2026): held as pending until an admin approves ══ */
+    .bc-wrap{margin-top:2.5rem;background:#fff;border:1px solid var(--border-color);border-radius:8px;padding:1.5rem}
+    .bc-wrap h3{color:var(--text-dark);font-size:1.25rem;font-weight:800;margin:0 0 .35rem}
+    .bc-sub{color:var(--text-muted);font-size:.9rem;margin:0 0 1.1rem;max-width:70ch}
+    .bc-row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:1rem}
+    .bc-row label{font-size:.85rem;font-weight:700;color:var(--text-dark)}
+    .bc-select{padding:.45rem .6rem;border:1.5px solid var(--border-color);border-radius:6px;font-size:.88rem;max-width:100%;min-width:0;flex:1 1 280px}
+    .bc-text{width:100%;box-sizing:border-box;padding:.7rem;border:1.5px solid var(--border-color);border-radius:6px;font:inherit;font-size:.92rem;min-height:90px;resize:vertical}
+    .bc-foot{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;margin-top:.6rem}
+    .bc-note{font-size:.8rem;color:var(--text-muted);max-width:60ch}
+    .bc-status{font-size:.85rem;font-weight:700;margin-top:.6rem;min-height:1.2em}
+    .bc-list{margin-top:1.25rem;display:flex;flex-direction:column;gap:.75rem}
+    .bc-item{border-top:1px solid var(--border-color);padding-top:.75rem}
+    .bc-meta{font-size:.78rem;color:var(--text-muted);margin-bottom:.25rem}
+    .bc-meta b{color:var(--text-dark)}
+    .bc-body{font-size:.92rem;color:var(--text-dark);white-space:pre-wrap;word-wrap:break-word}
+    .bc-admin{margin-top:1.75rem;border:1.5px dashed #b45309;border-radius:8px;padding:1rem}
+    .bc-admin h4{margin:0 0 .5rem;color:#b45309;font-size:.95rem}
+    .bc-actions{display:flex;gap:.5rem;margin-top:.4rem}
+    .bc-btn{background:none;border:1.5px solid var(--border-color);border-radius:6px;padding:.3rem .75rem;font-weight:700;font-size:.8rem;cursor:pointer}
+    .bc-btn.ok{border-color:#15803d;color:#15803d}.bc-btn.no{border-color:#b91c1c;color:#b91c1c}
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
     import {
       getFirestore, collection, addDoc, doc, getDoc, updateDoc, deleteDoc, increment, arrayUnion,
-      query, orderBy, onSnapshot, serverTimestamp
+      query, orderBy, onSnapshot, serverTimestamp, where
     } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
     import {
       getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
@@ -697,7 +718,7 @@
     window.__firebase = {
       db, auth, googleProvider,
       collection, addDoc, doc, getDoc, updateDoc, deleteDoc, increment, arrayUnion,
-      query, orderBy, onSnapshot, serverTimestamp,
+      query, orderBy, onSnapshot, serverTimestamp, where,
       signInWithPopup, signOut, onAuthStateChanged,
       sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
     };
@@ -1501,6 +1522,38 @@
       <div class="blog-more-wrap">
         <button id="blog-more" class="blog-more" onclick="showMoreBlogs()">Show earlier weeks</button>
       </div>
+
+      <!-- ══ BLOG COMMENTS (added 4 Nov 2026) ══
+           Comments are saved to Firestore "blogComments" with status "pending".
+           Only "approved" comments are shown. Admins (uid in "admins") see a
+           review list below and approve or reject. Security is in the
+           Firestore rules, not in this page. -->
+      <div class="bc-wrap" id="blog-comments">
+        <h3>Join the discussion</h3>
+        <p class="bc-sub">Pick a briefing and share how it lands in your service. Comments are read by the uPull.ai team before they appear here.</p>
+        <div class="bc-row">
+          <label for="bc-post">Briefing</label>
+          <select id="bc-post" class="bc-select" onchange="bcRender()"></select>
+        </div>
+        <div id="bc-signedout" class="bc-row">
+          <span class="bc-note">Sign in to comment. You can also sign in with an email link in the forum on the Community tab.</span>
+          <button class="cta-btn" style="padding:0.4rem 0.9rem;font-size:0.85rem" onclick="setSignInRole('learner'); signInWithGoogle();">Sign in with Google</button>
+        </div>
+        <div id="bc-composer" style="display:none">
+          <label for="bc-text" class="bc-note" style="display:block;margin-bottom:.35rem">Your comment (up to 2,000 characters)</label>
+          <textarea id="bc-text" class="bc-text" maxlength="2000"></textarea>
+          <div class="bc-foot">
+            <span class="bc-note">Please do not include patient details or other personal information. Your display name is shown with your comment.</span>
+            <button class="cta-btn" id="bc-submit" onclick="bcSubmit()">Send for review</button>
+          </div>
+        </div>
+        <div class="bc-status" id="bc-status" role="status" aria-live="polite"></div>
+        <div class="bc-list" id="bc-list"></div>
+        <div class="bc-admin" id="bc-admin" style="display:none">
+          <h4>Waiting for review (visible to admins only)</h4>
+          <div class="bc-list" id="bc-pending"></div>
+        </div>
+      </div>
     </section>
   </main>
 </div>
@@ -2022,6 +2075,97 @@ document.addEventListener('DOMContentLoaded', function(){
   });
   var sel = document.getElementById('blog-month'); if(sel) sel.addEventListener('change', applyBlogFilters);
 });
+</script>
+<script>
+/* ══ BLOG COMMENTS (added 4 Nov 2026) ══
+   Uses the same Firebase app and sign-in as the forum (window.__firebase).
+   Public: only status == "approved" is read. New comments: status "pending".
+   Admins: read pending, set status to approved or rejected. */
+(function(){
+  var approved = [], pending = [], user = null, admin = false, unsubA = null, unsubP = null;
+  function F(){ return window.__firebase || null; }
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function when(ts){ try { var d = ts && ts.toDate ? ts.toDate() : null; return d ? d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) : ''; } catch(e){ return ''; } }
+  function keyFromHref(h){ var m = /weekly(\d{8})\.html#?([a-z-]*)/i.exec(h || ''); return m ? ('weekly' + m[1] + (m[2] ? '-' + m[2] : '')) : null; }
+  function buildOptions(){
+    var sel = document.getElementById('bc-post'); if (!sel || sel.options.length) return;
+    document.querySelectorAll('#blog-grid a.blog-card').forEach(function(a){
+      var k = keyFromHref(a.getAttribute('href')); if (!k) return;
+      var cat = (a.querySelector('.blog-cat') || {}).textContent || '';
+      var h = (a.querySelector('h4') || {}).textContent || '';
+      var wk = ((a.querySelector('.blog-meta span') || {}).textContent || '').replace('Week of ', '');
+      var o = document.createElement('option'); o.value = k; o.textContent = (wk ? wk + ' · ' : '') + cat + ': ' + h.trim();
+      sel.appendChild(o);
+    });
+  }
+  function current(){ var s = document.getElementById('bc-post'); return s ? s.value : ''; }
+  function currentTitle(){ var s = document.getElementById('bc-post'); return s && s.selectedIndex >= 0 ? s.options[s.selectedIndex].textContent : ''; }
+  function itemHtml(c, withActions){
+    return '<div class="bc-item"><div class="bc-meta"><b>' + esc(c.user) + '</b> · ' + esc(when(c.createdAt)) +
+      (withActions ? ' · <i>' + esc(c.postTitle || c.postKey) + '</i>' : '') + '</div><div class="bc-body">' + esc(c.text) + '</div>' +
+      (withActions ? '<div class="bc-actions"><button class="bc-btn ok" onclick="bcReview(\'' + esc(c.id) + '\',\'approved\')">Approve</button><button class="bc-btn no" onclick="bcReview(\'' + esc(c.id) + '\',\'rejected\')">Reject</button></div>' : '') +
+      '</div>';
+  }
+  window.bcRender = function(){
+    var k = current(), list = document.getElementById('bc-list');
+    if (list){
+      var mine = approved.filter(function(c){ return c.postKey === k; });
+      list.innerHTML = mine.length ? mine.map(function(c){ return itemHtml(c, false); }).join('') : '<p class="bc-note">No comments on this briefing yet.</p>';
+    }
+    var adm = document.getElementById('bc-admin'), pl = document.getElementById('bc-pending');
+    if (adm) adm.style.display = admin ? 'block' : 'none';
+    if (pl && admin) pl.innerHTML = pending.length ? pending.map(function(c){ return itemHtml(c, true); }).join('') : '<p class="bc-note">Nothing waiting.</p>';
+    var so = document.getElementById('bc-signedout'), co = document.getElementById('bc-composer');
+    if (so) so.style.display = user ? 'none' : 'flex';
+    if (co) co.style.display = user ? 'block' : 'none';
+  };
+  function sortNewest(a, b){ var x = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0, y = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0; return y - x; }
+  function listen(){
+    var f = F(); if (!f || !f.where) return;
+    if (unsubA) unsubA();
+    unsubA = f.onSnapshot(f.query(f.collection(f.db, 'blogComments'), f.where('status', '==', 'approved')), function(snap){
+      approved = snap.docs.map(function(d){ var x = d.data(); x.id = d.id; return x; }).sort(sortNewest); bcRender();
+    }, function(err){ console.error('Blog comments unavailable:', err); });
+  }
+  function listenPending(){
+    var f = F(); if (unsubP){ unsubP(); unsubP = null; } pending = [];
+    if (!f || !admin) { bcRender(); return; }
+    unsubP = f.onSnapshot(f.query(f.collection(f.db, 'blogComments'), f.where('status', '==', 'pending')), function(snap){
+      pending = snap.docs.map(function(d){ var x = d.data(); x.id = d.id; return x; }).sort(sortNewest); bcRender();
+    }, function(err){ console.error('Pending comments unavailable:', err); });
+  }
+  window.bcSubmit = function(){
+    var f = F(), t = document.getElementById('bc-text'), st = document.getElementById('bc-status'), b = document.getElementById('bc-submit');
+    if (!f || !user) { st.textContent = 'Please sign in first.'; return; }
+    var text = (t.value || '').trim();
+    if (!text) { st.textContent = 'Please write a comment first.'; return; }
+    if (text.length > 2000) { st.textContent = 'Please keep it under 2,000 characters.'; return; }
+    if (!current()) { st.textContent = 'Please choose a briefing.'; return; }
+    b.disabled = true; b.textContent = 'Sending…';
+    f.addDoc(f.collection(f.db, 'blogComments'), {
+      postKey: current(), postTitle: currentTitle().slice(0, 200), uid: user.uid,
+      user: (user.displayName || 'Community member').slice(0, 80), text: text,
+      status: 'pending', createdAt: f.serverTimestamp()
+    }).then(function(){ t.value = ''; st.textContent = 'Thank you. Your comment has been sent for review and will appear once approved.'; })
+      .catch(function(e){ console.error(e); st.textContent = 'Sorry, your comment could not be sent. Please try again.'; })
+      .finally(function(){ b.disabled = false; b.textContent = 'Send for review'; });
+  };
+  window.bcReview = function(id, status){
+    var f = F(); if (!f || !admin) return;
+    f.updateDoc(f.doc(f.db, 'blogComments', id), { status: status, reviewedAt: f.serverTimestamp(), reviewedBy: user.uid })
+      .catch(function(e){ console.error(e); alert('Could not update the comment.'); });
+  };
+  function init(){
+    var f = F(); if (!f) return;
+    buildOptions(); listen();
+    f.onAuthStateChanged(f.auth, function(u){
+      user = u; admin = false; bcRender(); listenPending();
+      if (u) f.getDoc(f.doc(f.db, 'admins', u.uid)).then(function(s){ admin = s.exists(); listenPending(); }).catch(function(){ admin = false; });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function(){ buildOptions(); bcRender(); });
+  if (window.__firebaseReady) init(); else window.addEventListener('firebaseReady', init);
+})();
 </script>
 </body>
 </html>
