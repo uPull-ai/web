@@ -650,6 +650,15 @@
     .post-actions button.action-btn:disabled { opacity:.6; cursor:default; }
     .post-actions button.action-btn:focus-visible { outline:2px solid var(--clinical); outline-offset:4px; }
     .post-user .user-avatar { display:flex; align-items:center; justify-content:center; font-weight:bold; }
+    .community-account { display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%; flex-wrap:wrap; }
+    .community-account strong { color:var(--primary-navy); font-size:1rem; }
+    .community-account p { margin:.3rem 0 0; color:var(--text-muted); font-size:.86rem; }
+    .community-account-mark { display:grid; place-items:center; border-radius:50%; width:30px; height:30px; background:var(--primary-navy); color:white; font-weight:800; }
+    .forum-replies { margin-top:1rem; border-top:1px solid var(--border-color); padding-top:1rem; }
+    .forum-replies[hidden], [hidden] { display:none !important; }
+    .forum-replies textarea { width:100%; min-height:85px; font:inherit; padding:.7rem; border:1px solid var(--border-color); border-radius:6px; }
+    .forum-replies button { margin:.5rem .5rem .5rem 0; }
+    .post-actions { flex-wrap:wrap; }
     /* ══ BLOG COMMENTS (added 4 Nov 2026): held as pending until an admin approves ══ */
     .bc-wrap{margin-top:2.5rem;background:#fff;border:1px solid var(--border-color);border-radius:8px;padding:1.5rem}
     .bc-wrap h3{color:var(--text-dark);font-size:1.25rem;font-weight:800;margin:0 0 .35rem}
@@ -672,63 +681,7 @@
     .bc-btn{background:none;border:1.5px solid var(--border-color);border-radius:6px;padding:.3rem .75rem;font-weight:700;font-size:.8rem;cursor:pointer}
     .bc-btn.ok{border-color:#15803d;color:#15803d}.bc-btn.no{border-color:#b91c1c;color:#b91c1c}
   </style>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
-    import {
-      getFirestore, collection, addDoc, doc, getDoc, updateDoc, deleteDoc, increment, arrayUnion,
-      query, orderBy, onSnapshot, serverTimestamp, where, runTransaction
-    } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-    import {
-      getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
-      sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
-    } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyB_JuhH9_uWC0N_DhvE91mzu_J-SNdpn5w",
-      authDomain: "upull-ai.firebaseapp.com",
-      projectId: "upull-ai",
-      storageBucket: "upull-ai.firebasestorage.app",
-      messagingSenderId: "990867041040",
-      appId: "1:990867041040:web:7cf2cb3e810228d2fc5395",
-      measurementId: "G-KBVSDPY9NL"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const googleProvider = new GoogleAuthProvider();
-
-    // Sign-in is open to any email domain (NHS, company, or personal —
-    // e.g. gmail.com, icloud.com, outlook.com) once the address is
-    // verified via the magic-link flow or Google sign-in. '*' is a
-    // wildcard recognised by isAllowedEmail() below.
-    // Shared with academy.html — keep both lists identical.
-    window.__ALLOWED_EMAIL_DOMAINS = ['*'];
-
-    // Expose what the rest of the page's plain <script> needs, since that
-    // script isn't a module and can't use import/export directly.
-    //
-    // IMPORTANT: this <script type="module"> tag is deferred by the browser —
-    // it only runs AFTER the whole page has been parsed. A plain, non-module
-    // <script> lower down the page runs immediately when the parser reaches
-    // it, which is BEFORE this one finishes. So instead of just setting
-    // window.__firebase and hoping the timing works out, we also fire an
-    // event once it's actually ready, and set a flag the other script can
-    // check directly in case it runs even later.
-    window.__firebase = {
-      db, auth, googleProvider,
-      collection, addDoc, doc, getDoc, updateDoc, deleteDoc, increment, arrayUnion,
-      query, orderBy, onSnapshot, serverTimestamp, where, runTransaction,
-      signInWithPopup, signOut, onAuthStateChanged,
-      sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
-    };
-    window.__firebaseReady = true;
-    window.dispatchEvent(new Event('firebaseReady'));
-  </script>
 </head>
 <body>
 
@@ -823,36 +776,34 @@
       </div>
     </section>
 
-    <section>
+    <section id="forum">
       <h2 class="section-title">Interactive Forum Feed</h2>
-      <p class="section-subtitle">Real-time collaboration across structural barriers. Log your own experience below.</p>
+      <p class="section-subtitle">Share practical ideas, ask questions and learn with colleagues.</p>
 
       <div class="forum-container">
 
         <div style="display: flex; flex-direction: column; width: 100%;">
           <!-- Auth Status Bar -->
           <div id="authBar" style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
-            <div id="authSignedOut" style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
-              <span style="font-size:0.88rem; color:var(--text-muted);">Sign in with your email:</span>
-              <input type="email" id="nhsEmailInputCommunity" placeholder="you@yourorg.com" style="padding:0.4rem 0.6rem; border:1.5px solid var(--border-color); border-radius:6px; font-size:0.82rem; width:170px;">
-              <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="sendNhsSignInLinkCommunity()">Send link</button>
-              <span style="font-size:0.8rem; color:var(--text-muted);">or</span>
-              <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="setSignInRole('learner'); signInWithGoogle();" title="Sign in with any Google account">Sign in with Google</button>
-              <span id="nhsEmailStatusCommunity" style="font-size:0.78rem; font-weight:700; width:100%;"></span>
+            <div id="authSignedOut" class="community-account">
+              <div><strong>One uPull.ai account. One community.</strong><p>Use your existing Academy or Portal account to post, reply and comment.</p></div>
+              <a class="cta-btn" href="https://academy.upull.ai/community/website-sign-in">Sign in with uPull.ai</a>
             </div>
             <div id="authSignedIn" style="display:none; align-items:center; gap:0.7rem; width:100%; justify-content:space-between;">
               <div style="display:flex; align-items:center; gap:0.6rem;">
-                <img id="authAvatar" src="" alt="" style="width:28px; height:28px; border-radius:50%; display:none;">
+                <span aria-hidden="true" class="community-account-mark">u</span>
                 <span style="font-size:0.88rem; font-weight:600; color:var(--text-dark);" id="authName"></span>
               </div>
-              <button style="background:none; border:none; color:var(--text-muted); font-size:0.82rem; cursor:pointer; text-decoration:underline;" onclick="signOutUser()">Sign out</button>
+              <button style="background:none; border:none; color:var(--text-muted); font-size:0.82rem; cursor:pointer; text-decoration:underline;" onclick="signOutUser()">Sign out of community &amp; Academy</button>
             </div>
           </div>
 
+          <p id="community-status" class="bc-status" role="status" aria-live="polite"></p>
           <!-- Post Composer -->
           <div class="composer-box" id="composer">
-            <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Cross-Pollinate an Idea</h4>
-            <textarea class="composer-input" id="postText" rows="3" placeholder="Sign in above to share a validation insight or workflow puzzle." disabled></textarea>
+            <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Share an idea</h4>
+            <p class="bc-note" style="margin-bottom:.6rem">Posts are public. Please keep patient details and confidential information out of your message. Replies are reviewed before publication.</p>
+            <textarea class="composer-input" id="postText" rows="3" placeholder="Sign in with your uPull.ai account to share an idea." maxlength="5000" disabled></textarea>
             <div class="composer-footer">
               <select id="postCategory" style="padding: 0.4rem; border-radius: 4px; border: 1px solid var(--border-color); font-weight: 600;">
                 <option value="clinical">Clinical Track</option>
@@ -864,7 +815,9 @@
           </div>
 
           <!-- Dynamic Forum Posts Container -->
-          <div class="forum-feed" id="forum-feed-target"></div>
+          <div class="forum-feed" id="forum-feed-target"><p>Loading community discussions…</p></div>
+          <button id="forum-more" class="bc-btn" hidden>Show more posts</button>
+          <section id="community-moderation" class="bc-admin" hidden><h3>Community review queue</h3><p class="bc-note">Visible to moderators. Approve replies and blog comments before they become public.</p><div id="community-pending"></div><h4>Reported posts</h4><div id="community-reports"></div></section>
         </div>
       </div>
     </section>
@@ -1527,11 +1480,7 @@
         <button id="blog-more" class="blog-more" onclick="showMoreBlogs()">Show earlier weeks</button>
       </div>
 
-      <!-- ══ BLOG COMMENTS (added 4 Nov 2026) ══
-           Comments are saved to Firestore "blogComments" with status "pending".
-           Only "approved" comments are shown. Admins (uid in "admins") see a
-           review list below and approve or reject. Security is in the
-           Firestore rules, not in this page. -->
+      <!-- Blog comments use the existing uPull.ai account and moderator approval. -->
       <div class="bc-wrap" id="blog-comments">
         <h3>Join the discussion</h3>
         <p class="bc-sub">Pick a briefing and share how it lands in your service. Comments are read by the uPull.ai team before they appear here.</p>
@@ -1540,8 +1489,8 @@
           <select id="bc-post" class="bc-select" onchange="bcRender()"></select>
         </div>
         <div id="bc-signedout" class="bc-row">
-          <span class="bc-note">Sign in to comment. You can also sign in with an email link in the forum on the Community tab.</span>
-          <button class="cta-btn" style="padding:0.4rem 0.9rem;font-size:0.85rem" onclick="setSignInRole('learner'); signInWithGoogle();">Sign in with Google</button>
+          <span class="bc-note">Use your Academy or Portal account to join the discussion.</span>
+          <a class="cta-btn" style="padding:.4rem .9rem;font-size:.85rem" href="https://academy.upull.ai/community/website-sign-in">Sign in with uPull.ai</a>
         </div>
         <div id="bc-composer" style="display:none">
           <label for="bc-text" class="bc-note" style="display:block;margin-bottom:.35rem">Your comment (up to 2,000 characters)</label>
@@ -1553,10 +1502,6 @@
         </div>
         <div class="bc-status" id="bc-status" role="status" aria-live="polite"></div>
         <div class="bc-list" id="bc-list"></div>
-        <div class="bc-admin" id="bc-admin" style="display:none">
-          <h4>Waiting for review (visible to admins only)</h4>
-          <div class="bc-list" id="bc-pending"></div>
-        </div>
       </div>
     </section>
   </main>
@@ -1569,478 +1514,9 @@
   <p style="margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.7;"><a href="privacy.html" style="color:#94a3b8;">Privacy</a> · <a href="cookies.html" style="color:#94a3b8;">Cookies</a> · <a href="terms.html" style="color:#94a3b8;">Terms</a> · <a href="accessibility.html" style="color:#94a3b8;">Accessibility</a></p>
 </footer>
 
+<script src="asset/community.js" defer></script>
 <script>
-  let livePosts = [];
-  let currentFilter = 'all';
-  let currentUser = null;
-  let isAdmin = false;
-
-  // Lazy accessor: always reads window.__firebase fresh at call time, so it
-  // doesn't matter whether this script or the Firebase module finishes
-  // loading first — by the time a user actually clicks something, or the
-  // 'firebaseReady' event has fired, it will be there.
-  function fb() {
-    if (!window.__firebase) {
-      console.error('Firebase is not ready yet. Please wait a moment and try again.');
-      return null;
-    }
-    return window.__firebase;
-  }
-
-  // ══ SIGN-IN ROLE ══
-  // "role" only controls which UI a signed-in person sees — it is NOT a
-  // security exemption. Every sign-in path, vendor included, still has to
-  // pass the NHS email domain gate in updateAuthUI() below. Stored in
-  // localStorage so it survives navigation to other pages, since they
-  // share one Firebase Auth session.
-  function setSignInRole(role) {
-    window.localStorage.setItem('upullUserRole', role);
-  }
-  function getSignInRole() {
-    return window.localStorage.getItem('upullUserRole') || 'learner';
-  }
-
-  // ═══════════════════════════════════════════════════════════════════
-  // EMAIL GATE — open to any domain (NHS, company, or personal webmail
-  // such as gmail.com, icloud.com, outlook.com). The actual "validation"
-  // is the sign-in method itself: the magic-link flow proves ownership
-  // of the address, and Google sign-in proves ownership of the Google
-  // account. To re-restrict later, replace '*' in
-  // window.__ALLOWED_EMAIL_DOMAINS with an explicit domain list — this
-  // client-side check is defence in depth either way; the real gate is
-  // the Firestore Security Rules / an Auth Blocking Function, since dev
-  // tools can bypass JS.
-  function isAllowedEmail(email) {
-    if (!email) return false;
-    const domain = email.split('@')[1]?.toLowerCase().trim() || '';
-    if (!domain) return false;
-    const allowed = window.__ALLOWED_EMAIL_DOMAINS || ['*'];
-    if (allowed.includes('*')) return true;
-    return allowed.some(d => domain === d || domain.endsWith('.' + d));
-  }
-
-  function setNhsEmailStatusCommunity(msg, isError) {
-    const el = document.getElementById('nhsEmailStatusCommunity');
-    if (!el) return;
-    el.textContent = msg;
-    el.style.color = isError ? '#dc2626' : '#16a34a';
-  }
-
-  function sendNhsSignInLinkCommunity() {
-    setSignInRole('learner');
-    const f = fb();
-    if (!f) { setNhsEmailStatusCommunity('Still connecting — please wait a second and try again.', true); return; }
-    const input = document.getElementById('nhsEmailInputCommunity');
-    const email = (input?.value || '').trim();
-    if (!isAllowedEmail(email)) {
-      setNhsEmailStatusCommunity('Please enter a valid email address.', true);
-      return;
-    }
-    const actionCodeSettings = {
-      url: window.location.href.split('#')[0],
-      handleCodeInApp: true
-    };
-    setNhsEmailStatusCommunity('Sending link…', false);
-    f.sendSignInLinkToEmail(f.auth, email, actionCodeSettings).then(() => {
-      window.localStorage.setItem('upullEmailForSignIn', email);
-      setNhsEmailStatusCommunity('Check your NHS inbox and open the link on this device to finish signing in.', false);
-    }).catch(err => {
-      console.error('Email link send failed:', err);
-      setNhsEmailStatusCommunity('Could not send the link (' + err.code + ').Please try again.', true);
-    });
-  }
-
-  function completeEmailLinkSignInIfNeeded() {
-    const f = fb();
-    if (!f) return;
-    if (!f.isSignInWithEmailLink(f.auth, window.location.href)) return;
-    setSignInRole('learner');
-
-    let email = window.localStorage.getItem('upullEmailForSignIn');
-    if (!email) {
-      email = window.prompt('Please confirm the email address you used to request this link:');
-    }
-    if (!isAllowedEmail(email)) {
-      alert('Sign-in blocked: no email address was provided.');
-      return;
-    }
-    f.signInWithEmailLink(f.auth, email, window.location.href).then(() => {
-      window.localStorage.removeItem('upullEmailForSignIn');
-      const cleanUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
-    }).catch(err => {
-      console.error('Email link sign-in failed:', err);
-      alert('That sign-in link is invalid or has expired (' + err.code + '). Please request a new one.');
-    });
-  }
-
-  // ══ AUTHENTICATION ══
-  function signInWithGoogle() {
-    const f = fb();
-    if (!f) { alert('Still connecting to sign-in — please wait a second and try again.'); return; }
-    f.signInWithPopup(f.auth, f.googleProvider).catch(err => {
-      console.error('Sign-in failed:', err);
-      if (err.code === 'auth/unauthorized-domain') {
-        alert('This domain is not yet authorized for sign-in. Add it in Firebase Console → Authentication → Settings → Authorized domains.');
-      } else if (err.code === 'auth/popup-blocked') {
-        alert('Your browser blocked the sign-in popup. Please allow popups for this site and try again.');
-      } else if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-        alert('Sign-in did not complete (' + err.code + '). Please try again.');
-      }
-    });
-  }
-
-  function signOutUser() {
-    const f = fb();
-    if (!f) return;
-    f.signOut(f.auth).catch(err => console.error('Sign-out failed:', err));
-  }
-
-  function updateAuthUI(user) {
-    // Email gate — open to any domain now (NHS, company, or personal).
-    // This only catches the edge case of a signed-in account with no
-    // usable email address at all.
-    if (user && !isAllowedEmail(user.email)) {
-      const f = fb();
-      if (f) f.signOut(f.auth);
-      const msg = 'That account (' + (user.email || 'no email') + ') has no usable email address, so it has been signed out.';
-      setNhsEmailStatusCommunity(msg, true);
-      return;
-    }
-
-    currentUser = user;
-    isAdmin = false;
-    resetReplyListeners();
-    const signedOutEl = document.getElementById('authSignedOut');
-    const signedInEl = document.getElementById('authSignedIn');
-    const textarea = document.getElementById('postText');
-    const submitBtn = document.getElementById('postSubmitBtn');
-
-    if (user) {
-      signedOutEl.style.display = 'none';
-      signedInEl.style.display = 'flex';
-      document.getElementById('authName').textContent = publicForumName(user.displayName);
-      const avatar = document.getElementById('authAvatar');
-      if (user.photoURL) { avatar.src = user.photoURL; avatar.style.display = 'inline-block'; }
-      else { avatar.style.display = 'none'; }
-
-      textarea.disabled = false;
-      textarea.placeholder = 'What validation insights or workflow puzzles are you working on today?';
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Broadcast Post';
-
-      // Look up admin status (admins are listed as documents in an
-      // "admins" collection, keyed by their uid — see setup notes).
-      const f = fb();
-      if (f) {
-        f.getDoc(f.doc(f.db, 'admins', user.uid)).then(snap => {
-          if (currentUser?.uid !== user.uid) return;
-          isAdmin = snap.exists();
-          resetReplyListeners();
-          renderForum(currentFilter);
-        }).catch(() => { isAdmin = false; });
-      }
-    } else {
-      signedOutEl.style.display = 'flex';
-      signedInEl.style.display = 'none';
-
-      textarea.disabled = true;
-      textarea.value = '';
-      textarea.placeholder = 'Sign in above to share a validation insight or workflow puzzle.';
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sign in to post';
-    }
-    renderForum(currentFilter);
-  }
-
-  // Treat all stored content as text, including legacy posts and document IDs.
-  function publicForumName(value) {
-    return typeof value === 'string' && value.trim() && !value.includes('@')
-      ? value.trim().slice(0, 80) : 'Community member';
-  }
-  function forumElement(tag, text, className) {
-    const el = document.createElement(tag);
-    if (text != null) el.textContent = String(text);
-    if (className) el.className = className;
-    return el;
-  }
-  function forumButton(text, action) {
-    const button = forumElement('button', text, 'action-btn');
-    button.type = 'button'; button.addEventListener('click', action); return button;
-  }
-  const replyListeners = new Map();
-  const replyCache = new Map();
-  const replyDrafts = new Map();
-  const openThreads = new Set();
-  const likesInFlight = new Set();
-  function resetReplyListeners() {
-    replyListeners.forEach(stops => stops.forEach(stop => stop()));
-    replyListeners.clear(); replyCache.clear();
-  }
-  function listenReplies(id) {
-    if (replyListeners.has(id)) return;
-    const f = fb(), cache = {approved: [], pending: [], error: ''};
-    replyCache.set(id, cache);
-    const statuses = isAdmin ? ['approved', 'pending'] : ['approved'];
-    const stops = statuses.map(status => f.onSnapshot(
-      f.query(f.collection(f.db, 'posts', id, 'replies'), f.where('status', '==', status)),
-      snapshot => {
-        cache[status] = snapshot.docs.map(d => ({...d.data(), id: d.id}));
-        renderThread(id);
-      }, err => { console.error('Replies unavailable:', err); cache.error = 'Replies could not be loaded. Please try again later.'; renderThread(id); }
-    ));
-    replyListeners.set(id, stops);
-  }
-  function renderThread(id) {
-    const host = [...document.querySelectorAll('[data-thread]')].find(el => el.dataset.thread === id);
-    if (!host || !openThreads.has(id)) return;
-    host.replaceChildren();
-    const cache = replyCache.get(id);
-    if (!cache) return;
-    if (cache.error) host.append(forumElement('p', cache.error));
-    const replies = [...cache.approved, ...(isAdmin ? cache.pending : [])];
-    replies.sort((a,b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
-    if (!replies.length) host.append(forumElement('p', 'No approved replies yet.'));
-    replies.forEach(reply => {
-      const item = forumElement('div', null, 'bc-item');
-      item.append(forumElement('b', publicForumName(reply.user)));
-      if (reply.status === 'pending') item.append(forumElement('span', ' · Waiting for approval'));
-      const body = forumElement('p', reply.text, 'bc-body'); item.append(body);
-      if (isAdmin && reply.status === 'pending') {
-        ['approved','rejected'].forEach(status => item.append(forumButton(status === 'approved' ? 'Approve' : 'Reject', async () => {
-          try { const f = fb(); await f.updateDoc(f.doc(f.db, 'posts', id, 'replies', reply.id),
-            {status, reviewedBy: currentUser.uid, reviewedAt: f.serverTimestamp()}); }
-          catch (err) { console.error(err); alert('Could not review this reply.'); }
-        })));
-      }
-      host.append(item);
-    });
-    if (!currentUser) { host.append(forumElement('p', 'Sign in above to reply.')); return; }
-    const form = forumElement('form');
-    const input = forumElement('textarea'); input.maxLength = 2000; input.required = true;
-    input.setAttribute('aria-label', 'Write a reply'); input.placeholder = 'Write a reply (held for approval)';
-    input.style.cssText = 'width:100%;min-height:80px'; input.value = replyDrafts.get(id) || '';
-    input.addEventListener('input', () => replyDrafts.set(id, input.value));
-    const button = forumElement('button', 'Send for review', 'bc-btn'); button.type = 'submit';
-    const status = forumElement('p'); status.setAttribute('role','status');
-    form.append(input, button, status);
-    form.addEventListener('submit', async event => {
-      event.preventDefault(); const user = currentUser, text = input.value.trim();
-      if (!user || !text || text.length > 2000) return;
-      button.disabled = true;
-      try {
-        const f = fb(); await f.addDoc(f.collection(f.db, 'posts', id, 'replies'), {
-          uid: user.uid, user: publicForumName(user.displayName), text,
-          status: 'pending', createdAt: f.serverTimestamp()
-        });
-        replyDrafts.delete(id); input.value = ''; status.textContent = 'Your reply has been sent for approval.';
-      } catch (err) { console.error(err); status.textContent = 'Could not send your reply. Please try again.'; }
-      finally { button.disabled = false; }
-    });
-    host.append(form);
-  }
-  function renderForum(filterCategory = 'all') {
-    const stream = document.getElementById('forum-feed-target'); if (!stream) return;
-    stream.replaceChildren(); currentFilter = filterCategory;
-    const posts = livePosts.filter(post => filterCategory === 'all' || post.cat === filterCategory);
-    if (!posts.length) { stream.append(forumElement('p', 'No posts in this category yet.')); return; }
-    posts.forEach(post => {
-      const article = forumElement('article', null, 'forum-post');
-      const category = ['clinical','operational','vendor'].includes(post.cat) ? post.cat : 'community';
-      article.dataset.type = category;
-      const header = forumElement('div', null, 'post-header');
-      const person = forumElement('div', null, 'post-user');
-      const name = publicForumName(post.user);
-      person.append(forumElement('div', name.charAt(0), 'user-avatar'));
-      const meta = forumElement('div', null, 'user-meta');
-      meta.append(forumElement('span', name, 'user-name'), forumElement('span', 'Community Member', 'user-role'));
-      person.append(meta); header.append(person, forumElement('span', category, 'post-badge'));
-      const body = forumElement('p', post.text); body.style.whiteSpace = 'pre-wrap';
-      const actions = forumElement('div', null, 'post-actions');
-      const liked = currentUser && post.likedBy.includes(currentUser.uid);
-      const like = forumButton(`${post.likes} Likes${liked ? ' · Liked' : ''}`, () => likePost(post.id));
-      like.disabled = !!liked || likesInFlight.has(post.id); actions.append(like);
-      actions.append(forumButton('Reply Thread', () => {
-        if (openThreads.has(post.id)) openThreads.delete(post.id); else openThreads.add(post.id);
-        renderForum(currentFilter);
-      }));
-      if (currentUser && (currentUser.uid === post.uid || isAdmin)) actions.append(forumButton('Delete', () => deletePost(post.id)));
-      else actions.append(forumButton(post.reportedBy.includes(currentUser?.uid) ? 'Reported' : 'Report', () => reportPost(post.id)));
-      actions.append(forumElement('span', post.time));
-      article.append(header, body, actions);
-      const thread = forumElement('section'); thread.dataset.thread = post.id;
-      thread.hidden = !openThreads.has(post.id); article.append(thread); stream.append(article);
-      if (openThreads.has(post.id)) { listenReplies(post.id); renderThread(post.id); }
-    });
-  }
-  function filterForum(category) { renderForum(category); }
-  async function likePost(id) {
-    if (!currentUser) { alert('Sign in to like a post.'); return; }
-    if (likesInFlight.has(id)) return;
-    const f = fb(), uid = currentUser.uid; if (!f) return;
-    likesInFlight.add(id); renderForum(currentFilter);
-    try {
-      await f.runTransaction(f.db, async transaction => {
-        const ref = f.doc(f.db, 'posts', id), snapshot = await transaction.get(ref);
-        if (!snapshot.exists()) throw new Error('Post no longer exists');
-        const data = snapshot.data(), likedBy = Array.isArray(data.likedBy) ? data.likedBy : [];
-        if (likedBy.includes(uid)) return;
-        transaction.update(ref, {likes: (Number.isInteger(data.likes) ? data.likes : 0) + 1, likedBy: [...likedBy, uid]});
-      });
-    } catch (err) { console.error('Failed to like post:', err); alert('Could not save your like. Please try again.'); }
-    finally { likesInFlight.delete(id); renderForum(currentFilter); }
-  }
-
-  function deletePost(id) {
-    if (!currentUser) { alert('Sign in to manage your posts.'); return; }
-    const post = livePosts.find(p => p.id === id);
-    if (!post || !(post.uid === currentUser.uid || isAdmin)) {
-      alert('You can only delete your own posts.');
-      return;
-    }
-    if (!confirm('Delete this post? This cannot be undone.')) return;
-
-    const f = fb();
-    if (!f) return;
-    f.deleteDoc(f.doc(f.db, 'posts', id))
-      .catch(err => {
-        console.error('Failed to delete post:', err);
-        alert('Sorry, the post could not be deleted. Please try again.');
-      });
-  }
-
-  function reportPost(id) {
-    if (!currentUser) { alert('Sign in to report a post.'); return; }
-    const post = livePosts.find(p => p.id === id);
-    if (!post) return;
-    if (post.uid === currentUser.uid) { alert("You can't report your own post — you can delete it instead."); return; }
-    if (post.reportedBy.includes(currentUser.uid)) { alert("You've already reported this post."); return; }
-
-    const reason = prompt('Optional: let us know why you\'re flagging this post (or leave blank).', '') || '';
-    if (!confirm('Flag this post for moderator review?')) return;
-
-    const f = fb();
-    if (!f) return;
-
-    f.addDoc(f.collection(f.db, 'reports'), {
-      postId: id,
-      postText: post.text,
-      postAuthorUid: post.uid,
-      reporterUid: currentUser.uid,
-      reporterName: currentUser.displayName || currentUser.email || 'Unknown',
-      reason: reason,
-      createdAt: f.serverTimestamp()
-    }).then(() => {
-      alert('Thanks — this post has been flagged for review.');
-    }).catch(err => console.error('Failed to log report:', err));
-  }
-
-  function submitPost() {
-    if (!currentUser) { alert('Sign in to post.'); return; }
-    const f = fb();
-    if (!f) { alert('Still connecting — please wait a second and try again.'); return; }
-
-    const textValue = document.getElementById('postText').value;
-    const selectCategory = document.getElementById('postCategory').value;
-    
-    if (textValue.length > 5000) { alert('Please keep posts under 5,000 characters.'); return; }
-    if (!['clinical', 'operational', 'vendor'].includes(selectCategory)) return;
-    if (!textValue.trim()) {
-      alert('Please write something to share with the community context.');
-      return;
-    }
-
-    const submitBtn = document.getElementById('postSubmitBtn');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Posting…';
-
-    f.addDoc(f.collection(f.db, 'posts'), {
-      uid: currentUser.uid,
-      user: publicForumName(currentUser.displayName),
-      role: 'Community Member',
-      cat: selectCategory,
-      text: textValue,
-      likes: 0,
-      likedBy: [],
-      createdAt: f.serverTimestamp()
-    }).then(() => {
-      document.getElementById('postText').value = '';
-      currentFilter = 'all';
-    }).catch(err => {
-      console.error('Failed to submit post:', err);
-      alert('Sorry, your post could not be sent. Please check your connection and try again.');
-    }).finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Broadcast Post';
-    });
-  }
-
-  function timeAgo(date) {
-    if (!date) return 'Just now';
-    const seconds = Math.floor((new Date() - date) / 1000);
-    if (seconds < 60) return 'Just now';
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return minutes + (minutes === 1 ? ' minute ago' : ' minutes ago');
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return hours + (hours === 1 ? ' hour ago' : ' hours ago');
-    const days = Math.floor(hours / 24);
-    return days + (days === 1 ? ' day ago' : ' days ago');
-  }
-
-  // ══ WIRE UP THE LIVE LISTENERS — but only once Firebase has actually
-  // finished loading. Handles both possible orderings safely. ══
-  function initFirebaseForum() {
-    const f = fb();
-    if (!f) return;
-
-    completeEmailLinkSignInIfNeeded();
-    f.onAuthStateChanged(f.auth, updateAuthUI);
-
-    f.onSnapshot(f.query(f.collection(f.db, 'posts'), f.orderBy('createdAt', 'desc')), snapshot => {
-      livePosts = snapshot.docs.map(d => {
-        const data = d.data();
-        return {
-          id: d.id,
-          uid: data.uid,
-          user: data.user,
-          role: data.role,
-          cat: data.cat,
-          text: data.text,
-          likes: Number.isInteger(data.likes) ? data.likes : 0,
-          likedBy: Array.isArray(data.likedBy) ? data.likedBy : [],
-          reportCount: data.reportCount || 0,
-          reportedBy: Array.isArray(data.reportedBy) ? data.reportedBy : [],
-          time: timeAgo(data.createdAt ? data.createdAt.toDate() : null)
-        };
-      });
-      const postIds = new Set(livePosts.map(post => post.id));
-      for (const [id, stops] of replyListeners) {
-        if (!postIds.has(id)) {
-          stops.forEach(stop => stop()); replyListeners.delete(id); replyCache.delete(id);
-          replyDrafts.delete(id); openThreads.delete(id);
-        }
-      }
-      renderForum(currentFilter);
-    }, err => {
-      console.error('Live forum connection failed:', err);
-      const target = document.getElementById('forum-feed-target');
-      if (target) target.innerHTML =
-        '<p style="text-align:center; opacity:0.6; padding:2rem;">Unable to connect to the live forum right now. Please refresh, or check back shortly.</p>';
-    });
-
-  }
-
-  if (window.__firebaseReady) {
-    initFirebaseForum();
-  } else {
-    window.addEventListener('firebaseReady', initFirebaseForum);
-  }
-
-  window.onload = function() {
-    // Do not overwrite posts already delivered by the realtime listener.
-    handleCommunityDeepLink();
-  };
-
+  window.addEventListener('load', handleCommunityDeepLink);
   // ══ DEEP LINKING FROM OTHER PAGES — scrolls straight to the matching
   // section on this page, now that all Community content lives on one
   // flat page rather than switching between separate views. ══
@@ -2144,96 +1620,6 @@ document.addEventListener('DOMContentLoaded', function(){
   var sel = document.getElementById('blog-month'); if(sel) sel.addEventListener('change', applyBlogFilters);
 });
 </script>
-<script>
-/* ══ BLOG COMMENTS (added 4 Nov 2026) ══
-   Uses the same Firebase app and sign-in as the forum (window.__firebase).
-   Public: only status == "approved" is read. New comments: status "pending".
-   Admins: read pending, set status to approved or rejected. */
-(function(){
-  var approved = [], pending = [], user = null, admin = false, unsubA = null, unsubP = null;
-  function F(){ return window.__firebase || null; }
-  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-  function when(ts){ try { var d = ts && ts.toDate ? ts.toDate() : null; return d ? d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) : ''; } catch(e){ return ''; } }
-  function keyFromHref(h){ var m = /weekly(\d{8})\.html#?([a-z-]*)/i.exec(h || ''); return m ? ('weekly' + m[1] + (m[2] ? '-' + m[2] : '')) : null; }
-  function buildOptions(){
-    var sel = document.getElementById('bc-post'); if (!sel || sel.options.length) return;
-    document.querySelectorAll('#blog-grid a.blog-card').forEach(function(a){
-      var k = keyFromHref(a.getAttribute('href')); if (!k) return;
-      var cat = (a.querySelector('.blog-cat') || {}).textContent || '';
-      var h = (a.querySelector('h4') || {}).textContent || '';
-      var wk = ((a.querySelector('.blog-meta span') || {}).textContent || '').replace('Week of ', '');
-      var o = document.createElement('option'); o.value = k; o.textContent = (wk ? wk + ' · ' : '') + cat + ': ' + h.trim();
-      sel.appendChild(o);
-    });
-  }
-  function current(){ var s = document.getElementById('bc-post'); return s ? s.value : ''; }
-  function currentTitle(){ var s = document.getElementById('bc-post'); return s && s.selectedIndex >= 0 ? s.options[s.selectedIndex].textContent : ''; }
-  function itemHtml(c, withActions){
-    return '<div class="bc-item"><div class="bc-meta"><b>' + esc(c.user) + '</b> · ' + esc(when(c.createdAt)) +
-      (withActions ? ' · <i>' + esc(c.postTitle || c.postKey) + '</i>' : '') + '</div><div class="bc-body">' + esc(c.text) + '</div>' +
-      (withActions ? '<div class="bc-actions"><button class="bc-btn ok" onclick="bcReview(\'' + esc(c.id) + '\',\'approved\')">Approve</button><button class="bc-btn no" onclick="bcReview(\'' + esc(c.id) + '\',\'rejected\')">Reject</button></div>' : '') +
-      '</div>';
-  }
-  window.bcRender = function(){
-    var k = current(), list = document.getElementById('bc-list');
-    if (list){
-      var mine = approved.filter(function(c){ return c.postKey === k; });
-      list.innerHTML = mine.length ? mine.map(function(c){ return itemHtml(c, false); }).join('') : '<p class="bc-note">No comments on this briefing yet.</p>';
-    }
-    var adm = document.getElementById('bc-admin'), pl = document.getElementById('bc-pending');
-    if (adm) adm.style.display = admin ? 'block' : 'none';
-    if (pl && admin) pl.innerHTML = pending.length ? pending.map(function(c){ return itemHtml(c, true); }).join('') : '<p class="bc-note">Nothing waiting.</p>';
-    var so = document.getElementById('bc-signedout'), co = document.getElementById('bc-composer');
-    if (so) so.style.display = user ? 'none' : 'flex';
-    if (co) co.style.display = user ? 'block' : 'none';
-  };
-  function sortNewest(a, b){ var x = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0, y = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0; return y - x; }
-  function listen(){
-    var f = F(); if (!f || !f.where) return;
-    if (unsubA) unsubA();
-    unsubA = f.onSnapshot(f.query(f.collection(f.db, 'blogComments'), f.where('status', '==', 'approved')), function(snap){
-      approved = snap.docs.map(function(d){ var x = d.data(); x.id = d.id; return x; }).sort(sortNewest); bcRender();
-    }, function(err){ console.error('Blog comments unavailable:', err); });
-  }
-  function listenPending(){
-    var f = F(); if (unsubP){ unsubP(); unsubP = null; } pending = [];
-    if (!f || !admin) { bcRender(); return; }
-    unsubP = f.onSnapshot(f.query(f.collection(f.db, 'blogComments'), f.where('status', '==', 'pending')), function(snap){
-      pending = snap.docs.map(function(d){ var x = d.data(); x.id = d.id; return x; }).sort(sortNewest); bcRender();
-    }, function(err){ console.error('Pending comments unavailable:', err); });
-  }
-  window.bcSubmit = function(){
-    var f = F(), t = document.getElementById('bc-text'), st = document.getElementById('bc-status'), b = document.getElementById('bc-submit');
-    if (!f || !user) { st.textContent = 'Please sign in first.'; return; }
-    var text = (t.value || '').trim();
-    if (!text) { st.textContent = 'Please write a comment first.'; return; }
-    if (text.length > 2000) { st.textContent = 'Please keep it under 2,000 characters.'; return; }
-    if (!current()) { st.textContent = 'Please choose a briefing.'; return; }
-    b.disabled = true; b.textContent = 'Sending…';
-    f.addDoc(f.collection(f.db, 'blogComments'), {
-      postKey: current(), postTitle: currentTitle().slice(0, 200), uid: user.uid,
-      user: publicForumName(user.displayName), text: text,
-      status: 'pending', createdAt: f.serverTimestamp()
-    }).then(function(){ t.value = ''; st.textContent = 'Thank you. Your comment has been sent for review and will appear once approved.'; })
-      .catch(function(e){ console.error(e); st.textContent = 'Sorry, your comment could not be sent. Please try again.'; })
-      .finally(function(){ b.disabled = false; b.textContent = 'Send for review'; });
-  };
-  window.bcReview = function(id, status){
-    var f = F(); if (!f || !admin) return;
-    f.updateDoc(f.doc(f.db, 'blogComments', id), { status: status, reviewedAt: f.serverTimestamp(), reviewedBy: user.uid })
-      .catch(function(e){ console.error(e); alert('Could not update the comment.'); });
-  };
-  function init(){
-    var f = F(); if (!f) return;
-    buildOptions(); listen();
-    f.onAuthStateChanged(f.auth, function(u){
-      user = u; admin = false; bcRender(); listenPending();
-      if (u) f.getDoc(f.doc(f.db, 'admins', u.uid)).then(function(s){ admin = s.exists(); listenPending(); }).catch(function(){ admin = false; });
-    });
-  }
-  document.addEventListener('DOMContentLoaded', function(){ buildOptions(); bcRender(); });
-  if (window.__firebaseReady) init(); else window.addEventListener('firebaseReady', init);
-})();
-</script>
+
 </body>
 </html>
