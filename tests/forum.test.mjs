@@ -6,9 +6,9 @@ import {Window} from 'happy-dom';
 const root=new URL('../', import.meta.url);
 const html=readFileSync(new URL('community.html',root),'utf8');
 const code=readFileSync(new URL('asset/community.js',root),'utf8');
-async function setup(signedIn=false){
+async function setup(signedIn=false,canDelete=false){
  const window=new Window({url:'https://upull.ai/community',settings:{enableJavaScriptEvaluation:false,disableJavaScriptFileLoading:true,enableCSSFileLoading:false}});window.document.write(html);window.document.querySelectorAll('script').forEach(node=>node.remove());
- const requests=[];const post={id:'12345678-1234-1234-1234-123456789abc',user:'private@example.org',text:'<img src=x onerror="alert(1)"><script>alert(2)</script>',cat:'clinical',likes:0,liked:false,createdAt:new Date().toISOString()};
+ const requests=[];const post={id:'12345678-1234-1234-1234-123456789abc',user:'private@example.org',text:'<img src=x onerror="alert(1)"><script>alert(2)</script>',canDelete,cat:'clinical',likes:0,liked:false,createdAt:new Date().toISOString()};
  const fetch=async(url,options)=>{requests.push({url,options});const path=url.split('/website-community/')[1];let data=[];
  if(path==='session') data={user:signedIn?{id:'alice',displayName:'Alex',isAdmin:false}:null};
  else if(path.startsWith('posts?')) data=[post];
@@ -25,6 +25,24 @@ async function setup(signedIn=false){
 test('uses existing sign-in without loading Firebase',()=>{assert.ok(!html.includes('firebasejs/'));assert.ok(!code.includes('localStorage'));const doc=new Window({settings:{enableJavaScriptEvaluation:false,disableJavaScriptFileLoading:true}});doc.document.write(html);assert.equal(doc.document.querySelector('#authSignedOut a').href,'https://academy.upull.ai/community/website-sign-in');});
 test('public post text and legacy email names are safe',async()=>{const {window}=await setup();const host=window.document.getElementById('forum-feed-target');assert.equal(host.querySelectorAll('img,script,[onerror]').length,0);assert.ok(host.textContent.includes('<img src=x'));assert.ok(host.textContent.includes('Community member'));assert.ok(!host.textContent.includes('private@example.org'));});
 test('requests send cookies only to the narrow Academy gateway',async()=>{const {requests}=await setup();assert.ok(requests.length>=2);for(const request of requests){const url=new URL(request.url);assert.equal(url.origin,'https://academy.upull.ai');assert.ok(url.pathname.startsWith('/api/website-community/'));assert.equal(request.options.credentials,'include');assert.equal(request.options.headers['X-Upull-Community'],'1');assert.ok(!('Authorization' in request.options.headers));}});
-test('reply text is safe and submission is held for approval',async()=>{const {window,requests}=await setup(true);const button=[...window.document.querySelectorAll('.post-actions button')].find(b=>b.textContent==='Reply Thread');button.click();await new Promise(resolve=>setTimeout(resolve,5));const host=window.document.querySelector('.forum-replies');assert.equal(host.querySelectorAll('svg,b').length,0);assert.ok(host.textContent.includes('<svg'));const input=host.querySelector('textarea');input.value='A reply';host.querySelector('form').dispatchEvent(new window.Event('submit',{cancelable:true}));await new Promise(resolve=>setTimeout(resolve,5));const sent=requests.find(r=>r.options.method==='POST'&&r.url.endsWith('/replies'));assert.deepEqual(JSON.parse(sent.options.body),{text:'A reply'});assert.ok(host.textContent.includes('sent for approval'));});
-test('signed-in member can post without supplying identity or a token',async()=>{const {window,requests,context}=await setup(true);window.document.getElementById('postText').value='My idea';await vm.runInContext('window.submitPost()',context);const sent=requests.find(r=>r.options.method==='POST'&&r.url.endsWith('/posts'));assert.deepEqual(JSON.parse(sent.options.body),{text:'My idea',category:'clinical'});});
+test('reply text is safe and submission is held for approval',async()=>{const {window,requests}=await setup(true);const button=[...window.document.querySelectorAll('.post-actions button')].find(b=>b.textContent==='Reply');button.click();await new Promise(resolve=>setTimeout(resolve,5));const host=window.document.querySelector('.forum-replies');assert.equal(host.querySelectorAll('svg,b').length,0);assert.ok(host.textContent.includes('<svg'));const input=host.querySelector('textarea');input.value='A reply';host.querySelector('form').dispatchEvent(new window.Event('submit',{cancelable:true}));await new Promise(resolve=>setTimeout(resolve,5));const sent=requests.find(r=>r.options.method==='POST'&&r.url.endsWith('/replies'));assert.deepEqual(JSON.parse(sent.options.body),{text:'A reply'});assert.ok(host.textContent.includes('sent for approval'));});
+test('signed-in member can post without supplying identity or a token',async()=>{const {window,requests,context}=await setup(true);window.document.getElementById('postText').value='My idea';await vm.runInContext('window.submitPost()',context);const sent=requests.find(r=>r.options.method==='POST'&&r.url.endsWith('/posts'));assert.deepEqual(JSON.parse(sent.options.body),{text:'My idea'});});
 test('inline scripts and community asset parse',()=>{new vm.Script(code);for(const m of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)){if(!m[1].includes('ld+json'))new vm.Script(m[2]);}});
+
+test('viewers see Reply and Report; authors and moderators also see Remove',async()=>{
+ for(const allowed of [false,true]){
+  const {window}=await setup(true,allowed);
+  const actions=[...window.document.querySelectorAll('.post-actions button')].map(node=>node.textContent);
+  assert.deepEqual(actions,allowed?['Reply','Remove','Report']:['Reply','Report']);
+ }
+ const {window}=await setup(false,false);
+ assert.deepEqual([...window.document.querySelectorAll('.post-actions button')].map(node=>node.textContent),['Reply','Report']);
+ assert.equal(window.document.getElementById('postSubmitBtn').hidden,true);
+});
+test('removing the blog discussion and category controls leaves publishing functional',async()=>{
+ const {window}=await setup(true);
+ assert.equal(window.document.getElementById('blog-comments'),null);
+ assert.equal(window.document.getElementById('postCategory'),null);
+ assert.equal(window.document.getElementById('postSubmitBtn').hidden,false);
+ assert.ok(window.document.querySelector('.community-account-column #community-posting-rules'));
+});
