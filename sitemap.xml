@@ -2,6 +2,8 @@
 <!--
   upull.ai sitemap — rebuilt 9 August 2026.
 
+  UPDATED 10 November 2026: added /news/weekly20261110.html; /news.html lastmod set to 2026-11-10.
+
   UPDATED 3 November 2026: added /news/weekly20261103.html; /news.html lastmod set to 2026-11-03.
 
   UPDATED 27 October 2026: added /news/weekly20261013.html, /news/weekly20261020.html
@@ -74,13 +76,19 @@
   </url>
   <url>
     <loc>https://upull.ai/news.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://upull.ai/news/weekly20261103.html</loc>
     <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://upull.ai/news/weekly20261110.html</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
